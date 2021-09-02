@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use base_db::{Change, FileId, FileSet, SourceRoot, VfsPath};
+use base_db::{Change, FileId, FileSet, SourceRoot, SourceRootId, VfsPath};
 
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
@@ -12,8 +12,8 @@ use crate::crate_graph_json;
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
 pub struct ChangeJson {
     crate_graph: Option<CrateGraphJson>,
-    local_roots: SourceRootJson,
-    library_roots: SourceRootJson,
+    local_roots: Option<SourceRootJson>,
+    library_roots: Option<SourceRootJson>,
     files: FxHashMap<u32, Option<String>>,
 }
 
@@ -23,9 +23,15 @@ impl ChangeJson {
             Some(crate_graph) => Some(CrateGraphJson::from(&crate_graph)),
             None => None,
         };
+        let local_roots = match &change.roots {
+            Some(roots) => Some(SourceRootJson::from(&roots, false)),
+            None => None,
+        };
+        let library_roots = match &change.roots {
+            Some(roots) => Some(SourceRootJson::from(&roots, true)),
+            None => None,
+        };
         let files = FxHashMap::default();
-        let local_roots = SourceRootJson::default();
-        let library_roots = SourceRootJson::default();
         ChangeJson {
             crate_graph,
             local_roots,
@@ -43,22 +49,13 @@ impl ChangeJson {
         self.files.insert(file_id, new_text);
     }
 
-    pub fn set_roots(&mut self, roots: Vec<SourceRoot>) -> () {
-        self.library_roots = SourceRootJson::from_roots(&roots, true);
-        self.local_roots = SourceRootJson::from_roots(&roots, false);
-    }
-
-    pub fn set_crate_graph(&mut self, crate_graph: CrateGraphJson) -> () {
-        self.crate_graph = Some(crate_graph);
-    }
-
     pub fn to_change(&self) -> Change {
         let crate_graph = &self.crate_graph.clone().unwrap().to_crate_graph();
         let mut change = Change::default();
         change.set_crate_graph(crate_graph.clone());
-        let mut roots = self.local_roots.to_roots(false);
-        roots.append(&mut self.library_roots.to_roots(true));
-        change.set_roots(roots);
+        let mut roots = self.local_roots.as_ref().unwrap().to_roots(false);
+        roots.append(&mut self.library_roots.as_ref().unwrap().to_roots(true));
+        change.set_roots(roots.to_vec());
         self.files.iter().for_each(|(id, text)| {
             let id = FileId(*id);
             let text = match text {
@@ -77,7 +74,7 @@ struct SourceRootJson {
 }
 
 impl SourceRootJson {
-    pub fn from_roots(roots: &Vec<SourceRoot>, library: bool) -> Self {
+    pub fn from(roots: &Vec<SourceRoot>, library: bool) -> Self {
         let roots = roots
             .iter()
             .filter(|root| root.is_library == library)
