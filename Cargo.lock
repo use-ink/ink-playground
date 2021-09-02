@@ -1305,6 +1305,7 @@ version = "1.0.67"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a7f9e390c27c3c0ce8bc5d725f6e4d30a29d26659494aa4b17535f7522c5c950"
 dependencies = [
+ "indexmap",
  "itoa",
  "ryu",
  "serde",
@@ -1442,6 +1443,7 @@ dependencies = [
  "ra_ap_vfs-notify",
  "rustc-hash",
  "serde",
+ "serde_json",
 ]
 
 [[package]]

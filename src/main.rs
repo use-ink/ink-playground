@@ -1,5 +1,6 @@
 use std::path::Path;
 
+use change_json::ChangeJson;
 use clap::{App, Arg};
 
 mod change_json;
@@ -10,7 +11,7 @@ mod reload;
 use load_cargo::load_workspace_at;
 use project_model::CargoConfig;
 
-use crate::load_cargo::LoadCargoConfig;
+use crate::{crate_graph_json::CrateGraphJson, load_cargo::LoadCargoConfig};
 
 fn main() {
     let matches = App::new("Trait Extractor")
@@ -20,7 +21,7 @@ fn main() {
         .arg(
             Arg::with_name("INPUT")
                 .help("Sets the input file to use")
-                .required(true)
+                .required(false)
                 .index(1),
         )
         .get_matches();
@@ -35,4 +36,13 @@ fn main() {
     };
 
     let res = load_workspace_at(path, &cargo_config, &load_cargo_config, &|_| {});
+    match res {
+        Ok((change, _, _))=>{
+            let crate_graph = change.crate_graph.unwrap();
+            let json = CrateGraphJson::from(&crate_graph);
+            let text= serde_json::to_string(&json).expect("serialization of crate_graph must work");
+            println!("{}", text);
+        },
+        Err(_) => {}
+    }
 }
