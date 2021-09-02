@@ -1,9 +1,7 @@
 //! Project loading & configuration updates
 use std::sync::Arc;
 
-use ide_db::base_db::{
-    Env, ProcMacro, ProcMacroExpander, ProcMacroKind, SourceRoot, VfsPath,
-};
+use ide_db::base_db::{Env, ProcMacro, ProcMacroExpander, ProcMacroKind, SourceRoot, VfsPath};
 use proc_macro_api::ProcMacroClient;
 use project_model::{ProjectWorkspace, WorkspaceBuildScripts};
 use vfs::{file_set::FileSetConfig, AbsPath, AbsPathBuf};
@@ -19,7 +17,12 @@ pub(crate) enum ProjectWorkspaceProgress {
 pub(crate) enum BuildDataProgress {
     Begin,
     Report(String),
-    End((Arc<Vec<ProjectWorkspace>>, Vec<anyhow::Result<WorkspaceBuildScripts>>)),
+    End(
+        (
+            Arc<Vec<ProjectWorkspace>>,
+            Vec<anyhow::Result<WorkspaceBuildScripts>>,
+        ),
+    ),
 }
 
 #[derive(Default)]
@@ -72,7 +75,10 @@ impl ProjectFolders {
         }
 
         let fsc = fsc.build();
-        res.source_root_config = SourceRootConfig { fsc, local_filesets };
+        res.source_root_config = SourceRootConfig {
+            fsc,
+            local_filesets,
+        };
 
         res
     }
@@ -119,7 +125,11 @@ pub(crate) fn load_proc_macro(client: Option<&ProcMacroClient>, path: &AbsPath) 
             proc_macro_api::ProcMacroKind::Attr => ProcMacroKind::Attr,
         };
         let expander = Arc::new(Expander(expander));
-        ProcMacro { name, kind, expander }
+        ProcMacro {
+            name,
+            kind,
+            expander,
+        }
     }
 
     #[derive(Debug)]
@@ -132,7 +142,10 @@ pub(crate) fn load_proc_macro(client: Option<&ProcMacroClient>, path: &AbsPath) 
             attrs: Option<&tt::Subtree>,
             env: &Env,
         ) -> Result<tt::Subtree, tt::ExpansionError> {
-            let env = env.iter().map(|(k, v)| (k.to_string(), v.to_string())).collect();
+            let env = env
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.to_string()))
+                .collect();
             self.0.expand(subtree, attrs, env)
         }
     }

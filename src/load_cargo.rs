@@ -9,7 +9,7 @@ use ide::{AnalysisHost, Change};
 use ide_db::base_db::CrateGraph;
 use proc_macro_api::ProcMacroClient;
 use project_model::{CargoConfig, ProjectManifest, ProjectWorkspace, WorkspaceBuildScripts};
-use vfs::{AbsPath, AbsPathBuf, loader::Handle};
+use vfs::{loader::Handle, AbsPath, AbsPathBuf};
 
 use crate::reload::{load_proc_macro, ProjectFolders, SourceRootConfig};
 
@@ -50,7 +50,8 @@ pub fn load_workspace(
     let (sender, receiver) = unbounded();
     let mut vfs = vfs::Vfs::default();
     let mut loader = {
-        let loader = vfs_notify::NotifyHandle::spawn(Box::new(move |msg| sender.send(msg).unwrap()));
+        let loader =
+            vfs_notify::NotifyHandle::spawn(Box::new(move |msg| sender.send(msg).unwrap()));
         Box::new(loader)
     };
 
@@ -87,8 +88,12 @@ pub fn load_workspace(
     });
 
     log::debug!("crate graph: {:?}", crate_graph);
-    let host =
-        load_crate_graph(crate_graph, project_folders.source_root_config, &mut vfs, &receiver);
+    let host = load_crate_graph(
+        crate_graph,
+        project_folders.source_root_config,
+        &mut vfs,
+        &receiver,
+    );
 
     if load_config.prefill_caches {
         host.analysis().prime_caches(|_| {})?;
@@ -102,7 +107,9 @@ fn load_crate_graph(
     vfs: &mut vfs::Vfs,
     receiver: &Receiver<vfs::loader::Message>,
 ) -> AnalysisHost {
-    let lru_cap = std::env::var("RA_LRU_CAP").ok().and_then(|it| it.parse::<usize>().ok());
+    let lru_cap = std::env::var("RA_LRU_CAP")
+        .ok()
+        .and_then(|it| it.parse::<usize>().ok());
     let mut host = AnalysisHost::new(lru_cap);
     let mut analysis_change = Change::new();
 
@@ -111,7 +118,11 @@ fn load_crate_graph(
     // wait until Vfs has loaded all roots
     for task in receiver {
         match task {
-            vfs::loader::Message::Progress { n_done, n_total, config_version: _ } => {
+            vfs::loader::Message::Progress {
+                n_done,
+                n_total,
+                config_version: _,
+            } => {
                 if n_done == n_total {
                     break;
                 }
@@ -149,7 +160,11 @@ mod tests {
 
     #[test]
     fn test_loading_rust_analyzer() {
-        let path = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap().parent().unwrap();
+        let path = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .unwrap()
+            .parent()
+            .unwrap();
         let cargo_config = CargoConfig::default();
         let load_cargo_config = LoadCargoConfig {
             load_out_dirs_from_check: false,
