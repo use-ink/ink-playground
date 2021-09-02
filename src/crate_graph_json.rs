@@ -75,8 +75,8 @@ impl CrateDataJson {
             Some(name) => Some(name.to_string()),
             None => None,
         };
-        let cfg_options = CfgOptionsJson::from(crate_data.cfg_options.clone());
-        let potential_cfg_options = CfgOptionsJson::from(crate_data.potential_cfg_options.clone());
+        let cfg_options = CfgOptionsJson::from(&crate_data.cfg_options);
+        let potential_cfg_options = CfgOptionsJson::from(&crate_data.potential_cfg_options);
         let env = EnvJson::from(crate_data.env.clone());
         let proc_macro = Vec::new();
         CrateDataJson {
@@ -92,7 +92,7 @@ impl CrateDataJson {
 }
 
 impl CfgOptionsJson {
-    pub fn from(cfg_options: CfgOptions) -> Self {
+    pub fn from(cfg_options: &CfgOptions) -> Self {
         let options = cfg_options
             .get_cfg_keys()
             .iter()
