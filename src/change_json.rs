@@ -2,7 +2,6 @@ use std::sync::Arc;
 
 use base_db::{Change, FileId, FileSet, SourceRoot, VfsPath};
 
-use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 
 use crate_graph_json::CrateGraphJson;
@@ -14,7 +13,7 @@ pub struct ChangeJson {
     crate_graph: Option<CrateGraphJson>,
     local_roots: Option<SourceRootJson>,
     library_roots: Option<SourceRootJson>,
-    files: FxHashMap<u32, Option<String>>,
+    files_changed: FilesJson,
 }
 
 impl ChangeJson {
@@ -31,32 +30,23 @@ impl ChangeJson {
             Some(roots) => Some(SourceRootJson::from(&roots, true)),
             None => None,
         };
-        let files = FxHashMap::default();
+        let files_changed = FilesJson::from(&change.files_changed);
         ChangeJson {
             crate_graph,
             local_roots,
             library_roots,
-            files,
+            files_changed,
         }
     }
 
-    pub fn change_file(&mut self, file_id: FileId, new_text: Option<Arc<String>>) -> () {
-        let new_text = match new_text {
-            Some(new_text) => Some(new_text.to_string()),
-            None => None,
-        };
-        let file_id = file_id.0;
-        self.files.insert(file_id, new_text);
-    }
-
     pub fn to_change(&self) -> Change {
-        let crate_graph = &self.crate_graph.clone().unwrap().to_crate_graph();
+        let crate_graph = &self.crate_graph.as_ref().unwrap().to_crate_graph();
         let mut change = Change::default();
         change.set_crate_graph(crate_graph.clone());
         let mut roots = self.local_roots.as_ref().unwrap().to_roots(false);
         roots.append(&mut self.library_roots.as_ref().unwrap().to_roots(true));
         change.set_roots(roots.to_vec());
-        self.files.iter().for_each(|(id, text)| {
+        self.files_changed.files.iter().for_each(|(id, text)| {
             let id = FileId(*id);
             let text = match text {
                 Some(text) => Some(Arc::new(text.to_string())),
@@ -121,5 +111,23 @@ impl SourceRootJson {
             })
             .collect::<Vec<_>>();
         result
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, Default, Clone)]
+struct FilesJson  {
+    files: Vec<(u32, Option<String>)>
+}
+
+impl FilesJson {
+    pub fn from(files_changed: &Vec<(FileId, Option<Arc<String>>)>) -> Self {
+        let files = files_changed.iter().map(|(id, value)| {
+            let value = match value {
+                Some(value) => Some(value.to_string()),
+                None => None
+            };
+            (id.0, value)
+        } ).collect::<Vec<_>>();
+        FilesJson {files}
     }
 }

@@ -1,4 +1,3 @@
-//! Project loading & configuration updates
 use std::sync::Arc;
 
 use ide_db::base_db::{Env, ProcMacro, ProcMacroExpander, ProcMacroKind, SourceRoot, VfsPath};
