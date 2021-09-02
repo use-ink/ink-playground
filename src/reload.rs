@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use ide_db::base_db::{Env, ProcMacro, ProcMacroExpander, ProcMacroKind, SourceRoot, VfsPath};
 use proc_macro_api::ProcMacroClient;
-use project_model::{ProjectWorkspace};
+use project_model::ProjectWorkspace;
 use vfs::{file_set::FileSetConfig, AbsPath, AbsPathBuf};
 
 #[derive(Default)]

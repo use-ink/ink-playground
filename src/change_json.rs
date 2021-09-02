@@ -115,19 +115,22 @@ impl SourceRootJson {
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
-struct FilesJson  {
-    files: Vec<(u32, Option<String>)>
+struct FilesJson {
+    files: Vec<(u32, Option<String>)>,
 }
 
 impl FilesJson {
     pub fn from(files_changed: &Vec<(FileId, Option<Arc<String>>)>) -> Self {
-        let files = files_changed.iter().map(|(id, value)| {
-            let value = match value {
-                Some(value) => Some(value.to_string()),
-                None => None
-            };
-            (id.0, value)
-        } ).collect::<Vec<_>>();
-        FilesJson {files}
+        let files = files_changed
+            .iter()
+            .map(|(id, value)| {
+                let value = match value {
+                    Some(value) => Some(value.to_string()),
+                    None => None,
+                };
+                (id.0, value)
+            })
+            .collect::<Vec<_>>();
+        FilesJson { files }
     }
 }
