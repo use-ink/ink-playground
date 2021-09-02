@@ -8,3 +8,28 @@ edition = "2018"
 [dependencies]
 
 clap = "2.33.3"
+rustc-hash = "1.1.0"
+serde = { version = "1.0.106", features = ["derive"] }
+
+crossbeam-channel = "0.5.0"
+anyhow = "1.0.43"
+log = "0.4.14"
+
+la-arena = {package = "ra_ap_la-arena", version = "0.0.71"}
+vfs_notify = {package = "ra_ap_vfs-notify", version = "0.0.71"}
+base_db = {package = "ra_ap_base_db", version = "0.0.71"}
+ide_db = {package = "ra_ap_ide_db", version = "0.0.71"}
+ide = {package = "ra_ap_ide", version = "0.0.71"}
+hir = {package = "ra_ap_hir", version = "0.0.71"}
+cfg = {package = "ra_ap_cfg", version = "0.0.71"}
+paths = {package = "ra_ap_paths", version = "0.0.71"}
+project_model = {package = "ra_ap_project_model", version = "0.0.71"}
+vfs = {package = "ra_ap_vfs", version = "0.0.71"}
+profile = {package = "ra_ap_profile", version = "0.0.71"}
+tt = {package = "ra_ap_tt", version = "0.0.71"}
+proc_macro_api = {package = "ra_ap_proc_macro_api", version = "0.0.71"}
+
+
+
+
+
