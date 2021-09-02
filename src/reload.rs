@@ -3,27 +3,8 @@ use std::sync::Arc;
 
 use ide_db::base_db::{Env, ProcMacro, ProcMacroExpander, ProcMacroKind, SourceRoot, VfsPath};
 use proc_macro_api::ProcMacroClient;
-use project_model::{ProjectWorkspace, WorkspaceBuildScripts};
+use project_model::{ProjectWorkspace};
 use vfs::{file_set::FileSetConfig, AbsPath, AbsPathBuf};
-
-#[derive(Debug)]
-pub(crate) enum ProjectWorkspaceProgress {
-    Begin,
-    Report(String),
-    End(Vec<anyhow::Result<ProjectWorkspace>>),
-}
-
-#[derive(Debug)]
-pub(crate) enum BuildDataProgress {
-    Begin,
-    Report(String),
-    End(
-        (
-            Arc<Vec<ProjectWorkspace>>,
-            Vec<anyhow::Result<WorkspaceBuildScripts>>,
-        ),
-    ),
-}
 
 #[derive(Default)]
 pub(crate) struct ProjectFolders {

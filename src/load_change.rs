@@ -1,6 +1,6 @@
 //! Loads a Cargo project into a static instance of analysis, without support
 //! for incorporating changes.
-use std::{ops::Index, path::Path, sync::Arc};
+use std::{path::Path, sync::Arc};
 
 use anyhow::Result;
 use crossbeam_channel::{unbounded, Receiver};
@@ -150,8 +150,6 @@ fn load_crate_graph(
 mod tests {
     use super::*;
 
-    use hir::Crate;
-
     #[test]
     fn test_loading_rust_analyzer() {
         let path = Path::new(env!("CARGO_MANIFEST_DIR"))
@@ -165,7 +163,7 @@ mod tests {
             with_proc_macro: false,
             prefill_caches: false,
         };
-        let (change, _vfs, _proc_macro) =
+        let (_change, _vfs, _proc_macro) =
             load_workspace_at(path, &cargo_config, &load_cargo_config, &|_| {}).unwrap();
 
         // let n_crates = Crate::all(host.raw_database()).len();

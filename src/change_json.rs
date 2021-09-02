@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use base_db::{Change, FileId, FileSet, SourceRoot, SourceRootId, VfsPath};
+use base_db::{Change, FileId, FileSet, SourceRoot, VfsPath};
 
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
