@@ -1,6 +1,6 @@
 use std::ops::Index;
 
-use base_db::{CrateData, CrateGraph};
+use base_db::{CrateData, CrateGraph, Env};
 use cfg::CfgOptions;
 use serde::{Deserialize, Serialize};
 
@@ -28,7 +28,7 @@ struct CfgOptionsJson {
 
 #[derive(Serialize, Deserialize, Clone, Default)]
 struct EnvJson {
-    env: Vec<(String, Vec<String>)>,
+    env: Vec<(String, String)>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Default)]
@@ -48,7 +48,27 @@ impl CrateGraphJson {
 impl CrateDataJson {
     fn from(crate_data: &CrateData) -> Self {
         let mut json = CrateDataJson::default();
-        json
+        let root_file_id = crate_data.root_file_id.0;
+        let edition = crate_data.edition.to_string();
+        let display_name = match crate_data.display_name {
+            Some(name) => Some(name.to_string()),
+            None => None,
+        };
+        let cfg_options = CfgOptionsJson::from(crate_data.cfg_options);
+        let potential_cfg_options = CfgOptionsJson::from(crate_data.potential_cfg_options);
+        let env = EnvJson::from(crate_data.env);
+        let dependencies = Vec::new();
+        let proc_macro = Vec::new();
+        CrateDataJson {
+            root_file_id,
+            edition,
+            display_name,
+            cfg_options,
+            potential_cfg_options,
+            env,
+            dependencies,
+            proc_macro,
+        }
     }
 }
 
@@ -69,5 +89,15 @@ impl CfgOptionsJson {
             })
             .collect::<Vec<_>>();
         CfgOptionsJson { options }
+    }
+}
+
+impl EnvJson {
+    fn from(env : Env) -> Self {
+        let env = env
+            .iter()
+            .map(|(a, b)| (String::from(a), String::from(b)))
+            .collect::<Vec<(String, String)>>();
+        EnvJson { env }
     }
 }
