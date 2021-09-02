@@ -11,15 +11,27 @@ use crate::crate_graph_json;
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
 pub struct ChangeJson {
-    crate_graph: CrateGraphJson,
+    crate_graph: Option<CrateGraphJson>,
     local_roots: SourceRootJson,
     library_roots: SourceRootJson,
     files: FxHashMap<u32, Option<String>>,
 }
 
 impl ChangeJson {
-    pub fn from(change: Change) -> ChangeJson {
-        ChangeJson::default()
+    pub fn from(change: &Change) -> ChangeJson {
+        let crate_graph = match &change.crate_graph {
+            Some(crate_graph) => Some(CrateGraphJson::from(&crate_graph)),
+            None => None,
+        };
+        let files = FxHashMap::default();
+        let local_roots = SourceRootJson::default();
+        let library_roots = SourceRootJson::default();
+        ChangeJson {
+            crate_graph,
+            local_roots,
+            library_roots,
+            files,
+        }
     }
 
     pub fn change_file(&mut self, file_id: FileId, new_text: Option<Arc<String>>) -> () {
@@ -37,13 +49,13 @@ impl ChangeJson {
     }
 
     pub fn set_crate_graph(&mut self, crate_graph: CrateGraphJson) -> () {
-        self.crate_graph = crate_graph;
+        self.crate_graph = Some(crate_graph);
     }
 
     pub fn to_change(&self) -> Change {
-        let crate_graph = self.crate_graph.to_crate_graph().clone();
+        let crate_graph = &self.crate_graph.clone().unwrap().to_crate_graph();
         let mut change = Change::default();
-        change.set_crate_graph(crate_graph);
+        change.set_crate_graph(crate_graph.clone());
         let mut roots = self.local_roots.to_roots(false);
         roots.append(&mut self.library_roots.to_roots(true));
         change.set_roots(roots);

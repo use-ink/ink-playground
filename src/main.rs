@@ -37,12 +37,11 @@ fn main() {
 
     let res = load_workspace_at(path, &cargo_config, &load_cargo_config, &|_| {});
     match res {
-        Ok((change, _, _))=>{
-            let crate_graph = change.crate_graph.unwrap();
-            let json = CrateGraphJson::from(&crate_graph);
-            let text= serde_json::to_string(&json).expect("serialization of crate_graph must work");
+        Ok((change, _, _)) => {
+            let json = ChangeJson::from(&change);
+            let text = serde_json::to_string(&json).expect("serialization of change must work");
             println!("{}", text);
-        },
+        }
         Err(_) => {}
     }
 }
