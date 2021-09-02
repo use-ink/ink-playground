@@ -39,14 +39,14 @@ pub struct DepJson {
 }
 
 impl CrateGraphJson {
-    pub fn from(crate_graph: CrateGraph) -> Self {
+    pub fn from(crate_graph: &CrateGraph) -> Self {
         let mut deps: Vec<DepJson> = Vec::new();
         let crates = crate_graph
             .iter()
             .map(|id| (id, crate_graph.index(id)))
             .map(|(id, crate_data)| {
                 (id.0, {
-                    let crate_deps = crate_data
+                    let mut crate_deps = crate_data
                         .dependencies
                         .iter()
                         .map(|dep| DepJson {
@@ -69,16 +69,15 @@ impl CrateGraphJson {
 
 impl CrateDataJson {
     fn from(crate_data: &CrateData) -> Self {
-        let mut json = CrateDataJson::default();
         let root_file_id = crate_data.root_file_id.0;
         let edition = crate_data.edition.to_string();
-        let display_name = match crate_data.display_name {
+        let display_name = match &crate_data.display_name {
             Some(name) => Some(name.to_string()),
             None => None,
         };
-        let cfg_options = CfgOptionsJson::from(crate_data.cfg_options);
-        let potential_cfg_options = CfgOptionsJson::from(crate_data.potential_cfg_options);
-        let env = EnvJson::from(crate_data.env);
+        let cfg_options = CfgOptionsJson::from(crate_data.cfg_options.clone());
+        let potential_cfg_options = CfgOptionsJson::from(crate_data.potential_cfg_options.clone());
+        let env = EnvJson::from(crate_data.env.clone());
         let proc_macro = Vec::new();
         CrateDataJson {
             root_file_id,

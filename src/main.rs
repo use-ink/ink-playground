@@ -1,3 +1,5 @@
+use std::path::Path;
+
 use clap::{App, Arg};
 
 mod change_json;
@@ -5,7 +7,10 @@ mod crate_graph_json;
 mod load_cargo;
 mod reload;
 
-use load_cargo::load_workspace;
+use load_cargo::load_workspace_at;
+use project_model::CargoConfig;
+
+use crate::load_cargo::LoadCargoConfig;
 
 fn main() {
     let matches = App::new("Trait Extractor")
@@ -21,7 +26,13 @@ fn main() {
         .get_matches();
 
     let path = matches.value_of("INPUT").unwrap_or("./Cargo.toml");
-    load_workspace(ws, cargo_config, load_config, progress);
+    let path = Path::new(path);
+    let cargo_config: CargoConfig = Default::default();
+    let load_cargo_config = LoadCargoConfig {
+        load_out_dirs_from_check: false,
+        with_proc_macro: false,
+        prefill_caches: false,
+    };
 
-    println!("Your input path: {}", path);
+    let res = load_workspace_at(path, &cargo_config, &load_cargo_config, &|_| {});
 }
