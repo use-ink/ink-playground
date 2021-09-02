@@ -5,13 +5,13 @@ use clap::{App, Arg};
 
 mod change_json;
 mod crate_graph_json;
-mod load_cargo;
+mod load_change;
 mod reload;
 
-use load_cargo::load_workspace_at;
+use load_change::load_workspace_at;
 use project_model::CargoConfig;
 
-use crate::{crate_graph_json::CrateGraphJson, load_cargo::LoadCargoConfig};
+use crate::load_change::LoadCargoConfig;
 
 fn main() {
     let matches = App::new("Trait Extractor")

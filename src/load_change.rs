@@ -78,8 +78,6 @@ pub fn load_workspace(
         },
     );
 
-    crate_graph.iter().map(|id| (id, crate_graph.index(id)));
-
     let project_folders = ProjectFolders::new(&[ws], &[]);
     loader.set_config(vfs::loader::Config {
         load: project_folders.load,
