@@ -40,8 +40,10 @@ fn main() {
         Ok((change, _, _)) => {
             let json = ChangeJson::from(&change);
             let text = serde_json::to_string(&json).expect("serialization of change must work");
-            let _change = json.to_change();
-            println!("{}", text);
+            let change = json.to_change();
+            let json = ChangeJson::from(&change);
+            let new_text = serde_json::to_string(&json).expect("serialization of change must work");
+            println!("{}", new_text);
         }
         Err(_) => {}
     }

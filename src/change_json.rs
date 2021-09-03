@@ -45,8 +45,15 @@ impl ChangeJson {
             Some(crate_graph_json) => change.set_crate_graph(crate_graph_json.to_crate_graph()),
             None => (),
         };
-        let mut roots = self.local_roots.as_ref().unwrap().to_roots(false);
-        roots.append(&mut self.library_roots.as_ref().unwrap().to_roots(true));
+        let mut roots = Vec::new();
+        match &self.local_roots {
+            Some(local_roots) => roots.append(&mut local_roots.to_roots(false)),
+            None => (),
+        }
+        match &self.library_roots {
+            Some(library_roots) => roots.append(&mut library_roots.to_roots(true)),
+            None => (),
+        }
         change.set_roots(roots.to_vec());
         self.files_changed.files.iter().for_each(|(id, text)| {
             let id = FileId(*id);
