@@ -1,0 +1,19 @@
+[package]
+name = "change_json"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+serde = { version = "1.0.130", features = ["derive"] }
+
+base_db = {package = "ra_ap_base_db", version = "0.0.71"}
+ide_db = {package = "ra_ap_ide_db", version = "0.0.71"}
+ide = {package = "ra_ap_ide", version = "0.0.71"}
+hir = {package = "ra_ap_hir", version = "0.0.71"}
+cfg = {package = "ra_ap_cfg", version = "0.0.71"}
+vfs = {package = "ra_ap_vfs", version = "0.0.71"}
+proc_macro_api = {package = "ra_ap_proc_macro_api", version = "0.0.71"}
+tt = {package = "ra_ap_tt", version = "0.0.71"}

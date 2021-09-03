@@ -68,8 +68,7 @@ impl CrateGraphJson {
         let mut crate_graph = CrateGraph::default();
         self.crates.iter().for_each(|(id, data)| {
             let file_id = FileId(*id);
-            let edition = data.edition.parse::<Edition>().unwrap_or_else(|err| {
-                log::error!("Failed to parse edition {}", err);
+            let edition = data.edition.parse::<Edition>().unwrap_or_else(|_err| {
                 Edition::CURRENT
             });
             let display_name = match &data.display_name {

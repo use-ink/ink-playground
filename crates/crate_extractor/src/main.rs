@@ -1,10 +1,9 @@
 use std::path::Path;
 
-use change_json::ChangeJson;
-use clap::{App, Arg};
 
-mod change_json;
-mod crate_graph_json;
+use clap::{App, Arg};
+use change_json::ChangeJson;
+
 mod load_change;
 mod reload;
 

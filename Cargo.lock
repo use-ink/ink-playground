@@ -150,6 +150,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "change_json"
+version = "0.1.0"
+dependencies = [
+ "ra_ap_base_db",
+ "ra_ap_cfg",
+ "ra_ap_hir",
+ "ra_ap_ide",
+ "ra_ap_ide_db",
+ "ra_ap_proc_macro_api",
+ "ra_ap_tt",
+ "ra_ap_vfs",
+ "serde",
+]
+
+[[package]]
 name = "clap"
 version = "2.33.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -186,6 +201,7 @@ name = "crate_extractor"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "change_json",
  "clap",
  "crossbeam-channel",
  "log",
