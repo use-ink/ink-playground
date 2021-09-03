@@ -1,6 +1,6 @@
 use std::ops::Index;
 
-use base_db::{CrateData, CrateGraph, Env};
+use base_db::{CrateData, CrateDisplayName, CrateGraph, CrateId, CrateName, Edition, Env, FileId};
 use cfg::CfgOptions;
 use serde::{Deserialize, Serialize};
 
@@ -62,8 +62,32 @@ impl CrateGraphJson {
             .collect::<Vec<_>>();
         CrateGraphJson { crates, deps }
     }
+
     pub fn to_crate_graph(&self) -> CrateGraph {
-        CrateGraph::default()
+        let mut crate_graph = CrateGraph::default();
+        self.crates.iter().for_each(|(id, data)| {
+            let file_id = FileId(*id);
+            let edition = data.edition.parse::<Edition>().unwrap_or_else(|err| {
+                log::error!("Failed to parse edition {}", err);
+                Edition::CURRENT
+            });
+            let display_name = match &data.display_name {
+                Some(name) => Some(CrateDisplayName::from_canonical_name(name.to_string())),
+                None => None,
+            };
+            let cfg_options = data.cfg_options.to_cfg_options();
+            let potential_cfg_options = data.potential_cfg_options.to_cfg_options();
+            let env = data.env.to_env();
+            crate_graph.add_crate_root(file_id, edition, display_name, cfg_options, potential_cfg_options, env, Vec::new());
+        });
+        self.deps.iter().for_each(|dep| {
+            let from = CrateId(dep.from);
+            let to = CrateId(dep.to);
+            if let Ok(name) = CrateName::new(&dep.name) {
+                let _ = crate_graph.add_dep(from, name, to);
+            };
+        });
+        crate_graph
     }
 }
 
@@ -109,14 +133,22 @@ impl CfgOptionsJson {
             .collect::<Vec<_>>();
         CfgOptionsJson { options }
     }
+
+    pub fn to_cfg_options(&self) -> CfgOptions {
+        CfgOptions::default()
+    }
 }
 
 impl EnvJson {
-    fn from(env: Env) -> Self {
+    pub fn from(env: Env) -> Self {
         let env = env
             .iter()
             .map(|(a, b)| (String::from(a), String::from(b)))
             .collect::<Vec<(String, String)>>();
         EnvJson { env }
     }
+    pub fn to_env(&self) -> Env {
+        Env::default()
+    }
+
 }
