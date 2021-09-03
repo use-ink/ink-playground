@@ -40,9 +40,11 @@ impl ChangeJson {
     }
 
     pub fn to_change(&self) -> Change {
-        let crate_graph = &self.crate_graph.as_ref().unwrap().to_crate_graph();
         let mut change = Change::default();
-        change.set_crate_graph(crate_graph.clone());
+        match &self.crate_graph {
+            Some(crate_graph_json) => change.set_crate_graph(crate_graph_json.to_crate_graph()),
+            None => (),
+        };
         let mut roots = self.local_roots.as_ref().unwrap().to_roots(false);
         roots.append(&mut self.library_roots.as_ref().unwrap().to_roots(true));
         change.set_roots(roots.to_vec());

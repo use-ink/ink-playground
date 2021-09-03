@@ -156,6 +156,11 @@ impl EnvJson {
         EnvJson { env }
     }
     pub fn to_env(&self) -> Env {
-        Env::default()
+        let mut env = Env::default();
+        self.env
+            .iter()
+            .map(|(key, value)| (key, value))
+            .for_each(|(a, b)| env.set(a, b.to_string()));
+        env
     }
 }
