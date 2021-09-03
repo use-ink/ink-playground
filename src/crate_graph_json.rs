@@ -78,7 +78,15 @@ impl CrateGraphJson {
             let cfg_options = data.cfg_options.to_cfg_options();
             let potential_cfg_options = data.potential_cfg_options.to_cfg_options();
             let env = data.env.to_env();
-            crate_graph.add_crate_root(file_id, edition, display_name, cfg_options, potential_cfg_options, env, Vec::new());
+            crate_graph.add_crate_root(
+                file_id,
+                edition,
+                display_name,
+                cfg_options,
+                potential_cfg_options,
+                env,
+                Vec::new(),
+            );
         });
         self.deps.iter().for_each(|dep| {
             let from = CrateId(dep.from);
@@ -150,5 +158,4 @@ impl EnvJson {
     pub fn to_env(&self) -> Env {
         Env::default()
     }
-
 }
