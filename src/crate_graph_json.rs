@@ -3,6 +3,7 @@ use std::ops::Index;
 use base_db::{CrateData, CrateDisplayName, CrateGraph, CrateId, CrateName, Edition, Env, FileId};
 use cfg::CfgOptions;
 use serde::{Deserialize, Serialize};
+use tt::SmolStr;
 
 #[derive(Serialize, Deserialize, Clone, Debug, Default)]
 pub struct CrateGraphJson {
@@ -143,7 +144,15 @@ impl CfgOptionsJson {
     }
 
     pub fn to_cfg_options(&self) -> CfgOptions {
-        CfgOptions::default()
+        let mut cfg_options = CfgOptions::default();
+        self.options.iter().for_each(|(key, values)| {
+            values.iter().for_each(|value| {
+                let key = SmolStr::from(key);
+                let value = SmolStr::from(value);
+                cfg_options.insert_key_value(key, value);
+            })
+        });
+        cfg_options
     }
 }
 
