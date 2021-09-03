@@ -1,5 +1,5 @@
 [package]
-name = "crate-extractor"
+name = "crate_extractor"
 version = "0.1.0"
 edition = "2018"
 
