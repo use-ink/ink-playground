@@ -182,6 +182,29 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0d48d8f76bd9331f19fe2aaf3821a9f9fb32c3963e1e3d6ce82a8c09cef7444a"
 
 [[package]]
+name = "crate-extractor"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "crossbeam-channel",
+ "log",
+ "ra_ap_base_db",
+ "ra_ap_cfg",
+ "ra_ap_hir",
+ "ra_ap_ide",
+ "ra_ap_ide_db",
+ "ra_ap_proc_macro_api",
+ "ra_ap_profile",
+ "ra_ap_project_model",
+ "ra_ap_tt",
+ "ra_ap_vfs",
+ "ra_ap_vfs-notify",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "crossbeam-channel"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1418,29 +1441,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2ca517f43f0fb96e0c3072ed5c275fe5eece87e8cb52f4a77b69226d3b1c9df8"
 dependencies = [
  "lazy_static",
-]
-
-[[package]]
-name = "trait_extractor"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "crossbeam-channel",
- "log",
- "ra_ap_base_db",
- "ra_ap_cfg",
- "ra_ap_hir",
- "ra_ap_ide",
- "ra_ap_ide_db",
- "ra_ap_proc_macro_api",
- "ra_ap_profile",
- "ra_ap_project_model",
- "ra_ap_tt",
- "ra_ap_vfs",
- "ra_ap_vfs-notify",
- "serde",
- "serde_json",
 ]
 
 [[package]]
