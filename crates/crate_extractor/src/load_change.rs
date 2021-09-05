@@ -102,13 +102,7 @@ fn load_crate_graph(
     vfs: &mut vfs::Vfs,
     receiver: &Receiver<vfs::loader::Message>,
 ) -> Change {
-    let lru_cap = std::env::var("RA_LRU_CAP")
-        .ok()
-        .and_then(|it| it.parse::<usize>().ok());
-    let mut host = AnalysisHost::new(lru_cap);
     let mut analysis_change = Change::new();
-
-    host.raw_database_mut().set_enable_proc_attr_macros(true);
 
     // wait until Vfs has loaded all roots
     for task in receiver {

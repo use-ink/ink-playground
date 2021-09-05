@@ -66,8 +66,10 @@ impl CrateGraphJson {
 
     pub fn to_crate_graph(&self) -> CrateGraph {
         let mut crate_graph = CrateGraph::default();
-        self.crates.iter().for_each(|(id, data)| {
-            let file_id = FileId(*id);
+        let mut crates = self.crates.clone();
+        crates.sort_by(|(id_a, _), (id_b, _)|  id_a.cmp(id_b));
+        crates.iter().for_each(|(_, data)| {
+            let file_id = FileId(data.root_file_id);
             let edition = data.edition.parse::<Edition>().unwrap_or_else(|_err| {
                 Edition::CURRENT
             });
