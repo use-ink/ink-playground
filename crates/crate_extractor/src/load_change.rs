@@ -1,5 +1,3 @@
-//! Loads a Cargo project into a static instance of analysis, without support
-//! for incorporating changes.
 use std::{path::Path, sync::Arc};
 
 use anyhow::Result;
@@ -12,16 +10,12 @@ use vfs::{loader::Handle, AbsPath, AbsPathBuf};
 
 use crate::reload::{load_proc_macro, ProjectFolders, SourceRootConfig};
 
-// Note: Since this type is used by external tools that use rust-analyzer as a library
-// what otherwise would be `pub(crate)` has to be `pub` here instead.
 pub struct LoadCargoConfig {
     pub load_out_dirs_from_check: bool,
     pub with_proc_macro: bool,
     pub prefill_caches: bool,
 }
 
-// Note: Since this function is used by external tools that use rust-analyzer as a library
-// what otherwise would be `pub(crate)` has to be `pub` here instead.
 pub fn load_workspace_at(
     root: &Path,
     cargo_config: &CargoConfig,
@@ -35,11 +29,6 @@ pub fn load_workspace_at(
     load_workspace(workspace, cargo_config, load_config, progress)
 }
 
-// Note: Since this function is used by external tools that use rust-analyzer as a library
-// what otherwise would be `pub(crate)` has to be `pub` here instead.
-//
-// The reason both, `load_workspace_at` and `load_workspace` are `pub` is that some of
-// these tools need access to `ProjectWorkspace`, too, which `load_workspace_at` hides.
 pub fn load_workspace(
     mut ws: ProjectWorkspace,
     cargo_config: &CargoConfig,

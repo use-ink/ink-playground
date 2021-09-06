@@ -73,7 +73,7 @@ struct SourceRootJson {
 }
 
 impl SourceRootJson {
-    pub fn from(roots: &Vec<SourceRoot>, library: bool) -> Self {
+    fn from(roots: &Vec<SourceRoot>, library: bool) -> Self {
         let roots = roots
             .iter()
             .filter(|root| root.is_library == library)
@@ -93,7 +93,7 @@ impl SourceRootJson {
             .collect::<Vec<Vec<(u32, Option<String>)>>>();
         SourceRootJson { roots }
     }
-    pub fn to_roots(&self, library: bool) -> Vec<SourceRoot> {
+    fn to_roots(&self, library: bool) -> Vec<SourceRoot> {
         let result = self
             .roots
             .iter()
@@ -129,7 +129,7 @@ struct FilesJson {
 }
 
 impl FilesJson {
-    pub fn from(files_changed: &Vec<(FileId, Option<Arc<String>>)>) -> Self {
+    fn from(files_changed: &Vec<(FileId, Option<Arc<String>>)>) -> Self {
         let files = files_changed
             .iter()
             .map(|(id, value)| {

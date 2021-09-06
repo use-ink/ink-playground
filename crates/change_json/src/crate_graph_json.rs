@@ -6,13 +6,13 @@ use serde::{Deserialize, Serialize};
 use tt::SmolStr;
 
 #[derive(Serialize, Deserialize, Clone, Debug, Default)]
-pub struct CrateGraphJson {
+pub (crate) struct CrateGraphJson {
     crates: Vec<(u32, CrateDataJson)>,
     deps: Vec<DepJson>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Default, Debug)]
-pub struct CrateDataJson {
+struct CrateDataJson {
     root_file_id: u32,
     edition: String,
     display_name: Option<String>,
@@ -33,14 +33,14 @@ struct EnvJson {
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
-pub struct DepJson {
+struct DepJson {
     from: u32,
     name: String,
     to: u32,
 }
 
 impl CrateGraphJson {
-    pub fn from(crate_graph: &CrateGraph) -> Self {
+    pub (crate) fn from(crate_graph: &CrateGraph) -> Self {
         let mut deps: Vec<DepJson> = Vec::new();
         let mut crates = crate_graph
             .iter()
@@ -65,7 +65,7 @@ impl CrateGraphJson {
         CrateGraphJson { crates, deps }
     }
 
-    pub fn to_crate_graph(&self) -> CrateGraph {
+    pub (crate) fn to_crate_graph(&self) -> CrateGraph {
         let mut crate_graph = CrateGraph::default();
         self.crates.iter().for_each(|(_, data)| {
             let file_id = FileId(data.root_file_id);
@@ -126,7 +126,7 @@ impl CrateDataJson {
 }
 
 impl CfgOptionsJson {
-    pub fn from(cfg_options: &CfgOptions) -> Self {
+    fn from(cfg_options: &CfgOptions) -> Self {
         let options = cfg_options
             .get_cfg_keys()
             .iter()
@@ -144,7 +144,7 @@ impl CfgOptionsJson {
         CfgOptionsJson { options }
     }
 
-    pub fn to_cfg_options(&self) -> CfgOptions {
+    fn to_cfg_options(&self) -> CfgOptions {
         let mut cfg_options = CfgOptions::default();
         self.options.iter().for_each(|(key, values)| {
             values.iter().for_each(|value| {
@@ -158,14 +158,14 @@ impl CfgOptionsJson {
 }
 
 impl EnvJson {
-    pub fn from(env: Env) -> Self {
+    fn from(env: Env) -> Self {
         let env = env
             .iter()
             .map(|(a, b)| (String::from(a), String::from(b)))
             .collect::<Vec<(String, String)>>();
         EnvJson { env }
     }
-    pub fn to_env(&self) -> Env {
+    fn to_env(&self) -> Env {
         let mut env = Env::default();
         self.env
             .iter()
