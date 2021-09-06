@@ -42,7 +42,7 @@ pub struct DepJson {
 impl CrateGraphJson {
     pub fn from(crate_graph: &CrateGraph) -> Self {
         let mut deps: Vec<DepJson> = Vec::new();
-        let crates = crate_graph
+        let mut crates = crate_graph
             .iter()
             .map(|id| (id, crate_graph.index(id)))
             .map(|(id, crate_data)| {
@@ -61,18 +61,18 @@ impl CrateGraphJson {
                 })
             })
             .collect::<Vec<_>>();
+        crates.sort_by(|(id_a, _), (id_b, _)| id_a.cmp(id_b));
         CrateGraphJson { crates, deps }
     }
 
     pub fn to_crate_graph(&self) -> CrateGraph {
         let mut crate_graph = CrateGraph::default();
-        let mut crates = self.crates.clone();
-        crates.sort_by(|(id_a, _), (id_b, _)|  id_a.cmp(id_b));
-        crates.iter().for_each(|(_, data)| {
+        self.crates.iter().for_each(|(_, data)| {
             let file_id = FileId(data.root_file_id);
-            let edition = data.edition.parse::<Edition>().unwrap_or_else(|_err| {
-                Edition::CURRENT
-            });
+            let edition = data
+                .edition
+                .parse::<Edition>()
+                .unwrap_or_else(|_err| Edition::CURRENT);
             let display_name = match &data.display_name {
                 Some(name) => Some(CrateDisplayName::from_canonical_name(name.to_string())),
                 None => None,

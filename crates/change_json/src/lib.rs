@@ -1,5 +1,5 @@
-mod crate_graph_json;
 mod change_json;
+mod crate_graph_json;
 
 pub use change_json::ChangeJson;
 

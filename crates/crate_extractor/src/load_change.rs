@@ -4,8 +4,7 @@ use std::{path::Path, sync::Arc};
 
 use anyhow::Result;
 use crossbeam_channel::{unbounded, Receiver};
-use hir::db::DefDatabase;
-use ide::{AnalysisHost, Change};
+use ide::Change;
 use ide_db::base_db::CrateGraph;
 use proc_macro_api::ProcMacroClient;
 use project_model::{CargoConfig, ProjectManifest, ProjectWorkspace, WorkspaceBuildScripts};
