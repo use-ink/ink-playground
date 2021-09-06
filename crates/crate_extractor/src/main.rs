@@ -52,19 +52,26 @@ fn main() {
         with_proc_macro: false,
         prefill_caches: false,
     };
-    if let Some(matches) = matches.subcommand_matches("create") {
-        let path = matches.value_of("path").unwrap_or("./Cargo.toml");
-        let path = Path::new(path);
-        let output_path = matches.value_of("output").unwrap_or("./change.json");
-        let output_path = Path::new(output_path);
-        let res = load_workspace_at(path, &cargo_config, &load_cargo_config, &|_| {});
-        match res {
-            Ok((change, _, _)) => {
-                let json = ChangeJson::from(&change);
-                let text = serde_json::to_string(&json).expect("serialization of change must work");
-                fs::write(output_path, text).expect("Unable to write file");
+    match matches.subcommand_name() {
+        Some("create") => {
+            let matches = matches.subcommand_matches("create").unwrap();
+            let path = matches.value_of("path").unwrap_or("./Cargo.toml");
+            println!("Creating .json file, using: {}", path);
+            let path = Path::new(path);
+            let output_path = matches.value_of("output").unwrap_or("./change.json");
+            let output_path = Path::new(output_path);
+            let res = load_workspace_at(path, &cargo_config, &load_cargo_config, &|_| {});
+            match res {
+                Ok((change, _, _)) => {
+                    let json = ChangeJson::from(&change);
+                    let text =
+                        serde_json::to_string(&json).expect("serialization of change must work");
+                    fs::write(output_path, text).expect("Unable to write file");
+                }
+                Err(_) => {}
             }
-            Err(_) => {}
         }
+        None => println!("Please enter a  subcommand!"),
+        _ => println!("Your entered subcommand is invalid!"),
     }
 }
