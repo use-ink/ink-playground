@@ -21,6 +21,7 @@ Where `<input>` points to the `Cargo.toml` of the project you wich to analyze an
 
 ## Description
 
+![Drag Racing](architecture1.png)
 
 
 
