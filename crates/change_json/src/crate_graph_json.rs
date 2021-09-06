@@ -4,13 +4,13 @@ use serde::{Deserialize, Serialize};
 use std::ops::Index;
 use tt::SmolStr;
 
-#[derive(Serialize, Deserialize, Clone, Debug, Default)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 pub(crate) struct CrateGraphJson {
     crates: Vec<(u32, CrateDataJson)>,
     deps: Vec<DepJson>,
 }
 
-#[derive(Serialize, Deserialize, Clone, Default, Debug)]
+#[derive(Serialize, Deserialize, Clone, Default, Debug, PartialEq)]
 struct CrateDataJson {
     root_file_id: u32,
     edition: String,
@@ -21,17 +21,17 @@ struct CrateDataJson {
     proc_macro: Vec<String>,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, Default)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 struct CfgOptionsJson {
     options: Vec<(String, Vec<String>)>,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, Default)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 struct EnvJson {
     env: Vec<(String, String)>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Default, Clone)]
+#[derive(Serialize, Deserialize, Debug, Default, Clone, PartialEq)]
 struct DepJson {
     from: u32,
     name: String,
@@ -170,3 +170,47 @@ impl EnvJson {
         env
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn it_works() {
+        let mut graph = CrateGraph::default();
+        let crate1 = graph.add_crate_root(
+            FileId(1u32),
+            Edition::Edition2018,
+            None,
+            CfgOptions::default(),
+            CfgOptions::default(),
+            Env::default(),
+            Default::default(),
+        );
+        let crate2 = graph.add_crate_root(
+            FileId(2u32),
+            Edition::Edition2018,
+            None,
+            CfgOptions::default(),
+            CfgOptions::default(),
+            Env::default(),
+            Default::default(),
+        );
+        let crate3 = graph.add_crate_root(
+            FileId(3u32),
+            Edition::Edition2018,
+            None,
+            CfgOptions::default(),
+            CfgOptions::default(),
+            Env::default(),
+            Default::default(),
+        );
+        assert!(graph.add_dep(crate1, CrateName::new("crate2").unwrap(), crate2).is_ok());
+        assert!(graph.add_dep(crate2, CrateName::new("crate3").unwrap(), crate3).is_ok());
+        let serialized_graph = CrateGraphJson::from(&graph);
+        let expected_deps = vec![DepJson { from: 0, name: "crate2".to_string(), to: 1 }, DepJson { from: 1, name: "crate3".to_string(), to: 2 }];
+        assert_eq!(serialized_graph.deps, expected_deps);
+        serialized_graph.to_crate_graph();
+    }
+}
+

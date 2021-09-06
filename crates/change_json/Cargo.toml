@@ -4,6 +4,9 @@ version = "0.1.0"
 edition = "2018"
 author = "Achim Schneider <achim@parity.io>"
 
+[lib]
+test = true
+
 [dependencies]
 
 serde = { version = "1.0.130", features = ["derive"] }
