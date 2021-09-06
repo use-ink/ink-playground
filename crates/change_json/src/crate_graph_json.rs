@@ -1,12 +1,11 @@
-use std::ops::Index;
-
 use base_db::{CrateData, CrateDisplayName, CrateGraph, CrateId, CrateName, Edition, Env, FileId};
 use cfg::CfgOptions;
 use serde::{Deserialize, Serialize};
+use std::ops::Index;
 use tt::SmolStr;
 
 #[derive(Serialize, Deserialize, Clone, Debug, Default)]
-pub (crate) struct CrateGraphJson {
+pub(crate) struct CrateGraphJson {
     crates: Vec<(u32, CrateDataJson)>,
     deps: Vec<DepJson>,
 }
@@ -40,7 +39,7 @@ struct DepJson {
 }
 
 impl CrateGraphJson {
-    pub (crate) fn from(crate_graph: &CrateGraph) -> Self {
+    pub(crate) fn from(crate_graph: &CrateGraph) -> Self {
         let mut deps: Vec<DepJson> = Vec::new();
         let mut crates = crate_graph
             .iter()
@@ -65,18 +64,15 @@ impl CrateGraphJson {
         CrateGraphJson { crates, deps }
     }
 
-    pub (crate) fn to_crate_graph(&self) -> CrateGraph {
+    pub(crate) fn to_crate_graph(&self) -> CrateGraph {
         let mut crate_graph = CrateGraph::default();
         self.crates.iter().for_each(|(_, data)| {
             let file_id = FileId(data.root_file_id);
-            let edition = data
-                .edition
-                .parse::<Edition>()
-                .unwrap_or_else(|_err| Edition::CURRENT);
-            let display_name = match &data.display_name {
-                Some(name) => Some(CrateDisplayName::from_canonical_name(name.to_string())),
-                None => None,
-            };
+            let edition = data.edition.parse::<Edition>().unwrap_or(Edition::CURRENT);
+            let display_name = data
+                .display_name
+                .as_ref()
+                .map(|name| CrateDisplayName::from_canonical_name(name.to_string()));
             let cfg_options = data.cfg_options.to_cfg_options();
             let potential_cfg_options = data.potential_cfg_options.to_cfg_options();
             let env = data.env.to_env();
@@ -105,10 +101,10 @@ impl CrateDataJson {
     fn from(crate_data: &CrateData) -> Self {
         let root_file_id = crate_data.root_file_id.0;
         let edition = crate_data.edition.to_string();
-        let display_name = match &crate_data.display_name {
-            Some(name) => Some(name.to_string()),
-            None => None,
-        };
+        let display_name = crate_data
+            .display_name
+            .as_ref()
+            .map(|name| name.to_string());
         let cfg_options = CfgOptionsJson::from(&crate_data.cfg_options);
         let potential_cfg_options = CfgOptionsJson::from(&crate_data.potential_cfg_options);
         let env = EnvJson::from(crate_data.env.clone());
