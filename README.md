@@ -4,9 +4,9 @@ Parse Crates and CrateGraph of a Rust Project into a JSON file for Rust Analyzer
 
 ## Introduction
 
-We want to analyze Rust projects with the Rust Analyzer IDE which we compile to Webassembly.
+We want to analyze Rust projects with the Rust Analyzer IDE which we compile to WebAssembly.
 
-This CLI tool allows to extract the data of a Rust Cargo project into a .json file which can be loaded into `Rust` analyzer. This is needed since the dependencies which are usually involved when loading data into Rust analyzers database are accessing the file system and calling rustc. Those dependencies are not available for Webassembly, hence the corresponding crates won't compile to WASM.
+This CLI tool allows to extract the data of a Rust Cargo project into a .json file which is then processed by `Rust` analyzer. We need this since the dependencies which are usually involved when loading data into Rust analyzers database are accessing the file system and calling rustc. Those dependencies are not available for WebAssembly, hence the corresponding crates won’t compile to WASM.
 
 ## Usage
 
@@ -22,9 +22,9 @@ Where `<input>` points to the `Cargo.toml` of the project you wich to analyze an
 
 ## Description
 
-When we use the Rust analyzer in e.g. Visual Studio code, most of its functionalities like auto completion and syntax highlightning are provided by the `IDE` crate. However, the source code of a Rust project which RA processes is collected by the `project_model` crate by scanning through the project structure on a hard drive. It gathers the required data from the hard disk of your computer and transfers it into the `Change` object. This change object is then sent to the Database and contains the precise instructions on how to update the RA database with the required project data.
+When we use the Rust analyzer in e.g. Visual Studio code, the `IDE` crate provides most of its functionalities as auto completion and syntax highlighting. However, when RA processes the source code of a Rust project it collects most of the required data thorough the `project_model` crate by scanning through the project structure on a hard drive. It gathers the required data from the hard disk of your computer and transfers it into the `Change` object. RA then sends this change object to the `Database` and contains the precise instructions on how to update the RA database with the required project data.
 
-This process, in a strongly simplified way, is visualized in Fig.1 below:
+We visualize his process, in a strongly simplified way, in Fig.1 below:
 
 <figure>
 <p align="center">
@@ -33,11 +33,11 @@ This process, in a strongly simplified way, is visualized in Fig.1 below:
   </p>
 </figure>
 
-Here, all the crates which are colored in red won't compile to WebAssembly. This is due to the access to the local file system but also since various calls to rustc are involved and also due to many other non compatible dependencies.
+Here, all the crates which are colored in red won’t compile to WebAssembly. This is because of the access to the local file system but also since it involves various calls to rustc and also because of many other non-compatible dependencies.
 
-However, all the tools which are provided by the IDE crate compile flawlessly as well as the RA Databse to which also the Change object berlongs, as same as all the other dependencies of these crates whcih are asbtracted away in Fig. 1.
+However, all the tools which are provided by the IDE crate compile flawlessly as well as the RA Database to which also the Change object belongs, as same as all the other dependencies of these crates which are abstracted away in Fig. 1.
 
-The `crate_extractor` crate is creating the `Change` object by utilizing the `project_model` crate in a similar way then the `Rust Analyzer` crate does it in Fig 1. But then, instead of sending it to the Rust Analyzer database it utilizes the `change_json` crate to parse it to JSON. The `change_json` crate defines its own JSON structure which is (de-)serializable by [Serde JSON](https://github.com/serde-rs/json), as well as the required tools to convert the `Change` object to its corresponding JSON structure and vice-versa, see Fig. 2 below for a visualization of this interaction:
+The crate_extractor crate is creating the `Change` object by utilizing the `project_model` crate similarly then the `Rust Analyzer` crate does it in Fig 1. But then, instead of sending it to the Rust Analyzer database, it uses the `change_json` crate to parse it to JSON. The `change_json` crate defines its own JSON structure which is (de-)serializable by [Serde JSON](https://github.com/serde-rs/json), as well as the required tools to convert the `Change` object to its corresponding JSON structure and vice-versa, see Fig. 2 below for a visualization of this interaction:
 
 <figure>
 <p align="center">
@@ -46,9 +46,9 @@ The `crate_extractor` crate is creating the `Change` object by utilizing the `pr
   </p>
 </figure>
 
-While the `crate_extrator` crate is utilizing various dependencies whcih won't compile to WASM, we can't use it in a Webassembly version of Rust Analyzer. However, the `change_json` crate consumes just a bare minimum of basic dependencies like the RA `Database` and therefore compiles to WASM.
+While the `crate_extrator` crate is using various dependencies which won’t compile to WASM, we can’t use it in a Webassembly version of Rust Analyzer. However, the `change_json` crate consumes just a bare minimum of basic dependencies like the RA Database and therefore compiles to WASM.
 
-The way it is utilized to provide a Rust projects source code and dependency graph to a WASM implementation of Rust Analyzer is visualized in Fig. 3 below:
+We visualize the way it is used to provide a Rust projects source code and dependency graph to a WASM implementation of Rust Analyzer in Fig. 3 below:
 
 <figure>
 <p align="center">
