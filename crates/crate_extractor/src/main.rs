@@ -71,3 +71,35 @@ fn main() {
         _ => println!("Your entered subcommand is invalid!"),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use change_json::ChangeJson;
+
+    use super::*;
+
+    #[test]
+    fn test_loading_rust_analyzer() {
+        let path = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .unwrap()
+            .parent()
+            .unwrap();
+        let cargo_config = CargoConfig::default();
+        let load_cargo_config = LoadCargoConfig {
+            load_out_dirs_from_check: false,
+            with_proc_macro: false,
+            prefill_caches: false,
+        };
+        let (change, _vfs, _proc_macro) =
+            load_workspace_at(path, &cargo_config, &load_cargo_config, &|_| {}).unwrap();
+        let json = ChangeJson::from(&change);
+        let text = serde_json::to_string(&json).expect("serialization of change must work");
+        let json: ChangeJson =
+            serde_json::from_str(&text).expect("deserialization of change must work");
+        let change = json.to_change();
+        // let n_crates = Crate::all(host.raw_database()).len();
+        // RA has quite a few crates, but the exact count doesn't matter
+        // assert!(n_crates > 20);
+    }
+}

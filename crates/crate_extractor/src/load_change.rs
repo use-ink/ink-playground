@@ -128,28 +128,4 @@ fn load_crate_graph(
     analysis_change
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
 
-    #[test]
-    fn test_loading_rust_analyzer() {
-        let path = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .parent()
-            .unwrap()
-            .parent()
-            .unwrap();
-        let cargo_config = CargoConfig::default();
-        let load_cargo_config = LoadCargoConfig {
-            load_out_dirs_from_check: false,
-            with_proc_macro: false,
-            prefill_caches: false,
-        };
-        let (_change, _vfs, _proc_macro) =
-            load_workspace_at(path, &cargo_config, &load_cargo_config, &|_| {}).unwrap();
-
-        // let n_crates = Crate::all(host.raw_database()).len();
-        // RA has quite a few crates, but the exact count doesn't matter
-        // assert!(n_crates > 20);
-    }
-}

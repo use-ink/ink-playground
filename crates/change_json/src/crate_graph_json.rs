@@ -205,12 +205,26 @@ mod tests {
             Env::default(),
             Default::default(),
         );
-        assert!(graph.add_dep(crate1, CrateName::new("crate2").unwrap(), crate2).is_ok());
-        assert!(graph.add_dep(crate2, CrateName::new("crate3").unwrap(), crate3).is_ok());
+        assert!(graph
+            .add_dep(crate1, CrateName::new("crate2").unwrap(), crate2)
+            .is_ok());
+        assert!(graph
+            .add_dep(crate2, CrateName::new("crate3").unwrap(), crate3)
+            .is_ok());
         let serialized_graph = CrateGraphJson::from(&graph);
-        let expected_deps = vec![DepJson { from: 0, name: "crate2".to_string(), to: 1 }, DepJson { from: 1, name: "crate3".to_string(), to: 2 }];
+        let expected_deps = vec![
+            DepJson {
+                from: 0,
+                name: "crate2".to_string(),
+                to: 1,
+            },
+            DepJson {
+                from: 1,
+                name: "crate3".to_string(),
+                to: 2,
+            },
+        ];
         assert_eq!(serialized_graph.deps, expected_deps);
         serialized_graph.to_crate_graph();
     }
 }
-
