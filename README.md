@@ -33,6 +33,12 @@ This process, in a strongly simplified way, is visualized in Fig.1 below:
   </p>
 </figure>
 
+Here, all the crates which are colored in red won't compile to WebAssembly. This is due to the access to the local file system but also since various calls to rustc are involved and also due to many other non compatible dependencies.
+
+However, all the tools which are provided by the IDE crate compile flawlessly as well as the RA Databse to which also the Change object berlongs, as same as all the other dependencies of these crates whcih are asbtracted away in Fig. 1.
+
+Now the role of the `crate_extractor` crate is to create the `Change` object in more or less the same way that the `project_model` crate does it. But then, instead of sending it to the Rust Analyzer database it utilizes the `change_json` crate to parse it to JSON. The `change_json` crate defines its own JSON structure which is (de-)serializable by [Serde JSON](https://github.com/serde-rs/json), as well as the required tools to voncert the `Change` object to its corresponding JSON structure and vice-versa, see Fig. 2 below for a visualization of this interaction:
+
 <figure>
 <p align="center">
   <img src="architecture2.png" alt="Cli Tool">
