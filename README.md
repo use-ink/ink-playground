@@ -28,7 +28,7 @@ This process, in a strongly simplified way, is visualized in Fig.1 below:
 
 <figure>
 <p align="center">
-  <img src="architecture1.png" alt="Rust Analyzer">
+  <img src="assets/architecture1.png" alt="Rust Analyzer">
   <figcaption><p align="center">Fig.1 The way how RA loads a  Rust project into its database</p></figcaption>
   </p>
 </figure>
@@ -41,7 +41,7 @@ The `crate_extractor` crate is creating the `Change` object by utilizing the `pr
 
 <figure>
 <p align="center">
-  <img src="architecture2.png" alt="Cli Tool">
+  <img src="assets/architecture2.png" alt="Cli Tool">
   <figcaption><p align="center">Fig.2 How this repo extracts Cargo Crate data into a JSON structure</p></figcaption>
   </p>
 </figure>
@@ -52,7 +52,7 @@ The way it is utilized to provide a Rust projects source code and dependency gra
 
 <figure>
 <p align="center">
-  <img src="architecture3.png" alt="WASM Setup for RA">
+  <img src="assets/architecture3.png" alt="WASM Setup for RA">
   <figcaption><p align="center">Fig.3 The WASM version of RA can utilize `change_json` to receive the crate deps</p></figcaption>
   </p>
 </figure>
