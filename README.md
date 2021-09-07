@@ -21,15 +21,24 @@ Where `<input>` points to the `Cargo.toml` of the project you wich to analyze an
 
 ## Description
 
-![Architecture 1](architecture1.png)
+
 
 <p align="center">
   <img src="architecture1.png" />
 </p>
 
-![Architecture 2](architecture2.png)
+<p align="center">
+  <img src="architecture2.png" />
+</p>
 
-![Architecture 3](architecture3.png)
+<p align="center">
+<figure>
+  <img src="architecture3.png" alt="Trulli" style="width:100%">
+  <figcaption>Fig.1 - Trulli, Puglia, Italy</figcaption>
+</figure>
+</p>
+
+
 
 
 
