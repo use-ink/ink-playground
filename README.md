@@ -1,6 +1,6 @@
 # crate-extractor
 
-Parse Crates and CrateGraph of a Rust Project into a JSON file for Rust Analyzer
+Parses Crates and CrateGraph (the package dependency graph) of a Rust Project into a JSON file for Rust Analyzer(=RA) and provides a library for (de-)serialization of these data structures which can be referenced by a WASM implementation of RA.
 
 ## Introduction
 
