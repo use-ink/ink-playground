@@ -21,11 +21,11 @@ Where `<input>` points to the `Cargo.toml` of the project you wich to analyze an
 
 ## Description
 
-![Drag Racing](architecture1.png)
+![Architecture 1](architecture1.png)
 
+![Architecture 2](architecture2.png)
 
-
-![Drag Racing](architecture3.png)
+![Architecture 3](architecture3.png)
 
 
 
