@@ -33,7 +33,7 @@ Where `<input>` points to the `Cargo.toml` of the project you wich to analyze an
 
 <p align="center">
 <figure>
-  <img src="architecture3.png" alt="Trulli" style="width:100%">
+  <img src="architecture3.png" alt="Trulli">
   <figcaption>Fig.1 - Trulli, Puglia, Italy</figcaption>
 </figure>
 </p>
