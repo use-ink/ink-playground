@@ -37,17 +37,22 @@ Here, all the crates which are colored in red won't compile to WebAssembly. This
 
 However, all the tools which are provided by the IDE crate compile flawlessly as well as the RA Databse to which also the Change object berlongs, as same as all the other dependencies of these crates whcih are asbtracted away in Fig. 1.
 
-Now the role of the `crate_extractor` crate is to create the `Change` object in more or less the same way that the `project_model` crate does it. But then, instead of sending it to the Rust Analyzer database it utilizes the `change_json` crate to parse it to JSON. The `change_json` crate defines its own JSON structure which is (de-)serializable by [Serde JSON](https://github.com/serde-rs/json), as well as the required tools to voncert the `Change` object to its corresponding JSON structure and vice-versa, see Fig. 2 below for a visualization of this interaction:
+The `crate_extractor` crate is creating the `Change` object by utilizing the `project_model` crate in a similar way then the `Rust Analyzer` crate does it in Fig 1. But then, instead of sending it to the Rust Analyzer database it utilizes the `change_json` crate to parse it to JSON. The `change_json` crate defines its own JSON structure which is (de-)serializable by [Serde JSON](https://github.com/serde-rs/json), as well as the required tools to convert the `Change` object to its corresponding JSON structure and vice-versa, see Fig. 2 below for a visualization of this interaction:
 
 <figure>
 <p align="center">
   <img src="architecture2.png" alt="Cli Tool">
-  <figcaption><p align="center">Fig.2</p></figcaption>
+  <figcaption><p align="center">Fig.2 How this repo extracts Cargo Crate data into a JSON structure</p></figcaption>
   </p>
 </figure>
+
+While the `crate_extrator` crate is utilizing various dependencies whcih won't compile to WASM, we can't use it in a Webassembly version of Rust Analyzer. However, the `change_json` crate consumes just a bare minimum of basic dependencies like the RA `Database` and therefore compiles to WASM.
+
+The way it is utilized to provide a Rust projects source code and dependency graph to a WASM implementation of Rust Analyzer is visualized in Fig. 3 below:
+
 <figure>
 <p align="center">
   <img src="architecture3.png" alt="WASM Setup for RA">
-  <figcaption><p align="center">Fig.3</p></figcaption>
+  <figcaption><p align="center">Fig.3 The WASM version of RA can utilize `change_json` to receive the crate deps</p></figcaption>
   </p>
 </figure>
