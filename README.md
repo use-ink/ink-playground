@@ -8,6 +8,13 @@ We want to analyze Rust projects with the Rust Analyzer IDE which we compile to 
 
 This CLI tool allows to extract the data of a Rust Cargo project into a .json file which is then processed by `Rust` analyzer. We need this since the dependencies which are usually involved when loading data into Rust analyzers database are accessing the file system and calling rustc. Those dependencies are not available for WebAssembly, hence the corresponding crates won’t compile to WASM.
 
+It is a monorepo which contains two seperate crates:
+
+- `crate_extractor` creates the actual JSON file which contains the project data and writes it to the hard drive
+- `change_json` handles the conersion from the RA specific data structures to serializable objects and vice-versa
+
+The reason for this seperation of concerns becomes evident from reading the description below.
+
 ## Usage
 
 Enter:
