@@ -176,7 +176,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
+    fn serialize_crategraph_check_deps() {
         let mut graph = CrateGraph::default();
         let crate1 = graph.add_crate_root(
             FileId(1u32),

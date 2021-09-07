@@ -25,23 +25,17 @@ fn main() {
                         .takes_value(true)
                         .short("i")
                         .long("input")
-                        .multiple(false) // Set to true if you wish to allow multiple occurrences
-                        // such as "-i file -i other_file -i third_file"
-                        .required(false), // By default this argument MUST be present
-                                          // NOTE: mutual exclusions take precedence over
-                                          // required arguments
+                        .multiple(false) 
+                        .required(false), 
                 )
                 .arg(
                     Arg::with_name("output")
-                        .help("Output path for .json file, defaults to ./change.json") // Displayed when showing help info
-                        .takes_value(true) // MUST be set to true in order to be an "option" argument
-                        .short("o") // This argument is triggered with "-i"
-                        .long("output") // This argument is triggered with "--input"
-                        .multiple(false) // Set to true if you wish to allow multiple occurrences
-                        // such as "-i file -i other_file -i third_file"
-                        .required(false), // By default this argument MUST be present
-                                          // NOTE: mutual exclusions take precedence over
-                                          // required arguments
+                        .help("Output path for .json file, defaults to ./change.json") 
+                        .takes_value(true) 
+                        .short("o") 
+                        .long("output")
+                        .multiple(false)
+                        .required(false),
                 ),
         )
         .get_matches();
@@ -79,7 +73,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_loading_rust_analyzer() {
+    fn test_parsing_change_json() {
         let path = Path::new(env!("CARGO_MANIFEST_DIR"))
             .parent()
             .unwrap()
@@ -97,9 +91,6 @@ mod tests {
         let text = serde_json::to_string(&json).expect("serialization of change must work");
         let json: ChangeJson =
             serde_json::from_str(&text).expect("deserialization of change must work");
-        let change = json.to_change();
-        // let n_crates = Crate::all(host.raw_database()).len();
-        // RA has quite a few crates, but the exact count doesn't matter
-        // assert!(n_crates > 20);
+        let _change = json.to_change();
     }
 }
