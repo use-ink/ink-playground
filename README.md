@@ -29,7 +29,7 @@ Where `<input>` points to the `Cargo.toml` of the project you wich to analyze an
 
 ## Description
 
-When we use the Rust analyzer in e.g. Visual Studio code, the `IDE` crate provides most of its functionalities as auto completion and syntax highlighting. However, when RA processes the source code of a Rust project it collects most of the required data thorough the `project_model` crate by scanning through the project structure on a hard drive. It gathers the required data from the hard disk of your computer and transfers it into the `Change` object. RA then sends this change object to the `Database` and contains the precise instructions on how to update the RA database with the required project data.
+When we use the Rust analyzer in e.g. Visual Studio code, the `IDE` crate provides most of its functionalities as auto completion and syntax highlighting. However, when RA processes the source code of a Rust project it collects most of the required data through the `project_model` crate by scanning the project structure on a hard drive. It gathers the required data from the hard disk of your computer and transfers it into the `Change` object. RA then sends this change object to the `Database` and contains the precise instructions on how to update the RA database with the required project data.
 
 We visualize his process, in a strongly simplified way, in Fig.1 below:
 
