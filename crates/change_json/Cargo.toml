@@ -6,6 +6,7 @@ author = "Achim Schneider <achim@parity.io>"
 
 [lib]
 test = true
+doctest = false
 
 [dependencies]
 
