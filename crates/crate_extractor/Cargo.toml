@@ -1,5 +1,5 @@
 [package]
-name = "crate_extractor"
+name = "crate-extractor"
 version = "0.1.0"
 edition = "2018"
 author = "Achim Schneider <achim@parity.io>"
