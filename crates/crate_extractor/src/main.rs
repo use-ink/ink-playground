@@ -25,14 +25,14 @@ fn main() {
                         .takes_value(true)
                         .short("i")
                         .long("input")
-                        .multiple(false) 
-                        .required(false), 
+                        .multiple(false)
+                        .required(false),
                 )
                 .arg(
                     Arg::with_name("output")
-                        .help("Output path for .json file, defaults to ./change.json") 
-                        .takes_value(true) 
-                        .short("o") 
+                        .help("Output path for .json file, defaults to ./change.json")
+                        .takes_value(true)
+                        .short("o")
                         .long("output")
                         .multiple(false)
                         .required(false),

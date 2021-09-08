@@ -127,5 +127,3 @@ fn load_crate_graph(
 
     analysis_change
 }
-
-
