@@ -227,6 +227,5 @@ mod tests {
             },
         ];
         assert_eq!(serialized_graph.deps, expected_deps);
-        serialized_graph.to_crate_graph();
     }
 }
