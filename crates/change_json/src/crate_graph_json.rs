@@ -90,7 +90,9 @@ impl CrateGraphJson {
             let from = CrateId(dep.from);
             let to = CrateId(dep.to);
             if let Ok(name) = CrateName::new(&dep.name) {
-                let _ = crate_graph.add_dep(from, name, to);
+                crate_graph
+                    .add_dep(from, name, to)
+                    .unwrap_or_else(|err| panic!("Cyclic Dependency in parsed data: {}", err));
             };
         });
         crate_graph
