@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
-use ide_db::base_db::{Env, ProcMacro, ProcMacroExpander, ProcMacroKind, SourceRoot, VfsPath};
-use proc_macro_api::ProcMacroClient;
+use ide_db::base_db::{Env, ProcMacro, ProcMacroExpander, ProcMacroExpansionError, ProcMacroKind, SourceRoot, VfsPath};
+use proc_macro_api::{MacroDylib, ProcMacroServer};
 use project_model::ProjectWorkspace;
 use vfs::{file_set::FileSetConfig, AbsPath, AbsPathBuf};
 
@@ -89,15 +89,36 @@ impl SourceRootConfig {
     }
 }
 
-pub(crate) fn load_proc_macro(client: Option<&ProcMacroClient>, path: &AbsPath) -> Vec<ProcMacro> {
+pub(crate) fn load_proc_macro(client: Option<&ProcMacroServer>, path: &AbsPath) -> Vec<ProcMacro> {
+    let dylib = match MacroDylib::new(path.to_path_buf()) {
+        Ok(it) => it,
+        Err(err) => {
+            // FIXME: that's not really right -- we store this error in a
+            // persistent status.
+            tracing::warn!("failed to load proc macro: {}", err);
+            return Vec::new();
+        }
+    };
     return client
-        .map(|it| it.by_dylib_path(path))
-        .unwrap_or_default()
+        .map(|it| it.load_dylib(dylib))
         .into_iter()
+        .flat_map(|it| match it {
+            Ok(Ok(macros)) => macros,
+            Err(err) => {
+                tracing::error!("proc macro server crashed: {}", err);
+                Vec::new()
+            }
+            Ok(Err(err)) => {
+                // FIXME: that's not really right -- we store this error in a
+                // persistent status.
+                tracing::warn!("failed to load proc macro: {}", err);
+                Vec::new()
+            }
+        })
         .map(expander_to_proc_macro)
         .collect();
 
-    fn expander_to_proc_macro(expander: proc_macro_api::ProcMacroProcessExpander) -> ProcMacro {
+    fn expander_to_proc_macro(expander: proc_macro_api::ProcMacro) -> ProcMacro {
         let name = expander.name().into();
         let kind = match expander.kind() {
             proc_macro_api::ProcMacroKind::CustomDerive => ProcMacroKind::CustomDerive,
@@ -113,7 +134,7 @@ pub(crate) fn load_proc_macro(client: Option<&ProcMacroClient>, path: &AbsPath) 
     }
 
     #[derive(Debug)]
-    struct Expander(proc_macro_api::ProcMacroProcessExpander);
+    struct Expander(proc_macro_api::ProcMacro);
 
     impl ProcMacroExpander for Expander {
         fn expand(
@@ -121,12 +142,14 @@ pub(crate) fn load_proc_macro(client: Option<&ProcMacroClient>, path: &AbsPath) 
             subtree: &tt::Subtree,
             attrs: Option<&tt::Subtree>,
             env: &Env,
-        ) -> Result<tt::Subtree, tt::ExpansionError> {
-            let env = env
-                .iter()
-                .map(|(k, v)| (k.to_string(), v.to_string()))
-                .collect();
-            self.0.expand(subtree, attrs, env)
+        ) -> Result<tt::Subtree, ProcMacroExpansionError> {
+            let env = env.iter().map(|(k, v)| (k.to_string(), v.to_string())).collect();
+            match self.0.expand(subtree, attrs, env) {
+                Ok(Ok(subtree)) => Ok(subtree),
+                Ok(Err(err)) => Err(ProcMacroExpansionError::Panic(err.0)),
+                Err(err) => Err(ProcMacroExpansionError::System(err.to_string())),
+            }
         }
     }
 }
+
