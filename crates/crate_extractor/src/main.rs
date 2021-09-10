@@ -6,7 +6,6 @@ use clap::{App, Arg};
 mod load_change;
 mod reload;
 
-use load_change::load_workspace_at;
 use project_model::CargoConfig;
 
 use crate::load_change::LoadCargoConfig;
@@ -25,14 +24,14 @@ fn main() {
                         .takes_value(true)
                         .short("i")
                         .long("input")
-                        .multiple(false) 
-                        .required(false), 
+                        .multiple(false)
+                        .required(false),
                 )
                 .arg(
                     Arg::with_name("output")
-                        .help("Output path for .json file, defaults to ./change.json") 
-                        .takes_value(true) 
-                        .short("o") 
+                        .help("Output path for .json file, defaults to ./change.json")
+                        .takes_value(true)
+                        .short("o")
                         .long("output")
                         .multiple(false)
                         .required(false),
@@ -54,10 +53,13 @@ fn main() {
             let path = Path::new(path);
             let output_path = matches.value_of("output").unwrap_or("./change.json");
             let output_path = Path::new(output_path);
-            let res = load_workspace_at(path, &cargo_config, &load_cargo_config, &|_| {});
-            let (change, _, _) = res.unwrap_or_else(|err| panic!("Error loading workspace: {}", err));
+            let res = load_change::load_change_at(path, &cargo_config, &load_cargo_config, &|_| {});
+            let change =
+                res.unwrap_or_else(|err| panic!("Error while creating change object: {}", err));
             let json = ChangeJson::from(&change);
-            let text = serde_json::to_string(&json).expect("serialization of change must work");
+            let text = serde_json::to_string(&json).unwrap_or_else(|err| {
+                panic!("Error while parsing ChangeJson object to string: {}", err)
+            });
             fs::write(output_path, text).expect("Unable to write file");
         }
         None => println!("Please enter a  subcommand!"),
@@ -84,8 +86,10 @@ mod tests {
             with_proc_macro: false,
             prefill_caches: false,
         };
-        let (change, _vfs, _proc_macro) =
-            load_workspace_at(path, &cargo_config, &load_cargo_config, &|_| {}).unwrap();
+        let change = load_change::load_change_at(path, &cargo_config, &load_cargo_config, &|_| {})
+            .unwrap_or_else(|err| {
+                panic!("Error while creating Change object: {}", err);
+            });
         let json = ChangeJson::from(&change);
         let text = serde_json::to_string(&json).expect("serialization of change must work");
         let json: ChangeJson =

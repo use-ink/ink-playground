@@ -4,11 +4,10 @@ use anyhow::Result;
 use crossbeam_channel::{unbounded, Receiver};
 use ide::Change;
 use ide_db::base_db::CrateGraph;
-use proc_macro_api::ProcMacroServer;
 use project_model::{CargoConfig, ProjectManifest, ProjectWorkspace, WorkspaceBuildScripts};
 use vfs::{loader::Handle, AbsPath, AbsPathBuf};
 
-use crate::reload::{load_proc_macro, ProjectFolders, SourceRootConfig};
+use crate::reload::{ProjectFolders, SourceRootConfig};
 
 pub struct LoadCargoConfig {
     pub load_out_dirs_from_check: bool,
@@ -16,38 +15,31 @@ pub struct LoadCargoConfig {
     pub prefill_caches: bool,
 }
 
-pub fn load_workspace_at(
+pub fn load_change_at(
     root: &Path,
     cargo_config: &CargoConfig,
     load_config: &LoadCargoConfig,
     progress: &dyn Fn(String),
-) -> Result<(Change, vfs::Vfs, Option<ProcMacroServer>)> {
+) -> Result<Change> {
     let root = AbsPathBuf::assert(std::env::current_dir()?.join(root));
     let root = ProjectManifest::discover_single(&root)?;
     let workspace = ProjectWorkspace::load(root, cargo_config, progress)?;
 
-    load_workspace(workspace, cargo_config, load_config, progress)
+    load_change(workspace, cargo_config, load_config, progress)
 }
 
-pub fn load_workspace(
+pub fn load_change(
     mut ws: ProjectWorkspace,
     cargo_config: &CargoConfig,
     load_config: &LoadCargoConfig,
     progress: &dyn Fn(String),
-) -> Result<(Change, vfs::Vfs, Option<ProcMacroServer>)> {
+) -> Result<Change> {
     let (sender, receiver) = unbounded();
     let mut vfs = vfs::Vfs::default();
     let mut loader = {
         let loader =
             vfs_notify::NotifyHandle::spawn(Box::new(move |msg| sender.send(msg).unwrap()));
         Box::new(loader)
-    };
-
-    let proc_macro_client = if load_config.with_proc_macro {
-        let path = AbsPathBuf::assert(std::env::current_exe()?);
-        Some(ProcMacroServer::spawn(path, &["proc-macro"]).unwrap())
-    } else {
-        None
     };
 
     ws.set_build_scripts(if load_config.load_out_dirs_from_check {
@@ -57,7 +49,7 @@ pub fn load_workspace(
     });
 
     let crate_graph = ws.to_crate_graph(
-        &mut |path: &AbsPath| load_proc_macro(proc_macro_client.as_ref(), path),
+        &mut |_: &AbsPath| Vec::new(),
         &mut |path: &AbsPath| {
             let contents = loader.load_sync(path);
             let path = vfs::VfsPath::from(path.to_path_buf());
@@ -81,7 +73,7 @@ pub fn load_workspace(
         &receiver,
     );
 
-    Ok((change, vfs, proc_macro_client))
+    Ok(change)
 }
 
 fn load_crate_graph(
