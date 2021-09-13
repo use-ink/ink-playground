@@ -1,14 +1,9 @@
-use std::{fs, path::Path};
-
 use change_json::ChangeJson;
 use clap::{App, Arg};
-
+use std::{fs, path::Path};
 mod load_change;
-mod reload;
-
-use project_model::CargoConfig;
-
 use crate::load_change::LoadCargoConfig;
+use project_model::CargoConfig;
 
 fn main() {
     let matches = App::new("Trait Extractor")
