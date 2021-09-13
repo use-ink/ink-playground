@@ -8,7 +8,7 @@ use project_model::CargoConfig;
 fn main() {
     let matches = App::new("Trait Extractor")
         .version("0.1")
-        .author("Achim S. <achim@parity.io>")
+        .author("Achim Schneider <achim@parity.io>")
         .about("Extract Crate Data to JSON for rust analyzer")
         .subcommand(
             App::new("create")
