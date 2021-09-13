@@ -1,6 +1,18 @@
-use base_db::{CrateData, CrateDisplayName, CrateGraph, CrateId, CrateName, Edition, Env, FileId};
+use base_db::{
+    CrateData,
+    CrateDisplayName,
+    CrateGraph,
+    CrateId,
+    CrateName,
+    Edition,
+    Env,
+    FileId,
+};
 use cfg::CfgOptions;
-use serde::{Deserialize, Serialize};
+use serde::{
+    Deserialize,
+    Serialize,
+};
 use std::ops::Index;
 use tt::SmolStr;
 
@@ -49,10 +61,12 @@ impl CrateGraphJson {
                     let mut crate_deps = crate_data
                         .dependencies
                         .iter()
-                        .map(|dep| DepJson {
-                            from: id.0,
-                            name: dep.name.to_string(),
-                            to: dep.crate_id.0,
+                        .map(|dep| {
+                            DepJson {
+                                from: id.0,
+                                name: dep.name.to_string(),
+                                to: dep.crate_id.0,
+                            }
                         })
                         .collect::<Vec<_>>();
                     deps.append(&mut crate_deps);
@@ -90,9 +104,9 @@ impl CrateGraphJson {
             let from = CrateId(dep.from);
             let to = CrateId(dep.to);
             if let Ok(name) = CrateName::new(&dep.name) {
-                crate_graph
-                    .add_dep(from, name, to)
-                    .unwrap_or_else(|err| panic!("Cyclic Dependency in parsed data: {}", err));
+                crate_graph.add_dep(from, name, to).unwrap_or_else(|err| {
+                    panic!("Cyclic Dependency in parsed data: {}", err)
+                });
             };
         });
         crate_graph
@@ -108,7 +122,8 @@ impl CrateDataJson {
             .as_ref()
             .map(|name| name.to_string());
         let cfg_options = CfgOptionsJson::from(&crate_data.cfg_options);
-        let potential_cfg_options = CfgOptionsJson::from(&crate_data.potential_cfg_options);
+        let potential_cfg_options =
+            CfgOptionsJson::from(&crate_data.potential_cfg_options);
         let env = EnvJson::from(crate_data.env.clone());
         let proc_macro = Vec::new();
         CrateDataJson {

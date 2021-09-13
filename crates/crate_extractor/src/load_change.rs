@@ -1,10 +1,30 @@
 use anyhow::Result;
-use crossbeam_channel::{unbounded, Receiver};
+use crossbeam_channel::{
+    unbounded,
+    Receiver,
+};
 use ide::Change;
-use ide_db::base_db::{CrateGraph, SourceRoot, VfsPath};
-use project_model::{CargoConfig, ProjectManifest, ProjectWorkspace, WorkspaceBuildScripts};
-use std::{path::Path, sync::Arc};
-use vfs::{file_set::FileSetConfig, loader::Handle, AbsPath, AbsPathBuf};
+use ide_db::base_db::{
+    CrateGraph,
+    SourceRoot,
+    VfsPath,
+};
+use project_model::{
+    CargoConfig,
+    ProjectManifest,
+    ProjectWorkspace,
+    WorkspaceBuildScripts,
+};
+use std::{
+    path::Path,
+    sync::Arc,
+};
+use vfs::{
+    file_set::FileSetConfig,
+    loader::Handle,
+    AbsPath,
+    AbsPathBuf,
+};
 
 pub struct LoadCargoConfig {
     pub load_out_dirs_from_check: bool,
@@ -34,23 +54,27 @@ pub fn load_change(
     let (sender, receiver) = unbounded();
     let mut vfs = vfs::Vfs::default();
     let mut loader = {
-        let loader =
-            vfs_notify::NotifyHandle::spawn(Box::new(move |msg| sender.send(msg).unwrap()));
+        let loader = vfs_notify::NotifyHandle::spawn(Box::new(move |msg| {
+            sender.send(msg).unwrap()
+        }));
         Box::new(loader)
     };
 
-    ws.set_build_scripts(if load_config.load_out_dirs_from_check {
-        ws.run_build_scripts(cargo_config, progress)?
-    } else {
-        WorkspaceBuildScripts::default()
-    });
+    ws.set_build_scripts(
+        if load_config.load_out_dirs_from_check {
+            ws.run_build_scripts(cargo_config, progress)?
+        } else {
+            WorkspaceBuildScripts::default()
+        },
+    );
 
-    let crate_graph = ws.to_crate_graph(&mut |_: &AbsPath| Vec::new(), &mut |path: &AbsPath| {
-        let contents = loader.load_sync(path);
-        let path = vfs::VfsPath::from(path.to_path_buf());
-        vfs.set_file_contents(path.clone(), contents);
-        vfs.file_id(&path)
-    });
+    let crate_graph =
+        ws.to_crate_graph(&mut |_: &AbsPath| Vec::new(), &mut |path: &AbsPath| {
+            let contents = loader.load_sync(path);
+            let path = vfs::VfsPath::from(path.to_path_buf());
+            vfs.set_file_contents(path.clone(), contents);
+            vfs.file_id(&path)
+        });
 
     let project_folders = ProjectFolders::new(&[ws], &[]);
     loader.set_config(vfs::loader::Config {
@@ -87,7 +111,7 @@ fn load_crate_graph(
                 config_version: _,
             } => {
                 if n_done == n_total {
-                    break;
+                    break
                 }
             }
             vfs::loader::Message::Loaded { files } => {

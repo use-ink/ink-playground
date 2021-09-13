@@ -1,6 +1,12 @@
 use change_json::ChangeJson;
-use clap::{App, Arg};
-use std::{fs, path::Path};
+use clap::{
+    App,
+    Arg,
+};
+use std::{
+    fs,
+    path::Path,
+};
 mod load_change;
 use crate::load_change::LoadCargoConfig;
 use project_model::CargoConfig;
@@ -48,9 +54,15 @@ fn main() {
             let path = Path::new(path);
             let output_path = matches.value_of("output").unwrap_or("./change.json");
             let output_path = Path::new(output_path);
-            let res = load_change::load_change_at(path, &cargo_config, &load_cargo_config, &|_| {});
-            let change =
-                res.unwrap_or_else(|err| panic!("Error while creating change object: {}", err));
+            let res = load_change::load_change_at(
+                path,
+                &cargo_config,
+                &load_cargo_config,
+                &|_| {},
+            );
+            let change = res.unwrap_or_else(|err| {
+                panic!("Error while creating change object: {}", err)
+            });
             let json = ChangeJson::from(&change);
             let text = serde_json::to_string(&json).unwrap_or_else(|err| {
                 panic!("Error while parsing ChangeJson object to string: {}", err)
@@ -81,12 +93,14 @@ mod tests {
             with_proc_macro: false,
             prefill_caches: false,
         };
-        let change = load_change::load_change_at(path, &cargo_config, &load_cargo_config, &|_| {})
-            .unwrap_or_else(|err| {
-                panic!("Error while creating Change object: {}", err);
-            });
+        let change =
+            load_change::load_change_at(path, &cargo_config, &load_cargo_config, &|_| {})
+                .unwrap_or_else(|err| {
+                    panic!("Error while creating Change object: {}", err);
+                });
         let json = ChangeJson::from(&change);
-        let text = serde_json::to_string(&json).expect("serialization of change must work");
+        let text =
+            serde_json::to_string(&json).expect("serialization of change must work");
         let _json: ChangeJson =
             serde_json::from_str(&text).expect("deserialization of change must work");
     }

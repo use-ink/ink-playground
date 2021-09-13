@@ -1,7 +1,16 @@
 use crate::crate_graph_json;
-use base_db::{Change, FileId, FileSet, SourceRoot, VfsPath};
+use base_db::{
+    Change,
+    FileId,
+    FileSet,
+    SourceRoot,
+    VfsPath,
+};
 use crate_graph_json::CrateGraphJson;
-use serde::{Deserialize, Serialize};
+use serde::{
+    Deserialize,
+    Serialize,
+};
 use std::sync::Arc;
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
