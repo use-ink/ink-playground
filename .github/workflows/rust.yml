@@ -46,7 +46,7 @@ jobs:
         with:
           toolchain: stable
           command: clippy
-          args: --all-targets --all-features -- -D warnings
+          args: --workspace --all-targets --all-features -- -D warnings
           
   build:
     runs-on: ubuntu-latest
