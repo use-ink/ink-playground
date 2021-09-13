@@ -49,9 +49,7 @@ jobs:
           args: --all-targets --all-features -- -D warnings
           
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Build
