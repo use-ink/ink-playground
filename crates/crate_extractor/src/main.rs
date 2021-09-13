@@ -87,8 +87,7 @@ mod tests {
             });
         let json = ChangeJson::from(&change);
         let text = serde_json::to_string(&json).expect("serialization of change must work");
-        let json: ChangeJson =
+        let _json: ChangeJson =
             serde_json::from_str(&text).expect("deserialization of change must work");
-        let _change = json.to_change();
     }
 }
