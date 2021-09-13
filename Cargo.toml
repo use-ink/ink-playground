@@ -2,13 +2,3 @@
 members = ["crates/*"]
 
 default-members = ["crates/crate_extractor"]
-
-
-
-
-
-
-
-
-
-
