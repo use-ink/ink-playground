@@ -105,7 +105,7 @@ impl From<&CrateGraphJson> for CrateGraph {
                 .map(|name| CrateDisplayName::from_canonical_name(name.to_string()));
             let cfg_options = CfgOptions::from(&data.cfg_options);
             let potential_cfg_options = CfgOptions::from(&data.potential_cfg_options);
-            let env = data.env.to_env();
+            let env = Env::from(&data.env);
             crate_graph.add_crate_root(
                 file_id,
                 edition,
@@ -140,7 +140,7 @@ impl CrateDataJson {
         let cfg_options = CfgOptionsJson::from(&crate_data.cfg_options);
         let potential_cfg_options =
             CfgOptionsJson::from(&crate_data.potential_cfg_options);
-        let env = EnvJson::from(crate_data.env.clone());
+        let env = EnvJson::from(&crate_data.env);
         let proc_macro = Vec::new();
         CrateDataJson {
             root_file_id,
@@ -188,18 +188,21 @@ impl From<&CfgOptionsJson> for CfgOptions {
     }
 }
 
-impl EnvJson {
-    fn from(env: Env) -> Self {
+impl From<&Env> for EnvJson {
+    fn from(env: &Env) -> Self {
         let env = env
             .iter()
             .map(|(a, b)| (String::from(a), String::from(b)))
             .collect::<Vec<(String, String)>>();
         EnvJson { env }
     }
+}
 
-    fn to_env(&self) -> Env {
+impl From<&EnvJson> for Env {
+    fn from(env_json: &EnvJson) -> Self {
         let mut env = Env::default();
-        self.env
+        env_json
+            .env
             .iter()
             .for_each(|(key, value)| env.set(key, value.to_string()));
         env
