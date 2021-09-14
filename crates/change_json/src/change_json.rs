@@ -106,7 +106,7 @@ impl SourceRootJson {
             .iter()
             .map(|root| {
                 let mut file_set = FileSet::default();
-                root.iter().for_each(|(file_id, path)| {
+                for (file_id, path) in root {
                     let file_id = FileId(*file_id);
                     if let Some(path) = path
                         .as_ref()
@@ -115,7 +115,7 @@ impl SourceRootJson {
                     {
                         file_set.insert(file_id, path)
                     };
-                });
+                };
                 file_set
             })
             .map(|file_set| {
