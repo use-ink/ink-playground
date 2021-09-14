@@ -207,6 +207,7 @@ mod tests {
 
     #[test]
     fn serialize_crategraph_check_deps() {
+        // given
         let mut graph = CrateGraph::default();
         let crate1 = graph.add_crate_root(
             FileId(1u32),
@@ -235,13 +236,17 @@ mod tests {
             Env::default(),
             Default::default(),
         );
-        assert!(graph
+        graph
             .add_dep(crate1, CrateName::new("crate2").unwrap(), crate2)
-            .is_ok());
-        assert!(graph
+            .unwrap();
+        graph
             .add_dep(crate2, CrateName::new("crate3").unwrap(), crate3)
-            .is_ok());
+            .unwrap();
+
+        // when
         let serialized_graph = CrateGraphJson::from(&graph);
+
+        // then
         let expected_deps = vec![
             DepJson {
                 from: 0,
