@@ -96,6 +96,8 @@ mod tests {
 
     #[test]
     fn test_parsing_change_json() {
+
+        // given 
         let path = Path::new(env!("CARGO_MANIFEST_DIR"))
             .parent()
             .unwrap()
@@ -112,7 +114,11 @@ mod tests {
                 .unwrap_or_else(|err| {
                     panic!("Error while creating Change object: {}", err);
                 });
+        
+        // when        
         let json = ChangeJson::from(&change);
+        
+        // then 
         let text =
             serde_json::to_string(&json).expect("serialization of change must work");
         let _json: ChangeJson =
