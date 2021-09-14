@@ -196,8 +196,7 @@ impl EnvJson {
         let mut env = Env::default();
         self.env
             .iter()
-            .map(|(key, value)| (key, value))
-            .for_each(|(a, b)| env.set(a, b.to_string()));
+            .for_each(|(key, value)| env.set(key, value.to_string()));
         env
     }
 }
