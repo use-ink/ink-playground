@@ -79,6 +79,12 @@ impl From<&Change> for ChangeJson {
     }
 }
 
+impl From<Change> for ChangeJson {
+    fn from(change: Change) -> Self {
+        ChangeJson::from(&change)
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
 struct SourceRootJson {
     roots: Vec<Vec<(u32, Option<String>)>>,
