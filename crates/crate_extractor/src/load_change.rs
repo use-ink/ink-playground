@@ -154,13 +154,13 @@ fn load_crate_graph(
 
 #[derive(Default)]
 struct ProjectFolders {
-    pub(crate) load: Vec<vfs::loader::Entry>,
-    pub(crate) watch: Vec<usize>,
-    pub(crate) source_root_config: SourceRootConfig,
+    load: Vec<vfs::loader::Entry>,
+    watch: Vec<usize>,
+    source_root_config: SourceRootConfig,
 }
 
 impl ProjectFolders {
-    pub(crate) fn new(
+    fn new(
         workspaces: &[ProjectWorkspace],
         global_excludes: &[AbsPathBuf],
     ) -> ProjectFolders {
@@ -213,12 +213,12 @@ impl ProjectFolders {
 
 #[derive(Default, Debug)]
 struct SourceRootConfig {
-    pub(crate) fsc: FileSetConfig,
-    pub(crate) local_filesets: Vec<usize>,
+    fsc: FileSetConfig,
+    local_filesets: Vec<usize>,
 }
 
 impl SourceRootConfig {
-    pub(crate) fn partition(&self, vfs: &vfs::Vfs) -> Vec<SourceRoot> {
+    fn partition(&self, vfs: &vfs::Vfs) -> Vec<SourceRoot> {
         let _p = profile::span("SourceRootConfig::partition");
         self.fsc
             .partition(vfs)
