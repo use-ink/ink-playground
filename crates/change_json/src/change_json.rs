@@ -15,6 +15,7 @@
 use crate::crate_graph_json;
 use base_db::{
     Change,
+    CrateGraph,
     FileId,
     FileSet,
     SourceRoot,
@@ -39,7 +40,7 @@ impl ChangeJson {
     pub fn to_change(&self) -> Change {
         let mut change = Change::default();
         if let Some(graph) = self.crate_graph.as_ref() {
-            change.set_crate_graph(graph.to_crate_graph())
+            change.set_crate_graph(CrateGraph::from(graph))
         }
         let mut roots = Vec::new();
         if let Some(local) = self.local_roots.as_ref() {

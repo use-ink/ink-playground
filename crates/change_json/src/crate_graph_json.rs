@@ -64,8 +64,8 @@ struct DepJson {
     to: u32,
 }
 
-impl CrateGraphJson {
-    pub fn from(crate_graph: &CrateGraph) -> Self {
+impl From<&CrateGraph> for CrateGraphJson {
+    fn from(crate_graph: &CrateGraph) -> Self {
         let mut deps: Vec<DepJson> = Vec::new();
         let mut crates = crate_graph
             .iter()
@@ -91,18 +91,20 @@ impl CrateGraphJson {
         crates.sort_by(|(id_a, _), (id_b, _)| id_a.cmp(id_b));
         CrateGraphJson { crates, deps }
     }
+}
 
-    pub fn to_crate_graph(&self) -> CrateGraph {
+impl From<&CrateGraphJson> for CrateGraph {
+    fn from(crate_graph_json: &CrateGraphJson) -> Self {
         let mut crate_graph = CrateGraph::default();
-        self.crates.iter().for_each(|(_, data)| {
+        crate_graph_json.crates.iter().for_each(|(_, data)| {
             let file_id = FileId(data.root_file_id);
             let edition = data.edition.parse::<Edition>().unwrap_or(Edition::CURRENT);
             let display_name = data
                 .display_name
                 .as_ref()
                 .map(|name| CrateDisplayName::from_canonical_name(name.to_string()));
-            let cfg_options = data.cfg_options.to_cfg_options();
-            let potential_cfg_options = data.potential_cfg_options.to_cfg_options();
+            let cfg_options = CfgOptions::from(&data.cfg_options);
+            let potential_cfg_options = CfgOptions::from(&data.potential_cfg_options);
             let env = data.env.to_env();
             crate_graph.add_crate_root(
                 file_id,
@@ -114,7 +116,7 @@ impl CrateGraphJson {
                 Vec::new(),
             );
         });
-        self.deps.iter().for_each(|dep| {
+        crate_graph_json.deps.iter().for_each(|dep| {
             let from = CrateId(dep.from);
             let to = CrateId(dep.to);
             if let Ok(name) = CrateName::new(&dep.name) {
@@ -152,7 +154,7 @@ impl CrateDataJson {
     }
 }
 
-impl CfgOptionsJson {
+impl From<&CfgOptions> for CfgOptionsJson {
     fn from(cfg_options: &CfgOptions) -> Self {
         let options = cfg_options
             .get_cfg_keys()
@@ -170,10 +172,12 @@ impl CfgOptionsJson {
             .collect::<Vec<_>>();
         CfgOptionsJson { options }
     }
+}
 
-    fn to_cfg_options(&self) -> CfgOptions {
+impl From<&CfgOptionsJson> for CfgOptions {
+    fn from(cfg_options_json: &CfgOptionsJson) -> Self {
         let mut cfg_options = CfgOptions::default();
-        self.options.iter().for_each(|(key, values)| {
+        cfg_options_json.options.iter().for_each(|(key, values)| {
             values.iter().for_each(|value| {
                 let key = SmolStr::from(key);
                 let value = SmolStr::from(value);
