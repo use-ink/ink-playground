@@ -115,7 +115,7 @@ impl SourceRootJson {
                     {
                         file_set.insert(file_id, path)
                     };
-                };
+                }
                 file_set
             })
             .map(|file_set| {
