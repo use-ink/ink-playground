@@ -116,11 +116,10 @@ mod tests {
                 .unwrap_or_else(|err| {
                     panic!("Error while creating Change object: {}", err);
                 });
-        let json = ChangeJson::from(&change);
-        
-        // then 
-        let text =
-            serde_json::to_string(&json).expect("serialization of change must work");
+
+        // then
+        let json = ChangeJson::from(&change); 
+        let text = serde_json::to_string(&json).expect("serialization of change must work");
         let _json: ChangeJson =
             serde_json::from_str(&text).expect("deserialization of change must work");
     }
