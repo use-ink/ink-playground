@@ -109,13 +109,13 @@ mod tests {
             with_proc_macro: false,
             prefill_caches: false,
         };
+        
+        // when
         let change =
             load_change::load_change_at(path, &cargo_config, &load_cargo_config, &|_| {})
                 .unwrap_or_else(|err| {
                     panic!("Error while creating Change object: {}", err);
                 });
-        
-        // when        
         let json = ChangeJson::from(&change);
         
         // then 
