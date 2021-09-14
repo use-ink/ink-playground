@@ -129,7 +129,7 @@ impl From<&CrateGraphJson> for CrateGraph {
     }
 }
 
-impl CrateDataJson {
+impl From<&CrateData> for CrateDataJson {
     fn from(crate_data: &CrateData) -> Self {
         let root_file_id = crate_data.root_file_id.0;
         let edition = crate_data.edition.to_string();
