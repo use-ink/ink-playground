@@ -192,6 +192,7 @@ impl EnvJson {
             .collect::<Vec<(String, String)>>();
         EnvJson { env }
     }
+    
     fn to_env(&self) -> Env {
         let mut env = Env::default();
         self.env
