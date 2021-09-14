@@ -100,6 +100,7 @@ impl SourceRootJson {
             .collect::<Vec<Vec<(u32, Option<String>)>>>();
         SourceRootJson { roots }
     }
+
     fn to_roots(&self, library: bool) -> Vec<SourceRoot> {
         let result = self
             .roots
