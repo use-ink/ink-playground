@@ -96,8 +96,7 @@ mod tests {
 
     #[test]
     fn test_parsing_change_json() {
-
-        // given 
+        // given
         let path = Path::new(env!("CARGO_MANIFEST_DIR"))
             .parent()
             .unwrap()
@@ -109,7 +108,7 @@ mod tests {
             with_proc_macro: false,
             prefill_caches: false,
         };
-        
+
         // when
         let change =
             load_change::load_change_at(path, &cargo_config, &load_cargo_config, &|_| {})
@@ -118,8 +117,9 @@ mod tests {
                 });
 
         // then
-        let json = ChangeJson::from(&change); 
-        let text = serde_json::to_string(&json).expect("serialization of change must work");
+        let json = ChangeJson::from(&change);
+        let text =
+            serde_json::to_string(&json).expect("serialization of change must work");
         let _json: ChangeJson =
             serde_json::from_str(&text).expect("deserialization of change must work");
     }
