@@ -67,7 +67,7 @@ impl ChangeJson {
         if let Some(library) = self.library_roots.as_ref() {
             roots.append(&mut library.to_roots(true))
         }
-        change.set_roots(roots.to_vec());
+        change.set_roots(roots);
         self.files_changed.files.iter().for_each(|(id, text)| {
             let id = FileId(*id);
             let text = text.as_ref().map(|text| Arc::new(text.to_string()));
