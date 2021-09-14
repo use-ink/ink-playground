@@ -36,25 +36,6 @@ pub struct ChangeJson {
 }
 
 impl ChangeJson {
-    pub fn from(change: &Change) -> ChangeJson {
-        let crate_graph = change.crate_graph.as_ref().map(CrateGraphJson::from);
-        let local_roots = change
-            .roots
-            .as_ref()
-            .map(|root| SourceRootJson::from(root, false));
-        let library_roots = change
-            .roots
-            .as_ref()
-            .map(|roots| SourceRootJson::from(roots, true));
-        let files_changed = FilesJson::from(&change.files_changed);
-        ChangeJson {
-            crate_graph,
-            local_roots,
-            library_roots,
-            files_changed,
-        }
-    }
-
     pub fn to_change(&self) -> Change {
         let mut change = Change::default();
         if let Some(graph) = self.crate_graph.as_ref() {
@@ -74,6 +55,27 @@ impl ChangeJson {
             change.change_file(id, text)
         });
         change
+    }
+}
+
+impl From<&Change> for ChangeJson {
+    fn from(change: &Change) -> Self {
+        let crate_graph = change.crate_graph.as_ref().map(CrateGraphJson::from);
+        let local_roots = change
+            .roots
+            .as_ref()
+            .map(|root| SourceRootJson::from(root, false));
+        let library_roots = change
+            .roots
+            .as_ref()
+            .map(|roots| SourceRootJson::from(roots, true));
+        let files_changed = FilesJson::from(&change.files_changed);
+        ChangeJson {
+            crate_graph,
+            local_roots,
+            library_roots,
+            files_changed,
+        }
     }
 }
 
