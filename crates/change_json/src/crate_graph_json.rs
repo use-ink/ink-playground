@@ -31,7 +31,7 @@ use std::ops::Index;
 use tt::SmolStr;
 
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
-pub(crate) struct CrateGraphJson {
+pub struct CrateGraphJson {
     crates: Vec<(u32, CrateDataJson)>,
     deps: Vec<DepJson>,
 }
@@ -65,7 +65,7 @@ struct DepJson {
 }
 
 impl CrateGraphJson {
-    pub(crate) fn from(crate_graph: &CrateGraph) -> Self {
+    pub fn from(crate_graph: &CrateGraph) -> Self {
         let mut deps: Vec<DepJson> = Vec::new();
         let mut crates = crate_graph
             .iter()
@@ -92,7 +92,7 @@ impl CrateGraphJson {
         CrateGraphJson { crates, deps }
     }
 
-    pub(crate) fn to_crate_graph(&self) -> CrateGraph {
+    pub fn to_crate_graph(&self) -> CrateGraph {
         let mut crate_graph = CrateGraph::default();
         self.crates.iter().for_each(|(_, data)| {
             let file_id = FileId(data.root_file_id);
