@@ -5,9 +5,6 @@ edition = "2018"
 authors = ["Achim Schneider <achim@parity.io>"]
 license = "Apache-2.0"
 
-[lib]
-test = true
-
 [dependencies]
 serde = { version = "1.0.130", features = ["derive"] }
 base_db = { package = "ra_ap_base_db", version = "0.0.72" }
