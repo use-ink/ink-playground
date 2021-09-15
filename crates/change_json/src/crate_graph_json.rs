@@ -116,7 +116,7 @@ impl From<&CrateGraphJson> for CrateGraph {
                 Vec::new(),
             );
         });
-        crate_graph_json.deps.iter().for_each(|dep| {
+        for dep in &crate_graph_json.deps {
             let from = CrateId(dep.from);
             let to = CrateId(dep.to);
             if let Ok(name) = CrateName::new(&dep.name) {
@@ -124,7 +124,7 @@ impl From<&CrateGraphJson> for CrateGraph {
                     panic!("Cyclic Dependency in parsed data: {}", err)
                 });
             };
-        });
+        }
         crate_graph
     }
 }
@@ -201,10 +201,9 @@ impl From<&Env> for EnvJson {
 impl From<&EnvJson> for Env {
     fn from(env_json: &EnvJson) -> Self {
         let mut env = Env::default();
-        env_json
-            .env
-            .iter()
-            .for_each(|(key, value)| env.set(key, value.to_string()));
+        for (key, value) in &env_json.env {
+            env.set(key, value.to_string())
+        }
         env
     }
 }
