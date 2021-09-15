@@ -28,6 +28,7 @@ use serde::{
 };
 use std::sync::Arc;
 
+/// Provides a (de-)serializable version of Rust Analyzers `Change` object, together with an implementation of the From traits for `Change` and `ChangeJson`.
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
 pub struct ChangeJson {
     crate_graph: Option<CrateGraphJson>,
