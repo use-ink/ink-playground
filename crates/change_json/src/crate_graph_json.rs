@@ -96,7 +96,7 @@ impl From<&CrateGraph> for CrateGraphJson {
 impl From<&CrateGraphJson> for CrateGraph {
     fn from(crate_graph_json: &CrateGraphJson) -> Self {
         let mut crate_graph = CrateGraph::default();
-        crate_graph_json.crates.iter().for_each(|(_, data)| {
+        for (_, data) in &crate_graph_json.crates {
             let file_id = FileId(data.root_file_id);
             let edition = data.edition.parse::<Edition>().unwrap_or(Edition::CURRENT);
             let display_name = data
@@ -115,7 +115,7 @@ impl From<&CrateGraphJson> for CrateGraph {
                 env,
                 Vec::new(),
             );
-        });
+        }
         for dep in &crate_graph_json.deps {
             let from = CrateId(dep.from);
             let to = CrateId(dep.to);
@@ -177,13 +177,13 @@ impl From<&CfgOptions> for CfgOptionsJson {
 impl From<&CfgOptionsJson> for CfgOptions {
     fn from(cfg_options_json: &CfgOptionsJson) -> Self {
         let mut cfg_options = CfgOptions::default();
-        cfg_options_json.options.iter().for_each(|(key, values)| {
-            values.iter().for_each(|value| {
+        for (key, values) in &cfg_options_json.options {
+            for value in values {
                 let key = SmolStr::from(key);
                 let value = SmolStr::from(value);
                 cfg_options.insert_key_value(key, value);
-            })
-        });
+            }
+        }
         cfg_options
     }
 }

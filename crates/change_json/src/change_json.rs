@@ -77,15 +77,11 @@ impl From<&ChangeJson> for Change {
             roots.append(&mut library.to_roots(true))
         }
         change.set_roots(roots);
-        change_json
-            .files_changed
-            .files
-            .iter()
-            .for_each(|(id, text)| {
-                let id = FileId(*id);
-                let text = text.as_ref().map(|text| Arc::new(text.to_string()));
-                change.change_file(id, text)
-            });
+        for (id, text) in &change_json.files_changed.files {
+            let id = FileId(*id);
+            let text = text.as_ref().map(|text| Arc::new(text.to_string()));
+            change.change_file(id, text)
+        }
         change
     }
 }
