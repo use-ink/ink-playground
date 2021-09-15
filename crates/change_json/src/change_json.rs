@@ -36,29 +36,6 @@ pub struct ChangeJson {
     files_changed: FilesJson,
 }
 
-impl ChangeJson {
-    pub fn to_change(&self) -> Change {
-        let mut change = Change::default();
-        if let Some(graph) = self.crate_graph.as_ref() {
-            change.set_crate_graph(CrateGraph::from(graph))
-        }
-        let mut roots = Vec::new();
-        if let Some(local) = self.local_roots.as_ref() {
-            roots.append(&mut local.to_roots(false))
-        }
-        if let Some(library) = self.library_roots.as_ref() {
-            roots.append(&mut library.to_roots(true))
-        }
-        change.set_roots(roots);
-        self.files_changed.files.iter().for_each(|(id, text)| {
-            let id = FileId(*id);
-            let text = text.as_ref().map(|text| Arc::new(text.to_string()));
-            change.change_file(id, text)
-        });
-        change
-    }
-}
-
 impl From<&Change> for ChangeJson {
     fn from(change: &Change) -> Self {
         let crate_graph = change.crate_graph.as_ref().map(CrateGraphJson::from);
@@ -77,6 +54,33 @@ impl From<&Change> for ChangeJson {
             library_roots,
             files_changed,
         }
+    }
+}
+
+impl From<&ChangeJson> for Change {
+    fn from(change_json: &ChangeJson) -> Self {
+        let mut change = Change::default();
+        if let Some(graph) = change_json.crate_graph.as_ref() {
+            change.set_crate_graph(CrateGraph::from(graph))
+        }
+        let mut roots = Vec::new();
+        if let Some(local) = change_json.local_roots.as_ref() {
+            roots.append(&mut local.to_roots(false))
+        }
+        if let Some(library) = change_json.library_roots.as_ref() {
+            roots.append(&mut library.to_roots(true))
+        }
+        change.set_roots(roots);
+        change_json
+            .files_changed
+            .files
+            .iter()
+            .for_each(|(id, text)| {
+                let id = FileId(*id);
+                let text = text.as_ref().map(|text| Arc::new(text.to_string()));
+                change.change_file(id, text)
+            });
+        change
     }
 }
 
