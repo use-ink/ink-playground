@@ -57,6 +57,12 @@ impl From<&Change> for ChangeJson {
     }
 }
 
+impl From<Change> for ChangeJson {
+    fn from(change: Change) -> Self {
+        ChangeJson::from(&change)
+    }
+}
+
 impl From<&ChangeJson> for Change {
     fn from(change_json: &ChangeJson) -> Self {
         let mut change = Change::default();
@@ -84,9 +90,9 @@ impl From<&ChangeJson> for Change {
     }
 }
 
-impl From<Change> for ChangeJson {
-    fn from(change: Change) -> Self {
-        ChangeJson::from(&change)
+impl From<ChangeJson> for Change {
+    fn from(change_json: ChangeJson) -> Self {
+        Change::from(&change_json)
     }
 }
 
