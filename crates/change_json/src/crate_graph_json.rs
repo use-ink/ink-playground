@@ -88,7 +88,7 @@ impl From<&CrateGraph> for CrateGraphJson {
                 })
             })
             .collect::<Vec<_>>();
-        crates.sort_by(|(id_a, _), (id_b, _)| id_a.cmp(id_b));
+        crates.sort_unstable_by(|(id_a, _), (id_b, _)| id_a.cmp(id_b));
         CrateGraphJson { crates, deps }
     }
 }
