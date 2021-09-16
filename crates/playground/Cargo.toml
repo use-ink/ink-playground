@@ -1,5 +1,5 @@
 [package]
-name = "rust-analyzer"
+name = "playground"
 version = "0.1.0"
 authors = ["achimcc <achim@parity.io>"]
 edition = "2018"
