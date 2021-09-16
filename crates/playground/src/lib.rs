@@ -15,7 +15,7 @@ extern "C" {
 }
 
 #[wasm_bindgen]
-pub fn greet() {
+pub fn greet(name: &str) -> String {
     set_panic_hook();
-    alert("Hello, rust-analyzer!");
+    format!("Hello {}!", name)
 }
