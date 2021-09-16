@@ -11,7 +11,7 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".jsx"],
+    extensions: [".ts", ".tsx", ".js", ".jsx", ".wasm"],
   },
   module: {
     rules: [
@@ -32,6 +32,6 @@ module.exports = {
     }),
   ],
   experiments: {
-    syncWebAssembly: true,
+    asyncWebAssembly: true,
   },
 };
