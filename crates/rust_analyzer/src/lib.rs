@@ -1,6 +1,7 @@
 mod utils;
 
 use wasm_bindgen::prelude::*;
+use utils::set_panic_hook;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -15,5 +16,6 @@ extern "C" {
 
 #[wasm_bindgen]
 pub fn greet() {
+    set_panic_hook();
     alert("Hello, rust-analyzer!");
 }
