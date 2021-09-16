@@ -2,9 +2,9 @@ name: Rust
 
 on:
   push:
-    branches: [ main ]
+    branches: [main, wasm-pack]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 env:
   CARGO_TERM_COLOR: always
@@ -28,7 +28,7 @@ jobs:
           toolchain: nightly
           command: fmt
           args: --all -- --check
-          
+
   clippy:
     runs-on: "ubuntu-latest"
     steps:
@@ -47,12 +47,12 @@ jobs:
           toolchain: stable
           command: clippy
           args: --workspace --all-targets --all-features -- -D warnings
-          
+
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Build
-      run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --workspace --verbose
+      - uses: actions/checkout@v2
+      - name: Build
+        run: cargo build --verbose
+      - name: Run tests
+        run: cargo test --workspace --verbose
