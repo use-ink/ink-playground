@@ -31,4 +31,7 @@ module.exports = {
       crateDirectory: path.resolve(__dirname, "../pkg"),
     }),
   ],
+  experiments: {
+    syncWebAssembly: true,
+  },
 };

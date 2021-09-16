@@ -1,6 +1,12 @@
+import { useState } from "react";
+
 const App = () => {
-  import("../../pkg").then((wasm) => wasm.greet());
-  return <h1>Basic TypeScript App</h1>;
+  const [message, setMessage] = useState<String>();
+  import("../../pkg").then((wasm) => {
+    let wasm_message = wasm.greet("ink Playground");
+    setMessage(wasm_message);
+  });
+  return <h1>{message}</h1>;
 };
 
 export default App;
