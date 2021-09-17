@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import * as wasm from "../../pkg";
+import * as wasm from "../pkg";
 
 const App = () => {
   const [message, setMessage] = useState<String>("Check");
