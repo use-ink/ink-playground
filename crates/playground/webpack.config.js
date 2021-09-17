@@ -24,7 +24,7 @@ module.exports = {
   },
   plugins: [
     new htmlWebpackPlugin({
-      title: "Minimal Typescript Starter",
+      title: "Parity ink! Playground",
       template: "./js/index.html",
     }),
     new WasmPackPlugin({

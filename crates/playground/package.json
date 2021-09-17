@@ -7,7 +7,7 @@
   "scripts": {
     "build": "webpack --config webpack.config.js --mode production",
     "start": "webpack serve --host 0.0.0.0",
-    "test": "jest"
+    "test": "wasm-pack test --headless --chrome --safari --firefox & jest"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
