@@ -4,7 +4,7 @@ const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
 module.exports = {
   mode: "development",
   entry: {
-    app: "./src/index.tsx",
+    app: "./js/index.tsx",
   },
   output: {
     filename: "bundle.[hash].js",
@@ -25,10 +25,10 @@ module.exports = {
   plugins: [
     new htmlWebpackPlugin({
       title: "Minimal Typescript Starter",
-      template: "./src/index.html",
+      template: "./js/index.html",
     }),
     new WasmPackPlugin({
-      crateDirectory: path.resolve(__dirname, "../pkg"),
+      crateDirectory: __dirname,
     }),
   ],
   experiments: {
