@@ -1435,6 +1435,11 @@ combined-stream@^1.0.8:
   dependencies:
     delayed-stream "~1.0.0"
 
+comlink@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/comlink/-/comlink-4.3.1.tgz#0c6b9d69bcd293715c907c33fe8fc45aecad13c5"
+  integrity sha512-+YbhUdNrpBZggBAHWcgQMLPLH1KDF3wJpeqrCKieWQ8RL7atmgsgTQko1XEBK6PsecfopWNntopJ+ByYG1lRaA==
+
 command-exists@^1.2.7:
   version "1.2.9"
   resolved "https://registry.yarnpkg.com/command-exists/-/command-exists-1.2.9.tgz#c50725af3808c8ab0260fd60b01fbfa25b954f69"
@@ -3216,9 +3221,9 @@ media-typer@0.3.0:
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
 memfs@^3.2.2:
-  version "3.2.4"
-  resolved "https://registry.yarnpkg.com/memfs/-/memfs-3.2.4.tgz#1108c28d2e9137daf5a5586af856c3e18c1c64b2"
-  integrity sha512-2mDCPhuduRPOxlfgsXF9V+uqC6Jgz8zt/bNe4d4W7d5f6pCzHrWkxLNr17jKGXd4+j2kQNsAG2HARPnt74sqVQ==
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/memfs/-/memfs-3.3.0.tgz#4da2d1fc40a04b170a56622c7164c6be2c4cbef2"
+  integrity sha512-BEE62uMfKOavX3iG7GYX43QJ+hAeeWnwIAuJ/R6q96jaMtiLzhsxHJC8B1L7fK7Pt/vXDRwb3SG/yBpNGDPqzg==
   dependencies:
     fs-monkey "1.0.3"
 
