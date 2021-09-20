@@ -13,6 +13,7 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx", ".wasm"],
   },
+  stats: "errors-only",
   module: {
     rules: [
       {
@@ -29,6 +30,7 @@ module.exports = {
     }),
     new WasmPackPlugin({
       crateDirectory: __dirname,
+      extraArgs: "--target web -- -Z build-std=panic_abort,std",
     }),
   ],
   experiments: {
@@ -38,6 +40,12 @@ module.exports = {
     headers: {
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "require-corp",
+    },
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
     },
   },
 };

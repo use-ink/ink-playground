@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
-import * as wasm from "../pkg";
+import * as Comlink from "comlink";
+import { Api } from "./wasm-worker";
+
+let start = async (setter: (message: String) => void) => {
+  const handlers = await Comlink.wrap<Api>(
+    new Worker(new URL("./wasm-worker.ts", import.meta.url), {
+      type: "module",
+    })
+  ).handlers;
+  let test = await handlers.greet("ink Playground");
+  setter(test);
+};
 
 const App = () => {
   const [message, setMessage] = useState<String>("Check");
   useEffect(() => {
-    let wasm_message = wasm.greet("ink Playground");
-    setMessage(wasm_message);
+    start(setMessage);
   });
 
   return (
     <>
-      <h1>Basic TypeScript App</h1>
       <h1>{message}</h1>
     </>
   );
