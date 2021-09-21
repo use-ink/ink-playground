@@ -19,5 +19,5 @@ extern "C" {
 #[wasm_bindgen]
 pub fn greet(name: &str) -> String {
     set_panic_hook();
-    format!("Hello {}!", name)
+    format!("Hello {} from WebAssembly!", name)
 }
