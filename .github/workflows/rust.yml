@@ -51,4 +51,4 @@ jobs:
       - name: Build
         run: cargo build --verbose
       - name: Run tests
-        run: cargo test --workspace --verbose
+        run: cargo test --workspace --exclude playground --verbose
