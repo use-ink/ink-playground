@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import App from "../App";
+import Welcome from "../Welcome";
 
 test("Contains Welcome Message", () => {
-  render(<App />);
+  render(<Welcome />);
   const linkElement = screen.getByText(/Welcome to ink Playground!/i);
   expect(linkElement).toBeInTheDocument();
 });
