@@ -1,7 +1,11 @@
+import Wasm from "./Wasm";
+import Welcome from "./Welcome";
+
 const App = () => {
   return (
     <>
-      <h1>Welcome to ink Playground!</h1>
+      <Welcome />
+      <Wasm />
     </>
   );
 };
