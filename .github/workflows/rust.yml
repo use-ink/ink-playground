@@ -42,7 +42,7 @@ jobs:
         with:
           toolchain: stable
           command: clippy
-          args: --workspace --all-targets --all-features -- -D warnings
+          args: --workspace --exclude playground --all-targets --all-features -- -D warnings
 
   build:
     runs-on: ubuntu-latest
