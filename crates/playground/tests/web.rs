@@ -6,8 +6,8 @@ extern crate playground;
 extern crate wasm_bindgen_test;
 use std::assert_eq;
 
-use wasm_bindgen_test::*;
 use playground::greet;
+use wasm_bindgen_test::*;
 
 wasm_bindgen_test_configure!(run_in_browser);
 
