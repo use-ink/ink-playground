@@ -8,7 +8,7 @@ let start = async (setter: (message: String) => void) => {
       type: "module",
     })
   ).handlers;
-  let test = await handlers.greet("ink Playground");
+  let test = await handlers.greet("ink! Playground");
   setter(test);
 };
 
