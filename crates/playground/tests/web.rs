@@ -18,6 +18,6 @@ fn pass() {
 
 #[wasm_bindgen_test]
 fn test_greet() {
-    let message = greet("ink Playground");
-    assert_eq!(message, "Hello ink Playground from WebAssembly!");
+    let message = greet("ink! Playground");
+    assert_eq!(message, "Hello ink! Playground from WebAssembly!");
 }
