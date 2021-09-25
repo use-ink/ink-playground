@@ -1,5 +1,5 @@
 {
-  "name": "minimal_starter",
+  "name": "ink_playground",
   "dependencies": {
     "comlink": "^4.3.1",
     "react": "^17.0.2",
