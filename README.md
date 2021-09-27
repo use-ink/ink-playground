@@ -29,8 +29,6 @@ Enter:
 
 Where `<input>` points to the `Cargo.toml` of the project you wich to analyze and `<output>` denotes the path to the resulting '.json' file. Both are optional parameters and default to `/Cargo.toml` and `./change.json`.
 
-For detailed information, check the corresponding [README](crates/crate_extractor/README.md)
-
 #### Description
 
 We want to analyze Rust projects with the Rust Analyzer IDE which we compile to WebAssembly.
