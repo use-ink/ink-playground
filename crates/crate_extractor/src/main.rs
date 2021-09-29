@@ -29,6 +29,7 @@ const DEFAULT_PATH: &str = "./Cargo.toml";
 const DEFAULT_OUTPUT: &str = "./change.json";
 
 fn main() {
+    // let foo = format!("Path to Cargo.toml, defaults to {}", DEFAULT_PATH)[..];
     let matches = App::new("Trait Extractor")
         .version("0.1")
         .author("Achim Schneider <achim@parity.io>")
@@ -38,7 +39,10 @@ fn main() {
                 .about("Create .json file for Rust Crate")
                 .arg(
                     Arg::with_name("path")
-                        .help(format!("Path to Cargo.toml, defaults to {}", DEFAULT_PATH))
+                        .help(&format!(
+                            "Path to Cargo.toml, defaults to {}",
+                            DEFAULT_PATH
+                        ))
                         .takes_value(true)
                         .short("i")
                         .long("input")
@@ -47,7 +51,7 @@ fn main() {
                 )
                 .arg(
                     Arg::with_name("output")
-                        .help(format!(
+                        .help(&format!(
                             "Output path for .json file, defaults to {}",
                             DEFAULT_OUTPUT
                         ))
