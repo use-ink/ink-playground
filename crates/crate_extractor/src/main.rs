@@ -13,71 +13,37 @@
 // limitations under the License.
 
 use change_json::ChangeJson;
-use clap::{
-    App,
-    Arg,
-};
 use std::{
     fs,
     path::Path,
 };
+mod cli;
 mod load_change;
-use crate::load_change::LoadCargoConfig;
+use crate::{
+    cli::{
+        CmdCreate,
+        Opts,
+        SubCommand,
+    },
+    load_change::LoadCargoConfig,
+};
+use clap::Clap;
 use project_model::CargoConfig;
 
-const DEFAULT_PATH: &str = "./Cargo.toml";
-const DEFAULT_OUTPUT: &str = "./change.json";
-
 fn main() {
-    // let foo = format!("Path to Cargo.toml, defaults to {}", DEFAULT_PATH)[..];
-    let matches = App::new("Trait Extractor")
-        .version("0.1")
-        .author("Achim Schneider <achim@parity.io>")
-        .about("Extract Crate Data to JSON for rust analyzer")
-        .subcommand(
-            App::new("create")
-                .about("Create .json file for Rust Crate")
-                .arg(
-                    Arg::with_name("path")
-                        .help(&format!(
-                            "Path to Cargo.toml, defaults to {}",
-                            DEFAULT_PATH
-                        ))
-                        .takes_value(true)
-                        .short("i")
-                        .long("input")
-                        .multiple(false)
-                        .required(false),
-                )
-                .arg(
-                    Arg::with_name("output")
-                        .help(&format!(
-                            "Output path for .json file, defaults to {}",
-                            DEFAULT_OUTPUT
-                        ))
-                        .takes_value(true)
-                        .short("o")
-                        .long("output")
-                        .multiple(false)
-                        .required(false),
-                ),
-        )
-        .get_matches();
-
     let cargo_config: CargoConfig = Default::default();
     let load_cargo_config = LoadCargoConfig {
         load_out_dirs_from_check: false,
         with_proc_macro: false,
         prefill_caches: false,
     };
-    match matches.subcommand_name() {
-        Some("create") => {
-            let matches = matches.subcommand_matches("create").unwrap();
-            let path = matches.value_of("path").unwrap_or(DEFAULT_PATH);
+    let opts: Opts = Opts::parse();
+
+    match opts.subcmd {
+        SubCommand::CmdCreate(CmdCreate { path, output }) => {
             println!("Creating .json file, using: {}", path);
-            let path = Path::new(path);
-            let output_path = matches.value_of("output").unwrap_or(DEFAULT_OUTPUT);
-            let output_path = Path::new(output_path);
+            let path = Path::new(&path);
+            let output = Path::new(&output);
             let res = load_change::load_change_at(
                 path,
                 &cargo_config,
@@ -91,10 +57,8 @@ fn main() {
             let text = serde_json::to_string(&json).unwrap_or_else(|err| {
                 panic!("Error while parsing ChangeJson object to string: {}", err)
             });
-            fs::write(output_path, text).expect("Unable to write file");
+            fs::write(output, text).expect("Unable to write file");
         }
-        None => println!("Please enter a  subcommand!"),
-        _ => println!("Your entered subcommand is invalid!"),
     }
 }
 
