@@ -25,6 +25,9 @@ mod load_change;
 use crate::load_change::LoadCargoConfig;
 use project_model::CargoConfig;
 
+const DEFAULT_PATH: &str = "./Cargo.toml";
+const DEFAULT_OUTPUT: &str = "./change.json";
+
 fn main() {
     let matches = App::new("Trait Extractor")
         .version("0.1")
@@ -35,7 +38,7 @@ fn main() {
                 .about("Create .json file for Rust Crate")
                 .arg(
                     Arg::with_name("path")
-                        .help("Path to Cargo.toml, defaults to ./Cargo.toml")
+                        .help(format!("Path to Cargo.toml, defaults to {}", DEFAULT_PATH))
                         .takes_value(true)
                         .short("i")
                         .long("input")
@@ -44,7 +47,10 @@ fn main() {
                 )
                 .arg(
                     Arg::with_name("output")
-                        .help("Output path for .json file, defaults to ./change.json")
+                        .help(format!(
+                            "Output path for .json file, defaults to {}",
+                            DEFAULT_OUTPUT
+                        ))
                         .takes_value(true)
                         .short("o")
                         .long("output")
@@ -63,10 +69,10 @@ fn main() {
     match matches.subcommand_name() {
         Some("create") => {
             let matches = matches.subcommand_matches("create").unwrap();
-            let path = matches.value_of("path").unwrap_or("./Cargo.toml");
+            let path = matches.value_of("path").unwrap_or(DEFAULT_PATH);
             println!("Creating .json file, using: {}", path);
             let path = Path::new(path);
-            let output_path = matches.value_of("output").unwrap_or("./change.json");
+            let output_path = matches.value_of("output").unwrap_or(DEFAULT_OUTPUT);
             let output_path = Path::new(output_path);
             let res = load_change::load_change_at(
                 path,
