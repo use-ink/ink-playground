@@ -9,7 +9,6 @@ An ink! Playground which provides a Browser based IDE for editing Smart Contract
 - Allows saving and sharing of Smart Contract code
 - Implements a one click compile functionality of ink! Smart Contracts to WASM which is provided by a backend service
 
-You can already test a implementation of a working prototype for inpsiration and Feedback/addaitional feature requests: https://ink-playground.netlify.app/
 
 ## Implemented features:
 
