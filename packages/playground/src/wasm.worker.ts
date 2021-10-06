@@ -1,7 +1,7 @@
 import * as Comlink from "comlink";
 
 const initHandlers = async () => {
-  const rust_wasm = await import("../../../crates/playground/pkg");
+  const rust_wasm = await import("../pkg");
   await rust_wasm.default();
   const numThreads = navigator.hardwareConcurrency;
   // must be included to init rayon thread pool with web workers
