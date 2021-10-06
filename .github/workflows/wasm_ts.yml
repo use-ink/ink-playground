@@ -2,13 +2,21 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v2
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly-2021-07-29-x86_64-unknown-linux-gnu
+          override: true
+          components: rust-src
+      - name: Install wasm-pack
+        uses: jetli/wasm-pack-action@v0.3.0
+        with:
+          version: 'latest'
 
-      - name: Install
-      - run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-      - run: rustup component add rust-src --toolchain nightly-2021-07-29-x86_64-unknown-linux-gnu
       - run: wasm-pack test --headless --chrome crates/playground
       - run: wasm-pack test --headless --firefox crates/playground
+      - run: yarn --cwd packages/playground install
       - run: yarn --cwd packages/playground test
