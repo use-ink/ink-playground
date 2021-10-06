@@ -8,3 +8,6 @@
 rls*.log
 runtime/Cargo.lock
 change.json
+
+# dependencies
+node_modules
