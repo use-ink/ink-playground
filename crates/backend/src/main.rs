@@ -16,6 +16,7 @@ use std::path::Path;
 
 use actix_files as fs;
 use actix_web::{
+    middleware,
     App,
     HttpServer,
 };
@@ -28,7 +29,13 @@ async fn main() -> std::io::Result<()> {
     }
 
     HttpServer::new(move || {
-        App::new().service(fs::Files::new("/", serve_from).index_file("index.html"))
+        App::new()
+            .wrap(
+                middleware::DefaultHeaders::new()
+                    .header("Cross-Origin-Opener-Policy", "same-origin")
+                    .header("Cross-Origin-Embedder-Policy", "require-corp"),
+            )
+            .service(fs::Files::new("/", serve_from).index_file("index.html"))
     })
     .bind("127.0.0.1:8080")?
     .run()
