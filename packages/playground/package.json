@@ -1,5 +1,6 @@
 {
-  "name": "ink_playground",
+  "name": "playground",
+  "version": "1.0.0",
   "dependencies": {
     "comlink": "^4.3.1",
     "react": "^17.0.2",
@@ -8,7 +9,8 @@
   "scripts": {
     "build": "rimraf dist pkg && webpack --config webpack.config.js --mode production",
     "start": "rimraf dist pkg && webpack serve --host 0.0.0.0",
-    "test": "wasm-pack test --headless --chrome & jest"
+    "test": "wasm-pack test --headless --chrome & jest",
+    "clean": "rimraf dist pkg node_modules"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
