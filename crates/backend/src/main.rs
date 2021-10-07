@@ -15,11 +15,7 @@
 use std::path::Path;
 
 use actix_files as fs;
-use actix_web::{
-    http,
-    App,
-    HttpServer,
-};
+use actix_web::{App, HttpServer};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -29,11 +25,7 @@ async fn main() -> std::io::Result<()> {
     }
 
     HttpServer::new(move || {
-        let cors = Cors::default();
-
-        App::new()
-            .wrap(cors)
-            .service(fs::Files::new("/", serve_from).index_file("index.html"))
+        App::new().service(fs::Files::new("/", serve_from).index_file("index.html"))
     })
     .bind("127.0.0.1:8080")?
     .run()
