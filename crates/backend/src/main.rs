@@ -1,18 +1,21 @@
-use actix_web::{web, App, HttpRequest, HttpServer, Responder};
+use std::{path::Path};
 
-async fn greet(req: HttpRequest) -> impl Responder {
-    let name = req.match_info().get("name").unwrap_or("World");
-    format!("Hello {}!", &name)
-}
+use actix_files as fs;
+use actix_web::{App, HttpServer};
+
+
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
-        App::new()
-            .route("/", web::get().to(greet))
-            .route("/{name}", web::get().to(greet))
+    let serve_from = "../../packages/playground/dist";
+    if !Path::new(serve_from).is_dir() {
+        panic!("{} is not a valid directory", serve_from);
+    } 
+
+    HttpServer::new(move || {
+        App::new().service(fs::Files::new("/",  serve_from).index_file("index.html"))
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind("127.0.0.1:8080")?
     .run()
     .await
 }
