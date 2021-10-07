@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import * as Comlink from "comlink";
-import { Api } from "./wasm.worker";
+import { WorkerApi } from "./wasm.worker";
 
 let start = async (setter: (message: string) => void) => {
-  const handlers = await Comlink.wrap<Api>(
+  const handlers = await Comlink.wrap<WorkerApi>(
     new Worker(new URL("./wasm.worker.ts", import.meta.url), {
       type: "module",
     })
