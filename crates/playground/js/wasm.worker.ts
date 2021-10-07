@@ -17,6 +17,6 @@ const api = {
   handlers: initHandlers(),
 };
 
-export type Api = typeof api;
+export type WorkerApi = typeof api;
 
 Comlink.expose(api);
