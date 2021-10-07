@@ -18,11 +18,7 @@ const Wasm = () => {
     start(setMessage);
   });
 
-  return (
-    <>
-      <h1>{message}</h1>
-    </>
-  );
+  return <h1>{message}</h1>;
 };
 
 export default Wasm;
