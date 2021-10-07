@@ -1,4 +1,4 @@
 [workspace]
 members = ["crates/*"]
 
-default-members = ["crates/crate_extractor"]
+default-members = ["crates/backend"]
