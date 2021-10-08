@@ -72,7 +72,7 @@ mod tests {
         test_file.write_all(b"Hello, world!").unwrap();
 
         let mut app =
-            test::init_service(App::new().service(serveFrontend(temp_dir))).await;
+            test::init_service(App::new().service(serve_frontend(temp_dir))).await;
 
         let req = test::TestRequest::with_header("content-type", "text/plain")
             .uri("/")
@@ -92,7 +92,7 @@ mod tests {
         test_file.write_all(b"Hello, world!").unwrap();
 
         let mut app =
-            test::init_service(App::new().service(serveFrontend(temp_dir))).await;
+            test::init_service(App::new().service(serve_frontend(temp_dir))).await;
 
         let req = test::TestRequest::with_header("content-type", "text/plain")
             .uri("/foo.txt")
@@ -112,7 +112,7 @@ mod tests {
         test_file.write_all(b"Hello, world!").unwrap();
 
         let mut app =
-            test::init_service(App::new().service(serveFrontend(temp_dir))).await;
+            test::init_service(App::new().service(serve_frontend(temp_dir))).await;
 
         let req = test::TestRequest::with_header("content-type", "text/plain")
             .uri("/foobar.txt")
