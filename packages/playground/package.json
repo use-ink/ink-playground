@@ -10,7 +10,8 @@
     "build": "rimraf dist pkg && webpack --config webpack.config.js --mode production",
     "start": "rimraf dist pkg && webpack serve --host 0.0.0.0",
     "test": "wasm-pack test --headless --chrome & jest",
-    "clean": "rimraf dist pkg node_modules"
+    "clean": "rimraf dist pkg node_modules",
+    "bundlesize": "yarn build && webpack-bundle-analyzer --port 8081 bundle-size-stats.json dist"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
@@ -26,6 +27,7 @@
     "ts-loader": "^9.2.3",
     "typescript": "^4.4.3",
     "webpack": "^5.52.1",
+    "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^4.2.1"
   }

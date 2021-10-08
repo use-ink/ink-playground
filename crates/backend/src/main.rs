@@ -12,25 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use std::path::Path;
-
 use actix_files as fs;
 use actix_web::{
+    middleware,
     App,
     HttpServer,
 };
+use std::path::Path;
+mod env;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let serve_from = "../../packages/playground/dist";
-    if !Path::new(serve_from).is_dir() {
-        panic!("{} is not a valid directory", serve_from);
+    let config = envy::from_env::<env::Config>().unwrap();
+    let port = config.port;
+    let frontend_folder = config.frontend_folder;
+
+    if !Path::new(&frontend_folder).is_dir() {
+        panic!("{} is not a valid directory.", frontend_folder);
     }
 
     HttpServer::new(move || {
-        App::new().service(fs::Files::new("/", serve_from).index_file("index.html"))
+        App::new()
+            .wrap(
+                middleware::DefaultHeaders::new()
+                    .header("Cross-Origin-Opener-Policy", "same-origin")
+                    .header("Cross-Origin-Embedder-Policy", "require-corp"),
+            )
+            .service(fs::Files::new("/", &frontend_folder).index_file("index.html"))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(format!("127.0.0.1:{}", port))?
     .run()
     .await
 }
