@@ -1,6 +1,9 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 module.exports = {
   mode: 'development',
   entry: {
@@ -32,6 +35,10 @@ module.exports = {
       crateDirectory: path.resolve(__dirname, '../../crates/playground'),
       extraArgs: '--target web -- -Z build-std=panic_abort,std',
       outDir: path.resolve(__dirname, './pkg'),
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'disabled',
+      generateStatsFile: true,
     }),
   ],
   experiments: {
