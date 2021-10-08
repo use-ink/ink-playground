@@ -19,19 +19,15 @@ use actix_web::{
     HttpServer,
 };
 use std::path::Path;
-mod env;
+mod envvars;
 
 fn serveFrontend(dir: &str) -> actix_files::Files {
     fs::Files::new("/", dir).index_file("index.html")
 }
 
-#[actix_web::post("/echo")]
-async fn echo(req_body: String) -> impl actix_web::Responder {
-    actix_web::HttpResponse::Ok().body(req_body)
-}
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let config = envy::from_env::<env::Config>().unwrap();
+    let config = envy::from_env::<envvars::Config>().unwrap();
     let port = config.port;
     let frontend_folder = config.frontend_folder;
 
@@ -40,7 +36,6 @@ async fn main() -> std::io::Result<()> {
     }
 
     HttpServer::new(move || {
-        let f = fs::Files::new("/", &frontend_folder).index_file("index.html");
         App::new()
             .wrap(
                 middleware::DefaultHeaders::new()
@@ -60,20 +55,71 @@ mod tests {
     use actix_web::{
         http,
         test,
+        App,
+    };
+    use std::{
+        env,
+        fs::File,
+        io::prelude::*,
     };
 
-    // #[actix_rt::test]
-    // async fn test_index_ok() {
-    //     let req = test::TestRequest::with_header("content-type", "text/plain")
-    //         .to_http_request();
-    //     let resp = serveFrontend(req).await;
-    //     assert_eq!(resp.status(), http::StatusCode::OK);
-    // }
+    #[actix_rt::test]
+    async fn test_serve_static_index() {
+        let temp_dir = env::temp_dir();
+        let temp_dir = temp_dir.to_str().unwrap();
+
+        let mut test_file = File::create(format!("{}/index.html", temp_dir)).unwrap();
+        test_file.write_all(b"Hello, world!").unwrap();
+
+        let mut app =
+            test::init_service(App::new().service(serveFrontend(temp_dir))).await;
+
+        let req = test::TestRequest::with_header("content-type", "text/plain")
+            .uri("/")
+            .to_request();
+
+        let content = test::read_response(&mut app, req).await;
+
+        assert_eq!(content, "Hello, world!".to_string());
+    }
 
     #[actix_rt::test]
-    async fn test_index_not_ok() {
-        let req = test::TestRequest::default().to_http_request();
-        let resp = echo("sss")(req).await;
-        assert_eq!(resp.status(), http::StatusCode::BAD_REQUEST);
+    async fn test_serve_static_arbitrary_file() {
+        let temp_dir = env::temp_dir();
+        let temp_dir = temp_dir.to_str().unwrap();
+
+        let mut test_file = File::create(format!("{}/foo.txt", temp_dir)).unwrap();
+        test_file.write_all(b"Hello, world!").unwrap();
+
+        let mut app =
+            test::init_service(App::new().service(serveFrontend(temp_dir))).await;
+
+        let req = test::TestRequest::with_header("content-type", "text/plain")
+            .uri("/foo.txt")
+            .to_request();
+
+        let content = test::read_response(&mut app, req).await;
+
+        assert_eq!(content, "Hello, world!".to_string());
+    }
+
+    #[actix_rt::test]
+    async fn test_dont_serve_nonexistant_file() {
+        let temp_dir = env::temp_dir();
+        let temp_dir = temp_dir.to_str().unwrap();
+
+        let mut test_file = File::create(format!("{}/foo.txt", temp_dir)).unwrap();
+        test_file.write_all(b"Hello, world!").unwrap();
+
+        let mut app =
+            test::init_service(App::new().service(serveFrontend(temp_dir))).await;
+
+        let req = test::TestRequest::with_header("content-type", "text/plain")
+            .uri("/foobar.txt")
+            .to_request();
+
+        let resp = test::call_service(&mut app, req).await;
+
+        assert_eq!(resp.status(), http::StatusCode::NOT_FOUND);
     }
 }
