@@ -39,6 +39,7 @@ module.exports = {
     new BundleAnalyzerPlugin({
       analyzerMode: 'disabled',
       generateStatsFile: true,
+      statsFilename: '../bundle-size-stats.json',
     }),
   ],
   experiments: {
