@@ -21,7 +21,7 @@ use actix_web::{
 use std::path::Path;
 mod envvars;
 
-fn serveFrontend(dir: &str) -> actix_files::Files {
+fn serve_frontend(dir: &str) -> actix_files::Files {
     fs::Files::new("/", dir).index_file("index.html")
 }
 
@@ -42,7 +42,7 @@ async fn main() -> std::io::Result<()> {
                     .header("Cross-Origin-Opener-Policy", "same-origin")
                     .header("Cross-Origin-Embedder-Policy", "require-corp"),
             )
-            .service(serveFrontend(&frontend_folder))
+            .service(serve_frontend(&frontend_folder))
     })
     .bind(format!("127.0.0.1:{}", port))?
     .run()
