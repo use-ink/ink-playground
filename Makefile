@@ -58,11 +58,15 @@ backend-test:
 # LANGUAGE: RUST
 ################################################################################
 
+rust-check-format:
+	cargo fmt --all -- --check
+
 rust-clean:
 	rm -rf target
 
-rust-check-format:
-	cargo fmt --all -- --check
+rust-lint:
+	cargo clippy --workspace --exclude playground --all-targets --all-features \
+	-- -D warnings
 
 rust-test:
 	cargo test --workspace --exclude playground 
@@ -90,13 +94,16 @@ build: playground-build
 build: crate-extractor-build
 build: backend-build
 
+check-format: rust-check-format
+# TODO: activate in next PR in favor of smaller diffs
+# check-format: general-check-format
+
 clean: rust-clean
 clean: ts-clean
 
-check-format: rust-check-format
-check-format: general-check-format
-
 install: playground-install
+
+lint: rust-lint
 
 test: rust-test
 test: playground-test
@@ -108,6 +115,7 @@ test: backend-test
 ################################################################################
 
 ci: install
-ci: test
 ci: check-format
+ci: lint
+ci: test
 ci: build
