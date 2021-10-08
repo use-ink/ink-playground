@@ -26,9 +26,11 @@ async fn main() -> std::io::Result<()> {
     let config = envy::from_env::<env::Config>().unwrap();
     let port = config.port;
     let frontend_folder = config.frontend_folder;
+
     if !Path::new(&frontend_folder).is_dir() {
         panic!("{} is not a valid directory.", frontend_folder);
     }
+
     HttpServer::new(move || {
         App::new()
             .wrap(
