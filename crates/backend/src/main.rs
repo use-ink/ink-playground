@@ -25,7 +25,7 @@ use actix_web::{
 async fn main() -> std::io::Result<()> {
     let serve_from = "../../packages/playground/dist";
     if !Path::new(serve_from).is_dir() {
-        panic!("{} is not a valid directory \n Hint: try to run yarn build inside the Frontend Repo first.", serve_from);
+        panic!("{} is not a valid directory.", serve_from);
     }
 
     HttpServer::new(move || {
