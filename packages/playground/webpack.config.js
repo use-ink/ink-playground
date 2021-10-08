@@ -1,6 +1,8 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 module.exports = {
   mode: 'development',
   entry: {
@@ -21,6 +23,10 @@ module.exports = {
         use: 'ts-loader',
         exclude: ['/node_modules/'],
       },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+      },
     ],
   },
   plugins: [
@@ -32,6 +38,10 @@ module.exports = {
       crateDirectory: path.resolve(__dirname, '../../crates/playground'),
       extraArgs: '--target web -- -Z build-std=panic_abort,std',
       outDir: path.resolve(__dirname, './pkg'),
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'styles.css',
+      chunkFilename: 'styles.css',
     }),
   ],
   experiments: {
