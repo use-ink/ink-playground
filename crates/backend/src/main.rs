@@ -55,7 +55,6 @@ mod tests {
     use actix_web::{
         http,
         test,
-        App,
     };
     use std::{
         env,
