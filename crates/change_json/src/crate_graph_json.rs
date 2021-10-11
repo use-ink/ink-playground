@@ -122,7 +122,7 @@ impl From<&CrateGraphJson> for CrateGraph {
             if let Ok(name) = CrateName::new(&dep.name) {
                 let from = CrateId(dep.from);
                 let to = CrateId(dep.to);
-                let dep = Dependency::new(name,to);
+                let dep = Dependency::new(name, to);
                 crate_graph.add_dep(from, dep).unwrap_or_else(|err| {
                     panic!("Cyclic Dependency in parsed data: {}", err)
                 });
@@ -247,10 +247,16 @@ mod tests {
             Default::default(),
         );
         graph
-            .add_dep(crate1, Dependency::new(CrateName::new("crate2").unwrap(), crate2))
+            .add_dep(
+                crate1,
+                Dependency::new(CrateName::new("crate2").unwrap(), crate2),
+            )
             .unwrap();
         graph
-            .add_dep(crate2, Dependency::new(CrateName::new("crate3").unwrap(), crate3))
+            .add_dep(
+                crate2,
+                Dependency::new(CrateName::new("crate3").unwrap(), crate3),
+            )
             .unwrap();
 
         // when
