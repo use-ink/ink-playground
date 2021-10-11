@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1633792521215" clover="3.2.0">
+  <project timestamp="1633792521215" name="All files">
+    <metrics statements="6" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0" elements="7" coveredelements="5" complexity="0" loc="6" ncloc="6" packages="1" files="1" classes="1"/>
+    <file name="Welcome.tsx" path="/home/achim/Projects/ink-playground/packages/playground/src/components/WasmTest/Welcome.tsx">
+      <metrics statements="6" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <line num="2" count="1" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="6" count="1" type="stmt"/>
+      <line num="7" count="0" type="stmt"/>
+      <line num="9" count="1" type="stmt"/>
+      <line num="10" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>

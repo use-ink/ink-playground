@@ -1,0 +1,30 @@
+{
+  "presets": [
+    [
+      "@babel/preset-typescript",
+      {
+        "modules": "auto"
+      },
+      "jest"
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-transform-typescript",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-syntax-jsx"
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "@babel/preset-typescript",
+          {
+            "modules": "auto"
+          },
+          "jest"
+        ]
+      ],
+      "plugins": ["@babel/plugin-transform-runtime"]
+    }
+  }
+}
