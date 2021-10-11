@@ -247,10 +247,10 @@ mod tests {
             Default::default(),
         );
         graph
-            .add_dep(crate1, CrateName::new("crate2").unwrap(), crate2)
+            .add_dep(crate1, Dependency::new(CrateName::new("crate2").unwrap(), crate2))
             .unwrap();
         graph
-            .add_dep(crate2, CrateName::new("crate3").unwrap(), crate3)
+            .add_dep(crate2, Dependency::new(CrateName::new("crate3").unwrap(), crate3))
             .unwrap();
 
         // when
