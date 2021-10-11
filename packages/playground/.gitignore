@@ -7,3 +7,4 @@ dist
 wasm-pack.log
 node_modules
 bundle-size-stats.json
+coverage
