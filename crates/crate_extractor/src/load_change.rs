@@ -160,7 +160,7 @@ struct ProjectFolders {
 }
 
 impl ProjectFolders {
-    fn new(
+    pub(crate) fn new(
         workspaces: &[ProjectWorkspace],
         global_excludes: &[AbsPathBuf],
     ) -> ProjectFolders {
@@ -190,22 +190,19 @@ impl ProjectFolders {
                 vfs::loader::Entry::Directories(dirs)
             };
 
-            if root.is_member {
+            if root.is_local {
                 res.watch.push(res.load.len());
             }
             res.load.push(entry);
 
-            if root.is_member {
+            if root.is_local {
                 local_filesets.push(fsc.len());
             }
             fsc.add_file_set(file_set_roots)
         }
 
         let fsc = fsc.build();
-        res.source_root_config = SourceRootConfig {
-            fsc,
-            local_filesets,
-        };
+        res.source_root_config = SourceRootConfig { fsc, local_filesets };
 
         res
     }
