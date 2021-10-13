@@ -1,8 +1,9 @@
 import { Editor } from '../src/components/Editor';
 import { render } from '@testing-library/react';
 
-test('Monaco editor component renders', () => {
-  const editor = render(<Editor />);
-  console.log(editor);
-  expect(editor).toBeDefined();
+jest.mock('monaco-editor/esm/vs/editor/editor.api.js');
+
+test('should render the monaco-editor', async () => {
+  const renderedEditor = render(<Editor />);
+  expect(renderedEditor).toMatchSnapshot();
 });

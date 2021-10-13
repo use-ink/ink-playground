@@ -13,9 +13,10 @@
   "scripts": {
     "build": "rimraf dist pkg && webpack --config webpack.config.js --mode production",
     "start": "rimraf dist pkg && webpack serve --host 0.0.0.0",
-    "test": "wasm-pack test --headless --chrome & jest",
     "clean": "rimraf dist pkg node_modules",
-    "bundlesize": "yarn build && webpack-bundle-analyzer --port 8081 bundle-size-stats.json dist"
+    "bundlesize": "yarn build && webpack-bundle-analyzer --port 8081 bundle-size-stats.json dist",
+    "test": "wasm-pack test --headless --chrome & jest --update-snapshot",
+    "test:watch": "wasm-pack test --headless --chrome & jest --update-snapshot --watch"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
@@ -23,6 +24,7 @@
     "@types/jest": "^27.0.1",
     "@types/react": "^17.0.27",
     "@types/react-dom": "^17.0.8",
+    "@types/react-test-renderer": "^17.0.1",
     "@wasm-tool/wasm-pack-plugin": "^1.5.0",
     "autoprefixer": "^10.3.7",
     "css-loader": "^6.3.0",
