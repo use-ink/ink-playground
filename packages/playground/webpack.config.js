@@ -4,6 +4,7 @@ const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -15,7 +16,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '.wasm'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.wasm', '.css'],
   },
   stats: 'errors-only',
   module: {
@@ -27,7 +28,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'style-loader',
+          'postcss-loader',
+        ],
       },
     ],
   },
@@ -49,6 +55,10 @@ module.exports = {
       analyzerMode: 'disabled',
       generateStatsFile: true,
       statsFilename: '../bundle-size-stats.json',
+    }),
+    new MonacoWebpackPlugin({
+      // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
+      languages: ['rust'],
     }),
   ],
   experiments: {
