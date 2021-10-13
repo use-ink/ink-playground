@@ -7,14 +7,12 @@
     "monaco-editor-webpack-plugin": "^4.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-monaco-editor": "^0.45.0",
-    "style-loader": "^3.3.0"
+    "react-monaco-editor": "^0.45.0"
   },
   "scripts": {
     "build": "rimraf dist pkg && webpack --config webpack.config.js --mode production",
     "start": "rimraf dist pkg && webpack serve --host 0.0.0.0",
     "clean": "rimraf dist pkg node_modules",
-    "bundlesize": "yarn build && webpack-bundle-analyzer --port 8081 bundle-size-stats.json dist",
     "test": "wasm-pack test --headless --chrome & jest --update-snapshot",
     "test:watch": "wasm-pack test --headless --chrome & jest --update-snapshot --watch"
   },
@@ -34,7 +32,6 @@
     "postcss-cli": "^9.0.1",
     "postcss-loader": "^6.1.1",
     "rimraf": "^3.0.2",
-    "style-loader": "^3.3.0",
     "tailwindcss": "^2.2.16",
     "ts-jest": "^27.0.3",
     "ts-loader": "^9.2.3",
