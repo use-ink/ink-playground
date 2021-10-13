@@ -18,6 +18,7 @@ use base_db::{
     CrateGraph,
     CrateId,
     CrateName,
+    Dependency,
     Edition,
     Env,
     FileId,
@@ -118,10 +119,11 @@ impl From<&CrateGraphJson> for CrateGraph {
             );
         }
         for dep in &crate_graph_json.deps {
-            let from = CrateId(dep.from);
-            let to = CrateId(dep.to);
             if let Ok(name) = CrateName::new(&dep.name) {
-                crate_graph.add_dep(from, name, to).unwrap_or_else(|err| {
+                let from = CrateId(dep.from);
+                let to = CrateId(dep.to);
+                let dep = Dependency::new(name, to);
+                crate_graph.add_dep(from, dep).unwrap_or_else(|err| {
                     panic!("Cyclic Dependency in parsed data: {}", err)
                 });
             };
@@ -245,10 +247,16 @@ mod tests {
             Default::default(),
         );
         graph
-            .add_dep(crate1, CrateName::new("crate2").unwrap(), crate2)
+            .add_dep(
+                crate1,
+                Dependency::new(CrateName::new("crate2").unwrap(), crate2),
+            )
             .unwrap();
         graph
-            .add_dep(crate2, CrateName::new("crate3").unwrap(), crate3)
+            .add_dep(
+                crate2,
+                Dependency::new(CrateName::new("crate3").unwrap(), crate3),
+            )
             .unwrap();
 
         // when

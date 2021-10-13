@@ -160,18 +160,16 @@ struct ProjectFolders {
 }
 
 impl ProjectFolders {
-    fn new(
+    pub(crate) fn new(
         workspaces: &[ProjectWorkspace],
         global_excludes: &[AbsPathBuf],
     ) -> ProjectFolders {
         let mut res = ProjectFolders::default();
         let mut fsc = FileSetConfig::builder();
         let mut local_filesets = vec![];
-
         for root in workspaces.iter().flat_map(|ws| ws.to_roots()) {
             let file_set_roots: Vec<VfsPath> =
                 root.include.iter().cloned().map(VfsPath::from).collect();
-
             let entry = {
                 let mut dirs = vfs::loader::Directories::default();
                 dirs.extensions.push("rs".into());
@@ -186,27 +184,23 @@ impl ProjectFolders {
                         dirs.exclude.push(excl.clone());
                     }
                 }
-
                 vfs::loader::Entry::Directories(dirs)
             };
-
-            if root.is_member {
+            if root.is_local {
                 res.watch.push(res.load.len());
             }
             res.load.push(entry);
 
-            if root.is_member {
+            if root.is_local {
                 local_filesets.push(fsc.len());
             }
             fsc.add_file_set(file_set_roots)
         }
-
         let fsc = fsc.build();
         res.source_root_config = SourceRootConfig {
             fsc,
             local_filesets,
         };
-
         res
     }
 }
