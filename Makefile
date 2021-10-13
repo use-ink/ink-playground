@@ -34,6 +34,9 @@ playground-install:
 playground-test:
 	yarn workspace playground run test
 
+playground-bundlesize:
+	yarn workspace playground run bundlesize
+
 ################################################################################
 # ENTRYPOINT: crate-extractor
 ################################################################################
