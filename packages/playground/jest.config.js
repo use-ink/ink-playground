@@ -9,4 +9,8 @@ module.exports = {
   },
   setupFilesAfterEnv: ['<rootDir>/setupTests.ts'],
   testEnvironment: 'jsdom',
+  moduleNameMapper: {
+    '^.+\\.(css|scss)$': 'identity-obj-proxy',
+    'monaco-editor': '<rootDir>/node_modules/react-monaco-editor',
+  },
 };
