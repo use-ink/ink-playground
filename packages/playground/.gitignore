@@ -9,3 +9,5 @@ dist
 wasm-pack.log
 bundle-size-stats.json
 yarn-error.log
+node_modules
+__snapshots__
