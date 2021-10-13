@@ -12,6 +12,6 @@ module.exports = {
   transformIgnorePatterns: ['^react-monaco-editor', '^monaco-editor'],
   moduleNameMapper: {
     '^.+.(css|scss)$': 'identity-obj-proxy',
-    'monaco-editor': '<rootDir>/node_modules/react-monaco-editor',
+    'monaco-editor': '<rootDir>/../../node_modules/react-monaco-editor',
   },
 };
