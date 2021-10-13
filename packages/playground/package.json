@@ -14,7 +14,9 @@
     "start": "rimraf dist pkg && webpack serve --host 0.0.0.0",
     "clean": "rimraf dist pkg node_modules",
     "test": "wasm-pack test --headless --chrome & jest --update-snapshot",
-    "test:watch": "wasm-pack test --headless --chrome & jest --update-snapshot --watch"
+    "test:watch": "wasm-pack test --headless --chrome & jest --update-snapshot --watch",
+    "bundlesize": "yarn bundlesize:generate && webpack-bundle-analyzer --port 8081 bundle-size-stats.json dist",
+    "bundlesize:generate": "yarn build && yarn webpack --stats --json=bundle-size-stats.json"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",

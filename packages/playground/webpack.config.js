@@ -63,7 +63,7 @@ module.exports = {
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'disabled',
-      generateStatsFile: true,
+      generateStatsFile: false,
       statsFilename: '../bundle-size-stats.json',
     }),
     new MonacoWebpackPlugin({
