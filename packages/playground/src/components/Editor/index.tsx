@@ -28,9 +28,15 @@ export const Editor = () => {
   return (
     <>
       <div style={{ padding: '1rem', background: 'grey' }}>
-        <button onClick={() => setIsDark(!isDark)}>Darkmode</button>
-        <button onClick={() => setShowMinimap(!showMinimap)}>Minimap</button>
-        <button onClick={() => setShowNumbering(!showNumbering)}>
+        <button className='btn' onClick={() => setIsDark(!isDark)}>
+          Darkmode
+        </button>
+        <button className='btn' onClick={() => setShowMinimap(!showMinimap)}>
+          Minimap
+        </button>
+        <button
+          className='btn'
+          onClick={() => setShowNumbering(!showNumbering)}>
           Numbering
         </button>
       </div>
