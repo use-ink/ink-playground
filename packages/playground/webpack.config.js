@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+const tailwindcss = require('tailwindcss');
 
 module.exports = {
   mode: 'development',
@@ -31,8 +32,17 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          'style-loader',
-          'postcss-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  tailwindcss('./tailwind.config.js'),
+                  require('autoprefixer'),
+                ],
+              },
+            },
+          },
         ],
       },
     ],
