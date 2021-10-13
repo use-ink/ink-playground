@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import MonacoEditor from 'react-monaco-editor';
+import { useState } from 'react';
+import MonacoEditor, { MonacoEditorProps } from 'react-monaco-editor';
 import exampleCode from './example-code';
 
 export const Editor = () => {
@@ -8,21 +8,21 @@ export const Editor = () => {
   const [showMinimap, setShowMinimap] = useState(true);
   const [showNumbering, setShowNumbering] = useState(true);
 
-  const handleChange = (newValue: string) => {
+  const handleChange = (newValue: string): void => {
     setCode(newValue);
   };
 
-  const editorDidMount = (editor: any) => {
-    editor.focus();
+  const editorDidMount = (editor: MonacoEditor['editor']): void => {
+    if (editor) {
+      editor.focus();
+    }
   };
 
-  type LineNumbers = 'on' | 'off';
-
-  const options = {
+  const options: MonacoEditorProps['options'] = {
     selectOnLineNumbers: true,
     automaticLayout: true,
     minimap: { enabled: showMinimap },
-    lineNumbers: (showNumbering ? 'on' : 'off') as LineNumbers,
+    lineNumbers: showNumbering ? 'on' : 'off',
   };
 
   return (
