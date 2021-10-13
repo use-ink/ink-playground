@@ -12,14 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use crate::cli::Opts;
 use actix_files as fs;
 use actix_web::{
     middleware,
     App,
     HttpServer,
 };
+use clap::Clap;
 use std::path::Path;
-mod envvars;
+mod cli;
 
 fn serve_frontend(dir: &str) -> actix_files::Files {
     fs::Files::new("/", dir).index_file("index.html")
@@ -27,9 +29,9 @@ fn serve_frontend(dir: &str) -> actix_files::Files {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let config = envy::from_env::<envvars::Config>().unwrap();
-    let port = config.port;
-    let frontend_folder = config.frontend_folder;
+    let opts: Opts = Opts::parse();
+    let port = opts.port;
+    let frontend_folder = opts.frontend_folder;
 
     if !Path::new(&frontend_folder).is_dir() {
         panic!("{} is not a valid directory.", frontend_folder);
