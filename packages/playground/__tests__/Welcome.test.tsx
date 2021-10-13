@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import Welcome from '../src/Welcome';
+import Welcome from '../src/components/WasmTest/Welcome';
 
-test('Contains Welcome Message', () => {
+test('Renders Editor', () => {
   render(<Welcome />);
   const linkElement = screen.getByText(/Welcome to the ink! Playground!/i);
   expect(linkElement).toBeInTheDocument();
