@@ -405,8 +405,7 @@ dependencies = [
  "actix-files",
  "actix-rt 2.2.0",
  "actix-web",
- "envy",
- "serde",
+ "clap",
 ]
 
 [[package]]
@@ -869,15 +868,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
-]
-
-[[package]]
-name = "envy"
-version = "0.4.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3f47e0157f2cb54f5ae1bd371b30a2ae4311e1c028f575cd4e81de7353215965"
-dependencies = [
- "serde",
 ]
 
 [[package]]
