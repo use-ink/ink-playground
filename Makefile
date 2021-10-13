@@ -81,13 +81,16 @@ rust-test:
 ts-clean:
 	rm -rf node_modules
 
+ts-lint:
+	yarn run eslint . --ext .ts --ext .tsx
+
 
 ################################################################################
 # GENERAL
 ################################################################################
 
 general-check-format:
-	yarn run prettier --check  .
+	yarn run prettier --check .
 
 ################################################################################
 # GLOBAL
@@ -107,6 +110,7 @@ clean: ts-clean
 install: playground-install
 
 lint: rust-lint
+lint: ts-lint
 
 test: rust-test
 test: playground-test
