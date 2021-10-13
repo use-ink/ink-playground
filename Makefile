@@ -93,7 +93,7 @@ ts-install:
 	yarn install
 
 ts-lint:
-#	yarn run eslint . --ext .ts --ext .tsx # TODO: activate!
+	yarn run eslint . --ext .ts --ext .tsx
 
 ts-patch-markdown:
 	yarn markdown
