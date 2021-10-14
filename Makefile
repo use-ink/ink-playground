@@ -3,8 +3,7 @@
 #
 # You'll find commands that run
 #   - spcifically on entrypoints like CLIs, webapps or servers.
-#   - on files of a specific language (e.g. Rust or TypeScript)
-#   - generally (like e.g. Prettier checking formatting in various file types)
+#   - ecosystem specific (e.g. Rust or TypeScript)
 #
 # You can run them like `make backend-test` or `make rust-clean`
 # 
@@ -27,9 +26,6 @@ playground-build:
 
 playground-clean:
 	yarn workspace playground run clean
-
-playground-install:
-	yarn workspace playground install
 
 playground-test:
 	yarn workspace playground run test
@@ -81,16 +77,14 @@ rust-test:
 ts-clean:
 	rm -rf node_modules
 
+ts-install:
+	yarn install
+
 ts-lint:
-	yarn run eslint . --ext .ts --ext .tsx
+#    yarn run eslint . --ext .ts --ext .tsx # TODO: activate!
 
-
-################################################################################
-# GENERAL
-################################################################################
-
-general-check-format:
-	yarn run prettier --check .
+ts-check-format:
+#	 yarn run prettier --check . # TODO: activate!
 
 ################################################################################
 # GLOBAL
@@ -101,13 +95,12 @@ build: crate-extractor-build
 build: backend-build
 
 check-format: rust-check-format
-# TODO: activate in next PR in favor of smaller diffs
-# check-format: general-check-format
+#check-format: ts-check-format # TODO: activate!
 
 clean: rust-clean
 clean: ts-clean
 
-install: playground-install
+install: ts-install
 
 lint: rust-lint
 lint: ts-lint
