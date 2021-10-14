@@ -15,7 +15,7 @@ export type Action =
   | { type: "SET_NUMBERING"; payload: boolean }
   | { type: "SET_MINIMAP"; payload: boolean };
 
-export const reducer = (action: Action, state: State = defaultState): State => {
+export const reducer = (action: Action, state: State): State => {
   switch (action.type) {
     case "SET_DARKMODE":
       return {
