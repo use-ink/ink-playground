@@ -6,6 +6,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "cspell": "^5.12.3",
     "eslint": "^8.0.0",
     "prettier": "^2.4.1"
   }
