@@ -18,6 +18,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.wasm', '.css'],
+    alias: {
+      '~': path.resolve(__dirname, 'src/'),
+    },
   },
   stats: 'errors-only',
   module: {
