@@ -1,8 +1,8 @@
-import { useState, useContext, useReducer } from 'react';
-import MonacoEditor, { MonacoEditorProps } from 'react-monaco-editor';
-import exampleCode from './example-code';
-import { AppContext } from '~/context';
-import { reducer } from '~/redux/reducer';
+import { useState, useContext, useReducer } from "react";
+import MonacoEditor, { MonacoEditorProps } from "react-monaco-editor";
+import exampleCode from "./example-code";
+import { AppContext } from "~/context";
+import { reducer } from "~/redux/reducer";
 
 export const Editor = () => {
   const [code, setCode] = useState(exampleCode);
@@ -17,39 +17,52 @@ export const Editor = () => {
     setCode(newValue);
   };
 
-  const editorDidMount = (editor: MonacoEditor['editor']): void => {
+  const editorDidMount = (editor: MonacoEditor["editor"]): void => {
     if (editor) {
       editor.focus();
     }
   };
 
-  const options: MonacoEditorProps['options'] = {
+  const options: MonacoEditorProps["options"] = {
     selectOnLineNumbers: true,
     automaticLayout: true,
     minimap: { enabled: state.minimap },
-    lineNumbers: state.numbering ? 'on' : 'off',
+    lineNumbers: state.numbering ? "on" : "off",
   };
 
   return (
     <>
-      <div style={{ padding: '1rem', background: 'grey' }}>
-        <button className='btn' onClick={() => dispatch({ action: "SET_DARKMODE", payload: !state.darkmode })}>
+      <div style={{ padding: "1rem", background: "grey" }}>
+        <button
+          className="btn"
+          onClick={() =>
+            dispatch({ type: "SET_DARKMODE", payload: !state.darkmode })
+          }
+        >
           Darkmode
         </button>
-        <button className='btn' onClick={() => setShowMinimap(!state.minimap)}>
+        <button
+          className="btn"
+          onClick={() =>
+            dispatch({ type: "SET_MINIMAP", payload: !state.minimap })
+          }
+        >
           Minimap
         </button>
         <button
-          className='btn'
-          onClick={() => setShowNumbering(!state.numbering)}>
+          className="btn"
+          onClick={() =>
+            dispatch({ type: "SET_NUMBERING", payload: !state.numbering })
+          }
+        >
           Numbering
         </button>
       </div>
       <MonacoEditor
-        width='100vw'
-        height='80vh'
-        language='rust'
-        theme={state.darkmode ? 'vs-dark' : 'vs'}
+        width="100vw"
+        height="80vh"
+        language="rust"
+        theme={state.darkmode ? "vs-dark" : "vs"}
         value={code}
         options={options}
         onChange={handleChange}
