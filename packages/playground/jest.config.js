@@ -11,6 +11,7 @@ module.exports = {
   testEnvironment: 'jsdom',
   transformIgnorePatterns: ['^react-monaco-editor', '^monaco-editor'],
   moduleNameMapper: {
+    '~/(.*)': '<rootDir>/src/$1',
     '^.+.(css|scss)$': 'identity-obj-proxy',
     'monaco-editor': '<rootDir>/../../node_modules/react-monaco-editor',
   },
