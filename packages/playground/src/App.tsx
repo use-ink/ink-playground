@@ -1,8 +1,8 @@
-import { Layout } from "./components/Layout";
-import { Header } from "./components/Header";
-import { Editor } from "./components/Editor";
-import { Console } from "./components/Console";
-import { AppProvider } from "./context";
+import { Layout } from "~/components/Layout";
+import { Header } from "~/components/Header";
+import { Editor } from "~/components/Editor";
+import { Console } from "~/components/Console";
+import { AppProvider } from "~/context";
 
 const App = () => {
   return (
