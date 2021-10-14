@@ -1,10 +1,8 @@
-import { Layout } from "~/components/Layout";
-import { Header } from "~/components/Header";
-import { Editor } from "~/components/Editor";
-import { Console } from "~/components/Console";
-import { AppProvider } from "~/context";
+import { Layout, Header, Editor, Console } from '~/components';
+import { AppProvider } from '~/context';
+import { ReactElement } from 'react';
 
-const App = () => {
+const App = (): ReactElement => {
   return (
     <AppProvider>
       <Layout>
