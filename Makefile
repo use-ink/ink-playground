@@ -100,10 +100,6 @@ ts-lint:
 
 ts-patch-markdown:
 	yarn markdown
-#	yarn run eslint . --ext .ts --ext .tsx # TODO: activate!
-
-ts-patch-markdown:
-	yarn markdown
 
 ################################################################################
 # GLOBAL
