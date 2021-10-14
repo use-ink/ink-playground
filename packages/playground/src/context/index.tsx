@@ -1,22 +1,18 @@
-import React, { ReactElement, ReactNode, useState } from "react";
+import React, { ReactElement, ReactNode, useReducer, useState } from "react";
 import { Action, defaultState, State, reducer } from "~/redux/reducer";
 
 export const AppContext: React.Context<[State, (action: Action) => void]> =
-  React.createContext([defaultState, (action) => {}]);
+  React.createContext([defaultState, (action) => { }]);
 
 export type Props = {
   children: ReactNode;
 };
 
 export const AppProvider = ({ children }: Props): ReactElement => {
-  const [state, setState] = useState(defaultState);
-
-  const dispatch = (action: Action): void => {
-    setState(reducer(action, state));
-  };
+  const context = useReducer(reducer, defaultState);
 
   return (
-    <AppContext.Provider value={[state, dispatch]}>
+    <AppContext.Provider value={context}>
       {children}
     </AppContext.Provider>
   );
