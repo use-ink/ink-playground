@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import MonacoEditor, { MonacoEditorProps } from 'react-monaco-editor';
 import exampleCode from './example-code';
+import { AppContext } from '~/context';
 
 export const Editor = () => {
   const [code, setCode] = useState(exampleCode);
   const [isDark, setIsDark] = useState(true);
   const [showMinimap, setShowMinimap] = useState(true);
   const [showNumbering, setShowNumbering] = useState(true);
+
+  const state = useContext(AppContext);
+
+  console.log(state);
 
   const handleChange = (newValue: string): void => {
     setCode(newValue);
