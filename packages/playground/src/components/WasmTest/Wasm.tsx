@@ -12,7 +12,7 @@ let start = async (setter: (message: string) => void) => {
   setter(test);
 };
 
-const Wasm = () => {
+export const Wasm = () => {
   const [message, setMessage] = useState<string>('Check');
   useEffect(() => {
     start(setMessage);
@@ -20,5 +20,3 @@ const Wasm = () => {
 
   return <h1>{message}</h1>;
 };
-
-export default Wasm;
