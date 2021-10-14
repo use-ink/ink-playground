@@ -97,6 +97,13 @@ ts-lint:
 
 ts-patch-markdown:
 	yarn markdown
+#	yarn run eslint . --ext .ts --ext .tsx # TODO: activate!
+
+ts-check-format:
+#	yarn run prettier --check . # TODO: activate!
+
+ts-check-spelling:
+#	yarn cspell '**/*.*'
 
 ################################################################################
 # GLOBAL
