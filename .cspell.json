@@ -1,0 +1,18 @@
+{
+  "version": "0.1",
+  "language": "en",
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/pkg/**",
+    "**/dist/**",
+    "bundle-size-stats.json",
+    "target/**",
+    "**/.cache/**",
+    "**/dist/**",
+    "**/.git/**",
+    "package-lock.json",
+    "yarn.lock",
+    "**/yarn-error.log"
+  ],
+  "words": ["struct", "rustfmt", "actix"]
+}

@@ -54,7 +54,7 @@ backend-test:
 	cargo test -p backend
 
 ################################################################################
-# LANGUAGE: RUST
+# ECOSYSTEM: RUST
 ################################################################################
 
 rust-check-format:
@@ -71,7 +71,7 @@ rust-test:
 	cargo test --workspace --exclude playground 
 
 ################################################################################
-# LANGUAGE: TYPESCRIPT
+# ECOSYSTEM: TYPESCRIPT
 ################################################################################
 
 ts-clean:
@@ -81,10 +81,13 @@ ts-install:
 	yarn install
 
 ts-lint:
-#    yarn run eslint . --ext .ts --ext .tsx # TODO: activate!
+#	yarn run eslint . --ext .ts --ext .tsx # TODO: activate!
 
 ts-check-format:
-#	 yarn run prettier --check . # TODO: activate!
+#	yarn run prettier --check . # TODO: activate!
+
+ts-check-spelling:
+#	yarn cspell '**/*.*'
 
 ################################################################################
 # GLOBAL
@@ -96,6 +99,8 @@ build: backend-build
 
 check-format: rust-check-format
 #check-format: ts-check-format # TODO: activate!
+
+check-spelling: ts-check-spelling
 
 clean: rust-clean
 clean: ts-clean
@@ -114,7 +119,9 @@ test: backend-test
 # CI
 ################################################################################
 
+ci: clean
 ci: install
+ci: check-spelling
 ci: check-format
 ci: lint
 ci: test
