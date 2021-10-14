@@ -74,6 +74,12 @@ rust-test:
 # ECOSYSTEM: TYPESCRIPT
 ################################################################################
 
+ts-check-format:
+#	yarn run prettier --check . # TODO: activate!
+
+ts-check-spelling:
+#	yarn cspell '**/*.*'
+
 ts-clean:
 	rm -rf node_modules
 
@@ -83,11 +89,8 @@ ts-install:
 ts-lint:
 #	yarn run eslint . --ext .ts --ext .tsx # TODO: activate!
 
-ts-check-format:
-#	yarn run prettier --check . # TODO: activate!
-
-ts-check-spelling:
-#	yarn cspell '**/*.*'
+ts-patch-markdown:
+	yarn markdown
 
 ################################################################################
 # GLOBAL
@@ -109,6 +112,8 @@ install: ts-install
 
 lint: rust-lint
 lint: ts-lint
+
+patch-markdown: ts-patch-markdown
 
 test: rust-test
 test: playground-test
