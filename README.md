@@ -9,6 +9,16 @@ An ink! Playground which provides a Browser based IDE for editing Smart Contract
 - Allows saving and sharing of Smart Contract code
 - Implements a one click compile functionality of ink! Smart Contracts to WASM which is provided by a backend service
 
+## Table of Contents
+
+<!-- AUTO-GENERATED-CONTENT:START (TOC) -->
+- [Getting started](#getting-started)
+- [Implemented features:](#implemented-features)
+  - [crate-extractor](#crate-extractor)
+    - [Usage:](#usage)
+    - [Description](#description)
+<!-- AUTO-GENERATED-CONTENT:END -->
+
 ## Getting started
 
 `git clone clone https://github.com/paritytech/ink-playground`

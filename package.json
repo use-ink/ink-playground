@@ -8,6 +8,7 @@
     "@typescript-eslint/parser": "^5.0.0",
     "cspell": "^5.12.3",
     "eslint": "^8.0.0",
+    "markdown-magic": "^2.5.2",
     "prettier": "^2.4.1"
   }
 }
