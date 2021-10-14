@@ -30,25 +30,19 @@ export const Editor = (): ReactElement => {
       <div style={{ padding: '1rem', background: 'grey' }}>
         <button
           className="btn"
-          onClick={() =>
-            dispatch({ type: 'SET_DARKMODE', payload: !state.darkmode })
-          }
+          onClick={() => dispatch({ type: 'SET_DARKMODE', payload: !state.darkmode })}
         >
           Darkmode
         </button>
         <button
           className="btn"
-          onClick={() =>
-            dispatch({ type: 'SET_MINIMAP', payload: !state.minimap })
-          }
+          onClick={() => dispatch({ type: 'SET_MINIMAP', payload: !state.minimap })}
         >
           Minimap
         </button>
         <button
           className="btn"
-          onClick={() =>
-            dispatch({ type: 'SET_NUMBERING', payload: !state.numbering })
-          }
+          onClick={() => dispatch({ type: 'SET_NUMBERING', payload: !state.numbering })}
         >
           Numbering
         </button>

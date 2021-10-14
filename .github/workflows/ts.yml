@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   lint:
-    runs-on: "ubuntu-latest"
+    runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16.x
@@ -19,7 +19,7 @@ jobs:
         run: make ts-lint
 
   check-format:
-    runs-on: "ubuntu-latest"
+    runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16.x
@@ -34,7 +34,7 @@ jobs:
         run: make ts-check-format
 
   check-spelling:
-    runs-on: "ubuntu-latest"
+    runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16.x

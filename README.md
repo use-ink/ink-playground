@@ -12,12 +12,11 @@ An ink! Playground which provides a Browser based IDE for editing Smart Contract
 ## Table of Contents
 
 <!-- AUTO-GENERATED-CONTENT:START (TOC) -->
+
 - [Getting started](#getting-started)
 - [Implemented features:](#implemented-features)
-  - [crate-extractor](#crate-extractor)
-    - [Usage:](#usage)
-    - [Description](#description)
-<!-- AUTO-GENERATED-CONTENT:END -->
+  - [crate-extractor](#crate-extractor) - [Usage:](#usage) - [Description](#description)
+  <!-- AUTO-GENERATED-CONTENT:END -->
 
 ## Getting started
 
