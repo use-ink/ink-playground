@@ -81,13 +81,16 @@ rust-test:
 ################################################################################
 
 ts-check-format:
-#	yarn run prettier --check . # TODO: activate!
+	yarn run prettier --check .
 
 ts-check-spelling:
 #	yarn cspell '**/*.*'
 
 ts-clean:
 	rm -rf node_modules
+
+ts-format:
+	yarn run prettier --write .
 
 ts-install:
 	yarn install
@@ -111,7 +114,7 @@ build: crate-extractor-build
 build: backend-build
 
 check-format: rust-check-format
-#check-format: ts-check-format # TODO: activate!
+check-format: ts-check-format
 
 check-spelling: ts-check-spelling
 
