@@ -1,17 +1,12 @@
-import { useState, useContext, useReducer } from "react";
+import { useState, useContext } from "react";
 import MonacoEditor, { MonacoEditorProps } from "react-monaco-editor";
 import exampleCode from "./example-code";
 import { AppContext } from "~/context";
-import { reducer } from "~/redux/reducer";
 
 export const Editor = () => {
   const [code, setCode] = useState(exampleCode);
 
   const [state, dispatch] = useContext(AppContext);
-
-  //const x = useReducer(reducer);
-
-  console.log(state);
 
   const handleChange = (newValue: string): void => {
     setCode(newValue);

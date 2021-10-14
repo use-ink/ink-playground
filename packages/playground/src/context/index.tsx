@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode, useReducer, useState } from "react";
-import { Action, defaultState, State, reducer } from "~/redux/reducer";
+import { Action, defaultState, State, reducer } from "~/redux";
 
 export const AppContext: React.Context<[State, (action: Action) => void]> =
   React.createContext([defaultState, (action) => { }]);
