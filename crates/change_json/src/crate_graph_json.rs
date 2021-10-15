@@ -31,7 +31,7 @@ use serde::{
 use std::ops::Index;
 use tt::SmolStr;
 
-/// Provides a (de-)serializable version of Rust Analyzers `CrateGraph`,  which is a Rust Analyzer (Cargo independent) specific formulation of the dependeny graph.
+/// Provides a (de-)serializable version of Rust Analyzers `CrateGraph`,  which is a Rust Analyzer (Cargo independent) specific formulation of the dependency graph.
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 pub struct CrateGraphJson {
     crates: Vec<(u32, CrateDataJson)>,

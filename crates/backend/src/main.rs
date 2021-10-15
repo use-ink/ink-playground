@@ -105,7 +105,7 @@ mod tests {
     }
 
     #[actix_rt::test]
-    async fn test_dont_serve_nonexistant_file() {
+    async fn test_don_not_serve_nonexistent_file() {
         let temp_dir = env::temp_dir();
         let temp_dir = temp_dir.to_str().unwrap();
 
