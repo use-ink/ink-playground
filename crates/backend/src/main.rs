@@ -12,28 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::cli::Opts;
-use actix_files as fs;
+mod cli;
+mod routes;
+
+use crate::{
+    cli::Opts,
+    routes::{
+        compile::route_compile,
+        frontend::route_frontend,
+    },
+};
 use actix_web::{
     middleware,
-    web::get,
+    web::post,
     App,
-    HttpRequest,
-    HttpResponse,
     HttpServer,
-    Responder,
 };
 use clap::Clap;
 use std::path::Path;
-mod cli;
-
-fn serve_frontend(dir: &str) -> actix_files::Files {
-    fs::Files::new("/", dir).index_file("index.html")
-}
-
-async fn route_compile() -> impl Responder {
-    HttpResponse::Ok().body("I'm the compile result!")
-}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -53,86 +49,12 @@ async fn main() -> std::io::Result<()> {
                     .header("Cross-Origin-Opener-Policy", "same-origin")
                     .header("Cross-Origin-Embedder-Policy", "require-corp"),
             )
-            .route("/compile", get().to(route_compile))
-            .service(serve_frontend(&frontend_folder))
+            .route("/compile", post().to(route_compile))
+            .service(route_frontend("/", &frontend_folder))
     })
     .bind(format!("{}:{}", host, port))?
     .run()
     .await?;
 
     Ok(())
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use actix_web::{
-        http,
-        test,
-    };
-    use std::{
-        env,
-        fs::File,
-        io::prelude::*,
-    };
-
-    #[actix_rt::test]
-    async fn test_serve_static_index() {
-        let temp_dir = env::temp_dir();
-        let temp_dir = temp_dir.to_str().unwrap();
-
-        let mut test_file = File::create(format!("{}/index.html", temp_dir)).unwrap();
-        test_file.write_all(b"Hello, world!").unwrap();
-
-        let mut app =
-            test::init_service(App::new().service(serve_frontend(temp_dir))).await;
-
-        let req = test::TestRequest::with_header("content-type", "text/plain")
-            .uri("/")
-            .to_request();
-
-        let content = test::read_response(&mut app, req).await;
-
-        assert_eq!(content, "Hello, world!".to_string());
-    }
-
-    #[actix_rt::test]
-    async fn test_serve_static_arbitrary_file() {
-        let temp_dir = env::temp_dir();
-        let temp_dir = temp_dir.to_str().unwrap();
-
-        let mut test_file = File::create(format!("{}/foo.txt", temp_dir)).unwrap();
-        test_file.write_all(b"Hello, world!").unwrap();
-
-        let mut app =
-            test::init_service(App::new().service(serve_frontend(temp_dir))).await;
-
-        let req = test::TestRequest::with_header("content-type", "text/plain")
-            .uri("/foo.txt")
-            .to_request();
-
-        let content = test::read_response(&mut app, req).await;
-
-        assert_eq!(content, "Hello, world!".to_string());
-    }
-
-    #[actix_rt::test]
-    async fn test_don_not_serve_nonexistent_file() {
-        let temp_dir = env::temp_dir();
-        let temp_dir = temp_dir.to_str().unwrap();
-
-        let mut test_file = File::create(format!("{}/foo.txt", temp_dir)).unwrap();
-        test_file.write_all(b"Hello, world!").unwrap();
-
-        let mut app =
-            test::init_service(App::new().service(serve_frontend(temp_dir))).await;
-
-        let req = test::TestRequest::with_header("content-type", "text/plain")
-            .uri("/foobar.txt")
-            .to_request();
-
-        let resp = test::call_service(&mut app, req).await;
-
-        assert_eq!(resp.status(), http::StatusCode::NOT_FOUND);
-    }
 }
