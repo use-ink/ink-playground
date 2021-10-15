@@ -14,18 +14,11 @@
 
 use anyhow::Result;
 use change_json::ChangeJson;
-use std::{
-    fs,
-    path::Path,
-};
+use std::{fs, path::Path};
 mod cli;
 mod load_change;
 use crate::{
-    cli::{
-        CmdCreate,
-        Opts,
-        SubCommand,
-    },
+    cli::{CmdCreate, Opts, SubCommand},
     load_change::LoadCargoConfig,
 };
 use clap::Clap;
@@ -33,13 +26,11 @@ use project_model::CargoConfig;
 
 fn to_abs_path(path: &str) -> Result<vfs::AbsPathBuf> {
     let path = Path::new(&path);
-    Ok(vfs::AbsPathBuf::assert(
-        if path.is_absolute() {
-            path.to_path_buf()
-        } else {
-            std::env::current_dir()?.join(path)
-        },
-    ))
+    Ok(vfs::AbsPathBuf::assert(if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        std::env::current_dir()?.join(path)
+    }))
 }
 
 fn main() {
@@ -88,11 +79,9 @@ mod tests {
     #[test]
     fn test_parsing_change_json() {
         // given
-        let path = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .parent()
-            .unwrap()
-            .parent()
-            .unwrap();
+        let manifest_path = env!("CARGO_MANIFEST_DIR");
+        let manifest_path = to_abs_path(&manifest_path)
+            .expect("Cannot convert `manifest_path` to absolute path.");
         let cargo_config = CargoConfig::default();
         let load_cargo_config = LoadCargoConfig {
             load_out_dirs_from_check: false,
@@ -101,11 +90,15 @@ mod tests {
         };
 
         // when
-        let change =
-            load_change::load_change_at(path, &cargo_config, &load_cargo_config, &|_| {})
-                .unwrap_or_else(|err| {
-                    panic!("Error while creating Change object: {}", err);
-                });
+        let change = load_change::load_change_at(
+            &manifest_path,
+            &cargo_config,
+            &load_cargo_config,
+            &|_| {},
+        )
+        .unwrap_or_else(|err| {
+            panic!("Error while creating Change object: {}", err);
+        });
 
         // then
         let json = ChangeJson::from(&change);
