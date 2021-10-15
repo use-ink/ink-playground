@@ -49,7 +49,7 @@ pub fn load_change_at(
     load_config: &LoadCargoConfig,
     progress: &dyn Fn(String),
 ) -> Result<Change> {
-    let root = ProjectManifest::discover_single(&manifest_path)?;
+    let root = ProjectManifest::discover_single(manifest_path)?;
     let workspace = ProjectWorkspace::load(root, cargo_config, progress)?;
 
     load_change(workspace, cargo_config, load_config, progress)
