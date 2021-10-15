@@ -46,7 +46,7 @@ Enter:
 
 `cargo run -p crate-extractor -- create -i <input> -o <output>`
 
-Where `<input>` points to the `Cargo.toml` of the project you wich to analyze and `<output>` denotes the path to the resulting '.json' file. Both are optional parameters and default to `/Cargo.toml` and `./change.json`.
+Where `<input>` points to the `Cargo.toml` of the project you which to analyze and `<output>` denotes the path to the resulting '.json' file. Both are optional parameters and default to `/Cargo.toml` and `./change.json`.
 
 #### Description
 
@@ -83,7 +83,7 @@ The crate_extractor crate is creating the `Change` object by utilizing the `proj
   </p>
 </figure>
 
-While the `crate_extrator` crate is using various dependencies which won’t compile to WASM, we can’t use it in a Webassembly version of Rust Analyzer. However, the `change_json` crate consumes just a bare minimum of basic dependencies like the RA Database and therefore compiles to WASM.
+While the `crate_extractor` crate is using various dependencies which won’t compile to WASM, we can’t use it in a WebAssembly version of Rust Analyzer. However, the `change_json` crate consumes just a bare minimum of basic dependencies like the RA Database and therefore compiles to WASM.
 
 We visualize the way it is used to provide a Rust projects source code and dependency graph to a WASM implementation of Rust Analyzer in Fig. 3 below:
 

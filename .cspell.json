@@ -12,7 +12,39 @@
     "**/.git/**",
     "package-lock.json",
     "yarn.lock",
-    "**/yarn-error.log"
+    "**/yarn-error.log",
+    "assets/architecture*.xml"
   ],
-  "words": ["struct", "rustfmt", "actix"]
+  "words": [
+    "struct",
+    "rustfmt",
+    "actix",
+    "binop",
+    "parens",
+    "discrim",
+    "rustc",
+    "Serde",
+    "Embedder",
+    "tailwindcss",
+    "fullhash",
+    "darkmode",
+    "Comlink",
+    "bundlesize",
+    "bindgen",
+    "alloc",
+    "rlib",
+    "cdylib",
+    "achimcc",
+    "prefill",
+    "deserialization",
+    "filesets",
+    "Achim",
+    "subcmd",
+    "crategraph",
+    "Smol",
+    "deps",
+    "wgxi",
+    "Fgopy",
+    ""
+  ]
 }

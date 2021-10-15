@@ -97,7 +97,7 @@ ts-check-format:
 	yarn run prettier --check .
 
 ts-check-spelling:
-#	yarn cspell '**/*.*'
+	yarn cspell '**/*.*'
 
 ts-clean:
 	rm -rf node_modules
