@@ -14,7 +14,7 @@
 
 use clap::Clap;
 
-const DEFAULT_PATH: &str = "./Cargo.toml";
+const DEFAULT_MANIFEST_PATH: &str = "./Cargo.toml";
 const DEFAULT_OUTPUT: &str = "./change.json";
 
 #[derive(Clap)]
@@ -36,8 +36,8 @@ pub enum SubCommand {
 
 #[derive(Clap)]
 pub struct CmdCreate {
-    #[clap(short = 'i', long = "input", default_value = DEFAULT_PATH)]
-    pub path: String,
-    #[clap(short = 'o', long = "output", default_value = DEFAULT_OUTPUT )]
+    #[clap(short = 'm', long = "manifest_path", default_value = DEFAULT_MANIFEST_PATH)]
+    pub manifest_path: String,
+    #[clap(short = 'o', long = "output", default_value = DEFAULT_OUTPUT)]
     pub output: String,
 }

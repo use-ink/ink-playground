@@ -40,12 +40,15 @@ fn main() {
     let opts: Opts = Opts::parse();
 
     match opts.subcmd {
-        SubCommand::CmdCreate(CmdCreate { path, output }) => {
-            println!("Creating .json file, using: {}", path);
-            let path = Path::new(&path);
+        SubCommand::CmdCreate(CmdCreate {
+            manifest_path,
+            output,
+        }) => {
+            println!("Creating .json file, using: {}", manifest_path);
+            let manifest_path = Path::new(&manifest_path);
             let output = Path::new(&output);
             let res = load_change::load_change_at(
-                path,
+                manifest_path,
                 &cargo_config,
                 &load_cargo_config,
                 &|_| {},
