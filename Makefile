@@ -50,7 +50,7 @@ crate-extractor-test:
 	cargo test -p crate-extractor
 
 ################################################################################
-# ENTRYPOINT: BACKEND
+# ENTRYPOINT: backend
 ################################################################################
 
 backend-build:
@@ -58,6 +58,19 @@ backend-build:
 
 backend-test:
 	cargo test -p backend
+
+################################################################################
+# ENTRYPOINT: crate-playground
+################################################################################
+
+crate-playground-test-chrome:
+	wasm-pack test --headless --chrome crates/playground
+
+crate-playground-test-firefox:
+	wasm-pack test --headless --firefox crates/playground
+
+crate-playground-test: crate-playground-test-chrome
+crate-playground-test: crate-playground-test-firefox
 
 ################################################################################
 # ECOSYSTEM: RUST
@@ -96,7 +109,7 @@ ts-install:
 	yarn install
 
 ts-lint:
-	yarn run eslint . --ext .ts --ext .tsx
+	yarn run eslint . --ext .ts --ext .tsx --max-warnings 0
 
 ts-patch-markdown:
 	yarn markdown
@@ -124,6 +137,7 @@ lint: ts-lint
 
 patch-markdown: ts-patch-markdown
 
+test: crate-playground-test
 test: rust-test
 test: playground-test
 test: crate-extractor-test

@@ -18,5 +18,3 @@ jobs:
 
       - run: wasm-pack test --headless --chrome crates/playground
       - run: wasm-pack test --headless --firefox crates/playground
-      - run: yarn --cwd packages/playground install
-      - run: yarn --cwd packages/playground test
