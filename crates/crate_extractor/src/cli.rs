@@ -30,7 +30,7 @@ pub struct Opts {
 
 #[derive(Clap)]
 pub enum SubCommand {
-    #[clap(about = "Create .json file for Rust Crate")]
+    #[clap(name = "create", about = "Create .json file for Rust Crate")]
     CmdCreate(CmdCreate),
 }
 
