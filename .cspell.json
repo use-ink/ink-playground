@@ -44,6 +44,8 @@
     "Smol",
     "deps",
     "wgxi",
-    "Fgopy"
+    "Fgopy",
+    "svgr",
+    "evenodd"
   ]
 }
