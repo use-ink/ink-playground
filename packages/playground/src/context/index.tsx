@@ -1,8 +1,9 @@
 import React, { ReactElement, ReactNode, useReducer } from 'react';
-import { Action, defaultState, State, reducer, Dispatch } from './reducer';
+import { defaultState, State, reducer, Dispatch } from './reducer';
 
 export const AppContext: React.Context<[State, Dispatch]> = React.createContext(
-  [defaultState, (_) => {}]
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  [defaultState, _ => {}]
 );
 
 export type Props = {
