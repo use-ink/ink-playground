@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use anyhow::Result;
 use change_json::ChangeJson;
 use std::{
     fs,
@@ -30,6 +31,17 @@ use crate::{
 use clap::Clap;
 use project_model::CargoConfig;
 
+fn to_abs_path(path: &str) -> Result<vfs::AbsPathBuf> {
+    let path = Path::new(&path);
+    Ok(vfs::AbsPathBuf::assert(
+        if path.is_absolute() {
+            path.to_path_buf()
+        } else {
+            std::env::current_dir()?.join(path)
+        },
+    ))
+}
+
 fn main() {
     let cargo_config: CargoConfig = Default::default();
     let load_cargo_config = LoadCargoConfig {
@@ -44,11 +56,13 @@ fn main() {
             manifest_path,
             output,
         }) => {
-            println!("Creating .json file, using: {}", manifest_path);
-            let manifest_path = Path::new(&manifest_path);
-            let output = Path::new(&output);
+            println!("Creating .json file, using: {:?}", manifest_path);
+            let manifest_path = to_abs_path(&manifest_path)
+                .expect("Cannot convert `manifest_path` to absolute path.");
+            let output =
+                to_abs_path(&output).expect("Cannot convert `output` to absolute path.");
             let res = load_change::load_change_at(
-                manifest_path,
+                &manifest_path,
                 &cargo_config,
                 &load_cargo_config,
                 &|_| {},

@@ -29,10 +29,7 @@ use project_model::{
     ProjectWorkspace,
     WorkspaceBuildScripts,
 };
-use std::{
-    path::Path,
-    sync::Arc,
-};
+use std::sync::Arc;
 use vfs::{
     file_set::FileSetConfig,
     loader::Handle,
@@ -47,13 +44,12 @@ pub struct LoadCargoConfig {
 }
 
 pub fn load_change_at(
-    root: &Path,
+    manifest_path: &AbsPathBuf,
     cargo_config: &CargoConfig,
     load_config: &LoadCargoConfig,
     progress: &dyn Fn(String),
 ) -> Result<Change> {
-    let root = AbsPathBuf::assert(std::env::current_dir()?.join(root));
-    let root = ProjectManifest::discover_single(&root)?;
+    let root = ProjectManifest::discover_single(&manifest_path)?;
     let workspace = ProjectWorkspace::load(root, cargo_config, progress)?;
 
     load_change(workspace, cargo_config, load_config, progress)
