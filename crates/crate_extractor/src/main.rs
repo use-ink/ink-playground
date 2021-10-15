@@ -31,6 +31,9 @@ use crate::{
 use clap::Clap;
 use project_model::CargoConfig;
 
+/// Tries to convert a given string into an absolute path
+/// If the path is already absolute, it is returned unchanged.
+/// If the path is relative, an absolute path is created based on the current working directory.
 fn to_abs_path(path: &str) -> Result<vfs::AbsPathBuf> {
     let path = Path::new(&path);
     Ok(vfs::AbsPathBuf::assert(
