@@ -89,7 +89,7 @@ mod tests {
     fn test_parsing_change_json() {
         // given
         let manifest_path = env!("CARGO_MANIFEST_DIR");
-        let manifest_path = to_abs_path(&manifest_path)
+        let manifest_path = to_abs_path(manifest_path)
             .expect("Cannot convert `manifest_path` to absolute path.");
         let cargo_config = CargoConfig::default();
         let load_cargo_config = LoadCargoConfig {
