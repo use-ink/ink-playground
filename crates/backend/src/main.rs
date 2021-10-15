@@ -16,8 +16,12 @@ use crate::cli::Opts;
 use actix_files as fs;
 use actix_web::{
     middleware,
+    web::get,
     App,
+    HttpRequest,
+    HttpResponse,
     HttpServer,
+    Responder,
 };
 use clap::Clap;
 use std::path::Path;
@@ -27,11 +31,16 @@ fn serve_frontend(dir: &str) -> actix_files::Files {
     fs::Files::new("/", dir).index_file("index.html")
 }
 
+async fn route_compile() -> impl Responder {
+    HttpResponse::Ok().body("I'm the compile result!")
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let opts: Opts = Opts::parse();
     let port = opts.port;
     let frontend_folder = opts.frontend_folder;
+    let host = "127.0.0.1";
 
     if !Path::new(&frontend_folder).is_dir() {
         panic!("{} is not a valid directory.", frontend_folder);
@@ -44,11 +53,14 @@ async fn main() -> std::io::Result<()> {
                     .header("Cross-Origin-Opener-Policy", "same-origin")
                     .header("Cross-Origin-Embedder-Policy", "require-corp"),
             )
+            .route("/compile", get().to(route_compile))
             .service(serve_frontend(&frontend_folder))
     })
-    .bind(format!("127.0.0.1:{}", port))?
+    .bind(format!("{}:{}", host, port))?
     .run()
-    .await
+    .await?;
+
+    Ok(())
 }
 
 #[cfg(test)]
