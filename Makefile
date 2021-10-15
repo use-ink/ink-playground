@@ -56,6 +56,9 @@ crate-extractor-test:
 backend-build:
 	cargo build -p backend
 
+backend-run:
+	cargo run -p backend -- --frontend_folder packages/playground/dist
+
 backend-test:
 	cargo test -p backend
 
