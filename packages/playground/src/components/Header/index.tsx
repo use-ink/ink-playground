@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import Logo from '~/svgComponents/InkLogoOnDark';
+import Logo from '~/components/svgComponents/InkLogoOnDark';
 
 export const Header = (): ReactElement => {
   return (
