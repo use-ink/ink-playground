@@ -1,3 +1,10 @@
-export const Header = () => {
-  return <h2 className="m-4">Header</h2>;
+import { ReactElement } from 'react';
+
+export const Header = (): ReactElement => {
+  return (
+    <div className="bg-primary text-primary flex">
+      <h2>Header</h2>
+      <button>Settings</button>
+    </div>
+  );
 };
