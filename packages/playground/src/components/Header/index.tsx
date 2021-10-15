@@ -1,9 +1,10 @@
 import { ReactElement } from 'react';
+import Logo from '~/svgComponents/InkLogoOnDark';
 
 export const Header = (): ReactElement => {
   return (
     <div className="bg-primary text-primary flex">
-      <h2>Header</h2>
+      <Logo style={{ height: '4rem' }} />
       <button>Settings</button>
     </div>
   );

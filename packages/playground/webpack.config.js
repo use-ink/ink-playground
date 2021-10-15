@@ -44,6 +44,21 @@ module.exports = {
           },
         ],
       },
+      {
+        // It does not work on the fly in '@svgr/webpack' version 5.5.0 due to a bug
+        // Is fixed in 6.0.0, but not yet released, will be released soon
+        // Until then we can use the component exported with '@svgr/webpack'
+        test: /\.svg$/,
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: {
+              typescript: true,
+              ext: 'tsx',
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
