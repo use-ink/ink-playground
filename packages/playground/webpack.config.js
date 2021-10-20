@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const tailwindcss = require('tailwindcss');
+const { EnvironmentPlugin } = require('webpack');
 
 module.exports = {
   mode: 'development',
@@ -69,6 +70,7 @@ module.exports = {
       // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
       languages: ['rust'],
     }),
+    new EnvironmentPlugin(['COMPILE_URL']),
   ],
   experiments: {
     asyncWebAssembly: true,
