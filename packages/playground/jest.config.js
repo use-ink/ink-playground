@@ -11,5 +11,6 @@ module.exports = {
     '~/(.*)': '<rootDir>/src/$1',
     '^.+.(css|scss)$': 'identity-obj-proxy',
     'monaco-editor': '<rootDir>/../../node_modules/react-monaco-editor',
+    '\\.svg': '<rootDir>/__mocks__/svgrMock.ts',
   },
 };

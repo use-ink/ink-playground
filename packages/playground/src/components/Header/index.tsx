@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import Logo from '~/components/svgComponents/InkLogoOnDark';
+const Logo = require('~/assets/ink-logo-on-dark.svg').default;
 
 export const Header = (): ReactElement => {
   return (
