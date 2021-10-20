@@ -17,7 +17,7 @@ export async function compile(dispatch: Dispatch, state: State) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ source: 'rust sourcecode' }),
+    body: JSON.stringify({ source: 'rust source code' }),
   })
     .then(async response =>
       response.status === 200
@@ -30,7 +30,7 @@ export async function compile(dispatch: Dispatch, state: State) {
             payload: { message: 'Server error' },
           } as RequestResult)
     )
-    .catch(_ => ({ type: 'REQUEST_ERR', payload: { message: 'Network error' } } as RequestResult));
+    .catch(() => ({ type: 'REQUEST_ERR', payload: { message: 'Network error' } } as RequestResult));
 
   dispatch({
     type: 'SET_COMPILE_STATE',
