@@ -1,0 +1,19 @@
+@font-face {
+  font-family: 'SF Pro Display Regular';
+  src: local('SF Pro Display'), url(../fonts/SFPRODISPLAYREGULAR.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'SF Pro Display Medium';
+  src: local('SF Pro Display'), url(../fonts/SFPRODISPLAYMEDIUM.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'SF Pro Display Bold';
+  src: local('SF Pro Display'), url(../fonts/SFPRODISPLAYBOLD.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'SF Pro Display Italic';
+  src: local('SF Pro Display'), url(../fonts/SFPRODISPLAYBLACKITALIC.woff) format('woff');
+}
