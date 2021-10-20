@@ -1,6 +1,6 @@
 module.exports = {
   purge: [],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     backgroundColor: theme => ({
       ...theme('colors'),
@@ -13,6 +13,7 @@ module.exports = {
       primary: '#D3D4DB',
       secondary: '#ffed4a',
       danger: '#e3342f',
+      light: '#2e2e2e',
     }),
     extend: {},
   },

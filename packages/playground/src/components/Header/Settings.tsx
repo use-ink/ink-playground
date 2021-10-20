@@ -34,7 +34,7 @@ export const Settings = (): ReactElement => {
         </div>
 
         <div className="py-2 flex justify-between">
-          <p>Show Minimap</p>
+          <p>Minimap</p>
           <InputSwitch
             className="settingSwitch"
             checked={state.minimap}
@@ -43,7 +43,7 @@ export const Settings = (): ReactElement => {
         </div>
 
         <div className="py-2 flex justify-between">
-          <p>Show Numbering</p>
+          <p>Numbering</p>
           <InputSwitch
             className="settingSwitch"
             checked={state.numbering}
