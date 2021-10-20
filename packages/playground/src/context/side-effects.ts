@@ -1,9 +1,8 @@
 import { State, Dispatch, RequestResult } from './reducer';
 
 const COMPILE_URL = (() => {
-  if (!process.env.COMPILE_URL)
-    throw new Error("Compile URL not available!");
-  return process.env.COMPILE_URL
+  if (!process.env.COMPILE_URL) throw new Error('Compile URL not available!');
+  return process.env.COMPILE_URL;
 })();
 
 export async function compile(dispatch: Dispatch, state: State) {
@@ -13,14 +12,28 @@ export async function compile(dispatch: Dispatch, state: State) {
 
   const result = await fetch(COMPILE_URL, {
     method: 'POST',
-    body: JSON.stringify({ source: 'rust sourcecode' })
-  }).then(response => response.json());
+    mode: 'cors',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ source: 'rust sourcecode' }),
+  })
+    .then(async response =>
+      response.status === 200
+        ? ({
+            type: 'REQUEST_OK',
+            payload: await response.json(),
+          } as RequestResult)
+        : ({
+            type: 'REQUEST_ERR',
+            payload: { message: 'Server error' },
+          } as RequestResult)
+    )
+    .catch(_ => ({ type: 'REQUEST_ERR', payload: { message: 'Network error' } } as RequestResult));
 
-  console.log(result);
-
-
-  // dispatch({
-  //   type: 'SET_COMPILE_STATE',
-  //   payload: { type: 'COMPILE_STATE_RESULT', payload: result }
-  // });
+  dispatch({
+    type: 'SET_COMPILE_STATE',
+    payload: { type: 'COMPILE_STATE_RESULT', payload: result },
+  });
 }

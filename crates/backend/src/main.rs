@@ -18,19 +18,12 @@ mod services;
 use crate::{
     cli::Opts,
     services::{
-        compile::{
-            route_compile,
-            COMPILE_SANDBOXED,
-        },
+        compile::{route_compile, COMPILE_SANDBOXED},
         frontend::route_frontend,
     },
 };
-use actix_web::{
-    middleware,
-    web::post,
-    App,
-    HttpServer,
-};
+use actix_cors::Cors;
+use actix_web::{middleware, web::post, App, HttpServer};
 use clap::Clap;
 use std::path::Path;
 
@@ -46,7 +39,11 @@ async fn main() -> std::io::Result<()> {
     }
 
     HttpServer::new(move || {
+        // TODO: This is only for development. Add "DEV" flag.
+        let cors = Cors::permissive();
+
         App::new()
+            .wrap(cors)
             .wrap(
                 middleware::DefaultHeaders::new()
                     .header("Cross-Origin-Opener-Policy", "same-origin")

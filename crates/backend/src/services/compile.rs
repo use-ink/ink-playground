@@ -55,7 +55,9 @@ pub enum CompilationResult {
 /// The actual dockerized compilation will happen in here.
 pub const COMPILE_SANDBOXED: CompileStrategy = |req| {
     // TODO: implement!
-    CompilationResult::Success { result: req.source }
+    CompilationResult::Success {
+        result: format!("Compiled: {}", req.source),
+    }
 };
 
 pub async fn route_compile(
