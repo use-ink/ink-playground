@@ -27,6 +27,10 @@ use serde::{
     Deserialize,
     Serialize,
 };
+use ts_rs::{
+    export,
+    TS,
+};
 
 // -------------------------------------------------------------------------------------------------
 // TYPES
@@ -34,14 +38,26 @@ use serde::{
 
 pub type CompileStrategy = fn(CompilationRequest) -> CompilationResult;
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, TS)]
 pub struct CompilationRequest {
     source: String,
 }
 
-pub type CompilationError = String;
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug)]
+#[serde(tag = "type", rename_all = "snake_case")]
+pub enum CompilationResult {
+    Success { result: String },
+    Failure { message: String },
+}
 
-pub type CompilationResult = Result<String, CompilationError>;
+// -------------------------------------------------------------------------------------------------
+// CODE GENERATION
+// -------------------------------------------------------------------------------------------------
+
+export! {
+    CompilationResult => "generated-bindings/CompilationResult.ts",
+    CompilationRequest => "generated-bindings/CompilationRequest.ts"
+}
 
 // -------------------------------------------------------------------------------------------------
 // IMPLEMENTATION
@@ -51,7 +67,7 @@ pub type CompilationResult = Result<String, CompilationError>;
 /// The actual dockerized compilation will happen in here.
 pub const COMPILE_SANDBOXED: CompileStrategy = |req| {
     // TODO: implement!
-    Ok(req.source)
+    CompilationResult::Success { result: req.source }
 };
 
 pub async fn route_compile(
@@ -83,9 +99,13 @@ mod tests {
     /// A compile strategy mock. Accepts only `foo` as "correct" source code.
     const COMPILE_MOCKED: CompileStrategy = |req| {
         if req.source == "foo" {
-            Ok(format!("Compilation of {} succeeded.", req.source))
+            CompilationResult::Success {
+                result: format!("Compilation of {} succeeded.", req.source),
+            }
         } else {
-            Err(format!("Compilation of {} failed.", req.source))
+            CompilationResult::Failure {
+                message: format!("Compilation of {} failed.", req.source),
+            }
         }
     };
 
@@ -109,7 +129,12 @@ mod tests {
 
         let res: CompilationResult = test::read_response_json(&mut app, req).await;
 
-        assert_eq!(res, Ok("Compilation of foo succeeded.".to_string()));
+        assert_eq!(
+            res,
+            CompilationResult::Success {
+                result: "Compilation of foo succeeded.".to_string()
+            }
+        );
     }
 
     /// Simulates a compilation failure on the service
@@ -132,6 +157,11 @@ mod tests {
 
         let res: CompilationResult = test::read_response_json(&mut app, req).await;
 
-        assert_eq!(res, Err("Compilation of bar failed.".to_string()));
+        assert_eq!(
+            res,
+            CompilationResult::Failure {
+                message: "Compilation of bar failed.".to_string()
+            }
+        );
     }
 }

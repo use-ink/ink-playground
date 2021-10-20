@@ -15,3 +15,4 @@ serde = "1.0.130"
 
 [dev-dependencies]
 actix-rt = "2.2.0"
+ts-rs = {version = "4.0.0", features = ["serde-compat"] }  
