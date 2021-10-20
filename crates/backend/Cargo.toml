@@ -15,6 +15,7 @@ serde = "1.0.130"
 ts-rs = { git = "https://github.com/Aleph-Alpha/ts-rs", branch = "main", features = [
     "serde-compat",
 ] }
+actix-cors = "0.5.4"
 
 [dev-dependencies]
 actix-rt = "2.2.0"
