@@ -13,12 +13,15 @@
 // limitations under the License.
 
 mod cli;
-mod routes;
+mod services;
 
 use crate::{
     cli::Opts,
-    routes::{
-        compile::route_compile,
+    services::{
+        compile::{
+            route_compile,
+            COMPILE_SANDBOXED,
+        },
         frontend::route_frontend,
     },
 };
@@ -49,7 +52,10 @@ async fn main() -> std::io::Result<()> {
                     .header("Cross-Origin-Opener-Policy", "same-origin")
                     .header("Cross-Origin-Embedder-Policy", "require-corp"),
             )
-            .route("/compile", post().to(route_compile))
+            .route(
+                "/compile",
+                post().to(|body| route_compile(COMPILE_SANDBOXED, body)),
+            )
             .service(route_frontend("/", &frontend_folder))
     })
     .bind(format!("{}:{}", host, port))?
