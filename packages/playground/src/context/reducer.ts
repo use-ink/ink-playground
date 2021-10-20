@@ -2,35 +2,36 @@ export const defaultState: State = {
   darkmode: true,
   minimap: true,
   numbering: true,
-  compilation: { type: 'NOT_ASKED' },
+  compile: { type: 'COMPILE_STATE_NOT_ASKED' },
 };
 
 export type State = {
   darkmode: boolean;
   minimap: boolean;
   numbering: boolean;
-  compilation: CompilationState;
+  compile: CompileState;
 };
 
-export type CompilationResult =
+export type CompileResult =
   | { type: 'COMPILE_OK'; payload: { result: string } }
   | { type: 'COMPILE_ERR'; payload: { message: string } };
 
-export type CompilationState =
-  | { type: 'NOT_ASKED' }
-  | { type: 'IN_PROGRESS' }
-  | { type: 'RESULT'; payload: CompilationResult }
-  | { type: 'FAILURE'; payload: CompilationFailure };
+export type CompileState =
+  | { type: 'COMPILE_STATE_NOT_ASKED' }
+  | { type: 'COMPILE_STATE_IN_PROGRESS' }
+  | { type: 'COMPILE_STATE_RESULT'; payload: RequestResult };
 
-export type CompilationFailure = { type: 'COMPILATION_FAILURE'; payload: { message: string } };
+export type RequestResult =
+  | { type: 'REQUEST_OK'; payload: CompileResult }
+  | { type: 'REQUEST_ERR'; payload: { message: string } };
 
 export type Action =
   | { type: 'SET_DARKMODE'; payload: boolean }
   | { type: 'SET_NUMBERING'; payload: boolean }
   | { type: 'SET_MINIMAP'; payload: boolean }
-  | { type: 'SET_COMPILATION_STATE'; payload: CompilationState }
-  | { type: 'START_COMPILATION'; payload: string }
-  | { type: 'RECEIVE_COMPILATION'; payload: CompilationResult };
+  | { type: 'SET_COMPILE_STATE'; payload: CompileState }
+  | { type: 'START_COMPILE'; payload: string }
+  | { type: 'RECEIVE_COMPILE'; payload: RequestResult };
 
 export type Dispatch = (action: Action) => void;
 
@@ -50,6 +51,11 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         minimap: action.payload,
+      };
+    case 'SET_COMPILE_STATE':
+      return {
+        ...state,
+        compile: action.payload,
       };
     default:
       return state;

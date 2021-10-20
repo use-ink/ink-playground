@@ -1,26 +1,20 @@
-import { CompilationResult, State, Dispatch, CompilationFailure } from './reducer';
-
-export async function toggleLight(dispatch: Dispatch, state: State) {
-  dispatch({ type: 'SET_DARKMODE', payload: false });
-
-  setTimeout(() => {
-    dispatch({ type: 'SET_DARKMODE', payload: true });
-  }, 3000);
-}
+import { State, Dispatch, RequestResult } from './reducer';
 
 export async function compile(dispatch: Dispatch, state: State) {
-  dispatch({ type: 'SET_COMPILATION_STATE', payload: { type: 'IN_PROGRESS' } });
+  if (state.compile.type === 'COMPILE_STATE_IN_PROGRESS') return;
 
-  // awaite .. fetch..
-  const result: CompilationResult | CompilationFailure = { type: 'COMPILE_OK' };
+  dispatch({ type: 'SET_COMPILE_STATE', payload: { type: 'COMPILE_STATE_IN_PROGRESS' } });
 
-  switch (result.type) {
-    case 'COMPILE_OK':
-      dispatch({
-        type: 'SET_COMPILATION_STATE',
-        payload: { type: 'RESULT', payload: result.payload },
-      });
-  }
+  setTimeout(() => {
+    // await .. fetch..
+    const result: RequestResult = {
+      type: 'REQUEST_OK',
+      payload: { type: 'COMPILE_OK', payload: { result: '' } },
+    };
 
-  dispatch({ type: 'SET_COMPILATION_STATE', payload: { type: 'IN_PROGRESS' } });
+    dispatch({
+      type: 'SET_COMPILE_STATE',
+      payload: { type: 'COMPILE_STATE_RESULT', payload: result }
+    });
+  }, 3000);
 }

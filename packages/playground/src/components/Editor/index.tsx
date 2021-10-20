@@ -3,7 +3,7 @@ import MonacoEditor, { MonacoEditorProps } from 'react-monaco-editor';
 import exampleCode from './example-code';
 import { AppContext } from '~/context';
 import { Dispatch, State } from '~/context/reducer';
-import { compile, toggleLight } from '~/context/side-effects';
+import { compile } from '~/context/side-effects';
 
 export const Editor = (): ReactElement => {
   const [code, setCode] = useState(exampleCode);
@@ -29,17 +29,8 @@ export const Editor = (): ReactElement => {
   return (
     <>
       <div style={{ padding: '1rem', background: 'grey' }}>
-      <pre>{JSON.stringify(state.compilation)}</pre>
-      <button
-          className="btn"
-          onClick={() => toggleLight(dispatch, state)}
-        >
-          TOGGLE
-        </button>
-        <button
-          className="btn"
-          onClick={() => compile(dispatch, state)}
-        >
+        <pre>{JSON.stringify(state.compile)}</pre>
+        <button className="btn" onClick={() => compile(dispatch, state)}>
           COMPILE
         </button>
         <button
