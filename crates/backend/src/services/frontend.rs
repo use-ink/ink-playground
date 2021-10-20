@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//! This module contains the service which serves the backend as static files.
+
 use actix_files as fs;
 
 pub fn route_frontend(at: &str, dir: &str) -> actix_files::Files {
@@ -73,7 +75,7 @@ mod tests {
     }
 
     #[actix_rt::test]
-    async fn test_don_not_serve_nonexistent_file() {
+    async fn test_do_not_serve_nonexistent_file() {
         let temp_dir = env::temp_dir();
         let temp_dir = temp_dir.to_str().unwrap();
 

@@ -12,5 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//! This module contains backend services. Often one service will finally map to
+//! one route. But this is not necessarily the case, thus they're defined route
+//! agnostic (E.g. the compile module does not know that's mapped to the
+//! "/compile" route in the end)
+
 pub mod compile;
 pub mod frontend;
