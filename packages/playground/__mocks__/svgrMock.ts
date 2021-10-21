@@ -1,3 +1,2 @@
-const content = 'test';
-export const ReactComponent = content;
-export default content;
+export default 'SvgrURL';
+export const ReactComponent = 'div';

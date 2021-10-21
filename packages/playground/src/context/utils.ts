@@ -5,4 +5,4 @@ export const setDarkmode = (payload: boolean): void => {
   } else {
     root.classList.remove('dark');
   }
-}
+};

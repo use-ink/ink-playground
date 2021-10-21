@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { Settings } from './Settings';
-const Logo = require('~/assets/ink-logo-on-dark.svg').default;
+import Logo from '~/assets/ink-logo-on-dark.svg';
 
 export const Header = (): ReactElement => {
   return (
