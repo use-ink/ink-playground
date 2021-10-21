@@ -12,52 +12,50 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use serde::Serialize;
-use std::{
-    fs::{
-        create_dir_all,
-        File,
-    },
-    io::{
-        Error,
-        ErrorKind,
-        Result,
-        Write,
-    },
-    path::PathBuf,
-};
-
-// -------------------------------------------------------------------------------------------------
-// TYPES
-// -------------------------------------------------------------------------------------------------
-
-#[derive(Serialize, Debug)]
-pub struct PackageJson {
-    pub name: String,
-    pub types: String,
-    pub description: String,
-}
-
-// -------------------------------------------------------------------------------------------------
-// FUNCTIONS
-// -------------------------------------------------------------------------------------------------
-
-/// Generate a `package.json` file in a given directory
-pub fn generate_package_json(
-    package_json: &PackageJson,
-    dir_path: &PathBuf,
-) -> Result<()> {
-    if dir_path.is_file() {
-        return Err(Error::new(ErrorKind::Other, "Not a directory."))
+#[cfg(test)]
+pub mod tests {
+    use serde::Serialize;
+    use std::{
+        fs::{
+            create_dir_all,
+            File,
+        },
+        io::{
+            Error,
+            ErrorKind,
+            Result,
+            Write,
+        },
+        path::{
+            Path,
+            PathBuf,
+        },
     };
 
-    create_dir_all(dir_path)?;
+    #[derive(Serialize, Debug)]
+    pub struct PackageJson {
+        pub name: String,
+        pub types: String,
+        pub description: String,
+    }
 
-    let package_json_path = dir_path.join(PathBuf::from("package.json"));
-    let mut package_json_file = File::create(package_json_path)?;
-    let content = serde_json::to_string(&package_json)?;
+    /// Generate a `package.json` file in a given directory
+    pub fn generate_package_json(
+        package_json: &PackageJson,
+        dir_path: &Path,
+    ) -> Result<()> {
+        if dir_path.is_file() {
+            return Err(Error::new(ErrorKind::Other, "Not a directory."))
+        };
 
-    writeln!(package_json_file, "{}", content)?;
+        create_dir_all(dir_path)?;
 
-    Ok(())
+        let package_json_path = dir_path.join(PathBuf::from("package.json"));
+        let mut package_json_file = File::create(package_json_path)?;
+        let content = serde_json::to_string(&package_json)?;
+
+        writeln!(package_json_file, "{}", content)?;
+
+        Ok(())
+    }
 }
