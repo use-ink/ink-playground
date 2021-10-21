@@ -4,7 +4,8 @@ module.exports = {
   transform: {
     '^.+.(ts|tsx|js|jsx)$': 'ts-jest',
   },
-  setupFilesAfterEnv: ['<rootDir>/setupTests.ts'],
+  setupFiles: ['<rootDir>/jest/setEnvVars.ts'],
+  setupFilesAfterEnv: ['<rootDir>/jest/setupTests.ts'],
   testEnvironment: 'jsdom',
   transformIgnorePatterns: ['^react-monaco-editor', '^monaco-editor'],
   moduleNameMapper: {
