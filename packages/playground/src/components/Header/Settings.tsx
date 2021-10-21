@@ -20,7 +20,7 @@ export const Settings = (): ReactElement => {
       >
         <div className="flex">
           <i className="pi pi-cog pt-1 mr-1"></i>
-          <p>Settings</p>
+          Settings
         </div>
       </button>
       <OverlayPanel ref={op} showCloseIcon dismissable>
