@@ -46,6 +46,16 @@
     "wgxi",
     "Fgopy",
     "svgr",
-    "evenodd"
+    "evenodd",
+    "SFPRODISPLAYREGULAR",
+    "SFPRODISPLAYMEDIUM",
+    "SFPRODISPLAYBOLD",
+    "SFPRODISPLAYBLACKITALIC",
+    "primereact",
+    "primeicons",
+    "deeppurple",
+    "inputswitch",
+    "overlaypanel",
+    "dismissable"
   ]
 }
