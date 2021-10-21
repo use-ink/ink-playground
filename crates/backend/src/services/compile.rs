@@ -41,7 +41,7 @@ pub struct CompilationRequest {
 }
 
 #[derive(Deserialize, Serialize, TS, PartialEq, Debug)]
-#[serde(tag = "type", rename_all = "snake_case")]
+#[serde(tag = "type", content = "payload", rename_all = "snake_case")]
 pub enum CompilationResult {
     Success { result: String },
     Failure { message: String },
