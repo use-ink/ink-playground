@@ -1,6 +1,6 @@
 export const Console = () => {
   return (
-    <div style={{ height: '13.5vh' }} className="dark:text-primary dark:bg-primary text-light">
+    <div className="consoleHeight dark:text-primary dark:bg-primary text-light dark:border-dark border-light border-t">
       <h2 className="p-4">Console</h2>
     </div>
   );

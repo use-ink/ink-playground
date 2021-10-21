@@ -7,7 +7,7 @@
 /* Custom css */
 
 .header {
-  @apply dark:text-primary dark:bg-primary dark:border-dark border-light border-b text-light flex;
+  @apply dark:text-primary dark:bg-primary dark:border-dark border-light border-b text-light flex max-h-16;
 }
 
 .btn {
@@ -16,4 +16,18 @@
 
 .settingSwitch {
   @apply mt-1 ml-5;
+}
+
+.navbarButton {
+  @apply hover:bg-gray-800 py-1 px-3 rounded text-lg flex;
+}
+
+.verticalDivider {
+  @apply border-l max-h-8 mt-4 dark:border-dark border-light;
+}
+
+/* temporary */
+
+.consoleHeight {
+  height: calc(20vh - 4rem);
 }

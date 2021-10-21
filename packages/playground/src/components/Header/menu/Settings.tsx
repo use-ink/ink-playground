@@ -3,6 +3,7 @@ import { AppContext } from '~/context';
 import { Dispatch, State } from '~/context/reducer';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { InputSwitch } from 'primereact/inputswitch';
+import SettingsIcon from '~/assets/settings.svg';
 
 export const Settings = (): ReactElement => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
@@ -11,17 +12,15 @@ export const Settings = (): ReactElement => {
   return (
     <>
       <button
-        className="mt-1"
+        className="navbarButton"
         onClick={e => {
           if (op.current) {
             op.current.toggle(e, null);
           }
         }}
       >
-        <div className="flex">
-          <i className="pi pi-cog pt-1 mr-1"></i>
-          Settings
-        </div>
+        <SettingsIcon className="mt-1.5 mr-1.5" />
+        Settings
       </button>
       <OverlayPanel ref={op} showCloseIcon dismissable>
         <div className="py-2 flex justify-between">
