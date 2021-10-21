@@ -16,6 +16,8 @@
     "assets/architecture*.xml"
   ],
   "words": [
+    "paritech",
+    "commontypes",
     "compat",
     "dockerized",
     "sandboxed",
