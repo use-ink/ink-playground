@@ -15,6 +15,11 @@ module.exports = {
       danger: '#e3342f',
       light: '#2e2e2e',
     }),
+    borderColor: theme => ({
+      ...theme('colors'),
+      dark: '#31383D',
+      light: '#cecece',
+    }),
     extend: {},
   },
   variants: {
