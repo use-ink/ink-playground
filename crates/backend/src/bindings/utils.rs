@@ -37,6 +37,7 @@ use std::{
 pub struct PackageJson {
     pub name: String,
     pub types: String,
+    pub description: String,
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -45,7 +46,7 @@ pub struct PackageJson {
 
 /// Generate an `index.d.ts` file in a given directory
 /// The index file contains re-exports of all direct sub modules.
-/// Submodules of the form "folder/index.d.ts" are not respected.
+/// Submodules of the form "folder/index.ts" are not respected.
 ///
 /// E.g. if a directory has the following contents:
 /// ```
@@ -73,7 +74,7 @@ pub fn generate_ts_re_export_index(dir_path: &PathBuf) -> Result<()> {
     for entry in read_dir(dir_path)? {
         let path = entry?.path();
         if path.is_file() {
-            let module_name = path.with_extension("").with_extension(""); // double invocation because of `.d.ts` extension
+            let module_name = path.with_extension("").with_extension(""); // double because of `.d.ts`;
             let module_name = module_name.file_name().unwrap().to_str().unwrap();
             if module_name != "index" {
                 writeln!(index_file, "export * from './{}';", module_name)?;
