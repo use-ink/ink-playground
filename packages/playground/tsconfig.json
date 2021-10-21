@@ -19,5 +19,6 @@
       "~/*": ["./src/*"]
     }
   },
-  "include": ["src", "./setupTests.ts", "__tests__"]
+  "include": ["src", "jest", "__tests__"],
+  "exclude": ["jest/svgTransform.ts"]
 }
