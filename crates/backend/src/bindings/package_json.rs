@@ -16,8 +16,6 @@ use serde::Serialize;
 use std::{
     fs::{
         create_dir_all,
-        read_dir,
-        remove_dir_all,
         File,
     },
     io::{
@@ -44,49 +42,8 @@ pub struct PackageJson {
 // FUNCTIONS
 // -------------------------------------------------------------------------------------------------
 
-/// Generate an `index.d.ts` file in a given directory
-/// The index file contains re-exports of all direct sub modules.
-/// Submodules of the form "folder/index.ts" are not respected.
-///
-/// E.g. if a directory has the following contents:
-/// ```
-/// Foo.ts
-/// Bar.ts
-/// Baz/index.ts
-/// Boo.txt
-/// ```
-///
-/// The contents of the `index.ts` file will be:
-/// ```
-/// export * from 'Foo';
-/// export * from 'Bar';
-/// ```
-pub fn generate_ts_re_export_index(dir_path: &PathBuf) -> Result<()> {
-    if dir_path.is_file() {
-        return Err(Error::new(ErrorKind::Other, "Not a directory."))
-    };
-
-    create_dir_all(dir_path)?;
-
-    let index_path = dir_path.join(PathBuf::from("index.d.ts"));
-    let mut index_file = File::create(index_path)?;
-
-    for entry in read_dir(dir_path)? {
-        let path = entry?.path();
-        if path.is_file() {
-            let module_name = path.with_extension("").with_extension(""); // double because of `.d.ts`;
-            let module_name = module_name.file_name().unwrap().to_str().unwrap();
-            if module_name != "index" {
-                writeln!(index_file, "export * from './{}';", module_name)?;
-            }
-        }
-    }
-
-    Ok(())
-}
-
 /// Generate a `package.json` file in a given directory
-pub fn generate_package_json_file(
+pub fn generate_package_json(
     package_json: &PackageJson,
     dir_path: &PathBuf,
 ) -> Result<()> {
@@ -101,15 +58,6 @@ pub fn generate_package_json_file(
     let content = serde_json::to_string(&package_json)?;
 
     writeln!(package_json_file, "{}", content)?;
-
-    Ok(())
-}
-
-/// Removes a directory if it exists
-pub fn clean_dir(dir_path: &PathBuf) -> Result<()> {
-    if dir_path.exists() {
-        remove_dir_all(dir_path)?;
-    }
 
     Ok(())
 }
