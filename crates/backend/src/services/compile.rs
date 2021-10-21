@@ -27,10 +27,7 @@ use serde::{
     Deserialize,
     Serialize,
 };
-use ts_rs::{
-    export,
-    TS,
-};
+use ts_rs::TS;
 
 // -------------------------------------------------------------------------------------------------
 // TYPES
@@ -48,15 +45,6 @@ pub struct CompilationRequest {
 pub enum CompilationResult {
     Success { result: String },
     Failure { message: String },
-}
-
-// -------------------------------------------------------------------------------------------------
-// CODE GENERATION
-// -------------------------------------------------------------------------------------------------
-
-export! {
-    CompilationResult => "generated-bindings/CompilationResult.ts",
-    CompilationRequest => "generated-bindings/CompilationRequest.ts"
 }
 
 // -------------------------------------------------------------------------------------------------
