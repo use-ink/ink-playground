@@ -11,14 +11,7 @@ export const Settings = (): ReactElement => {
 
   return (
     <>
-      <button
-        className="navbarButton"
-        onClick={e => {
-          if (op.current) {
-            op.current.toggle(e, null);
-          }
-        }}
-      >
+      <button className="navbarButton" onClick={e => op.current && op.current.toggle(e, null)}>
         <SettingsIcon className="mt-1.5 mr-1.5" />
         Settings
       </button>

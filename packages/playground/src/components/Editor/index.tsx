@@ -26,17 +26,15 @@ export const Editor = (): ReactElement => {
   };
 
   return (
-    <>
-      <MonacoEditor
-        width="100vw"
-        height="80vh"
-        language="rust"
-        theme={state.darkmode ? 'vs-dark' : 'vs'}
-        value={code}
-        options={options}
-        onChange={handleChange}
-        editorDidMount={editorDidMount}
-      />
-    </>
+    <MonacoEditor
+      width="100vw"
+      height="80vh"
+      language="rust"
+      theme={state.darkmode ? 'vs-dark' : 'vs'}
+      value={code}
+      options={options}
+      onChange={handleChange}
+      editorDidMount={editorDidMount}
+    />
   );
 };
