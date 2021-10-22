@@ -1,5 +1,5 @@
 module.exports = {
   process() {
-    return `module.exports = 'div'`;
+    return `module.exports = 'svg'`;
   },
 };
