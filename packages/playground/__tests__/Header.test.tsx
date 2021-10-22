@@ -10,7 +10,7 @@ describe('Given the Header component is rendered', () => {
     const settingsButton = screen.getByText('Settings');
     const logoIcon = screen.getByTestId('headerLogo');
 
-    // Then I ...
+    // Then ...
     expect(settingsButton).toBeInTheDocument();
     expect(logoIcon).toBeInTheDocument();
   });
@@ -18,7 +18,7 @@ describe('Given the Header component is rendered', () => {
   test('When settings button was not clicked', () => {
     const darkMode = screen.queryByText('Dark Mode');
 
-    // Then I ...
+    // Then ...
     expect(darkMode).toBeNull();
   });
 
@@ -30,7 +30,7 @@ describe('Given the Header component is rendered', () => {
     const minimap = screen.getByText('Minimap');
     const numbering = screen.getByText('Numbering');
 
-    // Then I ...
+    // Then ...
     expect(darkMode).toBeInTheDocument();
     expect(minimap).toBeInTheDocument();
     expect(numbering).toBeInTheDocument();
@@ -42,7 +42,7 @@ describe('Given the Header component is rendered', () => {
     const closeButton = screen.getByLabelText('close');
     closeButton.click();
 
-    // Then I ...
+    // Then ...
     await waitFor(() => {
       expect(screen.queryByText('Dark Mode')).toBeNull();
     });
@@ -53,7 +53,7 @@ describe('Given the Header component is rendered', () => {
     settingsButton.click();
     settingsButton.click();
 
-    // Then I ...
+    // Then ...
     await waitFor(() => {
       expect(screen.queryByText('Dark Mode')).toBeNull();
     });

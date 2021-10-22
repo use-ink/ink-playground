@@ -3,7 +3,9 @@ import { render } from '@testing-library/react';
 
 jest.mock('monaco-editor/esm/vs/editor/editor.api.js');
 
-test('should render the monaco-editor', async () => {
+test('Given the monaco editor is imported and mocked', async () => {
+  // When it is rendered
   const renderedEditor = render(<Editor />);
+  // Then ...
   expect(renderedEditor).toMatchSnapshot();
 });
