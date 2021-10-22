@@ -22,16 +22,16 @@ export const MainMenu = (): ReactElement => {
         <ButtonWithIcon
           label="Compile"
           Icon={CompileIcon}
-          onClickHandler={() => console.log('Compile was clicked!')}
+          onClick={() => console.log('Compile was clicked!')}
         />
         <ButtonWithIcon
           label="Download"
           Icon={DownloadIcon}
-          onClickHandler={() => console.log('Download was clicked!')}
+          onClick={() => console.log('Download was clicked!')}
         />
-        <ButtonWithIcon label="Settings" Icon={SettingsIcon} onClickHandler={openDropdown} />
+        <ButtonWithIcon label="Settings" Icon={SettingsIcon} onClick={openDropdown} />
         <div className="flex-grow"></div>
-        <ButtonWithIcon label="GitHub Repo" Icon={GithubRepoIcon} onClickHandler={openRepoUrl} />
+        <ButtonWithIcon label="GitHub Repo" Icon={GithubRepoIcon} onClick={openRepoUrl} />
       </div>
       <OverlayPanel ref={op} showCloseIcon dismissable>
         <SettingsDropdown />
