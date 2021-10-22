@@ -17,6 +17,9 @@
   ],
   "words": [
     "testid",
+    "compat",
+    "dockerized",
+    "sandboxed",
     "struct",
     "rustfmt",
     "actix",

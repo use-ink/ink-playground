@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use anyhow::Result;
 use change_json::ChangeJson;
 use std::{
     fs,
@@ -30,6 +31,20 @@ use crate::{
 use clap::Clap;
 use project_model::CargoConfig;
 
+/// Tries to convert a given string into an absolute path
+/// If the path is already absolute, it is returned unchanged.
+/// If the path is relative, an absolute path is created based on the current working directory.
+fn to_abs_path(path: &str) -> Result<vfs::AbsPathBuf> {
+    let path = Path::new(&path);
+    Ok(vfs::AbsPathBuf::assert(
+        if path.is_absolute() {
+            path.to_path_buf()
+        } else {
+            std::env::current_dir()?.join(path)
+        },
+    ))
+}
+
 fn main() {
     let cargo_config: CargoConfig = Default::default();
     let load_cargo_config = LoadCargoConfig {
@@ -40,12 +55,17 @@ fn main() {
     let opts: Opts = Opts::parse();
 
     match opts.subcmd {
-        SubCommand::CmdCreate(CmdCreate { path, output }) => {
-            println!("Creating .json file, using: {}", path);
-            let path = Path::new(&path);
-            let output = Path::new(&output);
+        SubCommand::CmdCreate(CmdCreate {
+            manifest_path,
+            output,
+        }) => {
+            println!("Creating .json file, using: {:?}", manifest_path);
+            let manifest_path = to_abs_path(&manifest_path)
+                .expect("Cannot convert `manifest_path` to absolute path.");
+            let output =
+                to_abs_path(&output).expect("Cannot convert `output` to absolute path.");
             let res = load_change::load_change_at(
-                path,
+                &manifest_path,
                 &cargo_config,
                 &load_cargo_config,
                 &|_| {},
@@ -71,11 +91,9 @@ mod tests {
     #[test]
     fn test_parsing_change_json() {
         // given
-        let path = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .parent()
-            .unwrap()
-            .parent()
-            .unwrap();
+        let manifest_path = env!("CARGO_MANIFEST_DIR");
+        let manifest_path = to_abs_path(manifest_path)
+            .expect("Cannot convert `manifest_path` to absolute path.");
         let cargo_config = CargoConfig::default();
         let load_cargo_config = LoadCargoConfig {
             load_out_dirs_from_check: false,
@@ -84,11 +102,15 @@ mod tests {
         };
 
         // when
-        let change =
-            load_change::load_change_at(path, &cargo_config, &load_cargo_config, &|_| {})
-                .unwrap_or_else(|err| {
-                    panic!("Error while creating Change object: {}", err);
-                });
+        let change = load_change::load_change_at(
+            &manifest_path,
+            &cargo_config,
+            &load_cargo_config,
+            &|_| {},
+        )
+        .unwrap_or_else(|err| {
+            panic!("Error while creating Change object: {}", err);
+        });
 
         // then
         let json = ChangeJson::from(&change);
