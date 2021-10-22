@@ -1,7 +1,7 @@
 import { Header } from '~/components';
 import { render, screen, waitFor } from '@testing-library/react';
 
-describe('When the Header component rendered', () => {
+describe('Given the Header component is rendered', () => {
   beforeEach(() => {
     render(<Header />);
   });
