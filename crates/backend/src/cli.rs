@@ -14,7 +14,7 @@
 
 use clap::Clap;
 
-#[derive(Clap)]
+#[derive(Clap, Clone)]
 #[clap(
     version = "0.1",
     author = "Achim Schneider <achim@parity.io>",
@@ -26,4 +26,7 @@ pub struct Opts {
 
     #[clap(short = 'f', long = "frontend_folder")]
     pub frontend_folder: String,
+
+    #[clap(short = 'd', long = "dev_mode")]
+    pub dev_mode: bool,
 }

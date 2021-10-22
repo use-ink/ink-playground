@@ -46,9 +46,14 @@ async fn main() -> std::io::Result<()> {
         panic!("{} is not a valid directory.", frontend_folder);
     }
 
+    let dev_mode = opts.dev_mode;
+
     HttpServer::new(move || {
-        // TODO: This is only for development. Add "DEV" flag.
-        let cors = Cors::permissive();
+        let cors = if dev_mode {
+            Cors::permissive()
+        } else {
+            Cors::default()
+        };
 
         App::new()
             .wrap(cors)
