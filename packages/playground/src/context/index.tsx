@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode, useReducer, useEffect } from 'react';
 import { defaultState, State, reducer, Dispatch } from './reducer';
-import { setDarkmode } from './utils';
+import { setDarkmode } from './setDarkmode';
 
 export const AppContext: React.Context<[State, Dispatch]> = React.createContext(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
