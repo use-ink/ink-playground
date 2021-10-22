@@ -1,4 +1,4 @@
-import { Header } from '~/components';
+import { Header } from '~/page/Header';
 import { render, screen, waitFor } from '@testing-library/react';
 
 describe('Given the Header component is rendered', () => {

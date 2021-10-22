@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import Logo from '~/assets/ink-logo-on-dark.svg';
+import { Logo } from '~/symbols';
 import { MainMenu } from './MainMenu';
 
 export const Header = (): ReactElement => {
