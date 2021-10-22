@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Welcome } from '~/page/WasmTest/Welcome';
+import { Welcome } from '~/App/WasmTest/Welcome';
 
 test('Given the Welcome component is imported', () => {
   // When it is rendered

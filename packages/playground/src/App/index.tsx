@@ -1,4 +1,7 @@
-import { Layout, Header, Editor, Console } from '~/components';
+import { Layout } from './Layout';
+import { Header } from './Header';
+import { Editor } from './Editor';
+import { Console } from './Console';
 import { AppProvider } from '~/context';
 import { ReactElement } from 'react';
 
