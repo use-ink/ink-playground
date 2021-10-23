@@ -1,15 +1,16 @@
 import { COMPILE_URL } from '~/env';
+import * as Common from '~/commontypes';
 
 // -------------------------------------------------------------------------------------------------
 // Types
 // -------------------------------------------------------------------------------------------------
 
-export type CompileApiRequest = { source: string };
+export type CompileApiRequest = Common.CompilationRequest;
 
 export type CompileApiResponse =
   | {
       type: 'OK';
-      payload: { result: string };
+      payload: Common.CompilationResult;
     }
   | {
       type: 'NETWORK_ERROR';
