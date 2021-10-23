@@ -12,10 +12,10 @@ describe('Given the ButtonWithIcon component is rendered', () => {
       <ButtonWithIcon
         label="testButton"
         Icon={SettingsIcon}
+        testId={buttonIcon}
         onClick={() => {
           wasClicked();
         }}
-        data-testid={buttonIcon}
       />
     );
   });

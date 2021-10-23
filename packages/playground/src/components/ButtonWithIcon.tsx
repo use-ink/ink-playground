@@ -9,8 +9,8 @@ type ButtonProps = {
 
 export const ButtonWithIcon = ({ label, Icon, onClick, testId }: ButtonProps): ReactElement => {
   return (
-    <button className="navbarButton" onClick={(e?) => onClick(e)} data-testid={testId}>
-      <Icon className="mt-1.5 mr-1.5" />
+    <button className="navbarButton" onClick={(e?) => onClick(e)}>
+      <Icon className="mt-1.5 mr-1.5" data-testid={testId} />
       {label}
     </button>
   );
