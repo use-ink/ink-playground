@@ -1,8 +1,10 @@
+import { CompileApiRequest, CompileApiResponse } from '~/api/compile';
+
 export const defaultState: State = {
   darkmode: true,
   minimap: true,
   numbering: true,
-  compile: { type: 'COMPILE_STATE_NOT_ASKED' },
+  compile: { type: 'NOT_ASKED' },
 };
 
 export type State = {
@@ -12,26 +14,16 @@ export type State = {
   compile: CompileState;
 };
 
-export type CompileResult =
-  | { type: 'COMPILE_OK'; payload: { result: string } }
-  | { type: 'COMPILE_ERR'; payload: { message: string } };
-
 export type CompileState =
-  | { type: 'COMPILE_STATE_NOT_ASKED' }
-  | { type: 'COMPILE_STATE_IN_PROGRESS' }
-  | { type: 'COMPILE_STATE_RESULT'; payload: RequestResult };
-
-export type RequestResult =
-  | { type: 'REQUEST_OK'; payload: CompileResult }
-  | { type: 'REQUEST_ERR'; payload: { message: string } };
+  | { type: 'NOT_ASKED' }
+  | { type: 'IN_PROGRESS' }
+  | { type: 'RESULT'; payload: CompileApiResponse };
 
 export type Action =
   | { type: 'SET_DARKMODE'; payload: boolean }
   | { type: 'SET_NUMBERING'; payload: boolean }
   | { type: 'SET_MINIMAP'; payload: boolean }
-  | { type: 'SET_COMPILE_STATE'; payload: CompileState }
-  | { type: 'START_COMPILE'; payload: string }
-  | { type: 'RECEIVE_COMPILE'; payload: RequestResult };
+  | { type: 'SET_COMPILE_STATE'; payload: CompileState };
 
 export type Dispatch = (action: Action) => void;
 
