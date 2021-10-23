@@ -1,4 +1,4 @@
-import { CompileApiRequest, CompileApiResponse } from '~/api/compile';
+import { CompileApiResponse } from '~/api/compile';
 
 export const defaultState: State = {
   darkmode: true,
