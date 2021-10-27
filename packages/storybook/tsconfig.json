@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "../", // This must be specified if "paths" is.
+    "paths": {
+      "playground": ["playground/src"],
+      "playground/*": ["playground/src/*"]
+    }
+  }
+}
