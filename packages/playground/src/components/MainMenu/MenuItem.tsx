@@ -1,16 +1,23 @@
 import { ReactElement, ReactNode } from 'react';
+import type { MenuItem as MenuItem_, Id } from '.';
 
-export type HandlerOrPanel = (() => void) | ReactNode;
-
-export type MenuItem = {
-  label: string;
-  icon: ReactNode;
-  sub: HandlerOrPanel;
-  id: string;
+export type Props = MenuItem_ & {
+  id: Id;
+  openId?: Id;
 };
 
-export type Props = MenuItem & { isOpen: boolean; triggerSub: () => void };
-
 export const MenuItem = (props: Props): ReactElement => {
-  return <button onClick={() => props.triggerSub()}>Text</button>;
+  return (
+    <>
+      <button
+        onClick={() => {
+          props.onClick && props.onClick();
+          props.sub && props.sub.trigger(props.id);
+        }}
+      >
+        Text
+      </button>
+      <div>{props.sub && props.openId === props.id && props.sub.content}</div>
+    </>
+  );
 };

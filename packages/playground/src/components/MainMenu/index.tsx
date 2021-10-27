@@ -1,25 +1,25 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement, ReactNode, useState } from 'react';
 import { MenuItem } from './MenuItem';
-export type { MenuItem } from './MenuItem';
+
+export type Id = number;
+
+export type MenuItem = {
+  label: string;
+  icon: ReactNode;
+  onClick?: () => void;
+  sub?: { content: ReactNode; trigger: (id: Id) => void };
+};
 
 export type Props = {
+  openId?: Id;
   items: MenuItem[];
 };
 
 export const MainMenu = (props: Props): ReactElement => {
-  const [dropdownOpen, setDropdownOpen] = useState<null | string>(null);
-
   return (
     <div>
       {props.items.map((item, index) => (
-        <MenuItem
-          key={index}
-          isOpen={item.id === dropdownOpen}
-          triggerSub={() =>
-            typeof item.sub === 'function' ? item.sub() : setDropdownOpen(item.id)
-          }
-          {...item}
-        />
+        <MenuItem key={index} {...item} id={index} openId={props.openId} />
       ))}
     </div>
   );
