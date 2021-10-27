@@ -8,7 +8,7 @@ export type Props = MenuItem_ & {
 
 export const MenuItem = (props: Props): ReactElement => {
   return (
-    <>
+    <div style={{ border: '1px solid red' }}>
       <button
         onClick={() => {
           props.onClick && props.onClick();
@@ -18,6 +18,6 @@ export const MenuItem = (props: Props): ReactElement => {
         Text
       </button>
       <div>{props.sub && props.openId === props.id && props.sub.content}</div>
-    </>
+    </div>
   );
 };

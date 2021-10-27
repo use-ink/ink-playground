@@ -18,5 +18,8 @@
     "@storybook/react": "^6.3.12",
     "babel-loader": "^8.2.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "react": "^17.0.2",
+    "playground": "*"
+  }
 }

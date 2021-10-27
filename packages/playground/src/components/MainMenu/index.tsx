@@ -17,7 +17,7 @@ export type Props = {
 
 export const MainMenu = (props: Props): ReactElement => {
   return (
-    <div>
+    <div style={{ border: '1px solid blue' }}>
       {props.items.map((item, index) => (
         <MenuItem key={index} {...item} id={index} openId={props.openId} />
       ))}
