@@ -103,7 +103,8 @@ ts-check-spelling:
 	yarn cspell '**/*.*'
 
 ts-clean:
-	rm -rf node_modules
+	rm -rf node_modules \
+	rm -rf packages/*/node_modules
 
 ts-format:
 	yarn run prettier --write .
@@ -132,6 +133,7 @@ check-spelling: ts-check-spelling
 
 clean: rust-clean
 clean: ts-clean
+clean: playground-clean
 
 install: ts-install
 
