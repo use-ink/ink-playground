@@ -131,9 +131,9 @@ check-format: ts-check-format
 
 check-spelling: ts-check-spelling
 
+clean: playground-clean
 clean: rust-clean
 clean: ts-clean
-clean: playground-clean
 
 install: ts-install
 
