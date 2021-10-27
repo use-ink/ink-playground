@@ -1,6 +1,7 @@
 import { ReactElement, useState } from 'react';
 import { Logo } from '~/symbols';
-import { MainMenu } from '~/components/MainMenu';
+// import { MainMenu } from '~/components/MainMenu';
+import { MainMenu } from '~/App/Header/MainMenu';
 
 export const Header = (): ReactElement => {
   const [dropdownOpen, setDropdownOpen] = useState<undefined | number>();
@@ -9,7 +10,8 @@ export const Header = (): ReactElement => {
     <div className="header">
       <Logo className="h-16 w-32" data-testid="headerLogo" />
       <div className="verticalDivider" />
-      <MainMenu
+      <MainMenu />
+      {/*<MainMenu
         openId={dropdownOpen}
         items={[
           { label: 'Compile', icon: '', onClick: () => {} },
@@ -23,7 +25,7 @@ export const Header = (): ReactElement => {
             },
           },
         ]}
-      />
+      />*/}
     </div>
   );
 };
