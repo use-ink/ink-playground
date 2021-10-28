@@ -1,4 +1,4 @@
-import { MainMenu, reducer, init } from '@paritytech/components/MainMenu';
+import { MainMenu, reducer, init } from 'paritytech/components/MainMenu';
 import { render } from '@testing-library/react';
 import { useReducer } from 'react';
 
