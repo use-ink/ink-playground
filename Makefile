@@ -76,6 +76,13 @@ crate-playground-test: crate-playground-test-chrome
 crate-playground-test: crate-playground-test-firefox
 
 ################################################################################
+# ENTRYPOINT: storybook
+################################################################################
+
+storybook-start:
+	yarn workspace storybook start
+
+################################################################################
 # ECOSYSTEM: RUST
 ################################################################################
 
