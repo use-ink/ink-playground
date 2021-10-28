@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { classnames } from '@paritytech/tailwindcss-classnames';
+import { classnames } from 'tailwindcss-classnames';
 import { MenuItem } from './MenuItem';
 import { Props } from './props';
 export * from './state';
