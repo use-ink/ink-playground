@@ -2,7 +2,7 @@ import { ReactElement, MouseEvent, useRef } from 'react';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { SettingsDropdown } from './SettingsDropdown';
 import { CompileIcon, DownloadIcon, GithubRepoIcon, SettingsIcon } from '~/symbols';
-import { ButtonWithIcon } from '~/components/ButtonWithIcon';
+import { ButtonWithIcon } from '@paritytech/components/ButtonWithIcon';
 
 export const MainMenu = (): ReactElement => {
   const op = useRef<OverlayPanel>(null);

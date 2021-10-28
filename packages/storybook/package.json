@@ -19,7 +19,9 @@
     "babel-loader": "^8.2.3"
   },
   "dependencies": {
+    "autoprefixer": "^10.3.7",
+    "playground": "*",
     "react": "^17.0.2",
-    "playground": "*"
+    "tailwindcss": "^2.2.17"
   }
 }

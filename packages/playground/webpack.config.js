@@ -19,6 +19,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.wasm', '.css'],
     alias: {
       '~': path.resolve(__dirname, 'src/'),
+      '@paritytech/components': path.resolve(__dirname, '../components/src'),
     },
   },
   stats: 'errors-only',

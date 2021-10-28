@@ -1,6 +1,9 @@
-import { MainMenu, reducer, init } from 'playground/src/components/MainMenu';
-import { Props } from 'playground/src/components/MainMenu/MenuItem';
-import { ReactElement, useReducer, useState } from 'react';
+import { MainMenu, reducer, init } from '@paritytech/components/MainMenu';
+import { Props as MainMenuProps } from '@paritytech/components/MainMenu/MenuItem';
+import { useReducer } from 'react';
+import { Story } from '@storybook/react';
+
+type Props = Omit<MainMenuProps, 'state' | 'dispatch'>;
 
 const MainMenuWithState = (props: Props) => {
   const [state, dispatch] = useReducer(reducer, init);
@@ -14,16 +17,16 @@ export default {
   argTypes: {},
 };
 
-export const Primary = MainMenuWithState.bind({});
+export const Default: Story<Props> = args => <MainMenuWithState {...args} />;
 
-Primary.args = {
+Default.args = {
   items: [
     { label: 'Apple', icon: '', onClick: () => alert('apple') },
     { label: 'Pancake', icon: '', onClick: () => alert('pancake') },
     {
       label: 'Dishes',
       icon: '',
-      subContent: () => 'more dishes',
+      subContent: () => <h2>More Dishes</h2>,
     },
     {
       label: 'Wishes',
