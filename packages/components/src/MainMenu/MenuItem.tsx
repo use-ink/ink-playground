@@ -1,7 +1,6 @@
 import { ReactElement, MouseEvent } from 'react';
 import * as MainMenu from '.';
 import { ButtonWithIcon } from '@paritytech/components/ButtonWithIcon';
-import { OverlayPanel } from 'primereact/overlaypanel';
 
 export interface Props extends MainMenu.Props, MainMenu.MenuItem {
   id: MainMenu.Id;

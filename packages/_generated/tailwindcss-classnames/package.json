@@ -1,14 +1,14 @@
 {
-  "name": "@paritytech/components",
+  "name": "@paritytech/tailwindcss-classnames",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "tailwindcss-classnames": "^2.2.5"
+    "clsx": "^1.1.1"
   }
 }

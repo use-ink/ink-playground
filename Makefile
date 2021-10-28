@@ -17,8 +17,10 @@
 ################################################################################
 
 generate-tailwind-types:
-	mkdir node_modules/@paritytech/tailwindcss-classnames/ -p && \
-	yarn workspace playground tailwindcss-classnames -i ./tailwind.config.js -o ../../node_modules/@paritytech/tailwindcss-classnames/index.ts
+	mkdir packages/_generated/tailwindcss-classnames/src/ -p && \
+	yarn workspace playground tailwindcss-classnames \
+	-i ./tailwind.config.js \
+	-o ../_generated/tailwindcss-classnames/src/index.ts
 
 ################################################################################
 # ENTRYPOINT: playground

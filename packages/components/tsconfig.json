@@ -17,11 +17,10 @@
     "baseUrl": "./",
     "paths": {
       "~/*": ["./src/*"],
-      "@paritytech/tailwindcss-classnames": [
-        "../../node_modules/@paritytech/tailwindcss-classnames/"
-      ],
       "@paritytech/components": ["../components/src"],
-      "@paritytech/components/*": ["../components/src/*"]
+      "@paritytech/components/*": ["../components/src/*"],
+      "@paritytech/tailwindcss-classnames": ["../_generated/tailwindcss-classnames/src"],
+      "@paritytech/tailwindcss-classnames/*": ["../_generated/tailwindcss-classnames/src/*"]
     }
   },
   "include": ["src", "jest", "__tests__"],

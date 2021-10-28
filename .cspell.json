@@ -13,9 +13,11 @@
     "package-lock.json",
     "yarn.lock",
     "**/yarn-error.log",
-    "assets/architecture*.xml"
+    "assets/architecture*.xml",
+    "**/_generated/tailwindcss-classnames/src/**"
   ],
   "words": [
+    "clsx",
     "SUBMENU",
     "paritytech",
     "testid",

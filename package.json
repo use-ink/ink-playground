@@ -1,7 +1,8 @@
 {
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/_generated/*"
   ],
   "devDependencies": {
     "@prettier/plugin-xml": "^1.1.0",

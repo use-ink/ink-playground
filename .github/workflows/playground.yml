@@ -1,4 +1,4 @@
-name: TS
+name: Playground
 
 on: [push, pull_request]
 
