@@ -7,7 +7,7 @@ export const SettingsDropdown = (): ReactElement => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
 
   return (
-    <>
+    <div className="mr-8">
       <div className="py-2 flex justify-between">
         <p>Dark Mode</p>
         <InputSwitch
@@ -34,6 +34,6 @@ export const SettingsDropdown = (): ReactElement => {
           onChange={() => dispatch({ type: 'SET_NUMBERING', payload: !state.numbering })}
         />
       </div>
-    </>
+    </div>
   );
 };

@@ -1,11 +1,10 @@
-const { config } = require('react-transition-group');
 const path = require('path');
 
 module.exports = {
   stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
   webpackFinal: async config => {
-    return {
+    const updatedConfig = {
       ...config,
       resolve: {
         ...config?.resolve,
@@ -15,7 +14,17 @@ module.exports = {
           '@paritytech/components': path.resolve(__dirname, '../../components/src'),
         },
       },
+      module: {
+        ...config.module,
+        rules: [...config.module?.rules],
+      },
     };
+    updatedConfig.module.rules.push({
+      test: /\.(tsx|ts)$/,
+      use: 'ts-loader',
+      exclude: /node_modules\/(?!(@paritytech\/tailwindcss-classnames)\/).*/,
+    });
+    return updatedConfig;
     // config.module.rules.push({
     //   test: /\.css$/,
     //   use: [

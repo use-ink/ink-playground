@@ -16,7 +16,12 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "@paritytech/tailwindcss-classnames": [
+        "../../node_modules/@paritytech/tailwindcss-classnames/"
+      ],
+      "@paritytech/components": ["../components/src"],
+      "@paritytech/components/*": ["../components/src/*"]
     }
   },
   "include": ["src", "jest", "__tests__"],

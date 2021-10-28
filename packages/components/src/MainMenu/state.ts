@@ -1,4 +1,4 @@
-export type Id = number;
+export type Id = number | null;
 
 export type Action =
   | {
@@ -19,7 +19,7 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, openId: action.payload.id };
 
     case 'CLOSE_SUBMENU':
-      return { ...state, openId: undefined };
+      return { ...state, openId: null };
   }
 };
 

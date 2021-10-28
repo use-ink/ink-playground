@@ -1,3 +1,18 @@
 body {
   font-family: 'SF Pro Display Regular';
 }
+
+.p-overlaypanel {
+  border-radius: 0.5rem !important;
+}
+
+.p-overlaypanel .p-overlaypanel-close {
+  top: 0.5rem !important;
+  right: 0.5rem !important;
+  background-color: transparent !important;
+  color: #737480 !important;
+}
+
+.p-overlaypanel .p-overlaypanel-close:hover {
+  background-color: transparent !important;
+}

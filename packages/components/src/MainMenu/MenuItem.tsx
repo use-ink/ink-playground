@@ -1,5 +1,7 @@
-import { ReactElement } from 'react';
+import { ReactElement, MouseEvent } from 'react';
 import * as MainMenu from '.';
+import { ButtonWithIcon } from '@paritytech/components/ButtonWithIcon';
+import { OverlayPanel } from 'primereact/overlaypanel';
 
 export interface Props extends MainMenu.Props, MainMenu.MenuItem {
   id: MainMenu.Id;
@@ -7,24 +9,24 @@ export interface Props extends MainMenu.Props, MainMenu.MenuItem {
 
 const isOpen = (props: Props): boolean => props.state.openId === props.id;
 
-const buttonClick = (props: Props) => (): void => {
-  if (props.onClick) props.onClick();
+const buttonClick =
+  (props: Props) =>
+  (e?: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>): void => {
+    if (props.onClick) props.onClick(e);
 
-  if (!props.subContent) return;
+    if (!props.subContent) return;
 
-  const action: MainMenu.Action = isOpen(props)
-    ? { type: 'CLOSE_SUBMENU' }
-    : { type: 'OPEN_SUBMENU', payload: { id: props.id } };
+    const action: MainMenu.Action = isOpen(props)
+      ? { type: 'CLOSE_SUBMENU' }
+      : { type: 'OPEN_SUBMENU', payload: { id: props.id } };
 
-  props.dispatch(action);
-};
+    props.dispatch(action);
+  };
 
 export const MenuItem = (props: Props): ReactElement => {
   return (
-    <div style={{ border: '1px solid red' }}>
-      <button onClick={buttonClick(props)}>
-        {props.label} {isOpen(props) ? 'X' : ''}
-      </button>
+    <div>
+      <ButtonWithIcon label={props.label} Icon={props.icon} onClick={buttonClick(props)} />
       <div>{props.subContent && isOpen(props) && props.subContent()}</div>
     </div>
   );

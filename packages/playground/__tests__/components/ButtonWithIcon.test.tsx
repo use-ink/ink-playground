@@ -1,4 +1,4 @@
-import { ButtonWithIcon } from '@paritytech/components';
+import { ButtonWithIcon } from '../../../components/src/';
 import { render, screen } from '@testing-library/react';
 import { SettingsIcon } from '~/symbols';
 import { buttonIcon } from '~/ids';

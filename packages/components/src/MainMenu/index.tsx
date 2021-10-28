@@ -7,7 +7,7 @@ export * from './props';
 import { defStyle } from '../style-utils';
 
 const style = defStyle({
-  root: ['flex', 'w-full', 'text-light'],
+  root: ['flex', 'p-3.5'],
 });
 
 export const MainMenu = (props: Props): ReactElement => {
