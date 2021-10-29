@@ -27,3 +27,7 @@
 .consoleHeight {
   height: calc(20vh - 4rem);
 }
+
+.p-overlaypanel-content {
+  @apply rounded dark:text-primary dark:bg-elevation text-lg;
+}

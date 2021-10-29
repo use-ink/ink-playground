@@ -1,6 +1,7 @@
-import { ReactElement, MouseEvent } from 'react';
+import { ReactElement } from 'react';
 import * as MainMenu from '.';
 import { ButtonWithIcon } from '@paritytech/components/ButtonWithIcon';
+import { ReactMouseEvent } from './props';
 
 export interface Props extends MainMenu.Props, MainMenu.MenuItem {
   id: MainMenu.Id;
@@ -10,7 +11,7 @@ const isOpen = (props: Props): boolean => props.state.openId === props.id;
 
 const buttonClick =
   (props: Props) =>
-  (e?: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>): void => {
+  (e?: ReactMouseEvent): void => {
     if (props.onClick) props.onClick(e);
 
     if (!props.subContent) return;

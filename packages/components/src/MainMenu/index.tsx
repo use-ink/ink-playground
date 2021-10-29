@@ -1,18 +1,17 @@
 import { ReactElement } from 'react';
-import { classnames } from '../../../_generated/tailwindcss-classnames/src';
 import { MenuItem } from './MenuItem';
 import { Props } from './props';
 export * from './state';
 export * from './props';
-import { defStyle } from '../style-utils';
+import { defStyles, classnames } from '../style-utils';
 
-const style = defStyle({
-  root: ['flex', 'p-3.5'],
+const style = defStyles({
+  mainMenu: ['flex', 'p-3.5'],
 });
 
 export const MainMenu = (props: Props): ReactElement => {
   return (
-    <div className={classnames(...style.root)}>
+    <div className={classnames(style.mainMenu)}>
       {props.items.map((item, index) => (
         <MenuItem key={index} {...props} {...item} id={index} />
       ))}

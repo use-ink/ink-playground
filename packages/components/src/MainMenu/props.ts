@@ -1,10 +1,14 @@
 import { ReactNode, MouseEvent } from 'react';
 import { State, Action } from './state';
 
+export type SvgrComponent = React.FC<React.SVGProps<SVGSVGElement>>;
+
+export type ReactMouseEvent = MouseEvent<HTMLButtonElement, globalThis.MouseEvent>;
+
 export type MenuItem = {
   label: string;
-  icon: React.FC<React.SVGProps<SVGSVGElement>>;
-  onClick?: (e?: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => void | null;
+  icon: SvgrComponent;
+  onClick?: (e?: ReactMouseEvent) => void | null;
   subContent?: () => ReactNode;
 };
 

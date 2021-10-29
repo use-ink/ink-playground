@@ -7,6 +7,7 @@ module.exports = {
       primary: '#1A1D1F',
       secondary: '#ffed4a',
       danger: '#e3342f',
+      elevation: 'rgba(36, 42, 46, 2)',
     }),
     textColor: theme => ({
       ...theme('colors'),
