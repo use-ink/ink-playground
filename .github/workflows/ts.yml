@@ -15,6 +15,9 @@ jobs:
       - name: TS install
         run: make ts-install
 
+      - name: TS generate
+        run: make ts-generate
+
       - name: TS lint
         run: make ts-lint
 

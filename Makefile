@@ -16,6 +16,11 @@
 # This is useful to get an early local feedback how real CI will run.
 ################################################################################
 
+
+################################################################################
+# GENERATE
+################################################################################
+
 generate-tailwind-types:
 	mkdir packages/_generated/tailwindcss-classnames/src/ -p && \
 	yarn workspace playground tailwindcss-classnames \
@@ -122,6 +127,8 @@ ts-clean:
 
 ts-format:
 	yarn run prettier --write .
+
+ts-generate: generate-tailwind-types
 
 ts-install:
 	yarn install
