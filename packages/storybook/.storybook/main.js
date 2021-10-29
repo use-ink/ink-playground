@@ -18,24 +18,22 @@ module.exports = {
           ),
         },
       },
-      module: {
-        ...config.module,
-        rules: [...config.module?.rules],
-      },
     };
+    updatedConfig.module.rules.push({
+      test: /\.css$/,
+      use: [
+        {
+          loader: 'postcss-loader',
+          options: {
+            postcssOptions: {
+              ident: 'postcss',
+              plugins: [require('tailwindcss'), require('autoprefixer')],
+            },
+          },
+        },
+      ],
+      include: path.resolve(__dirname, '../'),
+    });
     return updatedConfig;
-    // config.module.rules.push({
-    //   test: /\.css$/,
-    //   use: [
-    //     {
-    //       loader: 'postcss-loader',
-    //       options: {
-    //         ident: 'postcss',
-    //         plugins: [require('tailwindcss'), require('autoprefixer')],
-    //       },
-    //     },
-    //   ],
-    //   include: path.resolve(__dirname, '../'),
-    // });
   },
 };

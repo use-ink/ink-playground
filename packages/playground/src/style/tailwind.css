@@ -18,10 +18,6 @@
   @apply mt-1 ml-5;
 }
 
-.navbarButton {
-  @apply hover:bg-gray-800 py-1 px-3 rounded text-lg flex;
-}
-
 .verticalDivider {
   @apply border-l max-h-8 mt-4 dark:border-dark border-light;
 }

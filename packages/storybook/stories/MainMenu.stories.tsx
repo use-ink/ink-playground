@@ -2,6 +2,7 @@ import { MainMenu, reducer, init } from '@paritytech/components/MainMenu';
 import { Props as MainMenuProps } from '@paritytech/components/MainMenu/MenuItem';
 import { useReducer } from 'react';
 import { Story } from '@storybook/react';
+import DemoSvg from './DemoSvg';
 
 type Props = Omit<MainMenuProps, 'state' | 'dispatch'>;
 
@@ -21,16 +22,16 @@ export const Default: Story<Props> = args => <MainMenuWithState {...args} />;
 
 Default.args = {
   items: [
-    { label: 'Apple', icon: '', onClick: () => alert('apple') },
-    { label: 'Pancake', icon: '', onClick: () => alert('pancake') },
+    { label: 'Apple', icon: DemoSvg, onClick: () => alert('apple') },
+    { label: 'Pancake', icon: DemoSvg, onClick: () => alert('pancake') },
     {
       label: 'Dishes',
-      icon: '',
+      icon: DemoSvg,
       subContent: () => <h2>More Dishes</h2>,
     },
     {
       label: 'Wishes',
-      icon: '',
+      icon: DemoSvg,
       subContent: () => 'more wishes',
     },
   ],
