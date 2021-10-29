@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "tailwindcss-classnames": "^2.2.5"
+    "@paritytech/tailwindcss-classnames": "*"
   }
 }

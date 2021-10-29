@@ -12,6 +12,10 @@ module.exports = {
           ...config.resolve?.alias,
           '~': path.resolve(__dirname, '../stories/'),
           '@paritytech/components': path.resolve(__dirname, '../../components/src'),
+          '@paritytech/tailwindcss-classnames': path.resolve(
+            __dirname,
+            '../../_generated/tailwindcss-classnames/src'
+          ),
         },
       },
       module: {
@@ -19,11 +23,6 @@ module.exports = {
         rules: [...config.module?.rules],
       },
     };
-    updatedConfig.module.rules.push({
-      test: /\.(tsx|ts)$/,
-      use: 'ts-loader',
-      exclude: /node_modules\/(?!(@paritytech\/tailwindcss-classnames)\/).*/,
-    });
     return updatedConfig;
     // config.module.rules.push({
     //   test: /\.css$/,
