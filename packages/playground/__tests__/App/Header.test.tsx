@@ -25,7 +25,6 @@ describe('Given the Header component is rendered', () => {
   test('When settings button is clicked', () => {
     const settingsButton = screen.getByText('Settings');
     settingsButton.click();
-
     const darkMode = screen.getByText('Dark Mode');
     const minimap = screen.getByText('Minimap');
     const numbering = screen.getByText('Numbering');
