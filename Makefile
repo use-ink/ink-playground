@@ -21,7 +21,7 @@
 ################################################################################
 
 generate-bindings:
-	cargo run -p generate-bindings -- --target packages/_generated/commontypes/src
+	cargo run -p generate-bindings -- --target ../../packages/_generated/commontypes/src
 
 ################################################################################
 # ENTRYPOINT: playground

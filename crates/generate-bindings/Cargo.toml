@@ -6,3 +6,8 @@ license = "Apache-2.0"
 
 [dependencies]
 clap = "3.0.0-beta.4"
+ts-rs = { git = "https://github.com/Aleph-Alpha/ts-rs", branch = "main", features = [
+    "serde-compat",
+] }
+
+backend = { path = "../backend" }

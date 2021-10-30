@@ -12,24 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-mod cli;
+pub mod services;
 
-use crate::cli::Opts;
-use backend::services::compile;
-use clap::Clap;
-use ts_rs::export_here;
-
-fn main() -> std::io::Result<()> {
-    let opts: Opts = Opts::parse();
-    let target = opts.target;
-    let target = format!("{}/index.d.ts", &target);
-
-    export_here! {
-       compile::CompilationResult,
-       compile::CompilationRequest
-       =>
-       &target
-    };
-
-    Ok(())
-}
+pub use services::*;
