@@ -1177,7 +1177,9 @@ dependencies = [
 name = "generate-bindings"
 version = "0.1.0"
 dependencies = [
+ "backend",
  "clap",
+ "ts-rs",
 ]
 
 [[package]]
@@ -3319,8 +3321,7 @@ dependencies = [
 [[package]]
 name = "ts-rs"
 version = "4.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c3551a944942bac009a843654c3bcea0d60874f3f15ca075501acfb55dd6789d"
+source = "git+https://github.com/Aleph-Alpha/ts-rs?branch=main#ce4ace68493371786e0bc5967869979f24111f49"
 dependencies = [
  "dprint-plugin-typescript",
  "ts-rs-macros",
@@ -3329,8 +3330,7 @@ dependencies = [
 [[package]]
 name = "ts-rs-macros"
 version = "4.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cbd987b74812dad0bcacf11c6c82fe1240a22c9429ebadec710c2e9a7cc728bc"
+source = "git+https://github.com/Aleph-Alpha/ts-rs?branch=main#ce4ace68493371786e0bc5967869979f24111f49"
 dependencies = [
  "Inflector",
  "proc-macro2",
