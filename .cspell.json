@@ -21,6 +21,8 @@
     "SUBMENU",
     "paritytech",
     "testid",
+    "paritytech",
+    "commontypes",
     "compat",
     "dockerized",
     "sandboxed",
