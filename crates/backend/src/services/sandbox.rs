@@ -93,16 +93,49 @@ impl Sandbox {
 
         let output = run_command_with_timeout(command)?;
 
-        // // The compiler writes the file to a name like
-        // // `compilation-3b75174cac3d47fb.ll`, so we just find the
-        // // first with the right extension.
-        // let file = fs::read_dir(&self.output_dir)
-        //     .context(UnableToReadOutput)?
-        //     .flat_map(|entry| entry)
-        //     .map(|entry| entry.path())
-        //     .find(|path| path.extension() == Some(req.target.extension()));
+        // The compiler writes the file to a name like
+        // `compilation-3b75174cac3d47fb.ll`, so we just find the
+        // first with the right extension.
+        let file = fs::read_dir(&self.output_dir)
+            .context(UnableToReadOutput)?
+            .flat_map(|entry| entry)
+            .map(|entry| entry.path())
+            .find(|path| path.extension() == Some(req.target.extension()));
 
-        Ok(CompileResponse {})
+        let stdout = vec_to_str(output.stdout)?;
+        let mut stderr = vec_to_str(output.stderr)?;
+
+        let compile_response = match file {
+            Some(file) => {
+                match read(&file) {
+                    Some(wasm) => {
+                        CompileResponse::success {
+                            wasm,
+                            stderr,
+                            stdout,
+                        }
+                    }
+                    None => CompileResponse::error { stderr, stdout },
+                }
+            }
+            None => {
+                // If we didn't find the file, it's *most* likely that
+                // the user's code was invalid. Tack on our own error
+                // to the compiler's error instead of failing the
+                // request.
+                use self::fmt::Write;
+                write!(
+                    &mut stderr,
+                    "\nUnable to locate file for {} output",
+                    req.target
+                )
+                .expect("Unable to write to a string");
+
+                CompileResponse::error { stderr, stdout }
+            }
+        };
+
+        Ok(compile_response)
     }
 
     fn write_source_code(&self, code: &str) -> Result<()> {
