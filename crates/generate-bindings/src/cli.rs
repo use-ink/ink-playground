@@ -15,15 +15,8 @@
 use clap::Clap;
 
 #[derive(Clap)]
-#[clap(
-    version = "0.1",
-    author = "Achim Schneider <achim@parity.io>",
-    about = "ink! playground backend"
-)]
+#[clap(version = "0.1", about = "Generate bindings from ink backend")]
 pub struct Opts {
-    #[clap(short = 'p', long = "port", default_value = "8080", env = "PORT")]
-    pub port: u16,
-
-    #[clap(short = 'f', long = "frontend_folder")]
-    pub frontend_folder: String,
+    #[clap(short = 't', long = "target")]
+    pub target: String,
 }

@@ -11,3 +11,4 @@ change.json
 node_modules
 packages/_generated/*/src
 packages/_generated/src
+packages/_generated/src

@@ -12,18 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+mod cli;
+
+use crate::cli::Opts;
+use backend::services::compile;
 use clap::Clap;
+use ts_rs::export_here;
 
-#[derive(Clap)]
-#[clap(
-    version = "0.1",
-    author = "Achim Schneider <achim@parity.io>",
-    about = "ink! playground backend"
-)]
-pub struct Opts {
-    #[clap(short = 'p', long = "port", default_value = "8080", env = "PORT")]
-    pub port: u16,
+fn main() -> std::io::Result<()> {
+    let opts: Opts = Opts::parse();
+    let target = opts.target;
+    let target = format!("{}/index.d.ts", &target);
 
-    #[clap(short = 'f', long = "frontend_folder")]
-    pub frontend_folder: String,
+    export_here! {
+       compile::CompilationResult,
+       compile::CompilationRequest
+       =>
+       &target
+    };
+
+    Ok(())
 }

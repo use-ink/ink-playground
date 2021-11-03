@@ -12,18 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use clap::Clap;
+pub mod services;
 
-#[derive(Clap)]
-#[clap(
-    version = "0.1",
-    author = "Achim Schneider <achim@parity.io>",
-    about = "ink! playground backend"
-)]
-pub struct Opts {
-    #[clap(short = 'p', long = "port", default_value = "8080", env = "PORT")]
-    pub port: u16,
-
-    #[clap(short = 'f', long = "frontend_folder")]
-    pub frontend_folder: String,
-}
+pub use services::*;
