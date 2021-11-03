@@ -19,7 +19,7 @@ actix-cors = "0.5.4"
 tempdir = "0.3.7"
 snafu = "0.6.10"
 log = "0.4.14"
-tokio = { version = "1.13.0", features = ["macros", "time", "process", "rt-threaded"] }
+tokio = { version = "1.13.0", features = ["macros", "time", "process", "rt-multi-thread"] }
 
 [dev-dependencies]
 actix-rt = "2.3.0"

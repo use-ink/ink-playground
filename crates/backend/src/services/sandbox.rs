@@ -1,22 +1,31 @@
-use snafu::{
-    ResultExt,
-    Snafu,
-};
+use snafu::{OptionExt, ResultExt, Snafu};
 use std::{
-    fs,
-    io,
+    ffi::OsStr,
+    fs::{self, File},
+    io::{self, prelude::*, BufReader, ErrorKind},
+    fmt,
     os::unix::prelude::PermissionsExt,
-    path::PathBuf,
+    path::{Path, PathBuf},
+    string,
     time::Duration,
 };
+use serde::{
+    Deserialize,
+    Serialize,
+};
 use tempdir::TempDir;
-use tokio::process::Command;
+use tokio::{process::Command};
+use ts_rs::TS;
 
 pub struct Sandbox {
     #[allow(dead_code)]
     scratch: TempDir,
     input_file: PathBuf,
     output_dir: PathBuf,
+}
+
+fn vec_to_str(v: Vec<u8>) -> Result<String> {
+    String::from_utf8(v).context(OutputNotUtf8)
 }
 
 #[derive(Debug, Snafu)]
@@ -35,6 +44,34 @@ pub enum Error {
 
     #[snafu(display("Unable to set permissions for source file: {}", source))]
     UnableToSetSourcePermissions { source: io::Error },
+
+    #[snafu(display("Output was not valid UTF-8: {}", source))]
+    OutputNotUtf8 { source: string::FromUtf8Error },
+
+    #[snafu(display("Unable to read output file: {}", source))]
+    UnableToReadOutput { source: io::Error },
+
+    #[snafu(display("Unable to start the compiler: {}", source))]
+    UnableToStartCompiler { source: io::Error },
+
+    #[snafu(display("Unable to find the compiler ID"))]
+    MissingCompilerId,
+
+    #[snafu(display("Unable to wait for the compiler: {}", source))]
+    UnableToWaitForCompiler { source: io::Error },
+
+    #[snafu(display("Unable to get output from the compiler: {}", source))]
+    UnableToGetOutputFromCompiler { source: io::Error },
+
+    #[snafu(display("Unable to remove the compiler: {}", source))]
+    UnableToRemoveCompiler { source: io::Error },
+
+    #[snafu(display("Compiler execution took longer than {} ms", timeout.as_millis()))]
+    CompilerExecutionTimedOut {
+        source: tokio::time::error::Elapsed,
+        timeout: Duration,
+    },
+    
 }
 
 pub type Result<T, E = Error> = std::result::Result<T, E>;
@@ -54,20 +91,23 @@ pub struct CompileRequest {
     pub code: String,
 }
 
-#[derive(Debug, Clone)]
-pub enum CompileResponse {
-    success {
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
+#[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum CompilationResult {
+    Success {
         wasm: Vec<u8>,
         stdout: String,
         stderr: String,
     },
-    error {
+    Error {
         stdout: String,
         stderr: String,
     },
 }
 
 const DOCKER_PROCESS_TIMEOUT_SOFT: Duration = Duration::from_secs(10);
+
+const DOCKER_PROCESS_TIMEOUT_HARD: Duration = Duration::from_secs(12);
 
 const DOCKER_CONTAINER_NAME: &str = "ink-backend";
 
@@ -87,7 +127,7 @@ impl Sandbox {
         })
     }
 
-    pub fn compile(&self, req: &CompileRequest) -> Result<CompileResponse> {
+    pub fn compile(&self, req: &CompileRequest) -> Result<CompilationResult> {
         self.write_source_code(&req.code)?;
         let command = self.build_compile_command();
 
@@ -100,7 +140,7 @@ impl Sandbox {
             .context(UnableToReadOutput)?
             .flat_map(|entry| entry)
             .map(|entry| entry.path())
-            .find(|path| path.extension() == Some(req.target.extension()));
+            .find(|path| path.extension() == Some(OsStr::new("contract")));
 
         let stdout = vec_to_str(output.stdout)?;
         let mut stderr = vec_to_str(output.stderr)?;
@@ -108,14 +148,14 @@ impl Sandbox {
         let compile_response = match file {
             Some(file) => {
                 match read(&file) {
-                    Some(wasm) => {
-                        CompileResponse::success {
+                    Ok(Some(wasm)) => {
+                        CompilationResult::Success {
                             wasm,
                             stderr,
                             stdout,
                         }
                     }
-                    None => CompileResponse::error { stderr, stdout },
+                    Error => CompilationResult::Error { stderr, stdout },
                 }
             }
             None => {
@@ -126,12 +166,11 @@ impl Sandbox {
                 use self::fmt::Write;
                 write!(
                     &mut stderr,
-                    "\nUnable to locate file for {} output",
-                    req.target
+                    "\nUnable to locate file"
                 )
                 .expect("Unable to write to a string");
 
-                CompileResponse::error { stderr, stdout }
+                CompilationResult::Error { stderr, stdout }
             }
         };
 
@@ -236,6 +275,20 @@ fn build_execution_command() -> Vec<&'static str> {
     cmd
 }
 
+fn read(path: &Path) -> Result<Option<Vec<u8>>> {
+    let f = match File::open(path) {
+        Ok(f) => f,
+        Err(ref e) if e.kind() == ErrorKind::NotFound => return Ok(None),
+        e => e.context(UnableToReadOutput)?,
+    };
+    let mut f = BufReader::new(f);
+    let metadata = fs::metadata(path).expect("unable to read metadata");
+    // f.read_to_string(&mut s).context(UnableToReadOutput)?;
+    let mut buffer = vec![0; metadata.len() as usize];
+    f.read(&mut buffer).expect("buffer overflow");
+    Ok(Some(buffer))
+}
+
 #[tokio::main]
 async fn run_command_with_timeout(mut command: Command) -> Result<std::process::Output> {
     use std::os::unix::process::ExitStatusExt;
@@ -250,7 +303,7 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
     // }
     // let response = &output.stdout;
     let stdout = String::from_utf8_lossy(&output.stdout);
-    // println!("next output :{:?}", output);
+
     let id = stdout.lines().next().context(MissingCompilerId)?.trim();
     let stderr = &output.stderr;
 
@@ -296,7 +349,6 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
 
     output.status = code;
     output.stderr = stderr.to_owned();
-    // output.stdout = response.to_owned();
-    println!("so far complete: {:?}", output);
+
     Ok(output)
 }
