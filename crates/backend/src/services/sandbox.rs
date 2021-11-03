@@ -1,6 +1,15 @@
-use std::{fs, io, os::unix::prelude::PermissionsExt, path::PathBuf, time::Duration};
+use snafu::{
+    ResultExt,
+    Snafu,
+};
+use std::{
+    fs,
+    io,
+    os::unix::prelude::PermissionsExt,
+    path::PathBuf,
+    time::Duration,
+};
 use tempdir::TempDir;
-use snafu::{Snafu, ResultExt};
 use tokio::process::Command;
 
 pub struct Sandbox {
@@ -46,10 +55,21 @@ pub struct CompileRequest {
 }
 
 #[derive(Debug, Clone)]
-pub struct CompileResponse {
+pub enum CompileResponse {
+    success {
+        wasm: Vec<u8>,
+        stdout: String,
+        stderr: String,
+    },
+    error {
+        stdout: String,
+        stderr: String,
+    },
 }
 
 const DOCKER_PROCESS_TIMEOUT_SOFT: Duration = Duration::from_secs(10);
+
+const DOCKER_CONTAINER_NAME: &str = "ink-backend";
 
 impl Sandbox {
     pub fn new() -> Result<Self> {
@@ -70,6 +90,18 @@ impl Sandbox {
     pub fn compile(&self, req: &CompileRequest) -> Result<CompileResponse> {
         self.write_source_code(&req.code)?;
         let command = self.build_compile_command();
+
+        let output = run_command_with_timeout(command)?;
+
+        // // The compiler writes the file to a name like
+        // // `compilation-3b75174cac3d47fb.ll`, so we just find the
+        // // first with the right extension.
+        // let file = fs::read_dir(&self.output_dir)
+        //     .context(UnableToReadOutput)?
+        //     .flat_map(|entry| entry)
+        //     .map(|entry| entry.path())
+        //     .find(|path| path.extension() == Some(req.target.extension()));
+
         Ok(CompileResponse {})
     }
 
@@ -88,11 +120,10 @@ impl Sandbox {
 
     fn build_compile_command(&self) -> Command {
         let mut cmd = self.docker_command();
-        // set_execution_environment(&mut cmd, Some(target), &req);
 
-        // let execution_cmd = build_execution_command(Some(target), channel, mode, &req, tests);
+        let execution_cmd = build_execution_command();
 
-        // cmd.arg(&channel.container_name()).args(&execution_cmd);
+        cmd.arg(&DOCKER_CONTAINER_NAME).args(&execution_cmd);
 
         log::debug!("Compilation command is {:?}", cmd);
 
@@ -113,9 +144,10 @@ impl Sandbox {
 
         let mut cmd = basic_secure_docker_command();
 
-        cmd
-            .arg("--volume").arg(&mount_input_file)
-            .arg("--volume").arg(&mount_output_dir);
+        cmd.arg("--volume")
+            .arg(&mount_input_file)
+            .arg("--volume")
+            .arg(&mount_output_dir);
 
         cmd
     }
@@ -137,11 +169,19 @@ fn basic_secure_docker_command() -> Command {
         // Needed to allow overwriting the file
         "--cap-add=DAC_OVERRIDE",
         "--security-opt=no-new-privileges",
-        "--workdir", "/playground",
-        "--net", "none",
-        "--memory", "512m",
-        "--memory-swap", "640m",
-        "--env", format!("PLAYGROUND_TIMEOUT={}", DOCKER_PROCESS_TIMEOUT_SOFT.as_secs()),
+        "--workdir",
+        "/playground",
+        "--net",
+        "none",
+        "--memory",
+        "512m",
+        "--memory-swap",
+        "640m",
+        "--env",
+        format!(
+            "PLAYGROUND_TIMEOUT={}",
+            DOCKER_PROCESS_TIMEOUT_SOFT.as_secs()
+        ),
     );
 
     if cfg!(feature = "fork-bomb-prevention") {
@@ -153,3 +193,77 @@ fn basic_secure_docker_command() -> Command {
     cmd
 }
 
+fn build_execution_command() -> Vec<&'static str> {
+    let cmd = vec![
+        "/bin/bash",
+        "-c",
+        "cargo contract build && mv /target/ink/*.contract /output/",
+    ];
+
+    cmd
+}
+
+#[tokio::main]
+async fn run_command_with_timeout(mut command: Command) -> Result<std::process::Output> {
+    use std::os::unix::process::ExitStatusExt;
+
+    let timeout = DOCKER_PROCESS_TIMEOUT_HARD;
+    println!("now compiling!");
+    let output = command.output().await.context(UnableToStartCompiler)?;
+    println!("Done! {:?}", output);
+    // Exit early, in case we don't have the container
+    // if !output.status.success() {
+    // return Ok(output);
+    // }
+    // let response = &output.stdout;
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    // println!("next output :{:?}", output);
+    let id = stdout.lines().next().context(MissingCompilerId)?.trim();
+    let stderr = &output.stderr;
+
+    // ----------
+
+    let mut command = docker_command!("wait", id);
+
+    let timed_out = match tokio::time::timeout(timeout, command.output()).await {
+        Ok(Ok(o)) => {
+            // Didn't time out, didn't fail to run
+            let o = String::from_utf8_lossy(&o.stdout);
+            let code = o
+                .lines()
+                .next()
+                .unwrap_or("")
+                .trim()
+                .parse()
+                .unwrap_or(i32::MAX);
+            Ok(ExitStatusExt::from_raw(code))
+        }
+        Ok(e) => return e.context(UnableToWaitForCompiler), // Failed to run
+        Err(e) => Err(e),                                   // Timed out
+    };
+
+    // ----------
+
+    let mut command = docker_command!("logs", id);
+    let mut output = command
+        .output()
+        .await
+        .context(UnableToGetOutputFromCompiler)?;
+
+    // ----------
+
+    let mut command = docker_command!(
+        "rm", // Kills container if still running
+        "--force", id
+    );
+    command.stdout(std::process::Stdio::null());
+    command.status().await.context(UnableToRemoveCompiler)?;
+
+    let code = timed_out.context(CompilerExecutionTimedOut { timeout })?;
+
+    output.status = code;
+    output.stderr = stderr.to_owned();
+    // output.stdout = response.to_owned();
+    println!("so far complete: {:?}", output);
+    Ok(output)
+}
