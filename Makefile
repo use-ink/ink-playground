@@ -50,6 +50,19 @@ playground-bundlesize:
 	yarn workspace playground run bundlesize
 
 ################################################################################
+# ENTRYPOINT: components
+################################################################################
+
+components-clean:
+	yarn workspace @paritytech/components run clean
+
+components-test:
+	yarn workspace @paritytech/components run test
+
+components-test-watch:
+	yarn workspace @paritytech/components run test:watch
+
+################################################################################
 # ENTRYPOINT: crate-extractor
 ################################################################################
 
@@ -148,6 +161,7 @@ check-spelling: ts-check-spelling
 
 clean: rust-clean
 clean: ts-clean
+clean: components-clean
 
 install: ts-install
 
