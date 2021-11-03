@@ -26,14 +26,26 @@ generate-bindings:
 generate: generate-bindings
 
 ################################################################################
+# GENERATE
+################################################################################
+
+generate-tailwind-types:
+	mkdir packages/_generated/tailwindcss-classnames/src/ -p && \
+	yarn workspace playground tailwindcss-classnames \
+	-i ./tailwind.config.js \
+	-o ../_generated/tailwindcss-classnames/src/index.ts
+
+################################################################################
 # ENTRYPOINT: playground
 ################################################################################
 
 playground-build: generate-bindings
+playground-build: generate-tailwind-types
 playground-build:
 	COMPILE_URL=/compile yarn workspace playground run build
 
 playground-start: generate-bindings
+playground-start: generate-tailwind-types
 playground-start:
 	COMPILE_URL=http://localhost:4000/compile yarn workspace playground run start
 
