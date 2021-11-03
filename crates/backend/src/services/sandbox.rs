@@ -33,6 +33,14 @@ fn wide_open_permissions() -> std::fs::Permissions {
     PermissionsExt::from_mode(0o777)
 }
 
+#[derive(Debug, Clone)]
+pub struct CompileRequest {
+}
+
+#[derive(Debug, Clone)]
+pub struct CompileResponse {
+}
+
 impl Sandbox {
     pub fn new() -> Result<Self> {
         let scratch = TempDir::new("playground").context(UnableToCreateTempDir)?;
@@ -47,6 +55,10 @@ impl Sandbox {
             input_file,
             output_dir,
         })
+    }
+
+    pub fn compile(&self, _req: &CompileRequest) -> Result<CompileResponse> {
+        Ok(CompileResponse {})
     }
 }
 
