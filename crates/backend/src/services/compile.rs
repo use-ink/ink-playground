@@ -29,7 +29,7 @@ use serde::{
 };
 use ts_rs::TS;
 
-use crate::sandbox::Sandbox;
+use crate::services::sandbox::Sandbox;
 
 // -------------------------------------------------------------------------------------------------
 // TYPES
