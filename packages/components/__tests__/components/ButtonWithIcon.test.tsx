@@ -1,6 +1,5 @@
-import { ButtonWithIcon } from '../../../components/src/';
+import { ButtonWithIcon } from '../../src';
 import { render, screen } from '@testing-library/react';
-import { buttonIcon } from '~/ids';
 import DemoSvg from '~/assets/DemoSvg';
 
 describe('Given the ButtonWithIcon component is rendered', () => {
@@ -12,7 +11,7 @@ describe('Given the ButtonWithIcon component is rendered', () => {
       <ButtonWithIcon
         label="testButton"
         Icon={DemoSvg}
-        testId={buttonIcon}
+        testId={'buttonIcon'}
         onClick={() => {
           wasClicked();
         }}
@@ -22,7 +21,7 @@ describe('Given the ButtonWithIcon component is rendered', () => {
 
   test('When Button appears on screen', async () => {
     const testButton = await screen.findByText('testButton');
-    const buttonIconElement = await screen.findByTestId(buttonIcon);
+    const buttonIconElement = await screen.findByTestId('buttonIcon');
 
     // Then ...
     expect(testButton).toBeInTheDocument();
