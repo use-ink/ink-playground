@@ -1,4 +1,4 @@
-import { Editor } from '~/components';
+import { Editor } from '~/app';
 import { render } from '@testing-library/react';
 
 jest.mock('monaco-editor/esm/vs/editor/editor.api.js');

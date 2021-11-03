@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Welcome } from '~/components';
+import { Welcome } from '~/app';
 
 test('should render the "Welcome" component', () => {
   render(<Welcome />);
