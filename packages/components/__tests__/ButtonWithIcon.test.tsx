@@ -1,4 +1,4 @@
-import { ButtonWithIcon } from '../../src';
+import { ButtonWithIcon } from '../src';
 import { render, screen } from '@testing-library/react';
 import DemoSvg from '~/assets/DemoSvg';
 
