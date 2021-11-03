@@ -18,9 +18,7 @@
     "paths": {
       "~/*": ["./src/*"],
       "@paritytech/components": ["../components/src"],
-      "@paritytech/components/*": ["../components/src/*"],
-      "@paritytech/tailwindcss-classnames": ["../_generated/tailwindcss-classnames/src"],
-      "@paritytech/tailwindcss-classnames/*": ["../_generated/tailwindcss-classnames/src/*"]
+      "@paritytech/components/*": ["../components/src/*"]
     }
   },
   "include": ["src", "jest", "__tests__"],

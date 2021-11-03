@@ -21,10 +21,6 @@ module.exports = {
     alias: {
       '~': path.resolve(__dirname, 'src/'),
       '@paritytech/components': path.resolve(__dirname, '../components/src'),
-      '@paritytech/tailwindcss-classnames': path.resolve(
-        __dirname,
-        '../_generated/tailwindcss-classnames/src'
-      ),
     },
   },
   stats: 'errors-only',
