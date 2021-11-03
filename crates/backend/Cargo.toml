@@ -9,7 +9,7 @@ readme = "README.md"
 [dependencies]
 actix-web = "3.3.2"
 actix-files = "0.5.0"
-clap = "3.0.0-beta.4"
+clap = "3.0.0-beta.5"
 serde_json = "1.0.68"
 serde = "1.0.130"
 ts-rs = { git = "https://github.com/Aleph-Alpha/ts-rs", branch = "main", features = [
@@ -17,7 +17,9 @@ ts-rs = { git = "https://github.com/Aleph-Alpha/ts-rs", branch = "main", feature
 ] }
 actix-cors = "0.5.4"
 tempdir = "0.3.7"
-snafu = "0.6.0"
+snafu = "0.6.10"
+log = "0.4.14"
+tokio = { version = "1.13.0", features = ["macros", "time", "process"] }
 
 [dev-dependencies]
-actix-rt = "2.2.0"
+actix-rt = "2.3.0"
