@@ -12,5 +12,8 @@ module.exports = {
     '~/(.*)': '<rootDir>/src/$1',
     '^.+.(css|scss)$': 'identity-obj-proxy',
     'monaco-editor': '<rootDir>/../../node_modules/react-monaco-editor',
+    '@paritytech/components/(.*)': '<rootDir>/../components/src/$1',
+    '@paritytech/tailwindcss-classnames/(.*)':
+      '<rootDir>/../_generated/tailwindcss-classnames/src/$1',
   },
 };

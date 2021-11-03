@@ -1,0 +1,15 @@
+{
+  "name": "@paritytech/tailwindcss-classnames",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "module": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "clsx": "^1.1.1"
+  }
+}
