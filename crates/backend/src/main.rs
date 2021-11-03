@@ -22,7 +22,7 @@ use crate::{
             route_compile,
             COMPILE_SANDBOXED,
         },
-        frontend::route_frontend,
+        frontend::route_frontend
     },
 };
 use actix_cors::Cors;
