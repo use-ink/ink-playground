@@ -3324,6 +3324,7 @@ dependencies = [
  "bytes 1.1.0",
  "libc",
  "mio 0.7.13",
+ "num_cpus",
  "once_cell",
  "parking_lot",
  "pin-project-lite 0.2.7",
