@@ -1,7 +1,8 @@
 {
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/_generated/*"
   ],
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.0.0",
