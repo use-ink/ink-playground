@@ -16,6 +16,8 @@ ts-rs = { git = "https://github.com/Aleph-Alpha/ts-rs", branch = "main", feature
     "serde-compat",
 ] }
 actix-cors = "0.5.4"
+tempdir = "0.3.7"
+snafu = "0.6.0"
 
 [dev-dependencies]
 actix-rt = "2.2.0"
