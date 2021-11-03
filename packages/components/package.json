@@ -4,9 +4,17 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rimraf dist pkg node_modules",
+    "test": "jest --update-snapshot",
+    "test:watch": "jest --update-snapshot --watch",
+    "test:clear": "jest --clearCache"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^27.3.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.7"
+  }
 }
