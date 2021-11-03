@@ -1,5 +1,5 @@
 import { COMPILE_URL } from '~/env';
-import * as Common from '~/commontypes';
+import * as Common from '@paritytech/commontypes';
 
 // -------------------------------------------------------------------------------------------------
 // Types

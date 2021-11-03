@@ -27,11 +27,13 @@ generate-bindings:
 # ENTRYPOINT: playground
 ################################################################################
 
+playground-build: generate-bindings
 playground-build:
-	yarn workspace playground run build
+	COMPILE_URL=/compile yarn workspace playground run build
 
+playground-start: generate-bindings
 playground-start:
-	yarn workspace playground run start
+	COMPILE_URL=http://localhost:4000/compile yarn workspace playground run start
 
 playground-clean:
 	yarn workspace playground run clean
@@ -63,7 +65,10 @@ backend-build:
 	cargo build -p backend
 
 backend-run:
-	cargo run -p backend -- --frontend_folder packages/playground/dist --dev_mode
+	cargo run -p backend -- --frontend_folder packages/playground/dist --port 4000
+
+backend-run-dev:
+	cargo run -p backend -- --dev_mode --port 4000
 
 backend-test:
 	cargo test -p backend

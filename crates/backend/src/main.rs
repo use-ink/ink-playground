@@ -27,7 +27,10 @@ use crate::{
 };
 use actix_cors::Cors;
 use actix_web::{
-    middleware,
+    middleware::{
+        Condition,
+        DefaultHeaders,
+    },
     web::post,
     App,
     HttpServer,
@@ -42,31 +45,32 @@ async fn main() -> std::io::Result<()> {
     let frontend_folder = opts.frontend_folder;
     let host = "127.0.0.1";
 
-    if !Path::new(&frontend_folder).is_dir() {
-        panic!("{} is not a valid directory.", frontend_folder);
+    if let Some(path) = &frontend_folder {
+        if !Path::new(path).is_dir() {
+            panic!("{} is not a valid directory.", path);
+        }
     }
 
     let dev_mode = opts.dev_mode;
 
     HttpServer::new(move || {
-        let cors = if dev_mode {
-            Cors::permissive()
-        } else {
-            Cors::default()
-        };
-
-        App::new()
-            .wrap(cors)
+        let mut app = App::new()
+            .wrap(Condition::new(dev_mode, Cors::permissive()))
             .wrap(
-                middleware::DefaultHeaders::new()
+                DefaultHeaders::new()
                     .header("Cross-Origin-Opener-Policy", "same-origin")
                     .header("Cross-Origin-Embedder-Policy", "require-corp"),
             )
             .route(
                 "/compile",
                 post().to(|body| route_compile(COMPILE_SANDBOXED, body)),
-            )
-            .service(route_frontend("/", &frontend_folder))
+            );
+
+        if let Some(path) = &frontend_folder {
+            app = app.service(route_frontend("/", path));
+        }
+
+        app
     })
     .bind(format!("{}:{}", host, port))?
     .run()

@@ -25,7 +25,7 @@ pub struct Opts {
     pub port: u16,
 
     #[clap(short = 'f', long = "frontend_folder")]
-    pub frontend_folder: String,
+    pub frontend_folder: Option<String>,
 
     #[clap(short = 'd', long = "dev_mode")]
     pub dev_mode: bool,
