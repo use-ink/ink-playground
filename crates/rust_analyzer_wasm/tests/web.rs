@@ -16,7 +16,7 @@
 
 #![cfg(target_arch = "wasm32")]
 
-extern crate playground;
+extern crate rust_analyzer_wasm;
 extern crate wasm_bindgen_test;
 use std::assert_eq;
 
