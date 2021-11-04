@@ -11,7 +11,11 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "primeicons": "^4.1.0",
+    "primereact": "^7.0.0-rc.2",
+    "react-transition-group": "^4.4.2"
+  },
   "devDependencies": {
     "jest": "^27.3.1",
     "rimraf": "^3.0.2",
