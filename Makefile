@@ -93,10 +93,10 @@ backend-test:
 ################################################################################
 
 crate-playground-test-chrome:
-	wasm-pack test --headless --chrome crates/rust_analyzer
+	wasm-pack test --headless --chrome crates/rust_analyzer_wasm
 
 crate-playground-test-firefox:
-	wasm-pack test --headless --firefox crates/rust_analyzer
+	wasm-pack test --headless --firefox crates/rust_analyzer_wasm
 
 crate-playground-test: crate-playground-test-chrome
 crate-playground-test: crate-playground-test-firefox
