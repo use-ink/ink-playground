@@ -89,17 +89,17 @@ backend-test:
 	cargo test -p backend
 
 ################################################################################
-# ENTRYPOINT: crate-playground
+# ENTRYPOINT: crate-rust-analyzer-wasm
 ################################################################################
 
-crate-playground-test-chrome:
+crate-rust-analyzer-wasm-test-chrome:
 	wasm-pack test --headless --chrome crates/rust_analyzer_wasm
 
-crate-playground-test-firefox:
+crate-rust-analyzer-wasm-test-firefox:
 	wasm-pack test --headless --firefox crates/rust_analyzer_wasm
 
-crate-playground-test: crate-playground-test-chrome
-crate-playground-test: crate-playground-test-firefox
+crate-rust-analyzer-wasm-test: crate-rust-analyzer-wasm-test-chrome
+crate-rust-analyzer-wasm-test: crate-rust-analyzer-wasm-test-firefox
 
 ################################################################################
 # ECOSYSTEM: RUST
@@ -115,11 +115,11 @@ rust-clean:
 	rm -rf target
 
 rust-lint:
-	cargo clippy --workspace --exclude playground --all-targets --all-features \
+	cargo clippy --workspace --exclude rust_analyzer_wasm --all-targets --all-features \
 	-- -D warnings
 
 rust-test:
-	cargo test --workspace --exclude playground 
+	cargo test --workspace --exclude rust_analyzer_wasm 
 
 ################################################################################
 # ECOSYSTEM: TYPESCRIPT
@@ -174,7 +174,7 @@ lint: ts-lint
 
 patch-markdown: ts-patch-markdown
 
-test: crate-playground-test
+test: crate-rust-analyzer-wasm-test
 test: rust-test
 test: playground-test
 test: crate-extractor-test
