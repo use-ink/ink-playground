@@ -42,7 +42,7 @@ jobs:
         with:
           toolchain: stable
           command: clippy
-          args: --workspace --exclude playground --all-targets --all-features -- -D warnings
+          args: --workspace --exclude rust_analyzer_wasm --all-targets --all-features -- -D warnings
 
   build:
     runs-on: ubuntu-latest
@@ -51,4 +51,4 @@ jobs:
       - name: Build
         run: cargo build --verbose
       - name: Run tests
-        run: cargo test --workspace --exclude playground --verbose
+        run: cargo test --workspace --exclude rust_analyzer_wasm --verbose
