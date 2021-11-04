@@ -146,6 +146,10 @@ ts-lint:
 ts-patch-markdown:
 	yarn markdown
 
+ts-check-all: ts-check-spelling
+ts-check-all: ts-check-format
+ts-check-all: ts-lint
+
 ################################################################################
 # GLOBAL
 ################################################################################
