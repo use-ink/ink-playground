@@ -3,6 +3,7 @@ module.exports = {
   testMatch: ['**/__tests__/**/*.+(ts|tsx|js)', '**/?(*.)+(spec|test).+(ts|tsx|js)'],
   transform: {
     '^.+.(ts|tsx|js|jsx)$': 'ts-jest',
+    '^.+\\.svg$': '<rootDir>/jest/svgTransform.ts',
   },
   setupFiles: ['<rootDir>/jest/setEnvVars.ts'],
   setupFilesAfterEnv: ['<rootDir>/jest/setupTests.ts'],

@@ -23,5 +23,6 @@
       "@paritytech/components/*": ["../components/src/*"]
     }
   },
-  "include": ["src", "jest", "__tests__"]
+  "include": ["src", "jest", "__tests__"],
+  "exclude": ["jest/svgTransform.ts"]
 }
