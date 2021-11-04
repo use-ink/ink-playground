@@ -20,7 +20,7 @@ extern crate rust_analyzer_wasm;
 extern crate wasm_bindgen_test;
 use std::assert_eq;
 
-use playground::greet;
+use rust_analyzer_wasm::greet;
 use wasm_bindgen_test::*;
 
 wasm_bindgen_test_configure!(run_in_browser);
