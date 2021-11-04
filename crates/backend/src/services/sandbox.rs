@@ -52,15 +52,15 @@ use tempdir::TempDir;
 use tokio::process::Command;
 use ts_rs::TS;
 
+// -------------------------------------------------------------------------------------------------
+// TYPES
+// -------------------------------------------------------------------------------------------------
+
 pub struct Sandbox {
     #[allow(dead_code)]
     scratch: TempDir,
     input_file: PathBuf,
     output_dir: PathBuf,
-}
-
-fn vec_to_str(v: Vec<u8>) -> Result<String> {
-    String::from_utf8(v).context(OutputNotUtf8)
 }
 
 #[derive(Debug, Snafu)]
@@ -110,19 +110,9 @@ pub enum Error {
 
 pub type Result<T, E = Error> = std::result::Result<T, E>;
 
-// We must create a world-writable files (rustfmt) and directories
-// (LLVM IR) so that the process inside the Docker container can write
-// into it.
-//
-// This problem does *not* occur when using the indirection of
-// docker-machine.
-fn wide_open_permissions() -> std::fs::Permissions {
-    PermissionsExt::from_mode(0o777)
-}
-
-#[derive(Debug, Clone)]
-pub struct CompileRequest {
-    pub code: String,
+#[derive(Deserialize, Serialize, TS, Debug, Clone)]
+pub struct CompilationRequest {
+    pub source: String,
 }
 
 #[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
@@ -139,11 +129,19 @@ pub enum CompilationResult {
     },
 }
 
+// -------------------------------------------------------------------------------------------------
+// CONSTANTS
+// -------------------------------------------------------------------------------------------------
+
 const DOCKER_PROCESS_TIMEOUT_SOFT: Duration = Duration::from_secs(10);
 
 const DOCKER_PROCESS_TIMEOUT_HARD: Duration = Duration::from_secs(12);
 
 const DOCKER_CONTAINER_NAME: &str = "ink-backend";
+
+// -------------------------------------------------------------------------------------------------
+// TRAIT IMPLEMENTATION
+// -------------------------------------------------------------------------------------------------
 
 impl Sandbox {
     pub fn new() -> Result<Self> {
@@ -161,8 +159,8 @@ impl Sandbox {
         })
     }
 
-    pub fn compile(&self, req: &CompileRequest) -> Result<CompilationResult> {
-        self.write_source_code(&req.code)?;
+    pub fn compile(&self, req: &CompilationRequest) -> Result<CompilationResult> {
+        self.write_source_code(&req.source)?;
         let command = self.build_compile_command();
 
         let output = run_command_with_timeout(command)?;
@@ -255,6 +253,9 @@ impl Sandbox {
         cmd
     }
 }
+// -------------------------------------------------------------------------------------------------
+// MACROS
+// -------------------------------------------------------------------------------------------------
 
 macro_rules! docker_command {
     ($($arg:expr),* $(,)?) => ({
@@ -263,6 +264,10 @@ macro_rules! docker_command {
         cmd
     });
 }
+
+// -------------------------------------------------------------------------------------------------
+// UTIL FUNCTIONS
+// -------------------------------------------------------------------------------------------------
 
 fn basic_secure_docker_command() -> Command {
     let mut cmd = docker_command!(
@@ -382,4 +387,18 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
     output.stderr = stderr.to_owned();
 
     Ok(output)
+}
+
+// We must create a world-writable files (rustfmt) and directories
+// (LLVM IR) so that the process inside the Docker container can write
+// into it.
+//
+// This problem does *not* occur when using the indirection of
+// docker-machine.
+fn wide_open_permissions() -> std::fs::Permissions {
+    PermissionsExt::from_mode(0o777)
+}
+
+fn vec_to_str(v: Vec<u8>) -> Result<String> {
+    String::from_utf8(v).context(OutputNotUtf8)
 }
