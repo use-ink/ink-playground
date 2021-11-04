@@ -1,7 +1,6 @@
 import { ReactElement, useContext, useRef } from 'react';
 import { Logo, CompileIcon, DownloadIcon, GithubRepoIcon, SettingsIcon } from '~/symbols';
-import { ButtonWithIcon } from '@paritytech/components/ButtonWithIcon';
-import { OverlayPanel } from '@paritytech/components';
+import { OverlayPanel, ButtonWithIcon } from '@paritytech/components/';
 import { SettingsSubmenu } from './SettingsSubmenu';
 
 import { AppContext } from '~/context';
