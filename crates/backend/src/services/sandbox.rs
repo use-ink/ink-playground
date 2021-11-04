@@ -149,6 +149,11 @@ impl Sandbox {
         let input_file = scratch.path().join("input.rs");
         let output_dir = scratch.path().join("output");
         fs::create_dir(&output_dir).context(UnableToCreateOutputDir)?;
+
+        // TODO: Change Error Type
+        fs::set_permissions(&scratch.path(), wide_open_permissions())
+            .context(UnableToSetOutputPermissions)?;
+
         fs::set_permissions(&output_dir, wide_open_permissions())
             .context(UnableToSetOutputPermissions)?;
 
@@ -161,7 +166,18 @@ impl Sandbox {
 
     pub fn compile(&self, req: &CompilationRequest) -> Result<CompilationResult> {
         self.write_source_code(&req.source)?;
+
+        println!("{:?}", self.scratch.path());
+
+        println!("it exists?: {}", Path::new(self.scratch.path()).exists());
+        let p = self.scratch.path();
+        let p = p.join("input.rs".to_string());
+
+        println!("it exists?: {}", Path::new(&p).exists());
+
         let command = self.build_compile_command();
+
+        println!("Executing command: \n{:?}", command);
 
         let output = run_command_with_timeout(command)?;
 
@@ -212,7 +228,7 @@ impl Sandbox {
         fs::set_permissions(&self.input_file, wide_open_permissions())
             .context(UnableToSetSourcePermissions)?;
 
-        log::debug!(
+        println!(
             "Wrote {} bytes of source to {}",
             code.len(),
             self.input_file.display()
@@ -221,7 +237,7 @@ impl Sandbox {
     }
 
     fn build_compile_command(&self) -> Command {
-        let mut cmd = self.docker_command();
+        let mut cmd = self.build_docker_command();
 
         let execution_cmd = build_execution_command();
 
@@ -232,19 +248,19 @@ impl Sandbox {
         cmd
     }
 
-    fn docker_command(&self) -> Command {
+    fn build_docker_command(&self) -> Command {
         let file_name = "lib.rs";
 
         let mut mount_input_file = self.input_file.as_os_str().to_os_string();
         mount_input_file.push(":");
-        mount_input_file.push("/playground/");
+        mount_input_file.push("/builds/contract/");
         mount_input_file.push(file_name);
 
         let mut mount_output_dir = self.output_dir.as_os_str().to_os_string();
         mount_output_dir.push(":");
         mount_output_dir.push("/playground-result");
 
-        let mut cmd = basic_secure_docker_command();
+        let mut cmd = build_basic_secure_docker_command();
 
         cmd.arg("--volume")
             .arg(&mount_input_file)
@@ -270,18 +286,18 @@ macro_rules! docker_command {
 // UTIL FUNCTIONS
 // -------------------------------------------------------------------------------------------------
 
-fn basic_secure_docker_command() -> Command {
+fn build_basic_secure_docker_command() -> Command {
     let mut cmd = docker_command!(
         "run",
-        "--detach",
-        "--cap-drop=ALL",
+        // "--detach",
+        // "--cap-drop=ALL",
         // Needed to allow overwriting the file
-        "--cap-add=DAC_OVERRIDE",
-        "--security-opt=no-new-privileges",
+        // "--cap-add=DAC_OVERRIDE",
+        //  "--security-opt=no-new-privileges",
         "--workdir",
-        "/playground",
-        "--net",
-        "none",
+        "/builds/contract",
+        // "--net",
+        // "none",
         "--memory",
         "512m",
         "--memory-swap",
@@ -306,7 +322,7 @@ fn build_execution_command() -> Vec<&'static str> {
     let cmd = vec![
         "/bin/bash",
         "-c",
-        "cargo contract build && mv /target/ink/*.contract /output/",
+        "cargo contract build && mv /target/ink/contract.contract /playground-result",
     ];
 
     cmd
