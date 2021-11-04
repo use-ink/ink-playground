@@ -1,7 +1,10 @@
-import { ReactElement } from 'react';
+import { ReactElement, useContext } from 'react';
 import { Logo } from '~/symbols';
 import { CompileIcon, DownloadIcon, GithubRepoIcon, SettingsIcon } from '~/symbols';
 import { ButtonWithIcon } from '@paritytech/components/ButtonWithIcon';
+import { Dispatch, State } from '~/context/reducer';
+import { compile } from '~/context/side-effects';
+import { AppContext } from '~/context';
 
 const openRepoUrl = (): void => {
   const repoURL = 'https://github.com/paritytech/ink-playground';
@@ -9,6 +12,8 @@ const openRepoUrl = (): void => {
 };
 
 export const Header = (): ReactElement => {
+  const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
+
   return (
     <div className="header">
       <Logo className="h-16 w-32" data-testid="headerLogo" />
@@ -18,9 +23,7 @@ export const Header = (): ReactElement => {
           label="Compile"
           Icon={CompileIcon}
           testId={'buttonIcon'}
-          onClick={() => {
-            alert('Compile!');
-          }}
+          onClick={() => compile(dispatch, state)}
         />
         <ButtonWithIcon
           label="Download"
@@ -39,7 +42,7 @@ export const Header = (): ReactElement => {
           }}
         />
 
-        <div className="flex-grow"></div>
+        <div className="flex-grow" />
 
         <ButtonWithIcon
           label="GitHub Repo"

@@ -3,7 +3,9 @@ import { ReactElement, MouseEvent } from 'react';
 export type ButtonProps = {
   label: string;
   Icon: React.FC<React.SVGProps<SVGSVGElement>>;
-  onClick: (e?: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => void | null;
+  onClick: (
+    e?: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+  ) => void | Promise<void> | null;
   testId?: string;
 };
 
