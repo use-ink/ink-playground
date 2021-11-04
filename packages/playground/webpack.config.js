@@ -66,7 +66,7 @@ module.exports = {
       template: './src/index.html',
     }),
     new WasmPackPlugin({
-      crateDirectory: path.resolve(__dirname, '../../crates/playground'),
+      crateDirectory: path.resolve(__dirname, '../../crates/rust_analyzer'),
       extraArgs: '--target web -- -Z build-std=panic_abort,std',
       outDir: path.resolve(__dirname, './pkg'),
     }),
