@@ -14,6 +14,7 @@ export const SettingsSubmenu = (): ReactElement => {
           className="settingSwitch"
           checked={state.darkmode}
           onChange={() => dispatch({ type: 'SET_DARKMODE', payload: !state.darkmode })}
+          data-testid="darkModeSwitch"
         />
       </div>
 
@@ -23,6 +24,7 @@ export const SettingsSubmenu = (): ReactElement => {
           className="settingSwitch"
           checked={state.minimap}
           onChange={() => dispatch({ type: 'SET_MINIMAP', payload: !state.minimap })}
+          data-testid="minimapSwitch"
         />
       </div>
 
@@ -32,6 +34,7 @@ export const SettingsSubmenu = (): ReactElement => {
           className="settingSwitch"
           checked={state.numbering}
           onChange={() => dispatch({ type: 'SET_NUMBERING', payload: !state.numbering })}
+          data-testid="numberingSwitch"
         />
       </div>
     </div>
