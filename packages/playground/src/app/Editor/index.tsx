@@ -29,7 +29,6 @@ export const Editor = (): ReactElement => {
   return (
     <>
       <div style={{ padding: '1rem', background: 'grey' }}>
-        <pre>{JSON.stringify(state.compile)}</pre>
         <button className="btn" onClick={() => compile(dispatch, state)}>
           COMPILE
         </button>

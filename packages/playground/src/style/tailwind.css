@@ -10,24 +10,12 @@
   @apply dark:text-primary dark:bg-primary dark:border-dark border-light border-b text-light flex max-h-16;
 }
 
-.btn {
-  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2;
-}
-
-.settingSwitch {
-  @apply mt-1 ml-5;
-}
-
 .verticalDivider {
   @apply border-l max-h-8 mt-4 dark:border-dark border-light;
 }
 
 /* temporary */
 
-.consoleHeight {
-  height: calc(20vh - 4rem);
-}
-
-.p-overlaypanel-content {
-  @apply rounded dark:text-primary dark:bg-elevation text-lg;
+.btn {
+  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2;
 }
