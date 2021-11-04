@@ -1,5 +1,5 @@
 import * as ReactDOM from 'react-dom';
 import App from './App';
-import './styles.css';
+import './style/tailwind.css';
 
 ReactDOM.render(<App />, document.getElementById('container'));
