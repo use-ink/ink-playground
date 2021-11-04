@@ -16,6 +16,12 @@
     "assets/architecture*.xml"
   ],
   "words": [
+    "Submenu",
+    "dismissable",
+    "overlaypanel",
+    "inputswitch",
+    "primereact",
+    "primeicons",
     "SFPRODISPLAYREGULAR",
     "SFPRODISPLAYMEDIUM",
     "SFPRODISPLAYBOLD",
