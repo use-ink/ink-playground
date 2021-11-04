@@ -16,7 +16,9 @@ export const Header = (): ReactElement => {
 
   return (
     <div className="header">
-      <Logo className="h-16 w-32" data-testid="headerLogo" />
+      <div className="w-32">
+        <Logo className="h-16 w-32" data-testid="headerLogo" />
+      </div>
       <div className="verticalDivider" />
       <div className={'flex p-3.5 w-full'}>
         <ButtonWithIcon
@@ -45,7 +47,8 @@ export const Header = (): ReactElement => {
         <div className="flex-grow" />
 
         <ButtonWithIcon
-          label="GitHub Repo"
+          // non-breaking space "\u00A0"
+          label={'GitHub\u00A0Repo'}
           Icon={GithubRepoIcon}
           testId={'buttonIcon'}
           onClick={() => {
