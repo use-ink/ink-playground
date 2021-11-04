@@ -1,10 +1,12 @@
-import { ReactElement, useContext } from 'react';
-import { Logo } from '~/symbols';
-import { CompileIcon, DownloadIcon, GithubRepoIcon, SettingsIcon } from '~/symbols';
+import { ReactElement, useContext, useRef } from 'react';
+import { Logo, CompileIcon, DownloadIcon, GithubRepoIcon, SettingsIcon } from '~/symbols';
 import { ButtonWithIcon } from '@paritytech/components/ButtonWithIcon';
+import { OverlayPanel } from '@paritytech/components';
+import { SettingsSubmenu } from './SettingsSubmenu';
+
+import { AppContext } from '~/context';
 import { Dispatch, State } from '~/context/reducer';
 import { compile } from '~/context/side-effects';
-import { AppContext } from '~/context';
 
 const openRepoUrl = (): void => {
   const repoURL = 'https://github.com/paritytech/ink-playground';
@@ -13,6 +15,8 @@ const openRepoUrl = (): void => {
 
 export const Header = (): ReactElement => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
+
+  const settingsOverlay = useRef<OverlayPanel>(null);
 
   return (
     <div className="header">
@@ -39,9 +43,7 @@ export const Header = (): ReactElement => {
           label="Settings"
           Icon={SettingsIcon}
           testId={'buttonIcon'}
-          onClick={() => {
-            alert('Settings!');
-          }}
+          onClick={e => settingsOverlay.current && settingsOverlay.current.toggle(e, null)}
         />
 
         <div className="flex-grow" />
@@ -56,6 +58,9 @@ export const Header = (): ReactElement => {
           }}
         />
       </div>
+      <OverlayPanel ref={settingsOverlay} showCloseIcon dismissable>
+        <SettingsSubmenu />
+      </OverlayPanel>
     </div>
   );
 };
