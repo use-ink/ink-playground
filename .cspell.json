@@ -16,6 +16,11 @@
     "assets/architecture*.xml"
   ],
   "words": [
+    "SFPRODISPLAYREGULAR",
+    "SFPRODISPLAYMEDIUM",
+    "SFPRODISPLAYBOLD",
+    "SFPRODISPLAYBLACKITALIC",
+    "evenodd",
     "clsx",
     "TSVG",
     "nums",
