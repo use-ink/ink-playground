@@ -29,17 +29,19 @@ use serde::{
 };
 use ts_rs::TS;
 
-use crate::services::sandbox::{
+pub use crate::services::sandbox::{
     CompilationRequest,
     CompilationResult,
     Sandbox,
 };
 
+use crate::services::sandbox;
+
 // -------------------------------------------------------------------------------------------------
 // TYPES
 // -------------------------------------------------------------------------------------------------
 
-pub type CompileStrategy = fn(CompilationRequest) -> CompilationResult;
+pub type CompileStrategy = fn(CompilationRequest) -> sandbox::Result<CompilationResult>;
 
 // -------------------------------------------------------------------------------------------------
 // IMPLEMENTATION
@@ -48,12 +50,9 @@ pub type CompileStrategy = fn(CompilationRequest) -> CompilationResult;
 /// The compile strategy that will be used in production.
 /// The actual dockerized compilation will happen in here.
 pub const COMPILE_SANDBOXED: CompileStrategy = |req| {
-    // TODO: implement!
-    CompilationResult::Success {
-        wasm: vec![],
-        stdout: "stdout....".to_string(),
-        stderr: "stderr....".to_string(),
-    }
+    let sandbox = Sandbox::new()?;
+
+    sandbox.compile(&req)
 };
 
 pub async fn route_compile(
@@ -63,10 +62,17 @@ pub async fn route_compile(
     let compile_result = compile_strategy(CompilationRequest {
         source: req.source.to_string(),
     });
-    // TODO: Maybe there's a way to use implicit serialization.
-    // Because we have implicit deserialization.
-    let compile_result = serde_json::to_string(&compile_result).unwrap();
-    HttpResponse::Ok().body(compile_result)
+
+    match compile_result {
+        Ok(result) => {
+            let compile_result = serde_json::to_string(&result).unwrap();
+            HttpResponse::Ok().body(compile_result)
+        }
+        Err(err) => {
+            eprintln!("{:?}", err);
+            HttpResponse::InternalServerError().finish()
+        }
+    }
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -85,13 +91,16 @@ mod tests {
     /// A compile strategy mock. Accepts only `foo` as "correct" source code.
     const COMPILE_MOCKED: CompileStrategy = |req| {
         if req.source == "foo" {
-            CompilationResult::Success {
-                result: format!("Compilation of {} succeeded.", req.source),
-            }
+            Ok(CompilationResult::Success {
+                wasm: vec![],
+                stdout: format!("Compilation of {} succeeded.", req.source),
+                stderr: "".to_string(),
+            })
         } else {
-            CompilationResult::Failure {
-                message: format!("Compilation of {} failed.", req.source),
-            }
+            Ok(CompilationResult::Error {
+                stdout: "".to_string(),
+                stderr: format!("Compilation of {} failed.", req.source),
+            })
         }
     };
 
@@ -118,7 +127,9 @@ mod tests {
         assert_eq!(
             res,
             CompilationResult::Success {
-                result: "Compilation of foo succeeded.".to_string()
+                wasm: vec![],
+                stdout: "Compilation of foo succeeded.".to_string(),
+                stderr: "".to_string(),
             }
         );
     }
@@ -145,8 +156,9 @@ mod tests {
 
         assert_eq!(
             res,
-            CompilationResult::Failure {
-                message: "Compilation of bar failed.".to_string()
+            CompilationResult::Error {
+                stdout: "".to_string(),
+                stderr: "Compilation of bar failed.".to_string()
             }
         );
     }
