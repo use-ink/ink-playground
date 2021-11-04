@@ -1,20 +1,55 @@
-use snafu::{OptionExt, ResultExt, Snafu};
-use std::{
-    ffi::OsStr,
-    fs::{self, File},
-    io::{self, prelude::*, BufReader, ErrorKind},
-    fmt,
-    os::unix::prelude::PermissionsExt,
-    path::{Path, PathBuf},
-    string,
-    time::Duration,
-};
+// Copyright 2018-2021 Parity Technologies (UK) Ltd.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+//! This module contains the compile service of the backend. It receives a
+//! string of Rust source code and returns the result of compiling the code.
+//! For security reason we run the compilation inside a Docker container.
+//! In order to ease testing, the service is parameterized by a compile
+//! strategy. This allows easy mocking.
+
 use serde::{
     Deserialize,
     Serialize,
 };
+use snafu::{
+    OptionExt,
+    ResultExt,
+    Snafu,
+};
+use std::{
+    ffi::OsStr,
+    fmt,
+    fs::{
+        self,
+        File,
+    },
+    io::{
+        self,
+        prelude::*,
+        BufReader,
+        ErrorKind,
+    },
+    os::unix::prelude::PermissionsExt,
+    path::{
+        Path,
+        PathBuf,
+    },
+    string,
+    time::Duration,
+};
 use tempdir::TempDir;
-use tokio::{process::Command};
+use tokio::process::Command;
 use ts_rs::TS;
 
 pub struct Sandbox {
@@ -71,7 +106,6 @@ pub enum Error {
         source: tokio::time::error::Elapsed,
         timeout: Duration,
     },
-    
 }
 
 pub type Result<T, E = Error> = std::result::Result<T, E>;
@@ -164,11 +198,8 @@ impl Sandbox {
                 // to the compiler's error instead of failing the
                 // request.
                 use self::fmt::Write;
-                write!(
-                    &mut stderr,
-                    "\nUnable to locate file"
-                )
-                .expect("Unable to write to a string");
+                write!(&mut stderr, "\nUnable to locate file")
+                    .expect("Unable to write to a string");
 
                 CompilationResult::Error { stderr, stdout }
             }
