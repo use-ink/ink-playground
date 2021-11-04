@@ -20,6 +20,7 @@
     "bundlesize:generate": "yarn build && yarn webpack --stats --json=bundle-size-stats.json"
   },
   "devDependencies": {
+    "@svgr/webpack": "^6.0.0-alpha.0",
     "@tailwindcss/postcss7-compat": "^2.2.17",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.0",
