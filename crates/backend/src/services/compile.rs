@@ -29,25 +29,17 @@ use serde::{
 };
 use ts_rs::TS;
 
-use crate::services::sandbox::Sandbox;
+use crate::services::sandbox::{
+    CompilationRequest,
+    CompilationResult,
+    Sandbox,
+};
 
 // -------------------------------------------------------------------------------------------------
 // TYPES
 // -------------------------------------------------------------------------------------------------
 
 pub type CompileStrategy = fn(CompilationRequest) -> CompilationResult;
-
-#[derive(Deserialize, Serialize, TS)]
-pub struct CompilationRequest {
-    source: String,
-}
-
-#[derive(Deserialize, Serialize, TS, PartialEq, Debug)]
-#[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
-pub enum CompilationResult {
-    Success { result: String },
-    Failure { message: String },
-}
 
 // -------------------------------------------------------------------------------------------------
 // IMPLEMENTATION
@@ -58,7 +50,9 @@ pub enum CompilationResult {
 pub const COMPILE_SANDBOXED: CompileStrategy = |req| {
     // TODO: implement!
     CompilationResult::Success {
-        result: format!("Compiled: {}", req.source),
+        wasm: vec![],
+        stdout: "stdout....".to_string(),
+        stderr: "stderr....".to_string(),
     }
 };
 
