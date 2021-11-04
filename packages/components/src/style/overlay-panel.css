@@ -1,0 +1,19 @@
+.p-overlaypanel-content {
+  @apply rounded dark:text-primary dark:bg-elevation text-lg;
+}
+
+.p-overlaypanel {
+  border-radius: 0.5rem !important;
+  min-width: 7.5rem;
+}
+
+.p-overlaypanel .p-overlaypanel-close {
+  top: 0.5rem !important;
+  right: 0.5rem !important;
+  background-color: transparent !important;
+  color: #737480 !important;
+}
+
+.p-overlaypanel .p-overlaypanel-close:hover {
+  background-color: transparent !important;
+}
