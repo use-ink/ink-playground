@@ -12,21 +12,21 @@ export const SettingsSubmenu = (): ReactElement => {
         label={'Dark Mode'}
         checked={state.darkmode}
         onChange={() => dispatch({ type: 'SET_DARKMODE', payload: !state.darkmode })}
-        testId="darkModeSwitch"
+        data-testid="darkModeSwitch"
       />
 
       <LabeledInputSwitch
         label={'Minimap'}
         checked={state.minimap}
         onChange={() => dispatch({ type: 'SET_MINIMAP', payload: !state.minimap })}
-        testId="minimapSwitch"
+        data-testid="minimapSwitch"
       />
 
       <LabeledInputSwitch
         label={'Numbering'}
         checked={state.numbering}
         onChange={() => dispatch({ type: 'SET_NUMBERING', payload: !state.numbering })}
-        testId="numberingSwitch"
+        data-testid="numberingSwitch"
       />
     </div>
   );
