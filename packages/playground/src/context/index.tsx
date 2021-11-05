@@ -1,5 +1,6 @@
-import React, { ReactElement, ReactNode, useReducer } from 'react';
+import React, { ReactElement, ReactNode, useReducer, useEffect } from 'react';
 import { defaultState, State, reducer, Dispatch } from './reducer';
+import { setDarkMode } from './set-dark-mode';
 
 export const AppContext: React.Context<[State, Dispatch]> = React.createContext(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
@@ -11,7 +12,11 @@ export type Props = {
 };
 
 export const AppProvider = ({ children }: Props): ReactElement => {
-  const context: [State, Dispatch] = useReducer(reducer, defaultState);
+  const [state, dispatch]: [State, Dispatch] = useReducer(reducer, defaultState);
 
-  return <AppContext.Provider value={context}>{children}</AppContext.Provider>;
+  useEffect((): void => {
+    setDarkMode(state.darkmode);
+  }, [state.darkmode]);
+
+  return <AppContext.Provider value={[state, dispatch]}>{children}</AppContext.Provider>;
 };
