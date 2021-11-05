@@ -1,0 +1,15 @@
+.p-overlaypanel {
+  @apply rounded-lg;
+}
+
+.p-overlaypanel .p-overlaypanel-close {
+  @apply bg-transparent text-primary top-2 right-2;
+}
+
+.p-overlaypanel .p-overlaypanel-close:hover {
+  @apply hover:bg-transparent hover:text-primary;
+}
+
+.p-overlaypanel-content {
+  @apply rounded dark:text-primary dark:bg-elevation text-lg;
+}
