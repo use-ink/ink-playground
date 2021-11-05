@@ -24,13 +24,13 @@ use actix_web::{
     Responder,
 };
 
-pub use crate::services::sandbox::{
+pub use sandbox::{
     CompilationRequest,
     CompilationResult,
     Sandbox,
 };
 
-use crate::services::sandbox;
+use sandbox;
 
 // -------------------------------------------------------------------------------------------------
 // TYPES
