@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub const FLIPPER_CODE: &str = r#"
+#[cfg(test)]
+pub mod tests {
+    pub const FLIPPER_CODE: &str = r#"
 #![cfg_attr(not(feature = "std"), no_std)]
 
 use ink_lang as ink;
@@ -71,3 +73,4 @@ pub mod flipper {
     }
 }
 "#;
+}
