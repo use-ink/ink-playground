@@ -13,3 +13,9 @@
 .verticalDivider {
   @apply border-l max-h-8 mt-4 dark:border-dark border-light;
 }
+
+/* Temporary */
+
+.consoleHeight {
+  height: calc(20vh - 4rem);
+}
