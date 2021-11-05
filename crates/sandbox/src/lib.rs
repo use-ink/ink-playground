@@ -19,6 +19,7 @@
 //! strategy. This allows easy mocking.
 
 mod build_command;
+mod docker_command;
 mod example_code;
 
 use crate::build_command::build_compile_command;
@@ -320,9 +321,8 @@ fn vec_to_str(v: Vec<u8>) -> Result<String> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use crate::example_code::tests::FLIPPER_CODE;
 
+    #[cfg(feature = "docker_tests")]
     fn compile_check(source: String) -> Option<bool> {
         Sandbox::new()
             .and_then(|sandbox| sandbox.compile(&CompilationRequest { source }))

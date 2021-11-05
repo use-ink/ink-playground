@@ -14,6 +14,7 @@
 
 #[cfg(test)]
 pub mod tests {
+    #[cfg(feature = "docker_tests")]
     pub const FLIPPER_CODE: &str = r#"
 #![cfg_attr(not(feature = "std"), no_std)]
 
