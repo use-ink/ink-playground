@@ -5,3 +5,4 @@ import 'primeicons/primeicons.css';
 export { ButtonWithIcon } from './ButtonWithIcon';
 export { OverlayPanel } from './OverlayPanel';
 export { InputSwitch } from './InputSwitch';
+export { LabeledInputSwitch } from './LabeledInputSwitch';
