@@ -419,3 +419,41 @@ fn wide_open_permissions() -> std::fs::Permissions {
 fn vec_to_str(v: Vec<u8>) -> Result<String> {
     String::from_utf8(v).context(OutputNotUtf8)
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use crate::services::example_code::FLIPPER_CODE;
+
+    fn compile_check(source: String) -> Option<bool> {
+        Sandbox::new()
+            .and_then(|sandbox| sandbox.compile(&CompilationRequest { source }))
+            .map(|result| {
+                match result {
+                    CompilationResult::Success {
+                        wasm,
+                        stdout,
+                        stderr,
+                    } => true,
+                    CompilationResult::Error { stdout, stderr } => false,
+                }
+            })
+            .ok()
+    }
+
+    #[cfg(feature = "docker_tests")]
+    #[test]
+    fn test_compile_valid_code() {
+        let actual_result = compile_check(FLIPPER_CODE.to_string());
+
+        assert_eq!(actual_result, Some(true))
+    }
+
+    #[cfg(feature = "docker_tests")]
+    #[test]
+    fn test_compile_invalid_code() {
+        let actual_result = compile_check("".to_string());
+
+        assert_eq!(actual_result, Some(false))
+    }
+}
