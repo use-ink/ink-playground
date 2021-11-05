@@ -164,8 +164,9 @@ check-format: ts-check-format
 check-spelling: ts-check-spelling
 
 clean: rust-clean
-clean: ts-clean
 clean: components-clean
+clean: ts-clean
+
 
 install: ts-install
 
