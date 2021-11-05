@@ -149,6 +149,8 @@ ts-patch-markdown:
 ts-check-all: ts-check-spelling
 ts-check-all: ts-check-format
 ts-check-all: ts-lint
+ts-check-all: playground-test
+ts-check-all: components-test
 
 ################################################################################
 # GLOBAL
