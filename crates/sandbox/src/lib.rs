@@ -141,6 +141,10 @@ const DOCKER_PROCESS_TIMEOUT_HARD: Duration = Duration::from_secs(12);
 
 const DOCKER_CONTAINER_NAME: &str = "ink-backend";
 
+const DOCKER_WORKDIR: &str = "/builds/contract/";
+
+const DOCKER_OUTPUT: &str = "/playground-result";
+
 // -------------------------------------------------------------------------------------------------
 // TRAIT IMPLEMENTATION
 // -------------------------------------------------------------------------------------------------
@@ -151,10 +155,6 @@ impl Sandbox {
         let input_file = scratch.path().join("input.rs");
         let output_dir = scratch.path().join("output");
         fs::create_dir(&output_dir).context(UnableToCreateOutputDir)?;
-
-        // TODO: Change Error Type
-        fs::set_permissions(&scratch.path(), wide_open_permissions())
-            .context(UnableToSetOutputPermissions)?;
 
         fs::set_permissions(&output_dir, wide_open_permissions())
             .context(UnableToSetOutputPermissions)?;
@@ -169,23 +169,12 @@ impl Sandbox {
     pub fn compile(&self, req: &CompilationRequest) -> Result<CompilationResult> {
         self.write_source_code(&req.source)?;
 
-        println!("{:?}", self.scratch.path());
-
-        println!("it exists?: {}", Path::new(self.scratch.path()).exists());
-        let p = self.scratch.path();
-        let p = p.join("input.rs".to_string());
-
-        println!("it exists?: {}", Path::new(&p).exists());
-
         let command = self.build_compile_command();
 
         println!("Executing command: \n{:?}", command);
 
         let output = run_command_with_timeout(command)?;
 
-        // The compiler writes the file to a name like
-        // `compilation-3b75174cac3d47fb.ll`, so we just find the
-        // first with the right extension.
         let file = fs::read_dir(&self.output_dir)
             .context(UnableToReadOutput)?
             .flatten()
@@ -255,12 +244,12 @@ impl Sandbox {
 
         let mut mount_input_file = self.input_file.as_os_str().to_os_string();
         mount_input_file.push(":");
-        mount_input_file.push("/builds/contract/");
+        mount_input_file.push(DOCKER_WORKDIR);
         mount_input_file.push(file_name);
 
         let mut mount_output_dir = self.output_dir.as_os_str().to_os_string();
         mount_output_dir.push(":");
-        mount_output_dir.push("/playground-result");
+        mount_output_dir.push(DOCKER_OUTPUT);
 
         let mut cmd = build_basic_secure_docker_command();
 
@@ -297,7 +286,7 @@ fn build_basic_secure_docker_command() -> Command {
         // "--cap-add=DAC_OVERRIDE",
         //  "--security-opt=no-new-privileges",
         "--workdir",
-        "/builds/contract",
+        DOCKER_WORKDIR,
         // "--net",
         // "none",
         "--memory",
@@ -320,12 +309,13 @@ fn build_basic_secure_docker_command() -> Command {
     cmd
 }
 
-fn build_execution_command() -> Vec<&'static str> {
-    let cmd = vec![
-        "/bin/bash",
-        "-c",
-        "cargo contract build && mv /target/ink/contract.contract /playground-result",
-    ];
+fn build_execution_command() -> Vec<String> {
+    let command = format!(
+        "cargo contract build && mv /target/ink/contract.contract {}",
+        DOCKER_OUTPUT
+    );
+
+    let cmd = vec!["/bin/bash".to_string(), "-c".to_string(), command];
 
     cmd
 }
@@ -338,7 +328,7 @@ fn read(path: &Path) -> Result<Option<Vec<u8>>> {
     };
     let mut f = BufReader::new(f);
     let metadata = fs::metadata(path).expect("unable to read metadata");
-    // f.read_to_string(&mut s).context(UnableToReadOutput)?;
+
     let mut buffer = vec![0; metadata.len() as usize];
     f.read_exact(&mut buffer).expect("buffer overflow");
     Ok(Some(buffer))
@@ -425,7 +415,7 @@ fn vec_to_str(v: Vec<u8>) -> Result<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::services::example_code::tests::FLIPPER_CODE;
+    use crate::example_code::tests::FLIPPER_CODE;
 
     fn compile_check(source: String) -> Option<bool> {
         Sandbox::new()
