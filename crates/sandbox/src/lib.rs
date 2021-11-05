@@ -18,6 +18,8 @@
 //! In order to ease testing, the service is parameterized by a compile
 //! strategy. This allows easy mocking.
 
+pub mod example_code;
+
 use serde::{
     Deserialize,
     Serialize,

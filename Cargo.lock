@@ -445,13 +445,9 @@ dependencies = [
  "actix-rt 2.3.0",
  "actix-web",
  "clap",
- "log",
+ "sandbox",
  "serde",
  "serde_json",
- "snafu",
- "tempdir",
- "tokio 1.13.0",
- "ts-rs",
 ]
 
 [[package]]
@@ -2712,6 +2708,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "93fc1dc3aaa9bfed95e02e6eadabb4baf7e3078b0bd1b4d7b6b0b68378900502"
 dependencies = [
  "winapi-util",
+]
+
+[[package]]
+name = "sandbox"
+version = "0.1.0"
+dependencies = [
+ "log",
+ "serde",
+ "snafu",
+ "tempdir",
+ "tokio 1.13.0",
+ "ts-rs",
 ]
 
 [[package]]

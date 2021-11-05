@@ -1,0 +1,22 @@
+[package]
+name = "sandbox"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = "1.0.130"
+tempdir = "0.3.7"
+snafu = "0.6.10"
+log = "0.4.14"
+tokio = { version = "1.13.0", features = [
+    "macros",
+    "time",
+    "process",
+    "rt-multi-thread",
+] }
+ts-rs = { git = "https://github.com/Aleph-Alpha/ts-rs", branch = "main", features = [
+    "serde-compat",
+] }
+
+[features]
+docker_tests = []
