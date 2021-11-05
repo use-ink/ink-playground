@@ -18,11 +18,11 @@
 //! In order to ease testing, the service is parameterized by a compile
 //! strategy. This allows easy mocking.
 
+use crate::docker_command;
 use std::{
-    path::PathBuf,
+    path::Path,
     time::Duration,
 };
-
 use tokio::process::Command;
 
 const DOCKER_PROCESS_TIMEOUT_SOFT: Duration = Duration::from_secs(10);
@@ -33,7 +33,7 @@ const DOCKER_WORKDIR: &str = "/builds/contract/";
 
 const DOCKER_OUTPUT: &str = "/playground-result";
 
-pub fn build_compile_command(input_file: &PathBuf, output_dir: &PathBuf) -> Command {
+pub fn build_compile_command(input_file: &Path, output_dir: &Path) -> Command {
     let mut cmd = build_docker_command(input_file, output_dir);
 
     let execution_cmd = build_execution_command();
@@ -45,7 +45,7 @@ pub fn build_compile_command(input_file: &PathBuf, output_dir: &PathBuf) -> Comm
     cmd
 }
 
-fn build_docker_command(input_file: &PathBuf, output_dir: &PathBuf) -> Command {
+fn build_docker_command(input_file: &Path, output_dir: &Path) -> Command {
     let file_name = "lib.rs";
 
     let mut mount_input_file = input_file.as_os_str().to_os_string();
@@ -65,14 +65,6 @@ fn build_docker_command(input_file: &PathBuf, output_dir: &PathBuf) -> Command {
         .arg(&mount_output_dir);
 
     cmd
-}
-
-macro_rules! docker_command {
-    ($($arg:expr),* $(,)?) => ({
-        let mut cmd = Command::new("docker");
-        $( cmd.arg($arg); )*
-        cmd
-    });
 }
 
 fn build_basic_secure_docker_command() -> Command {
