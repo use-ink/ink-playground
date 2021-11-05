@@ -70,11 +70,11 @@ fn build_docker_command(input_file: &Path, output_dir: &Path) -> Command {
 fn build_basic_secure_docker_command() -> Command {
     let mut cmd = docker_command!(
         "run",
-        // "--detach",
-        // "--cap-drop=ALL",
+        "--detach",
+        "--cap-drop=ALL",
         // Needed to allow overwriting the file
-        // "--cap-add=DAC_OVERRIDE",
-        //  "--security-opt=no-new-privileges",
+        "--cap-add=DAC_OVERRIDE",
+        "--security-opt=no-new-privileges",
         "--workdir",
         DOCKER_WORKDIR,
         // "--net",
