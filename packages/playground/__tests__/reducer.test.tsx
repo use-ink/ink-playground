@@ -1,28 +1,47 @@
+import { CompilationResult } from '@paritytech/commontypes';
 import { reducer, defaultState, CompileState, Action } from '~/context/reducer';
 
 describe('Given the reducer is used to manage state', () => {
-  test('When dark mode is toggled', () => {
-    const deactivated = reducer(defaultState, { type: 'SET_DARKMODE', payload: false });
-    const activated = reducer(defaultState, { type: 'SET_DARKMODE', payload: true });
-    // Then ...
-    expect(deactivated.darkmode).toBeFalsy();
-    expect(activated.darkmode).toBeTruthy();
+  describe('When dark mode is toggled', () => {
+    test('When dark mode is activated', () => {
+      const activated = reducer(defaultState, { type: 'SET_DARKMODE', payload: true });
+      // Then ...
+      expect(activated.darkmode).toBeTruthy();
+    });
+
+    test('When dark mode is deactivated', () => {
+      const deactivated = reducer(defaultState, { type: 'SET_DARKMODE', payload: false });
+      // Then ...
+      expect(deactivated.darkmode).toBeFalsy();
+    });
   });
 
-  test('When numbering is toggled', () => {
-    const deactivated = reducer(defaultState, { type: 'SET_NUMBERING', payload: false });
-    const activated = reducer(defaultState, { type: 'SET_NUMBERING', payload: true });
-    // Then ...
-    expect(deactivated.numbering).toBeFalsy();
-    expect(activated.numbering).toBeTruthy();
+  describe('When numbering is toggled', () => {
+    test('When numbering is activated', () => {
+      const activated = reducer(defaultState, { type: 'SET_NUMBERING', payload: true });
+      // Then ...
+      expect(activated.numbering).toBeTruthy();
+    });
+
+    test('When numbering is deactivated', () => {
+      const deactivated = reducer(defaultState, { type: 'SET_NUMBERING', payload: false });
+      // Then ...
+      expect(deactivated.numbering).toBeFalsy();
+    });
   });
 
-  test('When minimap is toggled', () => {
-    const deactivated = reducer(defaultState, { type: 'SET_MINIMAP', payload: false });
-    const activated = reducer(defaultState, { type: 'SET_MINIMAP', payload: true });
-    // Then ...
-    expect(deactivated.minimap).toBeFalsy();
-    expect(activated.minimap).toBeTruthy();
+  describe('When minimap is toggled', () => {
+    test('When minimap is activated', () => {
+      const activated = reducer(defaultState, { type: 'SET_MINIMAP', payload: true });
+      // Then ...
+      expect(activated.minimap).toBeTruthy();
+    });
+
+    test('When minimap is deactivated', () => {
+      const deactivated = reducer(defaultState, { type: 'SET_MINIMAP', payload: false });
+      // Then ...
+      expect(deactivated.minimap).toBeFalsy();
+    });
   });
 
   test('When compile state is set to "IN_PROGRESS"', () => {
@@ -78,16 +97,17 @@ describe('Given the reducer is used to manage state', () => {
 
   test('When endpoint returns "OK" with "FAILURE"', () => {
     const type = 'SET_COMPILE_STATE';
+    const compilationPayload: CompilationResult = {
+      type: 'FAILURE',
+      payload: {
+        message: 'Compile failed',
+      },
+    };
     const payload: CompileState = {
       type: 'RESULT',
       payload: {
         type: 'OK',
-        payload: {
-          type: 'FAILURE',
-          payload: {
-            message: 'Compile failed',
-          },
-        },
+        payload: compilationPayload,
       },
     };
     const action: Action = {
@@ -101,16 +121,17 @@ describe('Given the reducer is used to manage state', () => {
 
   test('When endpoint returns "OK" with "SUCCESS"', () => {
     const type = 'SET_COMPILE_STATE';
+    const compilationPayload: CompilationResult = {
+      type: 'SUCCESS',
+      payload: {
+        result: 'Compile result',
+      },
+    };
     const payload: CompileState = {
       type: 'RESULT',
       payload: {
         type: 'OK',
-        payload: {
-          type: 'SUCCESS',
-          payload: {
-            result: 'Compile result',
-          },
-        },
+        payload: compilationPayload,
       },
     };
     const action: Action = {
