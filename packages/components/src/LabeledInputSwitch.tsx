@@ -1,23 +1,16 @@
-import { InputSwitch } from '.';
+import { InputSwitch, InputSwitchProps } from '.';
 import { ReactElement } from 'react';
 
-export type Props = {
+export interface Props extends InputSwitchProps {
   label: string;
-  checked: boolean;
-  onChange: () => void;
-  testId: string;
-};
+  'data-testid': string;
+}
 
 export const LabeledInputSwitch = (props: Props): ReactElement => {
   return (
     <div className="py-2 flex justify-between">
       <p>{props.label}</p>
-      <InputSwitch
-        className="settingSwitch"
-        checked={props.checked}
-        onChange={() => props.onChange()}
-        data-testid={props.testId}
-      />
+      <InputSwitch {...props} />
     </div>
   );
 };

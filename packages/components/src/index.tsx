@@ -6,4 +6,5 @@ import './style/primereact.custom.css';
 export { ButtonWithIcon } from './ButtonWithIcon';
 export { OverlayPanel } from './OverlayPanel';
 export { InputSwitch } from './InputSwitch';
+export type { InputSwitchProps } from './InputSwitch';
 export { LabeledInputSwitch } from './LabeledInputSwitch';

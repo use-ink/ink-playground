@@ -15,7 +15,7 @@ describe('Given the LabeledInputSwitch component is rendered', () => {
         label={switchLabelText}
         checked={switchState}
         onChange={() => toggleSwitchState()}
-        testId={switchTestId}
+        data-testid={switchTestId}
       />
     );
   });
