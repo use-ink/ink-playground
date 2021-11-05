@@ -1,3 +1,5 @@
+cargo-features = ["edition2021"]
+
 [package]
 name = "sandbox"
 version = "0.1.0"
@@ -17,6 +19,3 @@ tokio = { version = "1.13.0", features = [
 ts-rs = { git = "https://github.com/Aleph-Alpha/ts-rs", branch = "main", features = [
     "serde-compat",
 ] }
-
-[features]
-docker_tests = []
