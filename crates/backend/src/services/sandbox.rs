@@ -186,7 +186,7 @@ impl Sandbox {
         // first with the right extension.
         let file = fs::read_dir(&self.output_dir)
             .context(UnableToReadOutput)?
-            .flat_map(|entry| entry)
+            .flatten()
             .map(|entry| entry.path())
             .find(|path| path.extension() == Some(OsStr::new("contract")));
 
@@ -338,7 +338,7 @@ fn read(path: &Path) -> Result<Option<Vec<u8>>> {
     let metadata = fs::metadata(path).expect("unable to read metadata");
     // f.read_to_string(&mut s).context(UnableToReadOutput)?;
     let mut buffer = vec![0; metadata.len() as usize];
-    f.read(&mut buffer).expect("buffer overflow");
+    f.read_exact(&mut buffer).expect("buffer overflow");
     Ok(Some(buffer))
 }
 
@@ -421,9 +421,9 @@ fn vec_to_str(v: Vec<u8>) -> Result<String> {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::*;
-    use crate::services::example_code::FLIPPER_CODE;
+    use crate::services::example_code::tests::FLIPPER_CODE;
 
     fn compile_check(source: String) -> Option<bool> {
         Sandbox::new()
@@ -431,11 +431,14 @@ mod test {
             .map(|result| {
                 match result {
                     CompilationResult::Success {
-                        wasm,
-                        stdout,
-                        stderr,
+                        wasm: _,
+                        stdout: _,
+                        stderr: _,
                     } => true,
-                    CompilationResult::Error { stdout, stderr } => false,
+                    CompilationResult::Error {
+                        stdout: _,
+                        stderr: _,
+                    } => false,
                 }
             })
             .ok()
