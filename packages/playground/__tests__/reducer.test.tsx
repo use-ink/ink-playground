@@ -95,12 +95,13 @@ describe('Given the reducer is used to manage state', () => {
     expect(resultingState.compile).toStrictEqual(payload);
   });
 
-  test('When endpoint returns "OK" with "FAILURE"', () => {
+  test('When endpoint returns "OK" with "ERROR"', () => {
     const type = 'SET_COMPILE_STATE';
     const compilationPayload: CompilationResult = {
-      type: 'FAILURE',
+      type: 'ERROR',
       payload: {
-        message: 'Compile failed',
+        stdout: '',
+        stderr: 'Compile failed',
       },
     };
     const payload: CompileState = {
@@ -124,7 +125,9 @@ describe('Given the reducer is used to manage state', () => {
     const compilationPayload: CompilationResult = {
       type: 'SUCCESS',
       payload: {
-        result: 'Compile result',
+        wasm: [1, 2, 3],
+        stdout: 'Compile result',
+        stderr: '',
       },
     };
     const payload: CompileState = {
