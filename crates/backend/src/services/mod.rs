@@ -18,5 +18,6 @@
 //! "/compile" route in the end)
 
 pub mod compile;
+pub mod example_code;
 pub mod frontend;
 pub mod sandbox;
