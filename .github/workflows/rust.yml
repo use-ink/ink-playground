@@ -7,7 +7,6 @@ env:
 
 jobs:
   rustfmt:
-    if: ${{ false }}
     runs-on: 'ubuntu-latest'
     steps:
       - name: Install Rust toolchain
@@ -27,7 +26,6 @@ jobs:
           args: --all -- --check
 
   clippy:
-    if: ${{ false }}
     runs-on: 'ubuntu-latest'
     steps:
       - name: Install Rust toolchain
@@ -50,9 +48,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # - name: Build
-      #   run: cargo build --verbose
-
+      - name: Build
+        run: cargo build --verbose
       - name: Pull docker image
         run: docker pull docker.io/achimcc/ink-backend:ink-backend
       - name: Tag docker image
