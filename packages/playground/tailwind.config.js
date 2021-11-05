@@ -2,6 +2,12 @@ module.exports = {
   purge: [],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
+    fontFamily: {
+      body: ['SF Pro Display Regular'],
+      medium: ['SF Pro Display Medium'],
+      bold: ['SF Pro Display Bold'],
+      italic: ['SF Pro Display Italic'],
+    },
     backgroundColor: theme => ({
       ...theme('colors'),
       primary: '#1A1D1F',
