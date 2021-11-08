@@ -101,7 +101,7 @@ fn build_basic_secure_docker_command() -> Command {
 
 fn build_execution_command() -> Vec<String> {
     let command = format!(
-        "cargo contract build && mv /target/ink/contract.contract {}",
+        "cargo contract build --offline && mv /target/ink/contract.contract {}",
         DOCKER_OUTPUT
     );
 
