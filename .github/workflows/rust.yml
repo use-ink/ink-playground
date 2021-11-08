@@ -51,8 +51,8 @@ jobs:
       - name: Build
         run: cargo build --verbose
       - name: Pull docker image
-        run: docker pull docker.io/achimcc/ink-backend:ink-backend
+        run: docker pull docker.io/achimcc/ink-backend:latest
       - name: Tag docker image
-        run: docker tag docker.io/achimcc/ink-backend:ink-backend ink-backend
+        run: docker tag docker.io/achimcc/ink-backend:latest ink-backend
       - name: Run tests
         run: cargo test --workspace --exclude rust_analyzer_wasm --verbose --features docker_tests
