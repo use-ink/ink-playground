@@ -1,10 +1,12 @@
 import { CompileApiResponse } from '~/api/compile';
+import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
 
 export const defaultState: State = {
   darkmode: true,
   minimap: true,
   numbering: true,
   compile: { type: 'NOT_ASKED' },
+  monacoUri: null,
 };
 
 export type State = {
@@ -12,6 +14,7 @@ export type State = {
   minimap: boolean;
   numbering: boolean;
   compile: CompileState;
+  monacoUri: Uri | null;
 };
 
 export type CompileState =
