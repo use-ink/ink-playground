@@ -15,7 +15,7 @@ export const Editor = (): ReactElement => {
   const editorDidMount = (editor: MonacoEditor['editor']): void => {
     if (editor) {
       editor.focus();
-      let uri = editor.getModel()?.uri;
+      const uri = editor.getModel()?.uri;
       if (uri) dispatch({ type: 'SET_URI', payload: uri });
     }
   };

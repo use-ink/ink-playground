@@ -7,7 +7,7 @@ export async function compile(dispatch: Dispatch, state: State) {
 
   dispatch({ type: 'SET_COMPILE_STATE', payload: { type: 'IN_PROGRESS' } });
 
-  let { monacoUri: uri } = state;
+  const { monacoUri: uri } = state;
 
   if (!uri) {
     // ToDo: implement proper error handling
@@ -15,7 +15,7 @@ export async function compile(dispatch: Dispatch, state: State) {
     return;
   }
 
-  let model = monaco.editor.getModel(uri);
+  const model = monaco.editor.getModel(uri);
 
   if (!model) {
     // ToDo: implement proper error handling
@@ -23,7 +23,7 @@ export async function compile(dispatch: Dispatch, state: State) {
     return;
   }
 
-  let code = model.getValue();
+  const code = model.getValue();
 
   const result = await compileRequest({ source: code });
 
