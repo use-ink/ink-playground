@@ -10,12 +10,16 @@ export async function compile(dispatch: Dispatch, state: State) {
   let { monacoUri: uri } = state;
 
   if (!uri) {
+    // ToDo: implement proper error handling
+    dispatch({ type: 'SET_COMPILE_STATE', payload: { type: 'NOT_ASKED' } });
     return;
   }
 
   let model = monaco.editor.getModel(uri);
 
   if (!model) {
+    // ToDo: implement proper error handling
+    dispatch({ type: 'SET_COMPILE_STATE', payload: { type: 'NOT_ASKED' } });
     return;
   }
 
