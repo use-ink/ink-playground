@@ -11,3 +11,10 @@ change.json
 node_modules
 packages/_generated/*/src
 packages/_generated/src
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
