@@ -8,7 +8,21 @@ export async function compile(dispatch: Dispatch, state: State) {
 
   dispatch({ type: 'SET_COMPILE_STATE', payload: { type: 'IN_PROGRESS' } });
 
-  const result = await compileRequest({ source: exampleCode });
+  let { monacoUri: uri } = state;
+
+  if (!uri) {
+    return;
+  }
+
+  let model = monaco.editor.getModel(uri);
+
+  if (!model) {
+    return;
+  }
+
+  let code = model.getValue();
+
+  const result = await compileRequest({ source: code });
 
   dispatch({
     type: 'SET_COMPILE_STATE',

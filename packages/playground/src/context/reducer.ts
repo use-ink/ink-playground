@@ -26,7 +26,8 @@ export type Action =
   | { type: 'SET_DARKMODE'; payload: boolean }
   | { type: 'SET_NUMBERING'; payload: boolean }
   | { type: 'SET_MINIMAP'; payload: boolean }
-  | { type: 'SET_COMPILE_STATE'; payload: CompileState };
+  | { type: 'SET_COMPILE_STATE'; payload: CompileState }
+  | { type: 'SET_URI'; payload: Uri };
 
 export type Dispatch = (action: Action) => void;
 
@@ -51,6 +52,11 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         compile: action.payload,
+      };
+    case 'SET_URI':
+      return {
+        ...state,
+        monacoUri: action.payload,
       };
     default:
       return state;
