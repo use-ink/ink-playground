@@ -6,7 +6,7 @@ import { Dispatch, State } from '~/context/reducer';
 
 export const Editor = (): ReactElement => {
   const [code, setCode] = useState(exampleCode);
-  const [state]: [State, Dispatch] = useContext(AppContext);
+  const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
 
   const handleChange = (newValue: string): void => {
     setCode(newValue);
@@ -16,7 +16,7 @@ export const Editor = (): ReactElement => {
     if (editor) {
       editor.focus();
       let uri = editor.getModel()?.uri;
-      if (uri) console.log('uri: ', uri);
+      if (uri) dispatch({ type: 'SET_URI', payload: uri });
     }
   };
 
