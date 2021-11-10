@@ -171,6 +171,12 @@ docker-build:
 docker-run:
 	docker run --publish 80:4000 ink-playground
 
+docker-run-detach:
+	docker run --detach --publish 80:4000 ink-playground
+
+docker-test:
+	yarn workspace docker-tests run test
+
 ################################################################################
 # GLOBAL
 ################################################################################
