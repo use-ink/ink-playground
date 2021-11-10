@@ -19,11 +19,11 @@
 /* Splitter, SplitPanel */
 
 .p-splitter {
-  @apply border-0;
+  @apply border-0 bg-transparent;
 }
 
 .p-splitter .p-splitter-gutter {
-  @apply bg-elevation;
+  @apply bg-elevation z-10;
 }
 
 .p-splitter .p-splitter-gutter .p-splitter-gutter-handle {

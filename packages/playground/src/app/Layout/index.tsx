@@ -11,7 +11,7 @@ export const Layout = ({ Header, Editor, Console }: LayoutProps) => {
     <div className="overflow-hidden">
       <Header />
       <Splitter className="content" layout="vertical" gutterSize={6}>
-        <SplitterPanel size={80} minSize={0}>
+        <SplitterPanel size={80} minSize={0} className="min-h-0">
           <Editor />
         </SplitterPanel>
         <SplitterPanel size={20} minSize={0}>
