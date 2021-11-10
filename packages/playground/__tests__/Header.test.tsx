@@ -52,14 +52,6 @@ describe('Given the Header component is rendered', () => {
   });
 });
 
-//// In the following tests "SettingsSubmenu" should be exchanged with "Header", but
-//// in primereact clicking the OverlayPanel it is currently failing with:
-////
-//// "TypeError: Cannot set property 'isPanelClicked' of undefined"
-////
-//// This bug was fixed on Nov. 03 (https://github.com/primefaces/primereact/pull/2348)
-//// and the fixed version will be released in the next days.
-
 describe('Given the Header interacts with context', () => {
   beforeEach(() => {
     render(
