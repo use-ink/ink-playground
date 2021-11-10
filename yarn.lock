@@ -2424,6 +2424,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@paritytech/change@workspace:packages/_generated/change":
+  version: 0.0.0-use.local
+  resolution: "@paritytech/change@workspace:packages/_generated/change"
+  languageName: unknown
+  linkType: soft
+
 "@paritytech/commontypes@workspace:packages/_generated/commontypes":
   version: 0.0.0-use.local
   resolution: "@paritytech/commontypes@workspace:packages/_generated/commontypes"
