@@ -20,15 +20,25 @@ An ink! Playground which provides a Browser based IDE for editing Smart Contract
 
 ## Getting started
 
+The actual ink! playground is a fronted app which is developed using TypeScript and React. It is contained in the `packages/playground` folder.
+
+The repo contains a Rust backend which is implemented with the [actix-web](https://github.com/actix/actix-web) framework and which can be found in the 'crates/backend' folder.
+
+The backend serves the frontend app and it also provides the backend services for compilation and Github gists creation(which we use to provide the code sharing functionality).
+
+To clone and build the whole project on your local machine, enter:
+
 `git clone clone https://github.com/paritytech/ink-playground`
 
 `cd ink-playground`
 
 `make install`
 
-`make test`
-
 `make build`
+
+and finally, to start the backend:
+
+`make backend-run`
 
 ## Implemented features:
 
