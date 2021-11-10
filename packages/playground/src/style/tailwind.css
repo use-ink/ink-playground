@@ -3,13 +3,3 @@
 @tailwind components;
 
 @tailwind utilities;
-
-/* Custom css */
-
-.header {
-  @apply dark:text-primary dark:bg-primary dark:border-dark border-light border-b text-light flex max-h-16;
-}
-
-.verticalDivider {
-  @apply border-l max-h-8 mt-4 dark:border-dark border-light;
-}
