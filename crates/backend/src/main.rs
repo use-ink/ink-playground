@@ -43,7 +43,7 @@ async fn main() -> std::io::Result<()> {
     let opts: Opts = Opts::parse();
     let port = opts.port;
     let frontend_folder = opts.frontend_folder;
-    let host = "127.0.0.1";
+    let host = opts.host;
 
     if let Some(path) = &frontend_folder {
         if !Path::new(path).is_dir() {
