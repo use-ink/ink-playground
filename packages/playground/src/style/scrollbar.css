@@ -1,19 +1,19 @@
 /* width */
 div::-webkit-scrollbar {
-  @apply w-3.5;
+  @apply w-3.5 bg-primary;
 }
 
 /* Track */
 div::-webkit-scrollbar-track {
-  @apply bg-primary border border-l dark:border-dark border-light;
+  @apply dark:bg-primary bg-white border-l border-solid border-0 dark:border-dark border-light;
 }
 
 /* Handle */
 div::-webkit-scrollbar-thumb {
-  background: rgba(121, 121, 121, 0.4);
+  @apply dark:bg-scrollbar bg-scrollbar-light;
 }
 
 /* Handle on hover */
 div::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  @apply bg-scrollbar-light;
 }
