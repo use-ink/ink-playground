@@ -1,3 +1,9 @@
 export const Console = () => {
-  return <div className="w-full h-full dark:text-primary dark:bg-primary text-light"></div>;
+  return (
+    <div className="h-full w-full relative">
+      <div className="dark:text-primary dark:bg-primary text-light text-sm subpixel-antialiased leading-normal px-5 pt-4 pb-6 shadow-lg overflow-y-scroll h-full w-full absolute">
+        <p>Console</p>
+      </div>
+    </div>
+  );
 };
