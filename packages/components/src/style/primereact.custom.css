@@ -23,7 +23,7 @@
 }
 
 .p-splitter .p-splitter-gutter {
-  @apply bg-elevation z-10;
+  @apply dark:bg-elevation bg-gray-200 z-10;
 }
 
 .p-splitter .p-splitter-gutter .p-splitter-gutter-handle {
