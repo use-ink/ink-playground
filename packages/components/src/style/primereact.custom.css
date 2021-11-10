@@ -1,3 +1,5 @@
+/* OverlayPanel */
+
 .p-overlaypanel {
   @apply rounded-lg;
 }
@@ -12,4 +14,18 @@
 
 .p-overlaypanel-content {
   @apply rounded dark:text-primary dark:bg-elevation text-lg;
+}
+
+/* Splitter, SplitPanel */
+
+.p-splitter {
+  @apply border-0;
+}
+
+.p-splitter .p-splitter-gutter {
+  @apply bg-elevation;
+}
+
+.p-splitter .p-splitter-gutter .p-splitter-gutter-handle {
+  @apply bg-secondary;
 }
