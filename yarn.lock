@@ -2437,7 +2437,7 @@ __metadata:
     identity-obj-proxy: ^3.0.0
     jest: ^27.3.1
     primeicons: ^4.1.0
-    primereact: ^7.0.0-rc.2
+    primereact: ^7.0.0
     react-transition-group: ^4.4.2
     rimraf: ^3.0.2
     ts-jest: ^27.0.7
@@ -9833,13 +9833,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"primereact@npm:^7.0.0-rc.2":
-  version: 7.0.0-rc.2
-  resolution: "primereact@npm:7.0.0-rc.2"
+"primereact@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "primereact@npm:7.0.0"
   peerDependencies:
     react: ^17.0.1
     react-dom: ^17.0.1
-  checksum: fcffd7ffe44863f994ecc406a984e1b9dc3ec8ba810353ea26bb07466da0e75f4dcc239b849d4e20a6bde5efbe480215d4f96ce943c84c1d470cb6042d2a2dc8
+    react-transition-group: ^4.4.1
+  peerDependenciesMeta:
+    react-transition-group:
+      optional: true
+  checksum: 4c3d7af009f9437449ac24b624c9417584558ef9b7a4f7a9fc5a606a89fb0ee3234768f12309544851900c7ac6b577bab91529d85b8b06518304bdabafe3eb5c
   languageName: node
   linkType: hard
 
