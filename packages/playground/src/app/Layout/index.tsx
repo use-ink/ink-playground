@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 export const Layout = ({ children }: { children: ReactNode }) => {
-  return <div style={{ overflow: 'hidden' }}>{children}</div>;
+  return <div className="overflow-hidden">{children}</div>;
 };

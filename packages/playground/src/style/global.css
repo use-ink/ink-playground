@@ -1,3 +1,7 @@
 body {
   @apply font-body dark:bg-primary;
 }
+
+.content {
+  height: calc(100vh - 4rem);
+}
