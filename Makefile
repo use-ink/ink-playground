@@ -23,7 +23,11 @@
 generate-bindings:
 	cargo run -p generate-bindings -- --target ../../packages/_generated/commontypes/src
 
+generate-change-json:
+	cargo run -p crate-extractor -- create -m crates/contract/Cargo.toml -o packages/_generated/change/change.json
+
 generate: generate-bindings
+generate: generate-change-json
 
 ################################################################################
 # ENTRYPOINT: playground
