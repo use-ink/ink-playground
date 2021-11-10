@@ -85,6 +85,9 @@ crate-extractor-test:
 backend-build:
 	cargo build -p backend
 
+backend-build-prod:
+	cargo build -p backend --bin backend --release
+
 backend-run:
 	cargo run -p backend -- --frontend_folder packages/playground/dist --port 4000
 
