@@ -44,7 +44,7 @@ export const compileRequest = (request: CompileApiRequest): Promise<CompileApiRe
     body: JSON.stringify(request),
   };
 
-  return fetch(COMPILE_URL, opts)
+  return fetch(COMPILE_URL || '', opts)
     .then(mapResponse)
     .catch(() => ({ type: 'NETWORK_ERROR' }));
 };
