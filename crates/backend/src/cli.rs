@@ -24,6 +24,9 @@ pub struct Opts {
     #[clap(short = 'p', long = "port", default_value = "8080", env = "PORT")]
     pub port: u16,
 
+    #[clap(short = 'h', long = "host", default_value = "localhost", env = "HOST")]
+    pub host: String,
+
     #[clap(short = 'f', long = "frontend_folder")]
     pub frontend_folder: Option<String>,
 
