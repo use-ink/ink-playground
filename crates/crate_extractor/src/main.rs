@@ -77,6 +77,8 @@ fn main() {
             let text = serde_json::to_string(&json).unwrap_or_else(|err| {
                 panic!("Error while parsing ChangeJson object to string: {}", err)
             });
+            std::fs::create_dir_all(output.parent().unwrap())
+                .expect("could not create directory");
             fs::write(output, text).expect("Unable to write file");
         }
     }
