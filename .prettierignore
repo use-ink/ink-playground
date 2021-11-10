@@ -4,3 +4,4 @@ pkg
 dist
 packages/_generated/*/src/*
 bundle-size-stats.json
+.yarn
