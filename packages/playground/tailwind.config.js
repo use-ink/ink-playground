@@ -14,6 +14,8 @@ module.exports = {
       secondary: '#D8B6FF',
       danger: '#e3342f',
       elevation: 'rgba(36, 42, 46, 2)',
+      scrollbar: 'rgba(121, 121, 121, 0.4)',
+      'scrollbar-light': 'rgba(121, 121, 121, 0.4)',
     }),
     textColor: theme => ({
       ...theme('colors'),
