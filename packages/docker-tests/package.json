@@ -1,6 +1,5 @@
 {
   "name": "docker-tests",
-  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^27.0.2",
     "axios": "^0.24.0",
