@@ -1,9 +1,10 @@
 import { Splitter, SplitterPanel } from '@paritytech/components/';
+import { TestControls } from '../Console/TestControls';
 
 type LayoutProps = {
-  Header: React.FunctionComponent;
-  Editor: React.FunctionComponent;
-  Console: React.FunctionComponent;
+  Header: React.FC;
+  Editor: React.FC;
+  Console: React.FC;
 };
 
 export const Layout = ({ Header, Editor, Console }: LayoutProps) => {
@@ -20,6 +21,7 @@ export const Layout = ({ Header, Editor, Console }: LayoutProps) => {
           </SplitterPanel>
         </Splitter>
       </div>
+      <TestControls />
     </div>
   );
 };
