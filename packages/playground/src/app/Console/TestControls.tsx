@@ -1,69 +1,76 @@
-import { nanoid } from 'nanoid';
 import { useContext, ReactElement } from 'react';
-import { Dispatch, Prompt, Severity, State } from '~/context/reducer';
-import { AppContext } from '~/context';
+import { Dispatch, State } from '~/context/messages/reducer';
+import { MessageContext } from '~/context/messages';
 
 export const TestControls = (): ReactElement => {
-  const [, dispatch]: [State, Dispatch] = useContext(AppContext);
+  const [, dispatch]: [State, Dispatch] = useContext(MessageContext);
 
-  const dispatchWelcomeMessage = (): void => {
-    const messageId = 'mid-' + nanoid(10);
+  const dispatchRaLoading = (): void => {
     dispatch({
-      type: 'SET_MESSAGE',
+      type: 'LOG_SYSTEM',
       payload: {
-        severity: Severity.Info,
-        text: 'Hello from console! :)',
-        prompt: Prompt.Welcome,
-        id: messageId,
+        content: 'loading rust analyzer...',
+        status: 'IN_PROGRESS',
       },
     });
   };
 
-  const dispatchErrorMessage = (): void => {
-    const messageId = 'mid-' + nanoid(10);
+  const dispatchRaDone = (): void => {
     dispatch({
-      type: 'SET_MESSAGE',
+      type: 'LOG_SYSTEM',
       payload: {
-        severity: Severity.Error,
-        text: 'Something went wrong!',
-        prompt: Prompt.Error,
-        id: messageId,
+        content: 'rust analyzer ready',
+        status: 'DONE',
       },
     });
   };
 
-  const dispatchInfoMessage = (): void => {
-    const messageId = 'mid-' + nanoid(10);
+  const dispatchCompileLoading = (): void => {
     dispatch({
-      type: 'SET_MESSAGE',
+      type: 'LOG_COMPILE',
       payload: {
-        severity: Severity.Success,
-        text: 'Systems are up and running.',
-        prompt: Prompt.System,
-        id: messageId,
+        content: 'compiling has started...',
+        status: 'IN_PROGRESS',
+      },
+    });
+  };
+
+  const dispatchCompileDone = (): void => {
+    dispatch({
+      type: 'LOG_COMPILE',
+      payload: {
+        content: 'compiling finished',
+        status: 'DONE',
       },
     });
   };
 
   return (
-    <div className="dark:bg-gray-800 bg-gray-200 border">
+    <div className="dark:bg-primary bg-gray-200 dark:border-dark border-light border-t">
       <button
-        className="dark:bg-elevation bg-gray-200 py-1 px-3 mx-2 my-3 border text-secondary rounded"
-        onClick={() => dispatchWelcomeMessage()}
+        className="dark:bg-elevation bg-gray-200 py-1 px-3 mx-2 my-3 border text-info rounded"
+        onClick={() => dispatchRaLoading()}
       >
-        Dispatch Welcome Message
+        RA Loading
       </button>
       <button
-        className="dark:bg-elevation bg-gray-200 py-1 px-3 mx-2 my-1 border text-secondary rounded"
-        onClick={() => dispatchErrorMessage()}
+        className="dark:bg-elevation bg-gray-200 py-1 px-3 mx-2 my-1 border text-info rounded"
+        onClick={() => dispatchRaDone()}
       >
-        Dispatch Error Message
+        RA Done
+      </button>
+
+      <button
+        className="dark:bg-elevation bg-gray-200 py-1 px-3 mx-2 my-3 border text-info rounded"
+        onClick={() => dispatchCompileLoading()}
+      >
+        Compile Loading
       </button>
       <button
-        className="dark:bg-elevation bg-gray-200 py-1 px-3 mx-2 my-1 border text-secondary rounded"
-        onClick={() => dispatchInfoMessage()}
+        className="dark:bg-elevation bg-gray-200 py-1 px-3 mx-2 my-1 border text-info rounded"
+        onClick={() => dispatchCompileDone()}
       >
-        Dispatch Info Message
+        Compile Done
       </button>
     </div>
   );

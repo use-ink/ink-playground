@@ -9,3 +9,6 @@ export { InputSwitch } from './InputSwitch';
 export type { InputSwitchProps } from './InputSwitch';
 export { LabeledInputSwitch } from './LabeledInputSwitch';
 export { Splitter, SplitterPanel } from './Splitter';
+export { ConsoleMessages } from './console';
+export { Severity } from './console/ConsoleMessage';
+export type { Message, Prompt, Status, SeverityColors } from './console/ConsoleMessage';
