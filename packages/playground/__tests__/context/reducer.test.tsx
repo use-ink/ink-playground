@@ -1,5 +1,5 @@
 import { CompilationResult } from '@paritytech/commontypes';
-import { reducer, defaultState, CompileState, Action } from '~/context/reducer';
+import { reducer, defaultState, CompileState, Action } from '~/context/app/reducer';
 
 describe('Given the reducer is used to manage state', () => {
   describe('When dark mode is toggled', () => {
