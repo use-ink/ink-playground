@@ -31,8 +31,12 @@ use actix_web::{
         Condition,
         DefaultHeaders,
     },
-    web::post,
+    web::{
+        get,
+        post,
+    },
     App,
+    HttpResponse,
     HttpServer,
 };
 use clap::Clap;
@@ -64,6 +68,10 @@ async fn main() -> std::io::Result<()> {
             .route(
                 "/compile",
                 post().to(|body| route_compile(COMPILE_SANDBOXED, body)),
+            )
+            .route(
+                "/status",
+                get().to(|| HttpResponse::Ok().body("ink-backend is live")),
             );
 
         if let Some(path) = &frontend_folder {
