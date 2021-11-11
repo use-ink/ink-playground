@@ -138,7 +138,7 @@ pub enum CompilationResult {
 // CONSTANTS
 // -------------------------------------------------------------------------------------------------
 
-const DOCKER_PROCESS_TIMEOUT_HARD: Duration = Duration::from_secs(12);
+const DOCKER_PROCESS_TIMEOUT_HARD: Duration = Duration::from_secs(1200);
 
 // -------------------------------------------------------------------------------------------------
 // TRAIT IMPLEMENTATION
@@ -178,6 +178,8 @@ impl Sandbox {
 
         let stdout = vec_to_str(output.stdout)?;
         let mut stderr = vec_to_str(output.stderr)?;
+
+        println!("here");
 
         let compile_response = match file {
             Some(file) => {
@@ -321,18 +323,19 @@ fn vec_to_str(v: Vec<u8>) -> Result<String> {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+    use crate::example_code::tests::FLIPPER_CODE;
 
-    #[cfg(feature = "docker_tests")]
     fn compile_check(source: String) -> Option<bool> {
         Sandbox::new()
             .and_then(|sandbox| sandbox.compile(&CompilationRequest { source }))
             .map(|result| {
                 match result {
                     CompilationResult::Success {
-                        wasm: _,
+                        wasm,
                         stdout: _,
                         stderr: _,
-                    } => true,
+                    } => wasm.len() != 0,
                     CompilationResult::Error {
                         stdout: _,
                         stderr: _,
@@ -342,7 +345,6 @@ mod tests {
             .ok()
     }
 
-    #[cfg(feature = "docker_tests")]
     #[test]
     fn test_compile_valid_code() {
         let actual_result = compile_check(FLIPPER_CODE.to_string());
@@ -350,7 +352,6 @@ mod tests {
         assert_eq!(actual_result, Some(true))
     }
 
-    #[cfg(feature = "docker_tests")]
     #[test]
     fn test_compile_invalid_code() {
         let actual_result = compile_check("".to_string());

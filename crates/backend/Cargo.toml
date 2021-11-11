@@ -18,6 +18,3 @@ sandbox = { path = "../sandbox" }
 
 [dev-dependencies]
 actix-rt = "2.3.0"
-
-[features]
-docker_tests = []
