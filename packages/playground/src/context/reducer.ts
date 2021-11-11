@@ -7,6 +7,7 @@ export const defaultState: State = {
   numbering: true,
   compile: { type: 'NOT_ASKED' },
   monacoUri: null,
+  messages: [],
 };
 
 export type State = {
@@ -15,6 +16,7 @@ export type State = {
   numbering: boolean;
   compile: CompileState;
   monacoUri: Uri | null;
+  messages: Message[];
 };
 
 export type CompileState =
@@ -22,12 +24,35 @@ export type CompileState =
   | { type: 'IN_PROGRESS' }
   | { type: 'RESULT'; payload: CompileApiResponse };
 
+export enum Severity {
+  Info = 'Info',
+  Success = 'Success',
+  Error = 'Error',
+}
+
+export enum Prompt {
+  Welcome = 'Welcome!',
+  System = 'System',
+  Error = 'Error',
+  Compiling = 'Compiling',
+  Compiled = 'Compiled',
+  CompileError = 'Compile Error',
+}
+
+export type Message = {
+  severity: Severity;
+  text: string;
+  prompt: Prompt;
+  id: string;
+};
+
 export type Action =
   | { type: 'SET_DARKMODE'; payload: boolean }
   | { type: 'SET_NUMBERING'; payload: boolean }
   | { type: 'SET_MINIMAP'; payload: boolean }
   | { type: 'SET_COMPILE_STATE'; payload: CompileState }
-  | { type: 'SET_URI'; payload: Uri };
+  | { type: 'SET_URI'; payload: Uri }
+  | { type: 'SET_MESSAGE'; payload: Message };
 
 export type Dispatch = (action: Action) => void;
 
@@ -57,6 +82,11 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         monacoUri: action.payload,
+      };
+    case 'SET_MESSAGE':
+      state.messages.push(action.payload);
+      return {
+        ...state,
       };
     default:
       return state;
