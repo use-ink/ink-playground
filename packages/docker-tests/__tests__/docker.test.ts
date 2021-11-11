@@ -19,16 +19,16 @@ describe('Given the server provides the built frontend', () => {
   });
 });
 
-describe('Given the server provides a working compile endpoint', () => {
-  test('When a compile request is made', async () => {
-    const source = fs
-      .readFileSync(path.join(__dirname, '../../../crates/contract/lib.rs'))
-      .toString();
+// describe('Given the server provides a working compile endpoint', () => {
+//   test('When a compile request is made', async () => {
+//     const source = fs
+//       .readFileSync(path.join(__dirname, '../../../crates/contract/lib.rs'))
+//       .toString();
 
-    await expect(
-      axios.post(`${BACKEND_URL}/compile`, {
-        source,
-      })
-    ).resolves.toMatchObject({ status: 200, data: { type: 'SUCCESS' } });
-  });
-});
+//     await expect(
+//       axios.post(`${BACKEND_URL}/compile`, {
+//         source,
+//       })
+//     ).resolves.toMatchObject({ status: 200, data: { type: 'SUCCESS' } });
+//   });
+// });
