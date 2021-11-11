@@ -35,7 +35,6 @@ generate: generate-change-json
 # ENTRYPOINT: playground
 ################################################################################
 
-playground-build: generate-bindings
 playground-build:
 	COMPILE_URL=/compile yarn workspace playground run build
 
