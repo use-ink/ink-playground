@@ -8027,7 +8027,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.1.28, nanoid@npm:^3.1.30":
+"nanoid@npm:^3.1.28":
   version: 3.1.30
   resolution: "nanoid@npm:3.1.30"
   bin:
@@ -8619,7 +8619,6 @@ __metadata:
     jest: ^27.2.0
     mini-css-extract-plugin: ^2.4.2
     monaco-editor-webpack-plugin: ^4.2.0
-    nanoid: ^3.1.30
     postcss: ^7
     postcss-cli: ^9.0.1
     postcss-loader: ^6.2.0
