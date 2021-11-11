@@ -14,10 +14,10 @@ export const ConsoleMessages = ({ messages }: { messages: Message[] }): ReactEle
   };
 
   return (
-    <div>
+    <>
       <Messages />
       <AlwaysScrollToBottom />
-    </div>
+    </>
   );
 };
 
