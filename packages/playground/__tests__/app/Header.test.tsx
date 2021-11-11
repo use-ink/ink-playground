@@ -1,6 +1,6 @@
 import { Header } from '~/app/Header';
 import { render, screen, waitFor } from '@testing-library/react';
-import { AppContext, AppProvider } from '~/context';
+import { AppContext, AppProvider } from '~/context/app';
 
 describe('Given the Header component is rendered', () => {
   beforeEach(() => {

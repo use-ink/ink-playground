@@ -3,9 +3,9 @@ import { Logo, CompileIcon, DownloadIcon, GithubRepoIcon, SettingsIcon } from '~
 import { OverlayPanel, ButtonWithIcon } from '@paritytech/components/';
 import { SettingsSubmenu } from './SettingsSubmenu';
 
-import { AppContext } from '~/context';
-import { Dispatch, State } from '~/context/reducer';
-import { compile } from '~/context/side-effects';
+import { AppContext } from '~/context/app/';
+import { Dispatch, State } from '~/context/app/reducer';
+import { compile } from '~/context/app/side-effects';
 
 const openRepoUrl = (): void => {
   const repoURL = 'https://github.com/paritytech/ink-playground';
