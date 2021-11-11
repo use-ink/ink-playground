@@ -34,7 +34,7 @@ export const reducer = (state: State, { type, payload }: Action): State => {
           prompt: 'SYSTEM',
           status: 'IN_PROGRESS',
           content: payload.content,
-          severity: Severity.Info,
+          severity: Severity.Warning,
         };
         return {
           ...state,
@@ -62,7 +62,7 @@ export const reducer = (state: State, { type, payload }: Action): State => {
           prompt: 'COMPILE',
           status: 'IN_PROGRESS',
           content: payload.content,
-          severity: Severity.Info,
+          severity: Severity.Warning,
         };
         return {
           ...state,
@@ -81,9 +81,9 @@ export const reducer = (state: State, { type, payload }: Action): State => {
         const newMessage: Message = {
           id: state.nextId,
           prompt: 'COMPILE',
-          status: payload.status,
+          status: 'INFO',
           content: 'This is your compile Result: <RESULT>',
-          severity: Severity.Success,
+          severity: Severity.Info,
         };
         return {
           ...state,
@@ -92,7 +92,33 @@ export const reducer = (state: State, { type, payload }: Action): State => {
         };
       }
     case 'LOG_GIST':
-      return state;
+      if (payload.status === 'IN_PROGRESS') {
+        const newMessage: Message = {
+          id: state.nextId,
+          prompt: 'SYSTEM',
+          status: 'IN_PROGRESS',
+          content: payload.content,
+          severity: Severity.Warning,
+        };
+        return {
+          ...state,
+          messages: [...state.messages, newMessage],
+          nextId: state.nextId + 1,
+        };
+      } else {
+        const id = lastId(state, 'SYSTEM');
+        const updateMessage: Message = {
+          id,
+          prompt: 'SYSTEM',
+          status: payload.status,
+          content: payload.content,
+          severity: Severity.Error,
+        };
+        return {
+          ...state,
+          messages: [...state.messages, updateMessage],
+        };
+      }
     default:
       return state;
   }
