@@ -55,4 +55,4 @@ jobs:
       - name: Tag docker image
         run: docker tag docker.io/achimcc/ink-backend:latest ink-backend
       - name: Run tests
-        run: cargo test --workspace --exclude rust_analyzer_wasm --verbose --features docker_tests
+        run: cargo test --workspace --exclude rust_analyzer_wasm --verbose

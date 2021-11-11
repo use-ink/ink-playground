@@ -25,7 +25,7 @@ use std::{
 };
 use tokio::process::Command;
 
-const DOCKER_PROCESS_TIMEOUT_SOFT: Duration = Duration::from_secs(10);
+const DOCKER_PROCESS_TIMEOUT_SOFT: Duration = Duration::from_secs(1000);
 
 const DOCKER_CONTAINER_NAME: &str = "ink-backend";
 
@@ -70,7 +70,7 @@ fn build_docker_command(input_file: &Path, output_dir: &Path) -> Command {
 fn build_basic_secure_docker_command() -> Command {
     let mut cmd = docker_command!(
         "run",
-        "--detach",
+        //"--detach",
         "--cap-drop=ALL",
         // Needed to allow overwriting the file
         "--cap-add=DAC_OVERRIDE",
@@ -100,10 +100,13 @@ fn build_basic_secure_docker_command() -> Command {
 }
 
 fn build_execution_command() -> Vec<String> {
-    let command = format!(
-        "cargo contract build --offline && mv /target/ink/contract.contract {}",
-        DOCKER_OUTPUT
-    );
+    let target_dir = "/target/ink";
+
+    let clean_cmd = format!("rm -rf {}/*", target_dir);
+    let build_cmd = "cargo contract build --offline".to_string();
+    let move_cmd = format!("mv {}/contract.contract {}", target_dir, DOCKER_OUTPUT);
+
+    let command = format!("{} && {} && {}", clean_cmd, build_cmd, move_cmd);
 
     let cmd = vec!["/bin/bash".to_string(), "-c".to_string(), command];
 
