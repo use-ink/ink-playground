@@ -16,6 +16,10 @@ module.exports = {
       elevation: 'rgba(36, 42, 46, 2)',
       scrollbar: 'rgba(121, 121, 121, 0.4)',
       'scrollbar-light': 'rgba(121, 121, 121, 0.4)',
+      success: '#0AC974',
+      info: '#00AABD',
+      error: '#C9240A',
+      warn: '#D6BE15',
     }),
     textColor: theme => ({
       ...theme('colors'),
@@ -23,6 +27,10 @@ module.exports = {
       secondary: '#D8B6FF',
       danger: '#e3342f',
       light: '#2e2e2e',
+      success: '#0AC974',
+      info: '#00AABD',
+      error: '#C9240A',
+      warn: '#D6BE15',
     }),
     borderColor: theme => ({
       ...theme('colors'),
