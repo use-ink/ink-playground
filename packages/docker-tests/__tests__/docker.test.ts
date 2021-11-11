@@ -1,6 +1,6 @@
 import axios from 'axios';
-import * as fs from 'fs';
-import * as path from 'path';
+//import * as fs from 'fs';
+//import * as path from 'path';
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost';
 
