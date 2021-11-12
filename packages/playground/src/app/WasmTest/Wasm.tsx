@@ -8,7 +8,7 @@ const start = async (setter: (message: string) => void) => {
       type: 'module',
     })
   ).handlers;
-  const test = await handlers.greet('ink! Playground');
+  const test = 'Nothing to do ehere right now';
   setter(test);
 };
 

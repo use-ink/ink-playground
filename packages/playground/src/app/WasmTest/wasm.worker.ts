@@ -1,17 +1,15 @@
 import * as Comlink from 'comlink';
 
-const initHandlers = async () => {
+async function initHandlers(): Promise<any> {
+  // If threads are unsupported in this browser, skip this handler.
   const rust_wasm = await import('../../../pkg');
   await rust_wasm.default();
   const numThreads = navigator.hardwareConcurrency;
   // must be included to init rayon thread pool with web workers
   await rust_wasm.initThreadPool(numThreads);
-  return Comlink.proxy({
-    sim: null,
-    numThreads: numThreads,
-    greet: rust_wasm.greet,
-  });
-};
+  const state = new rust_wasm.WorldState();
+  return Comlink.proxy<typeof state>(state);
+}
 
 const api = {
   handlers: initHandlers(),
