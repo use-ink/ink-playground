@@ -26,7 +26,27 @@ use wasm_bindgen_test::*;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::JsFuture;
 
+use ide::{CrateGraph, CrateId,  Edition, FileId};
+use ide_db::{base_db::{Env}};
+use cfg::CfgOptions;
+
 wasm_bindgen_test_configure!(run_in_browser);
+
+pub fn create_crate(crate_graph: &mut CrateGraph, f: FileId) -> CrateId {
+  let mut cfg = CfgOptions::default();
+  cfg.insert_atom("unix".into());
+  cfg.insert_key_value("target_arch".into(), "x86_64".into());
+  cfg.insert_key_value("target_pointer_width".into(), "64".into());
+  crate_graph.add_crate_root(
+      f,
+      Edition::Edition2018,
+      None,
+      cfg,
+      CfgOptions::default(),
+      Env::default(),
+      Default::default(),
+  )
+}
 
 #[wasm_bindgen_test]
 fn pass() {
@@ -37,5 +57,6 @@ fn pass() {
 async fn test_greet() {
     let promise = js_sys::Promise::resolve(&init_thread_pool(4));
     let _ = JsFuture::from(promise).await;
-    let state = WorldState::new();
+    let mut state = WorldState::new();
+    state.load("hello".to_string());
 }
