@@ -41,40 +41,44 @@ export async function compile(dispatch: Dispatch, state: State, dispatchMessage:
     payload: { type: 'RESULT', payload: result },
   });
 
-  if (result.type === 'NETWORK_ERROR') {
-    dispatchMessage({
-      type: 'LOG_COMPILE',
-      payload: {
-        content: 'Network Error',
-        status: 'ERROR',
-      },
-    });
-  } else if (result.type === 'SERVER_ERROR') {
-    dispatchMessage({
-      type: 'LOG_COMPILE',
-      payload: {
-        content: `Server Error: ${result.payload.status}`,
-        status: 'ERROR',
-      },
-    });
-  } else if (result.type === 'OK') {
-    if (result.payload.type === 'ERROR') {
+  switch (result.type) {
+    case 'NETWORK_ERROR':
       dispatchMessage({
         type: 'LOG_COMPILE',
         payload: {
-          content: `Compilation Error: ${result.payload.payload.stdout}, ${result.payload.payload.stderr}`,
+          content: 'Network Error',
           status: 'ERROR',
         },
       });
-    } else if (result.payload.type === 'SUCCESS') {
+      break;
+    case 'SERVER_ERROR':
       dispatchMessage({
         type: 'LOG_COMPILE',
         payload: {
-          content: 'Compiling finished',
-          status: 'DONE',
-          result: result.payload,
+          content: `Server Error: ${result.payload.status}`,
+          status: 'ERROR',
         },
       });
-    }
+      break;
+    case 'OK':
+      if (result.payload.type === 'ERROR') {
+        dispatchMessage({
+          type: 'LOG_COMPILE',
+          payload: {
+            content: `Compilation Error: ${result.payload.payload.stdout}, ${result.payload.payload.stderr}`,
+            status: 'ERROR',
+          },
+        });
+      } else if (result.payload.type === 'SUCCESS') {
+        dispatchMessage({
+          type: 'LOG_COMPILE',
+          payload: {
+            content: 'Compiling finished',
+            status: 'DONE',
+            result: result.payload,
+          },
+        });
+      }
+      break;
   }
 }
