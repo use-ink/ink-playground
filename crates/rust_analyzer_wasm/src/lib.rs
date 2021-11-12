@@ -66,6 +66,7 @@ extern crate web_sys;
 use rayon::prelude::*;
 pub use wasm_bindgen_rayon::init_thread_pool;
 use rayon::prelude::*;
+pub use wasm_bindgen_rayon::init_thread_pool;
 
 fn derive_analytics(host: &AnalysisHost, file_id: FileId) -> JsValue {
     let analysis = host.analysis();
@@ -76,8 +77,12 @@ fn derive_analytics(host: &AnalysisHost, file_id: FileId) -> JsValue {
         .unwrap()
         .into_par_iter()
         .map(|d| {
-            let Range { startLineNumber, startColumn, endLineNumber, endColumn } =
-                to_proto::text_range(d.range, &line_index);
+            let Range {
+                startLineNumber,
+                startColumn,
+                endLineNumber,
+                endColumn,
+            } = to_proto::text_range(d.range, &line_index);
             Diagnostic {
                 message: d.message,
                 severity: to_proto::severity(d.severity),
@@ -92,13 +97,19 @@ fn derive_analytics(host: &AnalysisHost, file_id: FileId) -> JsValue {
         .highlight(file_id)
         .unwrap()
         .into_par_iter()
-        .map(|hl| Highlight {
-            tag: Some(hl.highlight.tag.to_string()),
-            range: to_proto::text_range(hl.range, &line_index),
+        .map(|hl| {
+            Highlight {
+                tag: Some(hl.highlight.tag.to_string()),
+                range: to_proto::text_range(hl.range, &line_index),
+            }
         })
         .collect();
     web_sys::console::log_1(&"All Done!".into());
-    serde_wasm_bindgen::to_value(&UpdateResult { diagnostics, highlights }).unwrap()
+    serde_wasm_bindgen::to_value(&UpdateResult {
+        diagnostics,
+        highlights,
+    })
+    .unwrap()
 }
 
 #[wasm_bindgen(start)]
