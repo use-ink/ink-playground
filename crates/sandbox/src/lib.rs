@@ -335,7 +335,7 @@ mod tests {
                         wasm,
                         stdout: _,
                         stderr: _,
-                    } => wasm.len() != 0,
+                    } => !wasm.is_empty(),
                     CompilationResult::Error {
                         stdout: _,
                         stderr: _,
