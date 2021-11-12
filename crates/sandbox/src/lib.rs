@@ -138,7 +138,7 @@ pub enum CompilationResult {
 // CONSTANTS
 // -------------------------------------------------------------------------------------------------
 
-const DOCKER_PROCESS_TIMEOUT_HARD: Duration = Duration::from_secs(1200);
+const DOCKER_PROCESS_TIMEOUT_HARD: Duration = Duration::from_secs(12);
 
 // -------------------------------------------------------------------------------------------------
 // TRAIT IMPLEMENTATION
