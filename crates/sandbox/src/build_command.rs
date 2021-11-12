@@ -102,7 +102,10 @@ fn build_basic_secure_docker_command() -> Command {
 fn build_execution_command() -> Vec<String> {
     let target_dir = "/target/ink";
 
-    let clean_cmd = format!("rm -rf {}/*", target_dir);
+    let clean_cmd = format!(
+        "rm -rf {}/contract.* {}/metadata.json",
+        target_dir, target_dir
+    );
     let build_cmd = "cargo contract build --offline".to_string();
     let move_cmd = format!("mv {}/contract.contract {}", target_dir, DOCKER_OUTPUT);
 
