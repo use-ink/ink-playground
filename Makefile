@@ -180,6 +180,7 @@ docker-run:
 
 docker-run-detach:
 	docker run \
+	  --name ink-playground-container \
 	  --detach \
 	  --volume /tmp:/tmp \
 	  --volume /var/run/docker.sock:/var/run/docker.sock \
@@ -197,6 +198,9 @@ docker-shell:
 	  --entrypoint /bin/bash \
 	  --publish 90:4000 \
 	  ink-playground
+
+docker-log:
+	docker logs ink-playground-container
 
 ################################################################################
 # GLOBAL

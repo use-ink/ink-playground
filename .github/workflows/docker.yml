@@ -29,3 +29,6 @@ jobs:
         run: make docker-test
         env:
           PORT: 4000
+
+      - name: docker log
+        run: make docker-log
