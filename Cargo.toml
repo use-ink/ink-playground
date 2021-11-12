@@ -1,4 +1,5 @@
 [workspace]
 members = ["crates/*"]
+exclude = ["crates/contract"]
 
 default-members = ["crates/backend"]
