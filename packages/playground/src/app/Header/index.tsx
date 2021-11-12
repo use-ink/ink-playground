@@ -4,7 +4,9 @@ import { OverlayPanel, ButtonWithIcon } from '@paritytech/components/';
 import { SettingsSubmenu } from './SettingsSubmenu';
 
 import { AppContext } from '~/context/app/';
+import { MessageContext } from '~/context/messages/';
 import { Dispatch, State } from '~/context/app/reducer';
+import { MessageState, MessageDispatch } from '~/context/messages/reducer';
 import { compile } from '~/context/app/side-effects';
 
 const openRepoUrl = (): void => {
@@ -14,6 +16,7 @@ const openRepoUrl = (): void => {
 
 export const Header = (): ReactElement => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
+  const [, dispatchMessage]: [MessageState, MessageDispatch] = useContext(MessageContext);
 
   const settingsOverlay = useRef<OverlayPanel>(null);
 
@@ -28,7 +31,7 @@ export const Header = (): ReactElement => {
           label="Compile"
           Icon={CompileIcon}
           testId={'buttonIcon'}
-          onClick={() => compile(dispatch, state)}
+          onClick={() => compile(dispatch, state, dispatchMessage)}
         />
         <ButtonWithIcon
           label="Download"

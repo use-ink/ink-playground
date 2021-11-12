@@ -1,11 +1,20 @@
 import { compileRequest } from '~/api/compile';
 import { State, Dispatch } from './reducer';
+import { MessageDispatch } from '../messages/reducer';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
-export async function compile(dispatch: Dispatch, state: State) {
+export async function compile(dispatch: Dispatch, state: State, dispatchMessage: MessageDispatch) {
   if (state.compile.type === 'IN_PROGRESS') return;
 
   dispatch({ type: 'SET_COMPILE_STATE', payload: { type: 'IN_PROGRESS' } });
+
+  dispatchMessage({
+    type: 'LOG_COMPILE',
+    payload: {
+      content: 'Compiling has started...',
+      status: 'IN_PROGRESS',
+    },
+  });
 
   const { monacoUri: uri } = state;
 
@@ -31,4 +40,41 @@ export async function compile(dispatch: Dispatch, state: State) {
     type: 'SET_COMPILE_STATE',
     payload: { type: 'RESULT', payload: result },
   });
+
+  if (result.type === 'NETWORK_ERROR') {
+    dispatchMessage({
+      type: 'LOG_COMPILE',
+      payload: {
+        content: 'Network Error',
+        status: 'ERROR',
+      },
+    });
+  } else if (result.type === 'SERVER_ERROR') {
+    dispatchMessage({
+      type: 'LOG_COMPILE',
+      payload: {
+        content: `Server Error: ${result.payload.status}`,
+        status: 'ERROR',
+      },
+    });
+  } else if (result.type === 'OK') {
+    if (result.payload.type === 'ERROR') {
+      dispatchMessage({
+        type: 'LOG_COMPILE',
+        payload: {
+          content: `Compilation Error: ${result.payload.payload.stdout}, ${result.payload.payload.stderr}`,
+          status: 'ERROR',
+        },
+      });
+    } else if (result.payload.type === 'SUCCESS') {
+      dispatchMessage({
+        type: 'LOG_COMPILE',
+        payload: {
+          content: 'Compiling finished',
+          status: 'DONE',
+          result: result.payload,
+        },
+      });
+    }
+  }
 }
