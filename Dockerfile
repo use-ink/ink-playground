@@ -1,3 +1,7 @@
+################################################################################
+# Setup
+################################################################################
+
 # Start from a rust base image
 FROM rust:1.56
 
@@ -7,19 +11,51 @@ WORKDIR /app
 # Copy everthing that is not dockerignored to the image
 COPY . .
 
-# Install
-RUN apt-get -y update
-RUN apt-get -y upgrade
-RUN apt-get install -y nodejs npm
+################################################################################
+# Install Yarn & NPM dependencies
+################################################################################
+
+RUN apt-get --yes update
+RUN apt-get --yes upgrade
+RUN apt-get install --yes nodejs npm
 RUN npm install --global yarn
 RUN make install
 
+################################################################################
+# Install Docker
+# see: https://www.how2shout.com/linux/install-docker-ce-on-debian-11-bullseye-linux/
+################################################################################
+
+RUN apt-get install --yes \
+    apt-transport-https ca-certificates curl gnupg lsb-release
+
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | \
+    gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+RUN echo \
+    "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
+    https://download.docker.com/linux/debian \
+    $(lsb_release -cs) stable" | \
+    tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+RUN apt --yes update
+
+RUN apt-get --yes install docker-ce docker-ce-cli containerd.io
+
+
+################################################################################
 # Prepare
+################################################################################
+
 RUN rustup toolchain install nightly-2021-07-29-x86_64
 RUN rustup toolchain install stable
-RUN rustup component add rust-src --toolchain nightly-2021-07-29-x86_64-unknown-linux-gnu
+RUN rustup component add rust-src \
+    --toolchain nightly-2021-07-29-x86_64-unknown-linux-gnu
 
+################################################################################
 # Build
+################################################################################
+
 RUN rustup default stable
 RUN make generate-bindings
 
@@ -29,7 +65,10 @@ RUN make playground-build
 RUN rustup default stable
 RUN make backend-build-prod
 
-# Run backend
+################################################################################
+# Entrypoint
+################################################################################
+
 ENTRYPOINT [ \
     "./target/release/backend", \
     "--port", "4000", \
