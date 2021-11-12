@@ -179,10 +179,15 @@ docker-run:
 	  ink-playground
 
 docker-run-detach:
-	docker run --detach --publish 80:4000 ink-playground
+	docker run \
+	  --detach \
+	  --volume /tmp:/tmp \
+	  --volume /var/run/docker.sock:/var/run/docker.sock \
+	  --publish $(PORT):4000 \
+	  ink-playground
 
 docker-test:
-	yarn workspace docker-tests run test
+	BACKEND_URL=http://localhost:$(PORT) yarn workspace docker-tests run test
 
 docker-shell:
 	docker run \
