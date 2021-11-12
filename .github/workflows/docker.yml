@@ -8,6 +8,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Pull `ink-backend` docker image
+        run: docker pull docker.io/achimcc/ink-backend:latest
+
+      - name: Tag `ink-backend` docker image
+        run: docker tag docker.io/achimcc/ink-backend:latest ink-backend
+
       - name: Build docker
         run: make docker-build
 
