@@ -179,8 +179,6 @@ impl Sandbox {
         let stdout = vec_to_str(output.stdout)?;
         let mut stderr = vec_to_str(output.stderr)?;
 
-        println!("here");
-
         let compile_response = match file {
             Some(file) => {
                 match read(&file) {
