@@ -13,9 +13,13 @@ jobs:
 
       - name: Run docker
         run: make docker-run-detach
+        env:
+          PORT: 4000
 
       - name: Install docker-tests
         run: yarn workspace docker-tests install
 
       - name: Test docker
         run: make docker-test
+        env:
+          PORT: 4000
