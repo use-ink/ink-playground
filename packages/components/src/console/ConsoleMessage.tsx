@@ -16,10 +16,10 @@ export type Prompt = 'COMPILE' | 'SYSTEM' | 'GIST';
 export type Status = 'IN_PROGRESS' | 'DONE' | 'ERROR' | 'INFO';
 
 export enum Severity {
-  Info = 'Info',
-  Success = 'Success',
-  Error = 'Error',
-  Warning = 'Warning',
+  INFO = 'Info',
+  SUCCESS = 'Success',
+  ERROR = 'Error',
+  WARNING = 'Warning',
 }
 
 export type SeverityColors = {
