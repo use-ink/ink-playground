@@ -24,6 +24,8 @@ export type MessageDispatch = (action: Action) => void;
 
 const lastId = (state: MessageState, prompt: Prompt): number => {
   const arr = state.messages.filter(message => message.prompt === prompt);
+  // if no last id available, return nextId, even though it should not happen
+  if (!arr[arr.length - 1]) return state.nextId;
   return arr[arr.length - 1].id;
 };
 
@@ -37,6 +39,32 @@ export const reducer = (state: MessageState, { type, payload }: Action): Message
           status: 'IN_PROGRESS',
           content: payload.content,
           severity: Severity.Warning,
+        };
+        return {
+          ...state,
+          messages: [...state.messages, newMessage],
+          nextId: state.nextId + 1,
+        };
+      } else if (payload.status === 'ERROR') {
+        const newMessage: Message = {
+          id: state.nextId,
+          prompt: 'SYSTEM',
+          status: 'ERROR',
+          content: payload.content,
+          severity: Severity.Error,
+        };
+        return {
+          ...state,
+          messages: [...state.messages, newMessage],
+          nextId: state.nextId + 1,
+        };
+      } else if (payload.status === 'INFO') {
+        const newMessage: Message = {
+          id: state.nextId,
+          prompt: 'SYSTEM',
+          status: 'INFO',
+          content: payload.content,
+          severity: Severity.Info,
         };
         return {
           ...state,
