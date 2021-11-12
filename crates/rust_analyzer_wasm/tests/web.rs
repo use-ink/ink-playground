@@ -20,8 +20,11 @@ extern crate rust_analyzer_wasm;
 extern crate wasm_bindgen_test;
 use std::assert_eq;
 
-use rust_analyzer_wasm::WorldState;
+use rust_analyzer_wasm::{WorldState, init_thread_pool};
 use wasm_bindgen_test::*;
+
+use wasm_bindgen::prelude::*;
+use wasm_bindgen_futures::JsFuture;
 
 wasm_bindgen_test_configure!(run_in_browser);
 
@@ -31,7 +34,8 @@ fn pass() {
 }
 
 #[wasm_bindgen_test]
-fn test_greet() {
-  //  let message = greet("ink! Playground");
-  //  assert_eq!(message, "Hello ink! Playground from WebAssembly!");
+async fn test_greet() {
+    let promise = js_sys::Promise::resolve(&init_thread_pool(4));
+    let _ = JsFuture::from(promise).await;
+    let state = WorldState::new();
 }
