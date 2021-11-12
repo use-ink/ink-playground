@@ -95,7 +95,7 @@ export const reducer = (state: State, { type, payload }: Action): State => {
       if (payload.status === 'IN_PROGRESS') {
         const newMessage: Message = {
           id: state.nextId,
-          prompt: 'SYSTEM',
+          prompt: 'GIST',
           status: 'IN_PROGRESS',
           content: payload.content,
           severity: Severity.Warning,
@@ -106,10 +106,10 @@ export const reducer = (state: State, { type, payload }: Action): State => {
           nextId: state.nextId + 1,
         };
       } else {
-        const id = lastId(state, 'SYSTEM');
+        const id = lastId(state, 'GIST');
         const updateMessage: Message = {
           id,
-          prompt: 'SYSTEM',
+          prompt: 'GIST',
           status: payload.status,
           content: payload.content,
           severity: Severity.Error,
