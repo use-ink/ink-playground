@@ -5,14 +5,14 @@ describe('Given the reducer is used to manage state', () => {
     test('When message of type "IN_PROGRESS" is dispatched', () => {
       const status = 'IN_PROGRESS';
       const content = 'System message content';
-      const payload: Action = {
+      const action: Action = {
         type: 'LOG_SYSTEM',
         payload: {
-          content: content,
-          status: status,
+          content,
+          status,
         },
       };
-      const state = reducer(defaultState, payload);
+      const state = reducer(defaultState, action);
 
       // Then ...
       expect(state.messages[0].id).toBe(0);
@@ -26,14 +26,14 @@ describe('Given the reducer is used to manage state', () => {
     test('When message of type "DONE" is dispatched', () => {
       const status = 'DONE';
       const content = 'System message content';
-      const payload: Action = {
+      const action: Action = {
         type: 'LOG_SYSTEM',
         payload: {
-          content: content,
-          status: status,
+          content,
+          status,
         },
       };
-      const state = reducer(defaultState, payload);
+      const state = reducer(defaultState, action);
 
       // Then ...
       expect(state.messages[0].id).toBe(0);
@@ -47,14 +47,14 @@ describe('Given the reducer is used to manage state', () => {
     test('When message of type "INFO" is dispatched', () => {
       const status = 'INFO';
       const content = 'System message content';
-      const payload: Action = {
+      const action: Action = {
         type: 'LOG_SYSTEM',
         payload: {
-          content: content,
-          status: status,
+          content,
+          status,
         },
       };
-      const state = reducer(defaultState, payload);
+      const state = reducer(defaultState, action);
 
       // Then ...
       expect(state.messages[0].id).toBe(0);
@@ -68,14 +68,14 @@ describe('Given the reducer is used to manage state', () => {
     test('When message of type "ERROR" is dispatched', () => {
       const status = 'ERROR';
       const content = 'System message content';
-      const payload: Action = {
+      const action: Action = {
         type: 'LOG_SYSTEM',
         payload: {
-          content: content,
-          status: status,
+          content,
+          status,
         },
       };
-      const state = reducer(defaultState, payload);
+      const state = reducer(defaultState, action);
 
       // Then ...
       expect(state.messages[0].id).toBe(0);
