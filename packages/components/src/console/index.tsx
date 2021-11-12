@@ -13,7 +13,7 @@ export const ConsoleMessages = ({ messages }: { messages: Message[] }): ReactEle
     return (
       <>
         {messages.map((message, index) => {
-          return <ConsoleMessage key={index} mIndex={index} message={message} />;
+          return <ConsoleMessage key={message.id} mIndex={index} message={message} />;
         })}
       </>
     );
