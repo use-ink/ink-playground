@@ -25,7 +25,7 @@ use std::{
 };
 use tokio::process::Command;
 
-const DOCKER_PROCESS_TIMEOUT_SOFT: Duration = Duration::from_secs(1000);
+const DOCKER_PROCESS_TIMEOUT_SOFT: Duration = Duration::from_secs(10);
 
 const DOCKER_CONTAINER_NAME: &str = "ink-backend";
 
