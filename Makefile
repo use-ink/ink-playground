@@ -168,7 +168,10 @@ docker-build:
 	docker build --tag ink-playground .
 
 docker-run:
-	docker run --publish 80:4000 ink-playground
+	docker run \
+	  --volume /var/run/docker.sock:/var/run/docker.sock \
+	  --publish $(PORT):4000 \
+	  ink-playground
 
 docker-run-detach:
 	docker run --detach --publish 80:4000 ink-playground
