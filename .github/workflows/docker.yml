@@ -31,4 +31,5 @@ jobs:
           PORT: 4000
 
       - name: docker log
+        if: always()
         run: make docker-log
