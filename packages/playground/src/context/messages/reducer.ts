@@ -38,7 +38,7 @@ export const reducer = (state: MessageState, { type, payload }: Action): Message
           prompt: 'SYSTEM',
           status: 'IN_PROGRESS',
           content: payload.content,
-          severity: Severity.Warning,
+          severity: Severity.WARNING,
         };
         return {
           ...state,
@@ -51,7 +51,7 @@ export const reducer = (state: MessageState, { type, payload }: Action): Message
           prompt: 'SYSTEM',
           status: 'ERROR',
           content: payload.content,
-          severity: Severity.Error,
+          severity: Severity.ERROR,
         };
         return {
           ...state,
@@ -64,7 +64,7 @@ export const reducer = (state: MessageState, { type, payload }: Action): Message
           prompt: 'SYSTEM',
           status: 'INFO',
           content: payload.content,
-          severity: Severity.Info,
+          severity: Severity.INFO,
         };
         return {
           ...state,
@@ -78,7 +78,7 @@ export const reducer = (state: MessageState, { type, payload }: Action): Message
           prompt: 'SYSTEM',
           status: payload.status,
           content: payload.content,
-          severity: Severity.Success,
+          severity: Severity.SUCCESS,
         };
         return {
           ...state,
@@ -92,7 +92,7 @@ export const reducer = (state: MessageState, { type, payload }: Action): Message
           prompt: 'COMPILE',
           status: 'IN_PROGRESS',
           content: payload.content,
-          severity: Severity.Warning,
+          severity: Severity.WARNING,
         };
         return {
           ...state,
@@ -106,7 +106,7 @@ export const reducer = (state: MessageState, { type, payload }: Action): Message
           prompt: 'COMPILE',
           status: payload.status,
           content: payload.content,
-          severity: Severity.Error,
+          severity: Severity.ERROR,
         };
         return {
           ...state,
@@ -120,7 +120,7 @@ export const reducer = (state: MessageState, { type, payload }: Action): Message
           prompt: 'COMPILE',
           status: payload.status,
           content: payload.content,
-          severity: Severity.Success,
+          severity: Severity.SUCCESS,
         };
         const newMessage: Message = {
           id: state.nextId,
@@ -129,7 +129,7 @@ export const reducer = (state: MessageState, { type, payload }: Action): Message
           content: `This is your compile Result: ${
             payload.result ? payload.result.payload.stdout : '<Result>'
           }`,
-          severity: Severity.Info,
+          severity: Severity.INFO,
         };
         return {
           ...state,
@@ -144,7 +144,7 @@ export const reducer = (state: MessageState, { type, payload }: Action): Message
           prompt: 'GIST',
           status: 'IN_PROGRESS',
           content: payload.content,
-          severity: Severity.Warning,
+          severity: Severity.WARNING,
         };
         return {
           ...state,
@@ -158,7 +158,7 @@ export const reducer = (state: MessageState, { type, payload }: Action): Message
           prompt: 'GIST',
           status: payload.status,
           content: payload.content,
-          severity: Severity.Error,
+          severity: Severity.ERROR,
         };
         return {
           ...state,
