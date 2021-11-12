@@ -87,6 +87,10 @@ backend-build:
 backend-build-prod:
 	cargo build -p backend --bin backend --release
 
+backend-run-release:
+	./target/release/backend \
+	  --port 4000 --host "0.0.0.0" --frontend_folder packages/playground/dist
+
 backend-run:
 	cargo run -p backend -- --frontend_folder packages/playground/dist --port 4000
 
@@ -169,6 +173,7 @@ docker-build:
 
 docker-run:
 	docker run \
+	  --volume /tmp:/tmp \
 	  --volume /var/run/docker.sock:/var/run/docker.sock \
 	  --publish $(PORT):4000 \
 	  ink-playground
@@ -178,6 +183,15 @@ docker-run-detach:
 
 docker-test:
 	yarn workspace docker-tests run test
+
+docker-shell:
+	docker run \
+	  -it \
+	  --volume /tmp:/tmp \
+	  --volume /var/run/docker.sock:/var/run/docker.sock \
+	  --entrypoint /bin/bash \
+	  --publish 90:4000 \
+	  ink-playground
 
 ################################################################################
 # GLOBAL
