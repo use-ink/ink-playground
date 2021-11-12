@@ -98,7 +98,9 @@ export const reducer = (state: MessageState, { type, payload }: Action): Message
           id: state.nextId,
           prompt: 'COMPILE',
           status: 'INFO',
-          content: `This is your compile Result: ${payload.result?.payload.stdout}`,
+          content: `This is your compile Result: ${
+            payload.result ? payload.result.payload.stdout : '<Result>'
+          }`,
           severity: Severity.Info,
         };
         return {
