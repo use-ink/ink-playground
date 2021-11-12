@@ -4,6 +4,8 @@ import * as path from 'path';
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost';
 
+jest.setTimeout(15000);
+
 describe('Given the server is up and running', () => {
   test('When a request to the status route is made', async () => {
     await expect(axios.get(`${BACKEND_URL}/status`)).resolves.toMatchObject({
