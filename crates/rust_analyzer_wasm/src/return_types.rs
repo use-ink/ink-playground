@@ -1,4 +1,7 @@
-use serde::{Deserialize, Serialize};
+use serde::{
+    Deserialize,
+    Serialize,
+};
 use serde_repr::Serialize_repr;
 
 #[derive(Serialize)]
@@ -129,14 +132,10 @@ pub enum CompletionItemKind {
 #[repr(u8)]
 pub enum CompletionItemInsertTextRule {
     None = 0,
-    /**
-     * Adjust whitespace/indentation of multiline insert texts to
-     * match the current line indentation.
-     */
+    /// Adjust whitespace/indentation of multiline insert texts to
+    /// match the current line indentation.
     KeepWhitespace = 1,
-    /**
-     * `insertText` is a snippet.
-     */
+    /// `insertText` is a snippet.
     InsertAsSnippet = 4,
 }
 

@@ -3,20 +3,45 @@
 
 use change_json::ChangeJson;
 use ide::{
-    Analysis, AnalysisHost, CompletionConfig, DiagnosticsConfig, FileId, FilePosition, FileRange,
-    HoverConfig, HoverDocFormat, Indel, TextSize,
-};
-pub use ide_db::assists::AssistResolveStrategy;
-pub use ide_db::base_db::{
-    Change, CrateGraph, CrateId, Edition, Env, FileSet, SourceRoot, VfsPath,
+    Analysis,
+    AnalysisHost,
+    CompletionConfig,
+    DiagnosticsConfig,
+    FileId,
+    FilePosition,
+    FileRange,
+    HoverConfig,
+    HoverDocFormat,
+    Indel,
+    TextSize,
 };
 use ide_db::helpers::{
-    insert_use::{ImportGranularity, InsertUseConfig, PrefixKind},
+    insert_use::{
+        ImportGranularity,
+        InsertUseConfig,
+        PrefixKind,
+    },
     SnippetCap,
+};
+pub use ide_db::{
+    assists::AssistResolveStrategy,
+    base_db::{
+        Change,
+        CrateGraph,
+        CrateId,
+        Edition,
+        Env,
+        FileSet,
+        SourceRoot,
+        VfsPath,
+    },
 };
 use std::sync::Arc;
 use syntax::TextRange;
-use wasm_bindgen::{prelude::*, JsValue};
+use wasm_bindgen::{
+    prelude::*,
+    JsValue,
+};
 mod to_proto;
 
 mod return_types;
@@ -24,8 +49,8 @@ use return_types::*;
 
 extern crate web_sys;
 
-pub use wasm_bindgen_rayon::init_thread_pool;
 use rayon::prelude::*;
+pub use wasm_bindgen_rayon::init_thread_pool;
 
 fn derive_analytics(host: &AnalysisHost, file_id: FileId) -> JsValue {
     let analysis = host.analysis();
@@ -36,8 +61,12 @@ fn derive_analytics(host: &AnalysisHost, file_id: FileId) -> JsValue {
         .unwrap()
         .into_par_iter()
         .map(|d| {
-            let Range { startLineNumber, startColumn, endLineNumber, endColumn } =
-                to_proto::text_range(d.range, &line_index);
+            let Range {
+                startLineNumber,
+                startColumn,
+                endLineNumber,
+                endColumn,
+            } = to_proto::text_range(d.range, &line_index);
             Diagnostic {
                 message: d.message,
                 severity: to_proto::severity(d.severity),
@@ -52,13 +81,19 @@ fn derive_analytics(host: &AnalysisHost, file_id: FileId) -> JsValue {
         .highlight(file_id)
         .unwrap()
         .into_par_iter()
-        .map(|hl| Highlight {
-            tag: Some(hl.highlight.tag.to_string()),
-            range: to_proto::text_range(hl.range, &line_index),
+        .map(|hl| {
+            Highlight {
+                tag: Some(hl.highlight.tag.to_string()),
+                range: to_proto::text_range(hl.range, &line_index),
+            }
         })
         .collect();
     web_sys::console::log_1(&"All Done!".into());
-    serde_wasm_bindgen::to_value(&UpdateResult { diagnostics, highlights }).unwrap()
+    serde_wasm_bindgen::to_value(&UpdateResult {
+        diagnostics,
+        highlights,
+    })
+    .unwrap()
 }
 
 #[wasm_bindgen(start)]
@@ -87,7 +122,11 @@ impl WorldState {
         let analysis_host = AnalysisHost::default();
         let analysis = analysis_host.analysis();
         let analysis_host = AnalysisHost::default();
-        Self { analysis, analysis_host, file_id }
+        Self {
+            analysis,
+            analysis_host,
+            file_id,
+        }
     }
 
     pub fn load(&mut self, json: String) {
@@ -158,8 +197,10 @@ impl WorldState {
             None => return JsValue::NULL,
         };
 
-        let items: Vec<_> =
-            res.into_iter().map(|item| to_proto::completion_item(item, &line_index)).collect();
+        let items: Vec<_> = res
+            .into_iter()
+            .map(|item| to_proto::completion_item(item, &line_index))
+            .collect();
         serde_wasm_bindgen::to_value(&items).unwrap()
     }
 
@@ -206,18 +247,24 @@ impl WorldState {
             .file_structure(self.file_id)
             .unwrap()
             .into_iter()
-            .filter(|it| match it.kind {
-                ide::StructureNodeKind::SymbolKind(it) => match it {
-                    ide_db::SymbolKind::Trait
-                    | ide_db::SymbolKind::Struct
-                    | ide_db::SymbolKind::Enum => true,
-                    _ => false,
-                },
-                ide::StructureNodeKind::Region => true,
+            .filter(|it| {
+                match it.kind {
+                    ide::StructureNodeKind::SymbolKind(it) => {
+                        match it {
+                            ide_db::SymbolKind::Trait
+                            | ide_db::SymbolKind::Struct
+                            | ide_db::SymbolKind::Enum => true,
+                            _ => false,
+                        }
+                    }
+                    ide::StructureNodeKind::Region => true,
+                }
             })
             .filter_map(|it| {
-                let position =
-                    FilePosition { file_id: self.file_id, offset: it.node_range.start() };
+                let position = FilePosition {
+                    file_id: self.file_id,
+                    offset: it.node_range.start(),
+                };
                 let nav_info = self.analysis.goto_implementation(position).unwrap()?;
 
                 let title = if nav_info.info.len() == 1 {
@@ -247,7 +294,12 @@ impl WorldState {
         serde_wasm_bindgen::to_value(&results).unwrap()
     }
 
-    pub fn references(&self, line_number: u32, column: u32, include_declaration: bool) -> JsValue {
+    pub fn references(
+        &self,
+        line_number: u32,
+        column: u32,
+        include_declaration: bool,
+    ) -> JsValue {
         log::warn!("references");
         let line_index = self.analysis.file_line_index(self.file_id).unwrap();
 
@@ -262,13 +314,19 @@ impl WorldState {
             if include_declaration {
                 if let Some(r) = result.declaration {
                     let r = r.nav.focus_range.unwrap_or_else(|| r.nav.full_range);
-                    res.push(Highlight { tag: None, range: to_proto::text_range(r, &line_index) });
+                    res.push(Highlight {
+                        tag: None,
+                        range: to_proto::text_range(r, &line_index),
+                    });
                 }
             }
             result.references.iter().for_each(|(_id, ranges)| {
                 // FIXME: handle multiple files
                 for (r, _) in ranges {
-                    res.push(Highlight { tag: None, range: to_proto::text_range(*r, &line_index) });
+                    res.push(Highlight {
+                        tag: None,
+                        range: to_proto::text_range(*r, &line_index),
+                    });
                 }
             });
         }
@@ -378,9 +436,16 @@ impl WorldState {
                 kind: to_proto::symbol_kind(symbol.kind),
                 range: to_proto::text_range(symbol.node_range, &line_index),
                 children: None,
-                tags: [if symbol.deprecated { SymbolTag::Deprecated } else { SymbolTag::None }],
+                tags: [if symbol.deprecated {
+                    SymbolTag::Deprecated
+                } else {
+                    SymbolTag::None
+                }],
                 containerName: None,
-                selectionRange: to_proto::text_range(symbol.navigation_range, &line_index),
+                selectionRange: to_proto::text_range(
+                    symbol.navigation_range,
+                    &line_index,
+                ),
             };
             parents.push((doc_symbol, symbol.parent));
         }
@@ -423,8 +488,10 @@ impl WorldState {
         log::warn!("folding_ranges");
         let line_index = self.analysis.file_line_index(self.file_id).unwrap();
         if let Ok(folds) = self.analysis.folding_ranges(self.file_id) {
-            let res: Vec<_> =
-                folds.into_par_iter().map(|fold| to_proto::folding_range(fold, &line_index)).collect();
+            let res: Vec<_> = folds
+                .into_par_iter()
+                .map(|fold| to_proto::folding_range(fold, &line_index))
+                .collect();
             serde_wasm_bindgen::to_value(&res).unwrap()
         } else {
             JsValue::NULL
@@ -451,7 +518,10 @@ fn file_position(
     line_index: &ide::LineIndex,
     file_id: ide::FileId,
 ) -> ide::FilePosition {
-    let line_col = ide::LineCol { line: line_number - 1, col: column - 1 };
+    let line_col = ide::LineCol {
+        line: line_number - 1,
+        col: column - 1,
+    };
     let offset = line_index.offset(line_col);
     ide::FilePosition { file_id, offset }
 }

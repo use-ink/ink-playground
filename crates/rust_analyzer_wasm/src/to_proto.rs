@@ -26,28 +26,30 @@ pub(crate) fn completion_item_kind(
 
         ide::CompletionItemKind::BuiltinType => Struct,
         ide::CompletionItemKind::Binding => Variable,
-        ide::CompletionItemKind::SymbolKind(it) => match it {
-            ide::SymbolKind::Const => Constant,
-            ide::SymbolKind::ConstParam => Constant,
-            ide::SymbolKind::Enum => Enum,
-            ide::SymbolKind::Field => Field,
-            ide::SymbolKind::Function => Function,
-            ide::SymbolKind::Impl => Interface,
-            ide::SymbolKind::Label => Constant,
-            ide::SymbolKind::LifetimeParam => TypeParameter,
-            ide::SymbolKind::Local => Variable,
-            ide::SymbolKind::Macro => Function,
-            ide::SymbolKind::Module => Module,
-            ide::SymbolKind::SelfParam => Value,
-            ide::SymbolKind::Static => Value,
-            ide::SymbolKind::Struct => Struct,
-            ide::SymbolKind::Trait => Interface,
-            ide::SymbolKind::TypeAlias => Value,
-            ide::SymbolKind::TypeParam => TypeParameter,
-            ide::SymbolKind::Union => Struct,
-            ide::SymbolKind::ValueParam => TypeParameter,
-            ide::SymbolKind::Variant => User,
-        },
+        ide::CompletionItemKind::SymbolKind(it) => {
+            match it {
+                ide::SymbolKind::Const => Constant,
+                ide::SymbolKind::ConstParam => Constant,
+                ide::SymbolKind::Enum => Enum,
+                ide::SymbolKind::Field => Field,
+                ide::SymbolKind::Function => Function,
+                ide::SymbolKind::Impl => Interface,
+                ide::SymbolKind::Label => Constant,
+                ide::SymbolKind::LifetimeParam => TypeParameter,
+                ide::SymbolKind::Local => Variable,
+                ide::SymbolKind::Macro => Function,
+                ide::SymbolKind::Module => Module,
+                ide::SymbolKind::SelfParam => Value,
+                ide::SymbolKind::Static => Value,
+                ide::SymbolKind::Struct => Struct,
+                ide::SymbolKind::Trait => Interface,
+                ide::SymbolKind::TypeAlias => Value,
+                ide::SymbolKind::TypeParam => TypeParameter,
+                ide::SymbolKind::Union => Struct,
+                ide::SymbolKind::ValueParam => TypeParameter,
+                ide::SymbolKind::Variant => User,
+            }
+        }
         ide::CompletionItemKind::Method => Method,
         ide::CompletionItemKind::Attribute => Property,
         ide::CompletionItemKind::UnresolvedReference => User,
@@ -61,12 +63,21 @@ pub(crate) fn severity(s: ide::Severity) -> return_types::MarkerSeverity {
     }
 }
 
-pub(crate) fn text_edit(indel: &ide::Indel, line_index: &ide::LineIndex) -> return_types::TextEdit {
+pub(crate) fn text_edit(
+    indel: &ide::Indel,
+    line_index: &ide::LineIndex,
+) -> return_types::TextEdit {
     let text = indel.insert.clone();
-    return_types::TextEdit { range: text_range(indel.delete, line_index), text }
+    return_types::TextEdit {
+        range: text_range(indel.delete, line_index),
+        text,
+    }
 }
 
-pub(crate) fn text_edits(edit: ide::TextEdit, ctx: &ide::LineIndex) -> Vec<return_types::TextEdit> {
+pub(crate) fn text_edits(
+    edit: ide::TextEdit,
+    ctx: &ide::LineIndex,
+) -> Vec<return_types::TextEdit> {
     edit.iter().map(|atom| text_edit(atom, ctx)).collect()
 }
 
@@ -80,18 +91,22 @@ pub(crate) fn completion_item(
     // non-trivial mapping here.
     for atom_edit in item.text_edit().iter() {
         if item.source_range().contains_range(atom_edit.delete) {
-            edit = Some(if atom_edit.delete == item.source_range() {
-                text_edit(atom_edit, line_index)
-            } else {
-                assert!(item.source_range().end() == atom_edit.delete.end());
-                let range1 =
-                    ide::TextRange::new(atom_edit.delete.start(), item.source_range().start());
-                let range2 = item.source_range();
-                let edit1 = ide::Indel::replace(range1, String::new());
-                let edit2 = ide::Indel::replace(range2, atom_edit.insert.clone());
-                additional_text_edits.push(text_edit(&edit1, line_index));
-                text_edit(&edit2, line_index)
-            })
+            edit = Some(
+                if atom_edit.delete == item.source_range() {
+                    text_edit(atom_edit, line_index)
+                } else {
+                    assert!(item.source_range().end() == atom_edit.delete.end());
+                    let range1 = ide::TextRange::new(
+                        atom_edit.delete.start(),
+                        item.source_range().start(),
+                    );
+                    let range2 = item.source_range();
+                    let edit1 = ide::Indel::replace(range1, String::new());
+                    let edit2 = ide::Indel::replace(range2, atom_edit.insert.clone());
+                    additional_text_edits.push(text_edit(&edit1, line_index));
+                    text_edit(&edit2, line_index)
+                },
+            )
         } else {
             edit = Some(text_edit(atom_edit, line_index));
         }
@@ -100,7 +115,8 @@ pub(crate) fn completion_item(
 
     return_types::CompletionItem {
         kind: completion_item_kind(
-            item.kind().unwrap_or(ide::CompletionItemKind::SymbolKind(ide::SymbolKind::Struct)),
+            item.kind()
+                .unwrap_or(ide::CompletionItemKind::SymbolKind(ide::SymbolKind::Struct)),
         ),
         label: item.label().to_string(),
         range,
@@ -111,7 +127,9 @@ pub(crate) fn completion_item(
         } else {
             return_types::CompletionItemInsertTextRule::None
         },
-        documentation: item.documentation().map(|doc| markdown_string(doc.as_str())),
+        documentation: item
+            .documentation()
+            .map(|doc| markdown_string(doc.as_str())),
         filterText: item.lookup().to_string(),
         additionalTextEdits: additional_text_edits,
     }
@@ -120,7 +138,10 @@ pub(crate) fn completion_item(
 pub(crate) fn signature_information(
     call_info: ide::CallInfo,
 ) -> return_types::SignatureInformation {
-    use return_types::{ParameterInformation, SignatureInformation};
+    use return_types::{
+        ParameterInformation,
+        SignatureInformation,
+    };
 
     let label = call_info.signature.clone();
     let documentation = call_info.doc.as_ref().map(|it| markdown_string(&it));
@@ -128,10 +149,18 @@ pub(crate) fn signature_information(
     let parameters: Vec<ParameterInformation> = call_info
         .parameter_labels()
         .into_iter()
-        .map(|param| ParameterInformation { label: param.to_string() })
+        .map(|param| {
+            ParameterInformation {
+                label: param.to_string(),
+            }
+        })
         .collect();
 
-    SignatureInformation { label, documentation, parameters }
+    SignatureInformation {
+        label,
+        documentation,
+        parameters,
+    }
 }
 
 pub(crate) fn location_links(
@@ -145,8 +174,10 @@ pub(crate) fn location_links(
         .map(|nav| {
             let range = text_range(nav.full_range, &line_index);
 
-            let target_selection_range =
-                nav.focus_range.map(|it| text_range(it, &line_index)).unwrap_or(range);
+            let target_selection_range = nav
+                .focus_range
+                .map(|it| text_range(it, &line_index))
+                .unwrap_or(range);
 
             return_types::LocationLink {
                 originSelectionRange: selection,
@@ -189,7 +220,10 @@ pub(crate) fn symbol_kind(kind: ide::StructureNodeKind) -> return_types::SymbolK
     }
 }
 
-pub(crate) fn folding_range(fold: ide::Fold, ctx: &ide::LineIndex) -> return_types::FoldingRange {
+pub(crate) fn folding_range(
+    fold: ide::Fold,
+    ctx: &ide::LineIndex,
+) -> return_types::FoldingRange {
     let range = text_range(fold.range, &ctx);
     return_types::FoldingRange {
         start: range.startLineNumber,
@@ -220,7 +254,7 @@ fn markdown_string(s: &str) -> return_types::MarkdownString {
     let mut in_code_block = false;
     for line in s.lines() {
         if in_code_block && code_line_ignored_by_rustdoc(line) {
-            continue;
+            continue
         }
 
         if line.starts_with("```") {
@@ -236,5 +270,7 @@ fn markdown_string(s: &str) -> return_types::MarkdownString {
         processed_lines.push(line);
     }
 
-    return_types::MarkdownString { value: processed_lines.join("\n") }
+    return_types::MarkdownString {
+        value: processed_lines.join("\n"),
+    }
 }
