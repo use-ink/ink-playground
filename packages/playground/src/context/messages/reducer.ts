@@ -1,11 +1,12 @@
+import { CompilationResult } from '@paritytech/commontypes';
 import { Message, Status, Severity, Prompt } from '@paritytech/components/';
 
-export const defaultState: State = {
+export const defaultState: MessageState = {
   messages: [],
   nextId: 0,
 };
 
-export type State = {
+export type MessageState = {
   messages: Array<Message>;
   nextId: number;
 };
@@ -15,17 +16,18 @@ export type Action = {
   payload: {
     status: Status;
     content: string;
+    result?: CompilationResult;
   };
 };
 
-export type Dispatch = (action: Action) => void;
+export type MessageDispatch = (action: Action) => void;
 
-const lastId = (state: State, prompt: Prompt): number => {
+const lastId = (state: MessageState, prompt: Prompt): number => {
   const arr = state.messages.filter(message => message.prompt === prompt);
   return arr[arr.length - 1].id;
 };
 
-export const reducer = (state: State, { type, payload }: Action): State => {
+export const reducer = (state: MessageState, { type, payload }: Action): MessageState => {
   switch (type) {
     case 'LOG_SYSTEM':
       if (payload.status === 'IN_PROGRESS') {
@@ -69,6 +71,20 @@ export const reducer = (state: State, { type, payload }: Action): State => {
           messages: [...state.messages, newMessage],
           nextId: state.nextId + 1,
         };
+      } else if (payload.status === 'ERROR') {
+        const id = lastId(state, 'COMPILE');
+        const updateMessage: Message = {
+          id,
+          prompt: 'COMPILE',
+          status: payload.status,
+          content: payload.content,
+          severity: Severity.Error,
+        };
+        return {
+          ...state,
+          messages: [...state.messages, updateMessage],
+          nextId: state.nextId + 1,
+        };
       } else {
         const id = lastId(state, 'COMPILE');
         const updateMessage: Message = {
@@ -82,7 +98,7 @@ export const reducer = (state: State, { type, payload }: Action): State => {
           id: state.nextId,
           prompt: 'COMPILE',
           status: 'INFO',
-          content: 'This is your compile Result: <RESULT>',
+          content: `This is your compile Result: ${payload.result?.payload.stdout}`,
           severity: Severity.Info,
         };
         return {

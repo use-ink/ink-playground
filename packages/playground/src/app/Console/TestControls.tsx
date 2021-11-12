@@ -1,9 +1,9 @@
 import { useContext, ReactElement } from 'react';
-import { Dispatch, State } from '~/context/messages/reducer';
+import { MessageDispatch, MessageState } from '~/context/messages/reducer';
 import { MessageContext } from '~/context/messages';
 
 export const TestControls = (): ReactElement => {
-  const [, dispatch]: [State, Dispatch] = useContext(MessageContext);
+  const [, dispatch]: [MessageState, MessageDispatch] = useContext(MessageContext);
 
   const dispatchRaLoading = (): void => {
     dispatch({
