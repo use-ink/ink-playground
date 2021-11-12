@@ -1,5 +1,6 @@
 interface Props {
   message: Message;
+  mIndex: number;
 }
 
 export type Message = {
@@ -48,20 +49,21 @@ const selectIcon = (status: string): string => {
   }
 };
 
-export const ConsoleMessage = ({ message: m }: Props) => {
+export const ConsoleMessage = ({ message: m, mIndex }: Props) => {
   const severity: Severity = m.severity;
   const icon: string = selectIcon(m.status);
 
   return (
     <>
-      <div className="flex mb-1">
+      <div className="flex mb-1 text-sm subpixel-antialiased" data-testid={`message-${mIndex}`}>
         <div className="w-6">
           <i
-            className={`${icon} ${severityColors[severity]} pt-px text-light text-sm subpixel-antialiased`}
+            className={`${icon} ${severityColors[severity]} pt-px`}
+            data-testid={`icon-${mIndex}`}
           />
         </div>
         <span className={severityColors[severity]}>{m.prompt}:</span>
-        <span className="flex-1 typing items-center pl-2">{m?.content}</span>
+        <span className="pl-2">{m?.content}</span>
       </div>
     </>
   );
