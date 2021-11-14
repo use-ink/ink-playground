@@ -1,8 +1,10 @@
 [package]
 name = "rust_analyzer_wasm"
 version = "0.1.0"
-authors = ["achimcc <achim@parity.io>"]
 edition = "2021"
+authors = ["Achim Schneider <achim@parity.io>"]
+license = "Apache-2.0"
+readme = "README.md"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
