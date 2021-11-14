@@ -2,6 +2,8 @@
 name = "contract"
 version = "0.1.0"
 edition = "2021"
+authors = ["Achim Schneider <achim@parity.io>"]
+license = "Apache-2.0"
 
 [dependencies]
 ink_primitives = { version = "3.0.0-rc6", default-features = false }
