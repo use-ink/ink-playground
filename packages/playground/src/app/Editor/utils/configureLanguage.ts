@@ -145,7 +145,7 @@ export const configureLanguage =
 class TokenState {
   line: number;
   equals: (other?: any) => boolean;
-  constructor(line: number = 0) {
+  constructor(line = 0) {
     this.line = line;
     this.equals = () => true;
   }
