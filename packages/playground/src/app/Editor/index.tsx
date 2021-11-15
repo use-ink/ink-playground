@@ -3,7 +3,6 @@ import MonacoEditor, { MonacoEditorProps } from 'react-monaco-editor';
 import exampleCode from './example-code';
 import { AppContext } from '~/context/app/';
 import { Dispatch, State } from '~/context/app/reducer';
-
 export const Editor = (): ReactElement => {
   const [code, setCode] = useState(exampleCode);
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
