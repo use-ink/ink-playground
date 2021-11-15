@@ -1,7 +1,6 @@
 import { useState, useContext, ReactElement } from 'react';
 import MonacoEditor, { MonacoEditorProps } from 'react-monaco-editor';
 import exampleCode from './example-code';
-import { startRustAnalyzer } from './utils/startRustAnalyzer';
 import { AppContext } from '~/context';
 import { Dispatch, State } from '~/context/reducer';
 
@@ -19,7 +18,7 @@ export const Editor = (): ReactElement => {
       const model = editor.getModel();
       if (model) {
         dispatch({ type: 'SET_URI', payload: model.uri });
-        await startRustAnalyzer(model.uri);
+        await import('./utils/startRustAnalyzer').then(code => code.startRustAnalyzer(model.uri));
       }
     }
   };
