@@ -29,7 +29,6 @@ use wasm_bindgen_test::*;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::JsFuture;
 
-use std::sync::Arc;
 use cfg::CfgOptions;
 use ide::{
     Change,
@@ -46,6 +45,7 @@ use ide_db::base_db::{
     FileSet,
     VfsPath,
 };
+use std::sync::Arc;
 
 wasm_bindgen_test_configure!(run_in_browser);
 
@@ -66,9 +66,12 @@ pub fn create_crate(crate_graph: &mut CrateGraph, f: FileId) -> CrateId {
 }
 
 pub fn create_source_root(name: &str, f: FileId) -> SourceRoot {
-  let mut file_set = FileSet::default();
-  file_set.insert(f, VfsPath::new_virtual_path(format!("/{}/src/lib.rs", name)));
-  SourceRoot::new_library(file_set)
+    let mut file_set = FileSet::default();
+    file_set.insert(
+        f,
+        VfsPath::new_virtual_path(format!("/{}/src/lib.rs", name)),
+    );
+    SourceRoot::new_library(file_set)
 }
 
 pub fn from_single_file(
