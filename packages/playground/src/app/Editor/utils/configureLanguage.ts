@@ -40,8 +40,12 @@ export const configureLanguage =
             },
           };
         });
-        //@ts-ignore
-        return { lenses, dispose() {} };
+        return {
+          lenses,
+          dispose() {
+            //do nothing
+          },
+        };
       },
     });
     monaco.languages.registerReferenceProvider(modeId, {
@@ -93,8 +97,9 @@ export const configureLanguage =
         if (!value) return null;
         return {
           value,
-          //@ts-ignore
-          dispose() {},
+          dispose() {
+            //do nothing
+          },
         };
       },
     });
