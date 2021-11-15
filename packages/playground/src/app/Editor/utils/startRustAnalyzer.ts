@@ -1,5 +1,6 @@
 import * as Comlink from 'comlink';
 import { monaco } from 'react-monaco-editor';
+import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
 
 import { WorkerApi } from '../../WasmTest/wasm.worker';
 
@@ -7,9 +8,10 @@ import { configureLanguage, setTokens } from './configureLanguage';
 
 const modeId = 'ra-rust'; // not "rust" to circumvent conflict
 
-type Monaco = typeof monaco;
+export const startRustAnalyzer = async (uri: Uri) => {
+  const model = monaco.editor.getModel(uri);
+  if (!model) return;
 
-export const startRustAnalyzer = async (model: monaco.editor.ITextModel) => {
   monaco.languages.register({
     // language for editor
     id: modeId,
@@ -27,7 +29,7 @@ export const startRustAnalyzer = async (model: monaco.editor.ITextModel) => {
   monaco.languages.setLanguageConfiguration(modeId, rustConf.conf);
 
   const state = await Comlink.wrap<WorkerApi>(
-    new Worker(new URL('../workers/worker.ts', import.meta.url), {
+    new Worker(new URL('../../WasmTest/wasm.worker', import.meta.url), {
       type: 'module',
     })
   ).handlers;
@@ -40,6 +42,7 @@ export const startRustAnalyzer = async (model: monaco.editor.ITextModel) => {
   await state.load(textData);
 
   async function update() {
+    if (!model) return;
     const text = model.getValue();
     await state.update(text);
     const res = await state.analyze(183);
@@ -55,5 +58,4 @@ export const startRustAnalyzer = async (model: monaco.editor.ITextModel) => {
 
   // rust analyzer loaded and diagnostics ready -> switch to rust analyzer
   monaco.editor.setModelLanguage(model, modeId);
-  return model;
 };
