@@ -2781,18 +2781,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wasm-tool/wasm-pack-plugin@npm:^1.5.0":
-  version: 1.6.0
-  resolution: "@wasm-tool/wasm-pack-plugin@npm:1.6.0"
-  dependencies:
-    chalk: ^2.4.1
-    command-exists: ^1.2.7
-    watchpack: ^2.1.1
-    which: ^2.0.2
-  checksum: ae2af8507a83b2994630a1393832ede09ecf86b1986e2506f4ad8c8908875e8b9e40d3fff97b2fbca1835eaf6cbe5a69611643d613dea961b1279122db60a0ec
-  languageName: node
-  linkType: hard
-
 "@webassemblyjs/ast@npm:1.11.1":
   version: 1.11.1
   resolution: "@webassemblyjs/ast@npm:1.11.1"
@@ -3996,13 +3984,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"command-exists@npm:^1.2.7":
-  version: 1.2.9
-  resolution: "command-exists@npm:1.2.9"
-  checksum: 729ae3d88a2058c93c58840f30341b7f82688a573019535d198b57a4d8cb0135ced0ad7f52b591e5b28a90feb2c675080ce916e56254a0f7c15cb2395277cac3
-  languageName: node
-  linkType: hard
-
 "commander@npm:^2.20.0":
   version: 2.20.3
   resolution: "commander@npm:2.20.3"
@@ -4151,6 +4132,22 @@ __metadata:
   version: 0.4.0
   resolution: "cookie@npm:0.4.0"
   checksum: 760384ba0aef329c52523747e36a452b5e51bc49b34160363a6934e7b7df3f93fcc88b35e33450361535d40a92a96412da870e1816aba9aa6cc556a9fedd8492
+  languageName: node
+  linkType: hard
+
+"copy-webpack-plugin@npm:^9.1.0":
+  version: 9.1.0
+  resolution: "copy-webpack-plugin@npm:9.1.0"
+  dependencies:
+    fast-glob: ^3.2.7
+    glob-parent: ^6.0.1
+    globby: ^11.0.3
+    normalize-path: ^3.0.0
+    schema-utils: ^3.1.1
+    serialize-javascript: ^6.0.0
+  peerDependencies:
+    webpack: ^5.1.0
+  checksum: 06cb4fb6fc99a95ccfd3169115ee57f64953e5b4075900fc8faab98b7e7d3fcd6915b125fdb98c919cfd55e581a8444f5c6b9dbb342cbd60b154d8fb3f79f2b9
   languageName: node
   linkType: hard
 
@@ -8604,9 +8601,9 @@ __metadata:
     "@types/react": ^17.0.27
     "@types/react-dom": ^17.0.8
     "@types/react-test-renderer": ^17.0.1
-    "@wasm-tool/wasm-pack-plugin": ^1.5.0
     autoprefixer: ^9
     comlink: ^4.3.1
+    copy-webpack-plugin: ^9.1.0
     css-loader: ^6.3.0
     html-webpack-plugin: ^5.3.1
     jest: ^27.2.0
@@ -10728,7 +10725,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"watchpack@npm:^2.1.1, watchpack@npm:^2.2.0":
+"watchpack@npm:^2.2.0":
   version: 2.2.0
   resolution: "watchpack@npm:2.2.0"
   dependencies:
