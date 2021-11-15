@@ -40,7 +40,7 @@ export const configureLanguage =
             },
           };
         });
-
+        //@ts-ignore
         return { lenses, dispose() {} };
       },
     });
@@ -93,6 +93,7 @@ export const configureLanguage =
         if (!value) return null;
         return {
           value,
+          //@ts-ignore
           dispose() {},
         };
       },
