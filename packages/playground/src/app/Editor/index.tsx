@@ -1,8 +1,9 @@
 import { useState, useContext, ReactElement } from 'react';
 import MonacoEditor, { MonacoEditorProps } from 'react-monaco-editor';
 import exampleCode from './example-code';
-import { AppContext } from '~/context/app/';
-import { Dispatch, State } from '~/context/app/reducer';
+import { startRustAnalyzer } from './utils/startRustAnalyzer';
+import { AppContext } from '~/context';
+import { Dispatch, State } from '~/context/reducer';
 
 export const Editor = (): ReactElement => {
   const [code, setCode] = useState(exampleCode);
@@ -12,11 +13,14 @@ export const Editor = (): ReactElement => {
     setCode(newValue);
   };
 
-  const editorDidMount = (editor: MonacoEditor['editor']): void => {
+  const editorDidMount = async (editor: MonacoEditor['editor']): Promise<void> => {
     if (editor) {
       editor.focus();
-      const uri = editor.getModel()?.uri;
-      if (uri) dispatch({ type: 'SET_URI', payload: uri });
+      const model = editor.getModel();
+      if (model) {
+        dispatch({ type: 'SET_URI', payload: model.uri });
+        await startRustAnalyzer(model);
+      }
     }
   };
 
