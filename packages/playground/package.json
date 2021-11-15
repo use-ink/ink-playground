@@ -10,9 +10,9 @@
     "react-monaco-editor": "^0.45.0"
   },
   "scripts": {
-    "build": "rimraf dist pkg && webpack --config webpack.config.js --mode production",
+    "build": "rimraf dist && webpack --config webpack.config.js --mode production",
     "start": "webpack serve --host 0.0.0.0",
-    "clean": "rimraf dist pkg node_modules",
+    "clean": "rimraf dist node_modules",
     "test": "jest --update-snapshot",
     "test:watch": "jest --update-snapshot --watch",
     "test:clear": "jest --clearCache",

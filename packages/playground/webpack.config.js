@@ -66,11 +66,11 @@ module.exports = {
       title: 'Parity ink! Playground',
       template: './src/index.html',
     }),
-    new WasmPackPlugin({
-      crateDirectory: path.resolve(__dirname, '../../crates/rust_analyzer_wasm'),
-      extraArgs: '--target web -- -Z build-std=panic_abort,std',
-      outDir: path.resolve(__dirname, './pkg'),
-    }),
+    // new WasmPackPlugin({
+    //   crateDirectory: path.resolve(__dirname, '../../crates/rust_analyzer_wasm'),
+    //   extraArgs: '--target web -- -Z build-std=panic_abort,std',
+    //   outDir: path.resolve(__dirname, './pkg'),
+    // }),
     new MiniCssExtractPlugin({
       filename: 'styles.css',
       chunkFilename: 'styles.css',
