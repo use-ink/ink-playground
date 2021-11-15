@@ -19,7 +19,7 @@ export const Editor = (): ReactElement => {
       const model = editor.getModel();
       if (model) {
         dispatch({ type: 'SET_URI', payload: model.uri });
-        await startRustAnalyzer(model);
+        await startRustAnalyzer(model.uri);
       }
     }
   };

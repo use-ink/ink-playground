@@ -6,6 +6,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const tailwindcss = require('tailwindcss');
 const { EnvironmentPlugin } = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -82,6 +83,9 @@ module.exports = {
     new MonacoWebpackPlugin({
       // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
       languages: ['rust'],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: '../_generated/change/src' }],
     }),
     new EnvironmentPlugin({
       COMPILE_URL: '',
