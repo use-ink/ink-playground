@@ -31,13 +31,11 @@ generate-change-json:
 		-o packages/_generated/change/src/change.json
 
 generate-rust-analyzer:
-	wasm-pack build crates/rust_analyzer_wasm/ \ 
-		--out-dir ../../packages/playground/pkg \
-		--target web
+	wasm-pack build crates/rust_analyzer_wasm/ --out-dir ../../packages/playground/pkg --target web
 
 generate: generate-bindings
 generate: generate-change-json
-generate: genrate-rust-analyzer
+generate: generate-rust-analyzer
 
 ################################################################################
 # ENTRYPOINT: playground
@@ -220,6 +218,7 @@ docker-log:
 # GLOBAL
 ################################################################################
 
+build: generate-rust-analyzer
 build: playground-build
 build: crate-extractor-build
 build: backend-build
