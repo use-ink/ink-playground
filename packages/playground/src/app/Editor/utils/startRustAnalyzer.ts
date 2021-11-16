@@ -2,7 +2,7 @@ import * as Comlink from 'comlink';
 import { monaco } from 'react-monaco-editor';
 import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
 
-import { WorkerApi } from '../../WasmTest/wasm.worker';
+import { WorkerApi } from './wasm.worker';
 
 import { configureLanguage, setTokens, Token } from './configureLanguage';
 
@@ -29,7 +29,7 @@ export const startRustAnalyzer = async (uri: Uri) => {
   monaco.languages.setLanguageConfiguration(modeId, rustConf.conf);
 
   const state = await Comlink.wrap<WorkerApi>(
-    new Worker(new URL('../../WasmTest/wasm.worker', import.meta.url), {
+    new Worker(new URL('./wasm.worker', import.meta.url), {
       type: 'module',
     })
   ).handlers;
