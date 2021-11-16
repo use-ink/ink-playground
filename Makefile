@@ -27,11 +27,17 @@ generate-bindings:
 
 generate-change-json:
 	cargo run --package crate-extractor -- create \
-	  -m crates/contract/Cargo.toml \
-	  -o packages/_generated/change/src/change.json
+		-m crates/contract/Cargo.toml \
+		-o packages/_generated/change/src/change.json
+
+generate-rust-analyzer:
+	wasm-pack build crates/rust_analyzer_wasm/ \ 
+		--out-dir ../../packages/playground/pkg \
+		--target web
 
 generate: generate-bindings
 generate: generate-change-json
+generate: genrate-rust-analyzer
 
 ################################################################################
 # ENTRYPOINT: playground
