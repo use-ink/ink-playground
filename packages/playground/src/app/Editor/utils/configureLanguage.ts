@@ -5,7 +5,7 @@ type Monaco = typeof monaco;
 const modeId = 'ra-rust';
 
 export const configureLanguage =
-  (monaco: Monaco, state: WorldState, allTokens: any[]) => async () => {
+  (monaco: Monaco, state: WorldState, allTokens: monaco.languages.IToken[]) => async () => {
     monaco.languages.register({
       // language for editor
       id: modeId,
@@ -149,7 +149,7 @@ export const configureLanguage =
 
 class TokenState {
   line: number;
-  equals: (other?: any) => boolean;
+  equals: (other?: monaco.languages.IState) => boolean;
   constructor(line = 0) {
     this.line = line;
     this.equals = () => true;
@@ -185,7 +185,7 @@ function fixTag(tag: string) {
   }
 }
 
-export const setTokens = (monaco: Monaco, allTokens: Array<any>) =>
+export const setTokens = (monaco: Monaco, allTokens: any[]) =>
   monaco.languages.setTokensProvider(modeId, {
     getInitialState: () => new TokenState(),
     tokenize(_, st: TokenState) {
