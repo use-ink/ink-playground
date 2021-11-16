@@ -1,6 +1,7 @@
 import * as Comlink from 'comlink';
+import { WorldState } from '../../../../pkg';
 
-async function initHandlers(): Promise<any> {
+async function initHandlers(): Promise<WorldState & Comlink.ProxyMarked> {
   // If threads are unsupported in this browser, skip this handler.
   const rust_wasm = await import('../../../../pkg/rust_analyzer_wasm');
   await rust_wasm.default();
