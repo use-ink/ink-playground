@@ -4,7 +4,7 @@ import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
 
 import { WorkerApi } from '../../WasmTest/wasm.worker';
 
-import { configureLanguage, setTokens } from './configureLanguage';
+import { configureLanguage, setTokens, Token } from './configureLanguage';
 
 const modeId = 'ra-rust'; // not "rust" to circumvent conflict
 
@@ -34,7 +34,7 @@ export const startRustAnalyzer = async (uri: Uri) => {
     })
   ).handlers;
 
-  const allTokens: Array<any> = [];
+  const allTokens: Array<Token> = [];
   monaco.languages.onLanguage(modeId, configureLanguage(monaco, state, allTokens));
 
   const data = await fetch(`./change.json`);
