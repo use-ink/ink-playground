@@ -13,7 +13,8 @@
     "package-lock.json",
     "yarn.lock",
     "**/yarn-error.log",
-    "assets/architecture*.xml"
+    "assets/architecture*.xml",
+    "packages/_generated/change/src/change.json"
   ],
   "words": [
     "Submenu",
