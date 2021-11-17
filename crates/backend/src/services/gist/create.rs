@@ -17,6 +17,45 @@
 //! agnostic (E.g. the compile module does not know that's mapped to the
 //! "/compile" route in the end)
 
-pub mod compile;
-pub mod frontend;
-pub mod gist;
+use actix_web::{
+    web::Json,
+    Responder,
+};
+use serde::Deserialize;
+
+#[derive(Deserialize)]
+pub struct GistCreateRequest {}
+
+pub struct GistCreateResponse {}
+
+pub type Code = String;
+
+pub type GistError = String;
+
+pub type ApiStrategy = fn(Code) -> Result<Gist, GistError>;
+
+pub struct Gist {
+    pub id: String,
+    pub url: String,
+    pub code: Code,
+}
+
+pub const GH_API: ApiStrategy = |req| {
+    Ok(Gist {
+        id: "22".to_string(),
+        url: "".to_string(),
+        code: "".to_string(),
+    })
+};
+
+pub async fn route_gist_create(
+    gist_api_strategy: ApiStrategy,
+    req: Json<GistCreateRequest>,
+) -> impl Responder {
+    "ok"
+    // Gist {
+    //     id: "22".to_string(),
+    //     url: "".to_string(),
+    //     code: "".to_string(),
+    // }
+}
