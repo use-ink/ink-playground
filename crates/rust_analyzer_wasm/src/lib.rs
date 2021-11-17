@@ -65,8 +65,6 @@ extern crate web_sys;
 
 use rayon::prelude::*;
 pub use wasm_bindgen_rayon::init_thread_pool;
-use rayon::prelude::*;
-pub use wasm_bindgen_rayon::init_thread_pool;
 
 fn derive_analytics(host: &AnalysisHost, file_id: FileId) -> JsValue {
     let analysis = host.analysis();
