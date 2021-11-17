@@ -25,6 +25,13 @@ type Reference = {
   range: monaco.IRange;
 };
 
+type LocationLink = {
+  range: monaco.IRange;
+  originSelectionRange?: monaco.IRange;
+  targetSelectionRange?: monaco.IRange;
+  uri: monaco.Uri;
+};
+
 export const configureLanguage =
   (monaco: Monaco, state: WorldState, allTokens: Token[]) => async () => {
     monaco.languages.register({
@@ -130,9 +137,9 @@ export const configureLanguage =
     });
     monaco.languages.registerDefinitionProvider(modeId, {
       async provideDefinition(m, pos) {
-        const list = await state.definition(pos.lineNumber, pos.column);
+        const list: Array<LocationLink> = await state.definition(pos.lineNumber, pos.column);
         if (list) {
-          return list.map((def: any) => ({ ...def, uri: m.uri }));
+          return list.map(def => ({ ...def, uri: m.uri }));
         }
       },
     });
