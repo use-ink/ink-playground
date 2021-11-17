@@ -24,9 +24,10 @@ export type MessageDispatch = (action: Action) => void;
 
 const lastId = (state: MessageState, prompt: Prompt): number => {
   const arr = state.messages.filter(message => message.prompt === prompt);
+  const lastId = arr[arr.length - 1]?.id;
+  if (lastId !== undefined) return lastId;
   // if no last id available, return nextId, even though it should not happen
-  if (!arr[arr.length - 1]) return state.nextId;
-  return arr[arr.length - 1].id;
+  return state.nextId;
 };
 
 export const reducer = (state: MessageState, { type, payload }: Action): MessageState => {
