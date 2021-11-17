@@ -40,6 +40,7 @@ export const Header = (): ReactElement => {
           onClick={() => {
             alert('Download!');
           }}
+          loading={state.compile.type === 'IN_PROGRESS'}
         />
         <ButtonWithIcon
           label="Settings"
