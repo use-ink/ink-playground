@@ -56,7 +56,7 @@ RUN rustup component add rust-src \
 ################################################################################
 
 RUN rustup default stable
-RUN make generate-bindings
+RUN make generate
 
 RUN rustup default nightly
 RUN make playground-build
