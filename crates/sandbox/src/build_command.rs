@@ -25,7 +25,7 @@ use std::{
 };
 use tokio::process::Command;
 
-const DOCKER_PROCESS_TIMEOUT_SOFT: Duration = Duration::from_secs(10);
+const DOCKER_PROCESS_TIMEOUT_SOFT: Duration = Duration::from_secs(20);
 
 const DOCKER_CONTAINER_NAME: &str = "ink-backend";
 
@@ -80,7 +80,7 @@ fn build_basic_secure_docker_command() -> Command {
         "--net",
         "none",
         "--memory",
-        "512m",
+        "1024m",
         "--memory-swap",
         "640m",
         "--env",
