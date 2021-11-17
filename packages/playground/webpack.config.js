@@ -83,7 +83,9 @@ module.exports = {
       // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
       languages: ['rust'],
     }),
-    new EnvironmentPlugin(['COMPILE_URL']),
+    new EnvironmentPlugin({
+      COMPILE_URL: '',
+    }),
   ],
   experiments: {
     asyncWebAssembly: true,
