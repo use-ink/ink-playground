@@ -121,61 +121,6 @@ pub fn init_panic_hook() {
     console_error_panic_hook::set_once();
 }
 
-fn derive_analytics(host: &AnalysisHost, file_id: FileId) -> JsValue {
-    let analysis = host.analysis();
-    let line_index = analysis.file_line_index(file_id).unwrap();
-    let config = DiagnosticsConfig::default();
-    let diagnostics: Vec<_> = analysis
-        .diagnostics(&config, AssistResolveStrategy::None, file_id)
-        .unwrap()
-        .into_par_iter()
-        .map(|d| {
-            let Range {
-                startLineNumber,
-                startColumn,
-                endLineNumber,
-                endColumn,
-            } = to_proto::text_range(d.range, &line_index);
-            Diagnostic {
-                message: d.message,
-                severity: to_proto::severity(d.severity),
-                startLineNumber,
-                startColumn,
-                endLineNumber,
-                endColumn,
-            }
-        })
-        .collect();
-    let highlights: Vec<_> = analysis
-        .highlight(file_id)
-        .unwrap()
-        .into_par_iter()
-        .map(|hl| {
-            Highlight {
-                tag: Some(hl.highlight.tag.to_string()),
-                range: to_proto::text_range(hl.range, &line_index),
-            }
-        })
-        .collect();
-    web_sys::console::log_1(&"All Done!".into());
-    serde_wasm_bindgen::to_value(&UpdateResult {
-        diagnostics,
-        highlights,
-    })
-    .unwrap()
-}
-
-#[wasm_bindgen(start)]
-pub fn start() {
-    console_error_panic_hook::set_once();
-    log::info!("worker initialized")
-}
-
-#[wasm_bindgen]
-pub fn init_panic_hook() {
-    console_error_panic_hook::set_once();
-}
-
 #[wasm_bindgen]
 pub struct WorldState {
     analysis: Analysis,
