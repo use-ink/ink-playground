@@ -16,6 +16,7 @@
     "test": "jest --update-snapshot",
     "test:watch": "jest --update-snapshot --watch",
     "test:clear": "jest --clearCache",
+    "test:coverage": "jest --update-snapshot --collectCoverage",
     "bundlesize": "yarn bundlesize:generate && webpack-bundle-analyzer --port 8081 bundle-size-stats.json dist",
     "bundlesize:generate": "yarn build && yarn webpack --stats --json=bundle-size-stats.json"
   },

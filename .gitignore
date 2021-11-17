@@ -18,3 +18,4 @@ packages/_generated/src
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+coverage
