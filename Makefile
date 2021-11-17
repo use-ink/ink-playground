@@ -218,7 +218,6 @@ docker-log:
 # GLOBAL
 ################################################################################
 
-build: generate-rust-analyzer
 build: playground-build
 build: crate-extractor-build
 build: backend-build
