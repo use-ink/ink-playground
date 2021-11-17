@@ -145,9 +145,12 @@ export const configureLanguage =
     });
     monaco.languages.registerImplementationProvider(modeId, {
       async provideImplementation(m, pos) {
-        const list = await state.goto_implementation(pos.lineNumber, pos.column);
+        const list: Array<LocationLink> = await state.goto_implementation(
+          pos.lineNumber,
+          pos.column
+        );
         if (list) {
-          return list.map((def: any) => ({ ...def, uri: m.uri }));
+          return list.map(def => ({ ...def, uri: m.uri }));
         }
       },
     });
