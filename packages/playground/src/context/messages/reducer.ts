@@ -27,7 +27,7 @@ const lastId = (state: MessageState, prompt: Prompt): number => {
   const arr = state.messages.filter(message => message.prompt === prompt);
   const lastId = arr[arr.length - 1]?.id;
   if (lastId !== undefined) return lastId;
-  // if no last id available, return nextId, even though it should not happen
+  // if no last id available, return nextId
   return state.nextId;
 };
 
@@ -74,7 +74,9 @@ export const reducer = (state: MessageState, { type, payload }: MessageAction): 
             id,
             prompt: 'COMPILE',
             status: payload.status,
-            content: payload.content,
+            content: `There was an error compiling your contract: ${
+              payload.result ? payload.result.payload.stderr : '<Error>'
+            }`,
             severity: Severity[payload.status],
           };
           return {
@@ -129,9 +131,9 @@ export const reducer = (state: MessageState, { type, payload }: MessageAction): 
         const newMessage: Message = {
           id: state.nextId,
           prompt: 'GIST',
-          status: 'IN_PROGRESS',
+          status: payload.status,
           content: payload.content,
-          severity: Severity.IN_PROGRESS,
+          severity: Severity[payload.status],
         };
         return {
           ...state,
