@@ -53,6 +53,9 @@ playground-test:
 playground-test-watch:
 	yarn workspace playground run test:watch
 
+playground-test-coverage:
+	yarn workspace playground run test:coverage
+
 playground-bundlesize:
 	yarn workspace playground run bundlesize
 
@@ -68,6 +71,9 @@ components-test:
 
 components-test-watch:
 	yarn workspace @paritytech/components run test:watch
+
+components-test-coverage:
+	yarn workspace @paritytech/components run test:coverage
 
 ################################################################################
 # ENTRYPOINT: crate-extractor

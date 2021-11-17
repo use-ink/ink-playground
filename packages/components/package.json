@@ -7,7 +7,8 @@
     "clean": "rimraf dist pkg node_modules",
     "test": "jest --update-snapshot",
     "test:watch": "jest --update-snapshot --watch",
-    "test:clear": "jest --clearCache"
+    "test:clear": "jest --clearCache",
+    "test:coverage": "jest --update-snapshot --collectCoverage"
   },
   "author": "",
   "license": "ISC",
