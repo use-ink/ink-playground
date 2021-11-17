@@ -31,7 +31,7 @@ export const Header = (): ReactElement => {
           label="Compile"
           Icon={CompileIcon}
           testId={'buttonIcon'}
-          onClick={() => compile(dispatch, state, dispatchMessage)}
+          onClick={() => compile(state, dispatch, dispatchMessage)}
         />
         <ButtonWithIcon
           label="Download"
