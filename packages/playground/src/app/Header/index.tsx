@@ -41,6 +41,7 @@ export const Header = (): ReactElement => {
           onClick={() => {
             alert('Download!');
           }}
+          disabled={!state.monacoUri}
           loading={state.compile.type === 'IN_PROGRESS'}
         />
         <ButtonWithIcon
