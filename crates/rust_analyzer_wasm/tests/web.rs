@@ -154,8 +154,8 @@ fn pass() {
 }
 
 #[wasm_bindgen_test]
-async fn test_greet() {
+async fn initialize_world_state() {
     let promise = js_sys::Promise::resolve(&init_thread_pool(4));
     let _ = JsFuture::from(promise).await;
-    let mut state = WorldState::new();
+    let _state = WorldState::new();
 }
