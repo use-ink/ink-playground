@@ -32,6 +32,7 @@ export const Header = (): ReactElement => {
           Icon={CompileIcon}
           testId={'buttonIcon'}
           onClick={() => compile(state, dispatch, dispatchMessage)}
+          disabled={!state.monacoUri}
         />
         <ButtonWithIcon
           label="Download"
