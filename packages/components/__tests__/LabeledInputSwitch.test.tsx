@@ -21,6 +21,7 @@ describe('Given the LabeledInputSwitch component is rendered', () => {
   });
 
   test('When Switch appears on screen', async () => {
+    // Given, When
     const switchLabel = await screen.findByText(switchLabelText);
     const inputSwitch = await screen.findByTestId(switchTestId);
 
@@ -31,10 +32,11 @@ describe('Given the LabeledInputSwitch component is rendered', () => {
   });
 
   test('When Switch is toggled', async () => {
+    // Given
     const inputSwitch = await screen.findByTestId(switchTestId);
+    // When
     inputSwitch.click();
-
-    // Then state changes
+    // Then ...
     expect(switchState).toBeFalsy();
   });
 });

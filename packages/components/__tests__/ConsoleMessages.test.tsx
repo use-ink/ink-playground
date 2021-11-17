@@ -41,6 +41,7 @@ describe('Given the ConsoleMessages component is rendered', () => {
     });
 
     test('When prompt is displayed', async () => {
+      // Given, When
       const prompt = await screen.findAllByText('SYSTEM:');
       // Then ...
       expect(prompt[0]).toBeInTheDocument();
@@ -49,6 +50,7 @@ describe('Given the ConsoleMessages component is rendered', () => {
 
     describe('When "IN_PROGRESS" message is displayed', () => {
       test('When message icon is displayed', async () => {
+        // Given, When
         const icon = await screen.findByTestId('icon-0');
         // Then ...
         expect(icon).toBeInTheDocument();
@@ -56,6 +58,7 @@ describe('Given the ConsoleMessages component is rendered', () => {
       });
 
       test('When prompt has severity color', async () => {
+        // Given, When
         const prompt = await screen.findAllByText('SYSTEM:');
         // Then ...
         expect(prompt[0]).toBeInTheDocument();
@@ -63,6 +66,7 @@ describe('Given the ConsoleMessages component is rendered', () => {
       });
 
       test('When message content is displayed', async () => {
+        // Given, When
         const message = await screen.findByText('Message: IN_PROGRESS');
         // Then ...
         expect(message).toBeInTheDocument();
@@ -71,6 +75,7 @@ describe('Given the ConsoleMessages component is rendered', () => {
 
     describe('When "DONE" message is displayed', () => {
       test('When message icon is displayed', async () => {
+        // Given, When
         const icon = await screen.findByTestId('icon-1');
         // Then ...
         expect(icon).toBeInTheDocument();
@@ -78,6 +83,7 @@ describe('Given the ConsoleMessages component is rendered', () => {
       });
 
       test('When prompt has severity color', async () => {
+        // Given, When
         const prompt = await screen.findAllByText('SYSTEM:');
         // Then ...
         expect(prompt[1]).toBeInTheDocument();
@@ -85,6 +91,7 @@ describe('Given the ConsoleMessages component is rendered', () => {
       });
 
       test('When message content is displayed', async () => {
+        // Given, When
         const message = await screen.findByText('Message: DONE');
         // Then ...
         expect(message).toBeInTheDocument();
@@ -93,6 +100,7 @@ describe('Given the ConsoleMessages component is rendered', () => {
 
     describe('When "ERROR" message is displayed', () => {
       test('When message icon is displayed', async () => {
+        // Given, When
         const icon = await screen.findByTestId('icon-2');
         // Then ...
         expect(icon).toBeInTheDocument();
@@ -100,6 +108,7 @@ describe('Given the ConsoleMessages component is rendered', () => {
       });
 
       test('When prompt has severity color', async () => {
+        // Given, When
         const prompt = await screen.findAllByText('SYSTEM:');
         // Then ...
         expect(prompt[2]).toBeInTheDocument();
@@ -107,6 +116,7 @@ describe('Given the ConsoleMessages component is rendered', () => {
       });
 
       test('When message content is displayed', async () => {
+        // Given, When
         const message = await screen.findByText('Message: ERROR');
         // Then ...
         expect(message).toBeInTheDocument();
@@ -115,6 +125,7 @@ describe('Given the ConsoleMessages component is rendered', () => {
 
     describe('When "INFO" message is displayed', () => {
       test('When message icon is displayed', async () => {
+        // Given, When
         const icon = await screen.findByTestId('icon-3');
         // Then ...
         expect(icon).toBeInTheDocument();
@@ -122,6 +133,7 @@ describe('Given the ConsoleMessages component is rendered', () => {
       });
 
       test('When prompt has severity color', async () => {
+        // Given, When
         const prompt = await screen.findAllByText('SYSTEM:');
         // Then ...
         expect(prompt[3]).toBeInTheDocument();
@@ -129,6 +141,7 @@ describe('Given the ConsoleMessages component is rendered', () => {
       });
 
       test('When message content is displayed', async () => {
+        // Given, When
         const message = await screen.findByText('Message: INFO');
         // Then ...
         expect(message).toBeInTheDocument();
