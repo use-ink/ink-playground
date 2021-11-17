@@ -20,6 +20,11 @@ type Command = {
   positions: Array<monaco.IRange>; // customized
 };
 
+type Reference = {
+  tag: string;
+  range: monaco.IRange;
+};
+
 export const configureLanguage =
   (monaco: Monaco, state: WorldState, allTokens: Token[]) => async () => {
     monaco.languages.register({
@@ -66,9 +71,13 @@ export const configureLanguage =
     });
     monaco.languages.registerReferenceProvider(modeId, {
       async provideReferences(m, pos, { includeDeclaration }) {
-        const references = await state.references(pos.lineNumber, pos.column, includeDeclaration);
+        const references: Array<Reference> = await state.references(
+          pos.lineNumber,
+          pos.column,
+          includeDeclaration
+        );
         if (references) {
-          return references.map(({ range }: any) => ({ uri: m.uri, range }));
+          return references.map(({ range }) => ({ uri: m.uri, range }));
         }
       },
     });
