@@ -9,6 +9,17 @@ export type Token = {
   tag: string;
 };
 
+type CodeLensSymbol = {
+  range: monaco.IRange;
+  command: Command;
+};
+
+type Command = {
+  id: string;
+  title: string;
+  positions: Array<monaco.IRange>; // customized
+};
+
 export const configureLanguage =
   (monaco: Monaco, state: WorldState, allTokens: Token[]) => async () => {
     monaco.languages.register({
@@ -25,14 +36,14 @@ export const configureLanguage =
     });
     monaco.languages.registerCodeLensProvider(modeId, {
       async provideCodeLenses(m) {
-        const code_lenses = await state.code_lenses();
-        const lenses = code_lenses.map(({ range, command }: any) => {
+        const code_lenses: Array<CodeLensSymbol> = await state.code_lenses();
+        const lenses = code_lenses.map(({ range, command }) => {
           const position = {
             column: range.startColumn,
             lineNumber: range.startLineNumber,
           };
 
-          const references = command.positions.map((pos: any) => ({
+          const references = command.positions.map(pos => ({
             range: pos,
             uri: m.uri,
           }));
