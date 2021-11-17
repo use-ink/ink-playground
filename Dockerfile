@@ -50,6 +50,7 @@ RUN rustup toolchain install nightly-2021-07-29-x86_64
 RUN rustup toolchain install stable
 RUN rustup component add rust-src \
     --toolchain nightly-2021-07-29-x86_64-unknown-linux-gnu
+RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
 ################################################################################
 # Build
