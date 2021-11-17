@@ -82,7 +82,7 @@ fn build_basic_secure_docker_command() -> Command {
         "--memory",
         "1024m",
         "--memory-swap",
-        "640m",
+        "1200m",
         "--env",
         format!(
             "PLAYGROUND_TIMEOUT={}",
