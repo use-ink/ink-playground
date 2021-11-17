@@ -36,7 +36,7 @@ const severityColors: SeverityColors = {
   InProgress: 'text-in-progress',
 };
 
-const selectIcon = (status: string): string => {
+const selectIcon = (status: Status): string => {
   switch (status) {
     case 'IN_PROGRESS':
       return 'pi pi-spinner animate-spin';
