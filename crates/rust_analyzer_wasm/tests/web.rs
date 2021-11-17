@@ -26,7 +26,6 @@ use rust_analyzer_wasm::{
 };
 use wasm_bindgen_test::*;
 
-use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::JsFuture;
 
 use cfg::CfgOptions;
