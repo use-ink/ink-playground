@@ -3,7 +3,7 @@ import { State, Dispatch } from './reducer';
 import { MessageDispatch } from '../messages/reducer';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
-export async function compile(dispatch: Dispatch, state: State, dispatchMessage: MessageDispatch) {
+export async function compile(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch) {
   if (state.compile.type === 'IN_PROGRESS') return;
 
   dispatch({ type: 'SET_COMPILE_STATE', payload: { type: 'IN_PROGRESS' } });
