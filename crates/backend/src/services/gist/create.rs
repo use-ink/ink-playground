@@ -17,7 +17,6 @@
 //! agnostic (E.g. the compile module does not know that's mapped to the
 //! "/compile" route in the end)
 
-use crate::cli::Opts;
 use actix_web::{
     web::Json,
     Error,
@@ -55,7 +54,7 @@ pub type Code = String;
 
 pub type GistError = String;
 
-pub type GithubApiStrategy = fn(Code) -> GistCreateResponse;
+pub type GithubApiStrategy = fn(gh_token: &str, Code) -> GistCreateResponse;
 
 #[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
@@ -65,7 +64,7 @@ pub struct Gist {
     pub code: Code,
 }
 
-pub const GH_API: GithubApiStrategy = |req| {
+pub const GH_API: GithubApiStrategy = |token, req| {
     GistCreateResponse::Success(Gist {
         id: "22".to_string(),
         url: "".to_string(),
@@ -99,7 +98,7 @@ pub async fn route_gist_create(
     github_token: &str,
     req: Json<GistCreateRequest>,
 ) -> impl Responder {
-    gist_api_strategy(req.code.to_string())
+    gist_api_strategy(github_token, req.code.to_string())
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -115,7 +114,7 @@ mod tests {
         App,
     };
 
-    const GH_API_MOCKED: GithubApiStrategy = |code| {
+    const GH_API_MOCKED: GithubApiStrategy = |_, code| {
         GistCreateResponse::Success(Gist {
             id: "65278657821".to_string(),
             url: "foo".to_string(),
@@ -127,7 +126,7 @@ mod tests {
     async fn test_gist_create_success() {
         let mut app = test::init_service(App::new().route(
             "/",
-            web::post().to(|body| route_gist_create(GH_API_MOCKED, body)),
+            web::post().to(|body| route_gist_create(GH_API_MOCKED, "gh_token", body)),
         ))
         .await;
 

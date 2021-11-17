@@ -52,8 +52,8 @@ async fn main() -> std::io::Result<()> {
     let port = opts.port;
     let frontend_folder = opts.frontend_folder;
     let host = opts.host;
-    let github_token = opts.github_token;
 
+    // opts.github_token.clone();
     if let Some(path) = &frontend_folder {
         if !Path::new(path).is_dir() {
             panic!("{} is not a valid directory.", path);
@@ -75,7 +75,8 @@ async fn main() -> std::io::Result<()> {
             )
             .route(
                 "/gist/create",
-                post().to(move |body| route_gist_create(GH_API, &github_token, body)),
+                post()
+                    .to(|body| route_gist_create(GH_API, "TODO: use github token", body)),
             )
             .route(
                 "/status",
