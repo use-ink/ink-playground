@@ -16,6 +16,8 @@
 # This is useful to get an early local feedback how real CI will run.
 ################################################################################
 
+DOCKER_PORT ?= 3000
+
 ################################################################################
 # GENERATE
 ################################################################################
@@ -175,7 +177,7 @@ docker-run:
 	docker run \
 	  --volume /tmp:/tmp \
 	  --volume /var/run/docker.sock:/var/run/docker.sock \
-	  --publish $(PORT):4000 \
+	  --publish $(DOCKER_PORT):4000 \
 	  ink-playground
 
 docker-run-detach:
@@ -184,11 +186,11 @@ docker-run-detach:
 	  --detach \
 	  --volume /tmp:/tmp \
 	  --volume /var/run/docker.sock:/var/run/docker.sock \
-	  --publish $(PORT):4000 \
+	  --publish $(DOCKER_PORT):4000 \
 	  ink-playground
 
 docker-test:
-	BACKEND_URL=http://localhost:$(PORT) yarn workspace docker-tests run test
+	BACKEND_URL=http://localhost:$(DOCKER_PORT) yarn workspace docker-tests run test
 
 docker-shell:
 	docker run \
@@ -196,7 +198,7 @@ docker-shell:
 	  --volume /tmp:/tmp \
 	  --volume /var/run/docker.sock:/var/run/docker.sock \
 	  --entrypoint /bin/bash \
-	  --publish 90:4000 \
+	  --publish $(DOCKER_PORT):4000 \
 	  ink-playground
 
 docker-log:
