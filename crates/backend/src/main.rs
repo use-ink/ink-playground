@@ -52,6 +52,7 @@ async fn main() -> std::io::Result<()> {
     let port = opts.port;
     let frontend_folder = opts.frontend_folder;
     let host = opts.host;
+    let github_token = opts.github_token;
 
     if let Some(path) = &frontend_folder {
         if !Path::new(path).is_dir() {
@@ -60,7 +61,6 @@ async fn main() -> std::io::Result<()> {
     }
 
     let dev_mode = opts.dev_mode;
-
     HttpServer::new(move || {
         let mut app = App::new()
             .wrap(Condition::new(dev_mode, Cors::permissive()))
@@ -75,7 +75,7 @@ async fn main() -> std::io::Result<()> {
             )
             .route(
                 "/gist/create",
-                post().to(|body| route_gist_create(GH_API, body)),
+                post().to(move |body| route_gist_create(GH_API, &github_token, body)),
             )
             .route(
                 "/status",

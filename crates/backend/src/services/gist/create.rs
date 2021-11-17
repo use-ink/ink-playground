@@ -17,6 +17,7 @@
 //! agnostic (E.g. the compile module does not know that's mapped to the
 //! "/compile" route in the end)
 
+use crate::cli::Opts;
 use actix_web::{
     web::Json,
     Error,
@@ -95,11 +96,10 @@ impl Responder for GistCreateResponse {
 
 pub async fn route_gist_create(
     gist_api_strategy: GithubApiStrategy,
+    github_token: &str,
     req: Json<GistCreateRequest>,
 ) -> impl Responder {
-    let gist = gist_api_strategy(req.code.to_string());
-
-    gist
+    gist_api_strategy(req.code.to_string())
 }
 
 // -------------------------------------------------------------------------------------------------
