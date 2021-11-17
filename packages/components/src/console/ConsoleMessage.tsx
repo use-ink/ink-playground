@@ -17,23 +17,23 @@ export type Status = 'IN_PROGRESS' | 'DONE' | 'ERROR' | 'INFO';
 
 export enum Severity {
   INFO = 'Info',
-  SUCCESS = 'Success',
+  DONE = 'Success',
   ERROR = 'Error',
-  WARNING = 'Warning',
+  IN_PROGRESS = 'InProgress',
 }
 
 export type SeverityColors = {
   Info: string;
   Success: string;
   Error: string;
-  Warning: string;
+  InProgress: string;
 };
 
 const severityColors: SeverityColors = {
   Info: 'text-info',
   Success: 'text-success',
   Error: 'text-error',
-  Warning: 'text-warn',
+  InProgress: 'text-in-progress',
 };
 
 const selectIcon = (status: string): string => {

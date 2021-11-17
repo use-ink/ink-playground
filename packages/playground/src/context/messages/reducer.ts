@@ -22,6 +22,7 @@ export type MessageAction = {
 
 export type MessageDispatch = (action: MessageAction) => void;
 
+// Get the last id of a message dispatched before with with given Prompt as identifier
 const lastId = (state: MessageState, prompt: Prompt): number => {
   const arr = state.messages.filter(message => message.prompt === prompt);
   const lastId = arr[arr.length - 1]?.id;
@@ -33,39 +34,15 @@ const lastId = (state: MessageState, prompt: Prompt): number => {
 export const reducer = (state: MessageState, { type, payload }: MessageAction): MessageState => {
   switch (type) {
     case 'LOG_SYSTEM':
-      if (payload.status === 'IN_PROGRESS') {
+      // Logs with "SYSTEM" Prompt create new Message for "IN_PROGRESS" and "INFO" status
+      // and update the last message for "ERROR" and "DONE" status
+      if (payload.status === 'IN_PROGRESS' || payload.status === 'INFO') {
         const newMessage: Message = {
           id: state.nextId,
           prompt: 'SYSTEM',
-          status: 'IN_PROGRESS',
+          status: payload.status,
           content: payload.content,
-          severity: Severity.WARNING,
-        };
-        return {
-          ...state,
-          messages: [...state.messages, newMessage],
-          nextId: state.nextId + 1,
-        };
-      } else if (payload.status === 'ERROR') {
-        const newMessage: Message = {
-          id: state.nextId,
-          prompt: 'SYSTEM',
-          status: 'ERROR',
-          content: payload.content,
-          severity: Severity.ERROR,
-        };
-        return {
-          ...state,
-          messages: [...state.messages, newMessage],
-          nextId: state.nextId + 1,
-        };
-      } else if (payload.status === 'INFO') {
-        const newMessage: Message = {
-          id: state.nextId,
-          prompt: 'SYSTEM',
-          status: 'INFO',
-          content: payload.content,
-          severity: Severity.INFO,
+          severity: Severity[payload.status],
         };
         return {
           ...state,
@@ -79,7 +56,7 @@ export const reducer = (state: MessageState, { type, payload }: MessageAction): 
           prompt: 'SYSTEM',
           status: payload.status,
           content: payload.content,
-          severity: Severity.SUCCESS,
+          severity: Severity[payload.status],
         };
         return {
           ...state,
@@ -87,65 +64,74 @@ export const reducer = (state: MessageState, { type, payload }: MessageAction): 
         };
       }
     case 'LOG_COMPILE':
-      if (payload.status === 'IN_PROGRESS') {
-        const newMessage: Message = {
-          id: state.nextId,
-          prompt: 'COMPILE',
-          status: 'IN_PROGRESS',
-          content: payload.content,
-          severity: Severity.WARNING,
-        };
-        return {
-          ...state,
-          messages: [...state.messages, newMessage],
-          nextId: state.nextId + 1,
-        };
-      } else if (payload.status === 'ERROR') {
-        const id = lastId(state, 'COMPILE');
-        const updateMessage: Message = {
-          id,
-          prompt: 'COMPILE',
-          status: payload.status,
-          content: payload.content,
-          severity: Severity.ERROR,
-        };
-        return {
-          ...state,
-          messages: [...state.messages, updateMessage],
-          nextId: state.nextId + 1,
-        };
-      } else {
-        const id = lastId(state, 'COMPILE');
-        const updateMessage: Message = {
-          id,
-          prompt: 'COMPILE',
-          status: payload.status,
-          content: payload.content,
-          severity: Severity.SUCCESS,
-        };
-        const newMessage: Message = {
-          id: state.nextId,
-          prompt: 'COMPILE',
-          status: 'INFO',
-          content: `This is your compile Result: ${
-            payload.result ? payload.result.payload.stdout : '<Result>'
-          }`,
-          severity: Severity.INFO,
-        };
-        return {
-          ...state,
-          messages: [...state.messages, updateMessage, newMessage],
-          nextId: state.nextId + 1,
-        };
+      // Logs with "COMPILE" Prompt create new Message for "IN_PROGRESS" and "INFO" status
+      // update the last message for "ERROR" with returned compiler "Error" and
+      // update the last message for "DONE" with returned compile Result as new Message
+      switch (payload.status) {
+        case 'ERROR': {
+          const id = lastId(state, 'COMPILE');
+          const updateMessage: Message = {
+            id,
+            prompt: 'COMPILE',
+            status: payload.status,
+            content: payload.content,
+            severity: Severity[payload.status],
+          };
+          return {
+            ...state,
+            messages: [...state.messages, updateMessage],
+            nextId: state.nextId + 1,
+          };
+        }
+        case 'DONE': {
+          const id = lastId(state, 'COMPILE');
+          const updateMessage: Message = {
+            id,
+            prompt: 'COMPILE',
+            status: payload.status,
+            content: payload.content,
+            severity: Severity[payload.status],
+          };
+          const newMessage: Message = {
+            id: state.nextId,
+            prompt: 'COMPILE',
+            status: 'INFO',
+            content: `This is your compile Result: ${
+              payload.result ? payload.result.payload.stdout : '<Result>'
+            }`,
+            severity: Severity.INFO,
+          };
+          return {
+            ...state,
+            messages: [...state.messages, updateMessage, newMessage],
+            nextId: state.nextId + 1,
+          };
+        }
+        default: {
+          const newMessage: Message = {
+            id: state.nextId,
+            prompt: 'COMPILE',
+            status: payload.status,
+            content: payload.content,
+            severity: Severity[payload.status],
+          };
+          return {
+            ...state,
+            messages: [...state.messages, newMessage],
+            nextId: state.nextId + 1,
+          };
+        }
       }
     case 'LOG_GIST':
-      if (payload.status === 'IN_PROGRESS') {
+      // Logs with "GIST" Prompt create new Message for "IN_PROGRESS" and "INFO" status
+      // and update the last message for "ERROR" and "DONE" status
+      if (payload.status === 'IN_PROGRESS' || payload.status === 'INFO') {
         const newMessage: Message = {
           id: state.nextId,
           prompt: 'GIST',
           status: 'IN_PROGRESS',
           content: payload.content,
-          severity: Severity.WARNING,
+          severity: Severity.IN_PROGRESS,
         };
         return {
           ...state,
@@ -159,7 +145,7 @@ export const reducer = (state: MessageState, { type, payload }: MessageAction): 
           prompt: 'GIST',
           status: payload.status,
           content: payload.content,
-          severity: Severity.ERROR,
+          severity: Severity[payload.status],
         };
         return {
           ...state,

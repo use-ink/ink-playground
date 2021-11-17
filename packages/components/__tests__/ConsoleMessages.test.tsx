@@ -12,14 +12,14 @@ describe('Given the ConsoleMessages component is rendered', () => {
           id: 0,
           prompt: 'SYSTEM',
           status: 'IN_PROGRESS',
-          severity: Severity.WARNING,
+          severity: Severity.IN_PROGRESS,
           content: 'Message: IN_PROGRESS',
         },
         {
           id: 1,
           prompt: 'SYSTEM',
           status: 'DONE',
-          severity: Severity.SUCCESS,
+          severity: Severity.DONE,
           content: 'Message: DONE',
         },
         {
@@ -62,7 +62,7 @@ describe('Given the ConsoleMessages component is rendered', () => {
         const prompt = await screen.findAllByText('SYSTEM:');
         // Then ...
         expect(prompt[0]).toBeInTheDocument();
-        expect(prompt[0]).toHaveClass('text-warn');
+        expect(prompt[0]).toHaveClass('text-in-progress');
       });
 
       test('When message content is displayed', async () => {
