@@ -17,6 +17,4 @@
 //! agnostic (E.g. the compile module does not know that's mapped to the
 //! "/compile" route in the end)
 
-pub mod compile;
-pub mod frontend;
-pub mod gist;
+pub mod create;

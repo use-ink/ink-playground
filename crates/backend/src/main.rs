@@ -23,6 +23,10 @@ use crate::{
             COMPILE_SANDBOXED,
         },
         frontend::route_frontend,
+        gist::create::{
+            route_gist_create,
+            GH_API,
+        },
     },
 };
 use actix_cors::Cors;
@@ -68,6 +72,10 @@ async fn main() -> std::io::Result<()> {
             .route(
                 "/compile",
                 post().to(|body| route_compile(COMPILE_SANDBOXED, body)),
+            )
+            .route(
+                "/gist/create",
+                post().to(|body| route_gist_create(GH_API, body)),
             )
             .route(
                 "/status",
