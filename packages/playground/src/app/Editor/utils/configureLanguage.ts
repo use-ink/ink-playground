@@ -143,14 +143,6 @@ export const configureLanguage =
         }
       },
     });
-    monaco.languages.registerTypeDefinitionProvider(modeId, {
-      async provideTypeDefinition(m, pos) {
-        const list = await state.type_definition(pos.lineNumber, pos.column);
-        if (list) {
-          return list.map((def: any) => ({ ...def, uri: m.uri }));
-        }
-      },
-    });
     monaco.languages.registerImplementationProvider(modeId, {
       async provideImplementation(m, pos) {
         const list = await state.goto_implementation(pos.lineNumber, pos.column);
