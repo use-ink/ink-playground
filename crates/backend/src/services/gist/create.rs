@@ -19,43 +19,135 @@
 
 use actix_web::{
     web::Json,
+    Error,
+    HttpRequest,
+    HttpResponse,
     Responder,
 };
-use serde::Deserialize;
+use futures::future::{
+    ready,
+    Ready,
+};
+use serde::{
+    Deserialize,
+    Serialize,
+};
+use ts_rs::TS;
 
-#[derive(Deserialize)]
-pub struct GistCreateRequest {}
+// -------------------------------------------------------------------------------------------------
+// TYPES
+// -------------------------------------------------------------------------------------------------
 
-pub struct GistCreateResponse {}
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
+pub struct GistCreateRequest {
+    code: Code,
+}
+
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
+#[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum GistCreateResponse {
+    Success(Gist),
+    Error(GistError),
+}
 
 pub type Code = String;
 
 pub type GistError = String;
 
-pub type ApiStrategy = fn(Code) -> Result<Gist, GistError>;
+pub type GithubApiStrategy = fn(Code) -> GistCreateResponse;
 
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub struct Gist {
     pub id: String,
     pub url: String,
     pub code: Code,
 }
 
-pub const GH_API: ApiStrategy = |req| {
-    Ok(Gist {
+pub const GH_API: GithubApiStrategy = |req| {
+    GistCreateResponse::Success(Gist {
         id: "22".to_string(),
         url: "".to_string(),
         code: "".to_string(),
     })
 };
 
+// -------------------------------------------------------------------------------------------------
+// IMPLEMENTATIONS
+// -------------------------------------------------------------------------------------------------
+
+impl Responder for GistCreateResponse {
+    type Error = Error;
+    type Future = Ready<Result<HttpResponse, Error>>;
+
+    fn respond_to(self, _req: &HttpRequest) -> Self::Future {
+        let body = serde_json::to_string(&self).unwrap();
+
+        ready(Ok(HttpResponse::Ok()
+            .content_type("application/json")
+            .body(body)))
+    }
+}
+
+// -------------------------------------------------------------------------------------------------
+// ROUTE
+// -------------------------------------------------------------------------------------------------
+
 pub async fn route_gist_create(
-    gist_api_strategy: ApiStrategy,
+    gist_api_strategy: GithubApiStrategy,
     req: Json<GistCreateRequest>,
 ) -> impl Responder {
-    "ok"
-    // Gist {
-    //     id: "22".to_string(),
-    //     url: "".to_string(),
-    //     code: "".to_string(),
-    // }
+    let gist = gist_api_strategy(req.code.to_string());
+
+    gist
+}
+
+// -------------------------------------------------------------------------------------------------
+// TEST
+// -------------------------------------------------------------------------------------------------
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use actix_web::{
+        test,
+        web,
+        App,
+    };
+
+    const GH_API_MOCKED: GithubApiStrategy = |code| {
+        GistCreateResponse::Success(Gist {
+            id: "65278657821".to_string(),
+            url: "foo".to_string(),
+            code,
+        })
+    };
+
+    #[actix_rt::test]
+    async fn test_gist_create_success() {
+        let mut app = test::init_service(App::new().route(
+            "/",
+            web::post().to(|body| route_gist_create(GH_API_MOCKED, body)),
+        ))
+        .await;
+
+        let req = GistCreateRequest {
+            code: "foo".to_string(),
+        };
+        let req = test::TestRequest::post()
+            .set_json(&req)
+            .uri("/")
+            .to_request();
+
+        let res: GistCreateResponse = test::read_response_json(&mut app, req).await;
+
+        assert_eq!(
+            res,
+            GistCreateResponse::Success(Gist {
+                id: "65278657821".to_string(),
+                url: "foo".to_string(),
+                code: "foo".to_string(),
+            })
+        );
+    }
 }
