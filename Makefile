@@ -34,8 +34,9 @@ generate-rust-analyzer:
 	wasm-pack build crates/rust_analyzer_wasm/ --out-dir ../../packages/playground/pkg --target web
 
 generate: generate-bindings
-generate: generate-change-json
 generate: generate-rust-analyzer
+generate: generate-change-json
+
 
 ################################################################################
 # ENTRYPOINT: playground
