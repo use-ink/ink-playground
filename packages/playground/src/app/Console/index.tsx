@@ -1,11 +1,11 @@
-import { ReactElement, useContext, useEffect, useState } from 'react';
+import { ReactElement, useContext, useEffect } from 'react';
 import { ConsoleMessages } from '@paritytech/components/';
 import { MessageContext } from '~/context/messages';
 import { Message } from '@paritytech/components/';
 
 export const Console = (): ReactElement => {
   const [state] = useContext(MessageContext);
-  const [processedMessages, setProcessedMessages] = useState<Message[]>([]);
+  let processedMessages: Message[] = [];
 
   // Find and return the last message object in message state with a given ID
   const findLast = (id: number): Message | undefined => {
@@ -30,7 +30,7 @@ export const Console = (): ReactElement => {
       // To preserve original message order
       if (isFirst(message.id, index)) messagesToRender.push(message);
     });
-    setProcessedMessages(messagesToRender);
+    processedMessages = messagesToRender;
   }, [state.messages]);
 
   return <ConsoleMessages messages={processedMessages} />;
