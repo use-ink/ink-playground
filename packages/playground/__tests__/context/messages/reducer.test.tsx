@@ -23,7 +23,7 @@ describe('Given the reducer is used to manage state', () => {
         prompt: 'SYSTEM',
         status,
         content,
-        severity: 'Warning',
+        severity: 'InProgress',
       });
       expect(state.nextId).toBe(1);
     });
@@ -54,32 +54,6 @@ describe('Given the reducer is used to manage state', () => {
       expect(state.nextId).toBe(0);
     });
 
-    test('When message of type "INFO" is dispatched', () => {
-      // Given
-      const status = 'INFO';
-      const content = 'System message content';
-      const action: MessageAction = {
-        type: 'LOG_SYSTEM',
-        payload: {
-          content,
-          status,
-        },
-      };
-
-      // When
-      const state = reducer(defaultState, action);
-
-      // Then ...
-      expect(state.messages[0]).toMatchObject({
-        id: 0,
-        prompt: 'SYSTEM',
-        status,
-        content,
-        severity: 'Info',
-      });
-      expect(state.nextId).toBe(1);
-    });
-
     test('When message of type "ERROR" is dispatched', () => {
       // Given
       const status = 'ERROR';
@@ -102,6 +76,32 @@ describe('Given the reducer is used to manage state', () => {
         status,
         content,
         severity: 'Error',
+      });
+      expect(state.nextId).toBe(0);
+    });
+
+    test('When message of type "INFO" is dispatched', () => {
+      // Given
+      const status = 'INFO';
+      const content = 'System message content';
+      const action: MessageAction = {
+        type: 'LOG_SYSTEM',
+        payload: {
+          content,
+          status,
+        },
+      };
+
+      // When
+      const state = reducer(defaultState, action);
+
+      // Then ...
+      expect(state.messages[0]).toMatchObject({
+        id: 0,
+        prompt: 'SYSTEM',
+        status,
+        content,
+        severity: 'Info',
       });
       expect(state.nextId).toBe(1);
     });

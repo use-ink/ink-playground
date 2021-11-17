@@ -20,6 +20,7 @@ module.exports = {
       info: '#00AABD',
       error: '#C9240A',
       warn: '#D6BE15',
+      'in-progress': '#D6BE15',
     }),
     textColor: theme => ({
       ...theme('colors'),
@@ -31,6 +32,7 @@ module.exports = {
       info: '#00AABD',
       error: '#C9240A',
       warn: '#D6BE15',
+      'in-progress': '#D6BE15',
     }),
     borderColor: theme => ({
       ...theme('colors'),
