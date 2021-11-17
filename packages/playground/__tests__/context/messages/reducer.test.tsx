@@ -1,4 +1,4 @@
-import { reducer, defaultState, Action } from '~/context/messages/reducer';
+import { reducer, defaultState, MessageAction } from '~/context/messages/reducer';
 
 describe('Given the reducer is used to manage state', () => {
   describe('When "LOG_SYSTEM" action is dispatched', () => {
@@ -6,7 +6,7 @@ describe('Given the reducer is used to manage state', () => {
       // Given
       const status = 'IN_PROGRESS';
       const content = 'System message content';
-      const action: Action = {
+      const action: MessageAction = {
         type: 'LOG_SYSTEM',
         payload: {
           content,
@@ -32,7 +32,7 @@ describe('Given the reducer is used to manage state', () => {
       // Given
       const status = 'DONE';
       const content = 'System message content';
-      const action: Action = {
+      const action: MessageAction = {
         type: 'LOG_SYSTEM',
         payload: {
           content,
@@ -58,7 +58,7 @@ describe('Given the reducer is used to manage state', () => {
       // Given
       const status = 'INFO';
       const content = 'System message content';
-      const action: Action = {
+      const action: MessageAction = {
         type: 'LOG_SYSTEM',
         payload: {
           content,
@@ -84,7 +84,7 @@ describe('Given the reducer is used to manage state', () => {
       // Given
       const status = 'ERROR';
       const content = 'System message content';
-      const action: Action = {
+      const action: MessageAction = {
         type: 'LOG_SYSTEM',
         payload: {
           content,

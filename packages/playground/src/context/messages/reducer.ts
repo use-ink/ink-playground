@@ -11,7 +11,7 @@ export type MessageState = {
   nextId: number;
 };
 
-export type Action = {
+export type MessageAction = {
   type: 'LOG_COMPILE' | 'LOG_SYSTEM' | 'LOG_GIST';
   payload: {
     status: Status;
@@ -20,7 +20,7 @@ export type Action = {
   };
 };
 
-export type MessageDispatch = (action: Action) => void;
+export type MessageDispatch = (action: MessageAction) => void;
 
 const lastId = (state: MessageState, prompt: Prompt): number => {
   const arr = state.messages.filter(message => message.prompt === prompt);
@@ -30,7 +30,7 @@ const lastId = (state: MessageState, prompt: Prompt): number => {
   return state.nextId;
 };
 
-export const reducer = (state: MessageState, { type, payload }: Action): MessageState => {
+export const reducer = (state: MessageState, { type, payload }: MessageAction): MessageState => {
   switch (type) {
     case 'LOG_SYSTEM':
       if (payload.status === 'IN_PROGRESS') {
