@@ -17,4 +17,4 @@ jobs:
           version: 'latest'
 
       - run: wasm-pack test --headless --chrome crates/rust_analyzer_wasm
-      - run: wasm-pack test --headless --firefox crates/rust_analyzer_wasm
+#      - run: wasm-pack test --headless --firefox crates/rust_analyzer_wasm
