@@ -18,12 +18,14 @@ describe('Given the reducer is used to manage state', () => {
       const state = reducer(defaultState, action);
 
       // Then ...
-      expect(state.messages[0].id).toBe(0);
-      expect(state.messages[0].prompt).toBe('SYSTEM');
-      expect(state.messages[0].status).toBe(status);
-      expect(state.messages[0].content).toBe(content);
-      expect(state.messages[0].severity).toBe('Warning');
-      expect(state.nextId).toEqual(1);
+      expect(state.messages[0]).toMatchObject({
+        id: 0,
+        prompt: 'SYSTEM',
+        status,
+        content,
+        severity: 'Warning',
+      });
+      expect(state.nextId).toBe(1);
     });
 
     test('When message of type "DONE" is dispatched', () => {
@@ -42,12 +44,14 @@ describe('Given the reducer is used to manage state', () => {
       const state = reducer(defaultState, action);
 
       // Then ...
-      expect(state.messages[0].id).toBe(0);
-      expect(state.messages[0].prompt).toBe('SYSTEM');
-      expect(state.messages[0].status).toBe(status);
-      expect(state.messages[0].content).toBe(content);
-      expect(state.messages[0].severity).toBe('Success');
-      expect(state.nextId).toEqual(0);
+      expect(state.messages[0]).toMatchObject({
+        id: 0,
+        prompt: 'SYSTEM',
+        status,
+        content,
+        severity: 'Success',
+      });
+      expect(state.nextId).toBe(0);
     });
 
     test('When message of type "INFO" is dispatched', () => {
@@ -66,12 +70,14 @@ describe('Given the reducer is used to manage state', () => {
       const state = reducer(defaultState, action);
 
       // Then ...
-      expect(state.messages[0].id).toBe(0);
-      expect(state.messages[0].prompt).toBe('SYSTEM');
-      expect(state.messages[0].status).toBe(status);
-      expect(state.messages[0].content).toBe(content);
-      expect(state.messages[0].severity).toBe('Info');
-      expect(state.nextId).toEqual(1);
+      expect(state.messages[0]).toMatchObject({
+        id: 0,
+        prompt: 'SYSTEM',
+        status,
+        content,
+        severity: 'Info',
+      });
+      expect(state.nextId).toBe(1);
     });
 
     test('When message of type "ERROR" is dispatched', () => {
@@ -90,12 +96,14 @@ describe('Given the reducer is used to manage state', () => {
       const state = reducer(defaultState, action);
 
       // Then ...
-      expect(state.messages[0].id).toBe(0);
-      expect(state.messages[0].prompt).toBe('SYSTEM');
-      expect(state.messages[0].status).toBe(status);
-      expect(state.messages[0].content).toBe(content);
-      expect(state.messages[0].severity).toBe('Error');
-      expect(state.nextId).toEqual(1);
+      expect(state.messages[0]).toMatchObject({
+        id: 0,
+        prompt: 'SYSTEM',
+        status,
+        content,
+        severity: 'Error',
+      });
+      expect(state.nextId).toBe(1);
     });
   });
 });
