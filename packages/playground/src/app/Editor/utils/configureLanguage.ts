@@ -32,147 +32,146 @@ type LocationLink = {
   uri: monaco.Uri;
 };
 
-export const configureLanguage =
-  (monaco: Monaco, state: WorldState, allTokens: Token[]) => async () => {
-    monaco.languages.register({
-      // language for editor
-      id: modeId,
-    });
-    monaco.languages.register({
-      // language for hover info
-      id: 'rust',
-    });
+export const configureLanguage = (worldState: WorldState, allTokens: Token[]) => async () => {
+  monaco.languages.register({
+    // language for editor
+    id: modeId,
+  });
+  monaco.languages.register({
+    // language for hover info
+    id: 'rust',
+  });
 
-    monaco.languages.registerHoverProvider(modeId, {
-      provideHover: (_, pos) => state.hover(pos.lineNumber, pos.column),
-    });
-    monaco.languages.registerCodeLensProvider(modeId, {
-      async provideCodeLenses(m) {
-        const code_lenses: Array<CodeLensSymbol> = await state.code_lenses();
-        const lenses = code_lenses.map(({ range, command }) => {
-          const position = {
-            column: range.startColumn,
-            lineNumber: range.startLineNumber,
-          };
+  monaco.languages.registerHoverProvider(modeId, {
+    provideHover: (_, pos) => worldState.hover(pos.lineNumber, pos.column),
+  });
+  monaco.languages.registerCodeLensProvider(modeId, {
+    async provideCodeLenses(m) {
+      const code_lenses: Array<CodeLensSymbol> = await worldState.code_lenses();
+      const lenses = code_lenses.map(({ range, command }) => {
+        const position = {
+          column: range.startColumn,
+          lineNumber: range.startLineNumber,
+        };
 
-          const references = command.positions.map(pos => ({
-            range: pos,
-            uri: m.uri,
-          }));
-          return {
-            range,
-            command: {
-              id: command.id,
-              title: command.title,
-              arguments: [m.uri, position, references],
+        const references = command.positions.map(pos => ({
+          range: pos,
+          uri: m.uri,
+        }));
+        return {
+          range,
+          command: {
+            id: command.id,
+            title: command.title,
+            arguments: [m.uri, position, references],
+          },
+        };
+      });
+      return {
+        lenses,
+        dispose() {
+          //do nothing
+        },
+      };
+    },
+  });
+  monaco.languages.registerReferenceProvider(modeId, {
+    async provideReferences(m, pos, { includeDeclaration }) {
+      const references: Array<Reference> = await worldState.references(
+        pos.lineNumber,
+        pos.column,
+        includeDeclaration
+      );
+      if (references) {
+        return references.map(({ range }) => ({ uri: m.uri, range }));
+      }
+    },
+  });
+  monaco.languages.registerDocumentHighlightProvider(modeId, {
+    async provideDocumentHighlights(_, pos) {
+      return await worldState.references(pos.lineNumber, pos.column, true);
+    },
+  });
+
+  monaco.languages.registerRenameProvider(modeId, {
+    async provideRenameEdits(m, pos, newName) {
+      const edit = await worldState.rename(pos.lineNumber, pos.column, newName);
+      if (edit) {
+        return {
+          edits: [
+            {
+              resource: m.uri,
+              edit,
             },
-          };
-        });
-        return {
-          lenses,
-          dispose() {
-            //do nothing
-          },
+          ],
         };
-      },
-    });
-    monaco.languages.registerReferenceProvider(modeId, {
-      async provideReferences(m, pos, { includeDeclaration }) {
-        const references: Array<Reference> = await state.references(
-          pos.lineNumber,
-          pos.column,
-          includeDeclaration
-        );
-        if (references) {
-          return references.map(({ range }) => ({ uri: m.uri, range }));
-        }
-      },
-    });
-    monaco.languages.registerDocumentHighlightProvider(modeId, {
-      async provideDocumentHighlights(_, pos) {
-        return await state.references(pos.lineNumber, pos.column, true);
-      },
-    });
+      }
+    },
+    async resolveRenameLocation(_, pos) {
+      return worldState.prepare_rename(pos.lineNumber, pos.column);
+    },
+  });
 
-    monaco.languages.registerRenameProvider(modeId, {
-      async provideRenameEdits(m, pos, newName) {
-        const edit = await state.rename(pos.lineNumber, pos.column, newName);
-        if (edit) {
-          return {
-            edits: [
-              {
-                resource: m.uri,
-                edit,
-              },
-            ],
-          };
-        }
-      },
-      async resolveRenameLocation(_, pos) {
-        return state.prepare_rename(pos.lineNumber, pos.column);
-      },
-    });
+  monaco.languages.registerCompletionItemProvider(modeId, {
+    triggerCharacters: ['.', ':', '='],
+    async provideCompletionItems(_m, pos) {
+      const suggestions = await worldState.completions(pos.lineNumber, pos.column);
+      if (suggestions) {
+        return { suggestions };
+      }
+    },
+  });
+  monaco.languages.registerSignatureHelpProvider(modeId, {
+    signatureHelpTriggerCharacters: ['(', ','],
+    async provideSignatureHelp(_m, pos) {
+      const value = await worldState.signature_help(pos.lineNumber, pos.column);
+      if (!value) return null;
+      return {
+        value,
+        dispose() {
+          //do nothing
+        },
+      };
+    },
+  });
+  monaco.languages.registerDefinitionProvider(modeId, {
+    async provideDefinition(m, pos) {
+      const list: Array<LocationLink> = await worldState.definition(pos.lineNumber, pos.column);
+      if (list) {
+        return list.map(def => ({ ...def, uri: m.uri }));
+      }
+    },
+  });
+  monaco.languages.registerImplementationProvider(modeId, {
+    async provideImplementation(m, pos) {
+      const list: Array<LocationLink> = await worldState.goto_implementation(
+        pos.lineNumber,
+        pos.column
+      );
+      if (list) {
+        return list.map(def => ({ ...def, uri: m.uri }));
+      }
+    },
+  });
+  monaco.languages.registerDocumentSymbolProvider(modeId, {
+    async provideDocumentSymbols() {
+      return await worldState.document_symbols();
+    },
+  });
+  monaco.languages.registerOnTypeFormattingEditProvider(modeId, {
+    autoFormatTriggerCharacters: ['.', '='],
+    async provideOnTypeFormattingEdits(_, pos, ch) {
+      return await worldState.type_formatting(pos.lineNumber, pos.column, ch);
+    },
+  });
+  monaco.languages.registerFoldingRangeProvider(modeId, {
+    async provideFoldingRanges() {
+      return await worldState.folding_ranges();
+    },
+  });
 
-    monaco.languages.registerCompletionItemProvider(modeId, {
-      triggerCharacters: ['.', ':', '='],
-      async provideCompletionItems(_m, pos) {
-        const suggestions = await state.completions(pos.lineNumber, pos.column);
-        if (suggestions) {
-          return { suggestions };
-        }
-      },
-    });
-    monaco.languages.registerSignatureHelpProvider(modeId, {
-      signatureHelpTriggerCharacters: ['(', ','],
-      async provideSignatureHelp(_m, pos) {
-        const value = await state.signature_help(pos.lineNumber, pos.column);
-        if (!value) return null;
-        return {
-          value,
-          dispose() {
-            //do nothing
-          },
-        };
-      },
-    });
-    monaco.languages.registerDefinitionProvider(modeId, {
-      async provideDefinition(m, pos) {
-        const list: Array<LocationLink> = await state.definition(pos.lineNumber, pos.column);
-        if (list) {
-          return list.map(def => ({ ...def, uri: m.uri }));
-        }
-      },
-    });
-    monaco.languages.registerImplementationProvider(modeId, {
-      async provideImplementation(m, pos) {
-        const list: Array<LocationLink> = await state.goto_implementation(
-          pos.lineNumber,
-          pos.column
-        );
-        if (list) {
-          return list.map(def => ({ ...def, uri: m.uri }));
-        }
-      },
-    });
-    monaco.languages.registerDocumentSymbolProvider(modeId, {
-      async provideDocumentSymbols() {
-        return await state.document_symbols();
-      },
-    });
-    monaco.languages.registerOnTypeFormattingEditProvider(modeId, {
-      autoFormatTriggerCharacters: ['.', '='],
-      async provideOnTypeFormattingEdits(_, pos, ch) {
-        return await state.type_formatting(pos.lineNumber, pos.column, ch);
-      },
-    });
-    monaco.languages.registerFoldingRangeProvider(modeId, {
-      async provideFoldingRanges() {
-        return await state.folding_ranges();
-      },
-    });
-
-    setTokens(monaco, allTokens);
-  };
+  setTokens(monaco, allTokens);
+};
 
 class TokenState {
   line: number;

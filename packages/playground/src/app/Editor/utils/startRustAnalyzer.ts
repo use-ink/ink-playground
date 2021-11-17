@@ -28,24 +28,24 @@ export const startRustAnalyzer = async (uri: Uri) => {
   monaco.languages.setMonarchTokensProvider('rust', rustConf.language);
   monaco.languages.setLanguageConfiguration(modeId, rustConf.conf);
 
-  const state = await Comlink.wrap<WorkerApi>(
+  const worldState = await Comlink.wrap<WorkerApi>(
     new Worker(new URL('./wasm.worker', import.meta.url), {
       type: 'module',
     })
   ).handlers;
 
   const allTokens: Array<Token> = [];
-  monaco.languages.onLanguage(modeId, configureLanguage(monaco, state, allTokens));
+  monaco.languages.onLanguage(modeId, configureLanguage(worldState, allTokens));
 
   const data = await fetch(`./change.json`);
   const textData = await data.text();
-  await state.load(textData);
+  await worldState.load(textData);
 
   async function update() {
     if (!model) return;
     const text = model.getValue();
-    await state.update(text);
-    const res = await state.analyze(183);
+    await worldState.update(text);
+    const res = await worldState.analyze(183);
     console.log(res);
     monaco.editor.setModelMarkers(model, modeId, res.diagnostics);
     allTokens.length = 0;
