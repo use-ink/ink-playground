@@ -20,6 +20,7 @@ describe('Given the ButtonWithIcon component is rendered', () => {
   });
 
   test('When Button appears on screen', async () => {
+    // Given, When
     const testButton = await screen.findByText('testButton');
     const buttonIconElement = await screen.findByTestId('buttonIcon');
 
@@ -29,6 +30,7 @@ describe('Given the ButtonWithIcon component is rendered', () => {
   });
 
   test('When Button is clicked', async () => {
+    // Given, When
     const testButton = await screen.findByText('testButton');
     testButton.click();
 
