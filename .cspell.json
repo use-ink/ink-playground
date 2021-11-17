@@ -72,6 +72,13 @@
     "Smol",
     "deps",
     "wgxi",
-    "Fgopy"
+    "Fgopy",
+    "indel",
+    "Indel",
+    "repr",
+    "Consts",
+    "Customcolor",
+    "proto",
+    "rustdoc"
   ]
 }

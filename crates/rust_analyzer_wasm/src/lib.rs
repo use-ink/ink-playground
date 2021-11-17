@@ -234,7 +234,7 @@ impl WorldState {
         self.analysis = analysis_host.analysis();
         // Now derive results
         let result = derive_analytics(&self.analysis_host, self.file_id);
-        // re-assign alysis for the other methods
+        // re-assign analysis for the other methods
         self.analysis = self.analysis_host.analysis();
         web_sys::console::log_1(&"Now Complete!".into());
         result
