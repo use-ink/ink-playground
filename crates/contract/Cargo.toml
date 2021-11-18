@@ -2,7 +2,7 @@
 name = "contract"
 version = "0.1.0"
 authors = ["[your_name] <[your_email]>"]
-edition = "2018"
+edition = "2021"
 resolver = "2"
 
 [dependencies]
