@@ -22,9 +22,9 @@ rayon = "1.5.1"
 wasm-bindgen-rayon = "1.0.3"
 change_json = {path = "../change_json" }
 
-ide_db = {package = "ra_ap_ide_db", version = "0.0.77"}
-ide = {package = "ra_ap_ide", version = "0.0.77"}
-syntax = {package = "ra_ap_syntax", version = "0.0.77"}
+ide_db = {package = "ra_ap_ide_db", version = "0.0.78"}
+ide = {package = "ra_ap_ide", version = "0.0.78"}
+syntax = {package = "ra_ap_syntax", version = "0.0.78"}
 
 [dependencies.web-sys]
 version = "0.3"
@@ -34,4 +34,4 @@ features = [ "console" ]
 wasm-bindgen-test = "0.3.13"
 wasm-bindgen-futures = "0.4.28"
 js-sys = "0.3.55"
-cfg = { package = "ra_ap_cfg", version = "0.0.77" }
+cfg = { package = "ra_ap_cfg", version = "0.0.78" }
