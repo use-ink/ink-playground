@@ -70,13 +70,14 @@ export const reducer = (state: MessageState, { type, payload }: MessageAction): 
       switch (payload.status) {
         case 'ERROR': {
           const id = lastId(state, 'COMPILE');
+          // Server error message to attach, if present
+          const serverErrorMsg = payload.result?.payload.stderr;
           const updateMessage: Message = {
             id,
             prompt: 'COMPILE',
             status: payload.status,
-            content: `There was an error compiling your contract: ${
-              payload.result ? payload.result.payload.stderr : '<Error>'
-            }`,
+            // construct error message
+            content: `${payload.content}${serverErrorMsg ? `: '${serverErrorMsg}'` : ''}`,
             severity: Severity[payload.status],
           };
           return {
