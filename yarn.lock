@@ -8020,14 +8020,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanocolors@npm:^0.2.11":
-  version: 0.2.13
-  resolution: "nanocolors@npm:0.2.13"
-  checksum: 01ac5aab77295c66cef83ea5f595e22f5f91518f19fae12f93ca2cba98703f971e32611fea2983f333eb7e60604043005690f61d9759e7c0a32314942fe6ddb8
-  languageName: node
-  linkType: hard
-
-"nanoid@npm:^3.1.28":
+"nanoid@npm:^3.1.30":
   version: 3.1.30
   resolution: "nanoid@npm:3.1.30"
   bin:
