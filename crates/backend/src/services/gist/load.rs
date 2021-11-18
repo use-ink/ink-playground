@@ -96,7 +96,7 @@ pub async fn route_gist_load(
 async fn load_gist(github_token: &str, id: &str) -> Result<Gist, Error> {
     let gist = github_load_gist(github_token, id)
         .await
-        .map_err(|e| Error::GitHubError(e))?;
+        .map_err(Error::GitHubError)?;
 
     from_github_gist(gist).ok_or(Error::MalformattedGist)
 }
