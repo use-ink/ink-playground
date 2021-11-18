@@ -15,7 +15,6 @@
 mod cli;
 
 use crate::cli::Opts;
-use backend::services::compile;
 use clap::Clap;
 use ts_rs::export_here;
 
@@ -25,8 +24,14 @@ fn main() -> std::io::Result<()> {
     let target = format!("{}/index.d.ts", &target);
 
     export_here! {
-       compile::CompilationResult,
-       compile::CompilationRequest
+        backend::services::compile::CompilationResult,
+        backend::services::compile::CompilationRequest,
+
+        backend::services::gist::load::GistLoadResponse,
+        backend::services::gist::load::GistLoadRequest,
+
+        backend::services::gist::create::GistCreateResponse,
+        backend::services::gist::create::GistCreateRequest,
        =>
        &target
     };
