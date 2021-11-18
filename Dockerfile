@@ -46,10 +46,9 @@ RUN apt-get --yes install docker-ce docker-ce-cli containerd.io
 # Prepare
 ################################################################################
 
-RUN rustup toolchain install nightly-2021-07-29-x86_64
+RUN rustup toolchain install nightly-2021-11-04
 RUN rustup toolchain install stable
-RUN rustup component add rust-src \
-    --toolchain nightly-2021-07-29-x86_64-unknown-linux-gnu
+RUN rustup component add rust-src --toolchain nightly-2021-11-04-x86_64-unknown-linux-gnu
 RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
 ################################################################################
