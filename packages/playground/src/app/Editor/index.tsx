@@ -1,8 +1,9 @@
 import { useState, useContext, ReactElement } from 'react';
-import MonacoEditor, { MonacoEditorProps } from 'react-monaco-editor';
+import MonacoEditor, { MonacoEditorProps, monaco } from 'react-monaco-editor';
 import exampleCode from './example-code';
 import { AppContext } from '~/context/app/';
 import { Dispatch, State } from '~/context/app/reducer';
+
 export const Editor = (): ReactElement => {
   const [code, setCode] = useState(exampleCode);
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
@@ -10,6 +11,16 @@ export const Editor = (): ReactElement => {
   const handleChange = (newValue: string): void => {
     setCode(newValue);
   };
+
+  monaco.editor.defineTheme('custom-dark', {
+    base: 'vs-dark',
+    inherit: true,
+    rules: [],
+    colors: {
+      'editor.background': '#1A1D1F',
+      'minimap.background': '#1e2124',
+    },
+  });
 
   const editorDidMount = async (editor: MonacoEditor['editor']): Promise<void> => {
     if (editor) {
@@ -32,7 +43,7 @@ export const Editor = (): ReactElement => {
   return (
     <MonacoEditor
       language="rust"
-      theme={state.darkmode ? 'vs-dark' : 'vs'}
+      theme={state.darkmode ? 'custom-dark' : 'vs'}
       value={code}
       options={options}
       onChange={handleChange}
