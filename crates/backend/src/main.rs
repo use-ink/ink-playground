@@ -23,7 +23,10 @@ use crate::{
             COMPILE_SANDBOXED,
         },
         frontend::route_frontend,
-        gist::create::route_gist_create,
+        gist::{
+            create::route_gist_create,
+            load::route_gist_load,
+        },
     },
 };
 use actix_cors::Cors;
@@ -74,6 +77,12 @@ async fn main() -> std::io::Result<()> {
                 "/gist/create",
                 post().to(|body| {
                     route_gist_create("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", body)
+                }),
+            )
+            .route(
+                "/gist/load",
+                post().to(|body| {
+                    route_gist_load("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", body)
                 }),
             )
             .route(
