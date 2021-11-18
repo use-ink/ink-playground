@@ -110,7 +110,7 @@ pub async fn route_gist_create(
 async fn create_gist(github_token: &str, code: &str) -> Result<Gist, Error> {
     let gist = github_create_gist(github_token, code)
         .await
-        .map_err(|e| Error::GitHubError(e))?;
+        .map_err(Error::GitHubError)?;
 
     from_github_gist(gist).ok_or(Error::MalformattedGist)
 }
