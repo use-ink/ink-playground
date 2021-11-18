@@ -31,7 +31,7 @@ fn main() -> std::io::Result<()> {
         backend::services::gist::load::GistLoadRequest,
 
         backend::services::gist::create::GistCreateResponse,
-        backend::services::gist::create::GistCreateRequest,
+        backend::services::gist::create::GistCreateRequest
        =>
        &target
     };
