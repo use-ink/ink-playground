@@ -1,5 +1,5 @@
 import { monaco } from 'react-monaco-editor';
-import { WorldState } from '../../../../pkg';
+import { WorldState } from '../../../../pkg/rust_analyzer_wasm';
 type Monaco = typeof monaco;
 
 const modeId = 'ra-rust';
