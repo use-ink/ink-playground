@@ -17,6 +17,40 @@
 //! agnostic (E.g. the compile module does not know that's mapped to the
 //! "/compile" route in the end)
 
-pub mod common;
-pub mod create;
-pub mod load;
+use hubcaps;
+use serde::{
+    Deserialize,
+    Serialize,
+};
+use ts_rs::TS;
+
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub struct Gist {
+    pub id: String,
+    pub url: String,
+    pub code: String,
+}
+
+pub fn from_github_gist(gist: hubcaps::gists::Gist) -> Option<Gist> {
+    let code = gist
+        .files
+        .get(GIST_FILENAME)
+        .and_then(|file| file.content.as_ref())?;
+
+    Some(Gist {
+        id: gist.id,
+        url: gist.url,
+        code: code.to_string(),
+    })
+}
+
+pub fn github(token: &str) -> hubcaps::Result<hubcaps::Github> {
+    hubcaps::Github::new(
+        GITHUB_AGENT_NAME,
+        hubcaps::Credentials::Token(token.to_string()),
+    )
+}
+
+pub const GITHUB_AGENT_NAME: &str = "The Rust Playground";
+pub const GIST_FILENAME: &str = "playground.rs";

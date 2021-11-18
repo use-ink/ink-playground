@@ -21,7 +21,6 @@ use crate::services::gist::common::{
     from_github_gist,
     github,
     Gist,
-    GIST_FILENAME,
 };
 use actix_web::{
     web::Json,
@@ -33,18 +32,11 @@ use futures::future::{
     ready,
     Ready,
 };
-use hubcaps::{
-    self,
-    gists::{
-        Content,
-        GistOptions,
-    },
-};
+use hubcaps;
 use serde::{
     Deserialize,
     Serialize,
 };
-use std::collections::HashMap;
 use ts_rs::TS;
 
 // -------------------------------------------------------------------------------------------------
@@ -52,13 +44,13 @@ use ts_rs::TS;
 // -------------------------------------------------------------------------------------------------
 
 #[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
-pub struct GistCreateRequest {
-    code: String,
+pub struct GistLoadRequest {
+    id: String,
 }
 
 #[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
 #[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
-pub enum GistCreateResponse {
+pub enum GistLoadResponse {
     Success(Gist),
     Error(String),
 }
@@ -70,16 +62,10 @@ enum Error {
 }
 
 // -------------------------------------------------------------------------------------------------
-// CONST
-// -------------------------------------------------------------------------------------------------
-
-const GIST_DESCRIPTION: &str = "Code shared from the Rust Playground";
-
-// -------------------------------------------------------------------------------------------------
 // IMPLEMENTATIONS
 // -------------------------------------------------------------------------------------------------
 
-impl Responder for GistCreateResponse {
+impl Responder for GistLoadResponse {
     type Error = actix_web::Error;
     type Future = Ready<Result<HttpResponse, actix_web::Error>>;
 
@@ -92,47 +78,34 @@ impl Responder for GistCreateResponse {
     }
 }
 
-pub async fn route_gist_create(
+pub async fn route_gist_load(
     github_token: &str,
-    req: Json<GistCreateRequest>,
+    req: Json<GistLoadRequest>,
 ) -> impl Responder {
-    let gist_result = create_gist(github_token, &req.code).await;
+    let gist_result = load_gist(github_token, &req.id).await;
 
     match gist_result {
         Err(error) => {
             println!("{:?}", error);
-            GistCreateResponse::Error("Gist creation failed".to_string())
+            GistLoadResponse::Error("Loading Gist failed".to_string())
         }
-        Ok(gist) => GistCreateResponse::Success(gist),
+        Ok(gist) => GistLoadResponse::Success(gist),
     }
 }
 
-async fn create_gist(github_token: &str, code: &str) -> Result<Gist, Error> {
-    let gist = github_create_gist(github_token, code)
+async fn load_gist(github_token: &str, id: &str) -> Result<Gist, Error> {
+    let gist = github_load_gist(github_token, id)
         .await
         .map_err(|e| Error::GitHubError(e))?;
 
     from_github_gist(gist).ok_or(Error::MalformattedGist)
 }
 
-async fn github_create_gist(
+async fn github_load_gist(
     token: &str,
-    code: &str,
+    id: &str,
 ) -> hubcaps::Result<hubcaps::gists::Gist> {
     let github = github(token)?;
 
-    let file = Content {
-        filename: None,
-        content: code.to_string(),
-    };
-
-    let files = HashMap::from([(GIST_FILENAME.into(), file)]);
-
-    let options = GistOptions {
-        description: Some(GIST_DESCRIPTION.into()),
-        public: Some(false),
-        files,
-    };
-
-    github.gists().create(&options).await
+    github.gists().get(id).await
 }
