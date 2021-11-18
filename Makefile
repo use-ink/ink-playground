@@ -126,6 +126,9 @@ crate-rust-analyzer-wasm-test-firefox:
 crate-rust-analyzer-wasm-test: crate-rust-analyzer-wasm-test-chrome
 crate-rust-analyzer-wasm-test: crate-rust-analyzer-wasm-test-firefox
 
+crate-rust-analyzer-wasm-clean: 
+	rm -rf packages/playground/pkg
+
 ################################################################################
 # ECOSYSTEM: RUST
 ################################################################################
@@ -231,6 +234,7 @@ check-spelling: ts-check-spelling
 clean: rust-clean
 clean: components-clean
 clean: ts-clean
+clean: crate-rust-analyzer-wasm-clean
 
 
 install: ts-install
