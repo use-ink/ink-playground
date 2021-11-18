@@ -7,6 +7,6 @@ license = "Apache-2.0"
 
 [dependencies]
 serde = { version = "1.0.130", features = ["derive"] }
-base_db = { package = "ra_ap_base_db", version = "0.0.77" }
-cfg = { package = "ra_ap_cfg", version = "0.0.77" }
-tt = { package = "ra_ap_tt", version = "0.0.77" }
+base_db = { package = "ra_ap_base_db", version = "0.0.78" }
+cfg = { package = "ra_ap_cfg", version = "0.0.78" }
+tt = { package = "ra_ap_tt", version = "0.0.78" }
