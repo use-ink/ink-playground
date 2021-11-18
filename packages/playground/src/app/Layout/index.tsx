@@ -1,5 +1,4 @@
 import { Splitter, SplitterPanel } from '@paritytech/components/';
-import { TestControls } from '../Console/TestControls';
 import { ReactElement } from 'react';
 
 type LayoutProps = {
@@ -22,7 +21,6 @@ export const Layout = ({ Header, Editor, Console }: LayoutProps) => {
           </SplitterPanel>
         </Splitter>
       </div>
-      <TestControls />
     </div>
   );
 };
