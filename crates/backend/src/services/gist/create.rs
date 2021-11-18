@@ -19,7 +19,6 @@
 
 use actix_web::{
     web::Json,
-    Error,
     HttpRequest,
     HttpResponse,
     Responder,
@@ -70,6 +69,12 @@ pub struct Gist {
     pub code: String,
 }
 
+#[derive(Debug)]
+enum Error {
+    GitHubError(hubcaps::Error),
+    MalformattedGist,
+}
+
 // -------------------------------------------------------------------------------------------------
 // CONST
 // -------------------------------------------------------------------------------------------------
@@ -78,37 +83,13 @@ const GITHUB_AGENT_NAME: &str = "The Rust Playground";
 const GIST_FILENAME: &str = "playground.rs";
 const GIST_DESCRIPTION: &str = "Code shared from the Rust Playground";
 
-pub async fn create_gist(
-    token: &str,
-    code: &str,
-) -> hubcaps::Result<hubcaps::gists::Gist> {
-    let token = Credentials::Token(token.to_string());
-    let github = Github::new(GITHUB_AGENT_NAME, token)?;
-
-    let file = Content {
-        filename: None,
-        content: code.to_string(),
-    };
-
-    let mut files = HashMap::new();
-    files.insert(GIST_FILENAME.into(), file);
-
-    let options = GistOptions {
-        description: Some(GIST_DESCRIPTION.into()),
-        public: Some(false),
-        files,
-    };
-
-    github.gists().create(&options).await
-}
-
 // -------------------------------------------------------------------------------------------------
 // IMPLEMENTATIONS
 // -------------------------------------------------------------------------------------------------
 
 impl Responder for GistCreateResponse {
-    type Error = Error;
-    type Future = Ready<Result<HttpResponse, Error>>;
+    type Error = actix_web::Error;
+    type Future = Ready<Result<HttpResponse, actix_web::Error>>;
 
     fn respond_to(self, _req: &HttpRequest) -> Self::Future {
         let body = serde_json::to_string(&self).unwrap();
@@ -127,56 +108,56 @@ pub async fn route_gist_create(
     github_token: &str,
     req: Json<GistCreateRequest>,
 ) -> impl Responder {
-    let g = create_gist(github_token, &req.code).await;
-    GistCreateResponse::Error("sss".to_string())
+    let gist_result = create_gist(github_token, &req.code).await;
+
+    println!("{:#?}", gist_result);
+
+    match gist_result {
+        Err(error) => {
+            println!("{:?}", error);
+            GistCreateResponse::Error("Gist creation failed".to_string())
+        }
+        Ok(gist) => GistCreateResponse::Success(gist),
+    }
 }
 
-// -------------------------------------------------------------------------------------------------
-// TEST
-// -------------------------------------------------------------------------------------------------
+async fn create_gist(github_token: &str, code: &str) -> Result<Gist, Error> {
+    let gist = github_create_gist(github_token, code)
+        .await
+        .map_err(|e| Error::GitHubError(e))?;
 
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-//     use actix_web::{
-//         test,
-//         web,
-//         App,
-//     };
+    let code = gist
+        .files
+        .get(GIST_FILENAME)
+        .and_then(|file| file.content.as_ref())
+        .ok_or(Error::MalformattedGist)?;
 
-//     fn github_api_mocked(_: &str, code: Code) -> GistCreateResponse {
-//         GistCreateResponse::Success(Gist {
-//             id: "65278657821".to_string(),
-//             url: "foo".to_string(),
-//             code,
-//         })
-//     }
+    Ok(Gist {
+        id: gist.id,
+        url: gist.url,
+        code: code.to_string(),
+    })
+}
 
-//     #[actix_rt::test]
-//     async fn test_gist_create_success() {
-//         let mut app = test::init_service(App::new().route(
-//             "/",
-//             web::post().to(|body| route_gist_create(github_api_mocked, "gh_token", body)),
-//         ))
-//         .await;
+async fn github_create_gist(
+    token: &str,
+    code: &str,
+) -> hubcaps::Result<hubcaps::gists::Gist> {
+    let token = Credentials::Token(token.to_string());
+    let github = Github::new(GITHUB_AGENT_NAME, token)?;
 
-//         let req = GistCreateRequest {
-//             code: "foo".to_string(),
-//         };
-//         let req = test::TestRequest::post()
-//             .set_json(&req)
-//             .uri("/")
-//             .to_request();
+    let file = Content {
+        filename: None,
+        content: code.to_string(),
+    };
 
-//         let res: GistCreateResponse = test::read_response_json(&mut app, req).await;
+    let files = HashMap::from([(GIST_FILENAME.into(), file)]);
 
-//         assert_eq!(
-//             res,
-//             GistCreateResponse::Success(Gist {
-//                 id: "65278657821".to_string(),
-//                 url: "foo".to_string(),
-//                 code: "foo".to_string(),
-//             })
-//         );
-//     }
-// }
+    let options = GistOptions {
+        description: Some(GIST_DESCRIPTION.into()),
+        public: Some(false),
+        files,
+    };
+
+    github.gists().create(&options).await
+}

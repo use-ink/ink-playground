@@ -72,7 +72,9 @@ async fn main() -> std::io::Result<()> {
             )
             .route(
                 "/gist/create",
-                post().to(|body| route_gist_create("TODO: use github token", body)),
+                post().to(|body| {
+                    route_gist_create("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", body)
+                }),
             )
             .route(
                 "/status",
