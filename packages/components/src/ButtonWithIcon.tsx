@@ -20,7 +20,9 @@ export const ButtonWithIcon = ({
   loading,
 }: ButtonProps): ReactElement => {
   const disabledClasses =
-    disabled || loading ? 'cursor-not-allowed text-gray-600 bg-elevation' : '';
+    disabled || loading
+      ? 'cursor-not-allowed dark:text-gray-600 text-gray-400 dark:bg-elevation bg-gray-200'
+      : '';
 
   const IconOfState = (): ReactElement => {
     if (loading)
