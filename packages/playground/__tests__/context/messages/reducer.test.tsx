@@ -187,7 +187,7 @@ describe('Given the reducer is used to manage state', () => {
         id: 0,
         prompt: 'COMPILE',
         status,
-        content: 'There was an error compiling your contract: <Error>',
+        content: 'Compile message content',
         severity: 'Error',
       });
       expect(state.nextId).toBe(1);
