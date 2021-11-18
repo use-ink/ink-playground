@@ -17,6 +17,7 @@ ts-rs = { git = "https://github.com/Aleph-Alpha/ts-rs", branch = "main", feature
     "serde-compat",
 ] }
 futures = "0.3.17"
+hubcaps = "0.6.2"
 
 sandbox = { path = "../sandbox" }
 

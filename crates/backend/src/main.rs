@@ -23,10 +23,7 @@ use crate::{
             COMPILE_SANDBOXED,
         },
         frontend::route_frontend,
-        gist::create::{
-            route_gist_create,
-            GH_API,
-        },
+        gist::create::route_gist_create,
     },
 };
 use actix_cors::Cors;
@@ -75,8 +72,7 @@ async fn main() -> std::io::Result<()> {
             )
             .route(
                 "/gist/create",
-                post()
-                    .to(|body| route_gist_create(GH_API, "TODO: use github token", body)),
+                post().to(|body| route_gist_create("TODO: use github token", body)),
             )
             .route(
                 "/status",
