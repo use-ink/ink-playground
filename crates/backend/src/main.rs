@@ -75,15 +75,11 @@ async fn main() -> std::io::Result<()> {
             )
             .route(
                 "/gist/create",
-                post().to(|body| {
-                    route_gist_create("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", body)
-                }),
+                post().to(|body| route_gist_create("todo... use token", body)),
             )
             .route(
                 "/gist/load",
-                post().to(|body| {
-                    route_gist_load("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", body)
-                }),
+                post().to(|body| route_gist_load("todo... use token", body)),
             )
             .route(
                 "/status",
