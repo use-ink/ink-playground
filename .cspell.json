@@ -13,7 +13,9 @@
     "package-lock.json",
     "yarn.lock",
     "**/yarn-error.log",
-    "assets/architecture*.xml"
+    "assets/architecture*.xml",
+    "/crates/contract",
+    "**/coverage/**"
   ],
   "words": [
     "Submenu",
