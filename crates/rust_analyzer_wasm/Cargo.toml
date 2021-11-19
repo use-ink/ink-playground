@@ -5,7 +5,7 @@ authors = ["achimcc <achim@parity.io>"]
 edition = "2021"
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 lsp-types = { version = "0.91.1", features = ["proposed"] }
