@@ -18,9 +18,17 @@
 //! In order to ease testing, the service is parameterized by a compile
 //! strategy. This allows easy mocking.
 
-use actix_web::{web::Json, HttpResponse, Responder};
+use actix_web::{
+    web::Json,
+    HttpResponse,
+    Responder,
+};
 
-pub use sandbox::{CompilationRequest, CompilationResult, Sandbox};
+pub use sandbox::{
+    CompilationRequest,
+    CompilationResult,
+    Sandbox,
+};
 
 use sandbox;
 
@@ -69,7 +77,11 @@ pub async fn route_compile(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use actix_web::{test, web, App};
+    use actix_web::{
+        test,
+        web,
+        App,
+    };
 
     /// A compile strategy mock. Accepts only `foo` as "correct" source code.
     const COMPILE_MOCKED: CompileStrategy = |req| {
