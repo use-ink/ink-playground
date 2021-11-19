@@ -3,6 +3,17 @@ import MonacoEditor, { MonacoEditorProps, monaco } from 'react-monaco-editor';
 import exampleCode from './example-code';
 import { AppContext } from '~/context/app/';
 import { Dispatch, State } from '~/context/app/reducer';
+import * as tailwind from '../../../tailwind.config';
+
+monaco.editor.defineTheme('custom-dark', {
+  base: 'vs-dark',
+  inherit: true,
+  rules: [],
+  colors: {
+    'editor.background': tailwind.monacoTheme.backgroundEditor,
+    'minimap.background': tailwind.monacoTheme.backgroundMinimap,
+  },
+});
 
 export const Editor = (): ReactElement => {
   const [code, setCode] = useState(exampleCode);

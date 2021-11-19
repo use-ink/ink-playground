@@ -1,6 +1,10 @@
 module.exports = {
   purge: [],
   darkMode: 'class', // or 'media' or 'class'
+  monacoTheme: {
+    backgroundEditor: '#1A1D1F',
+    backgroundMinimap: '#1e2124',
+  },
   theme: {
     fontFamily: {
       body: ['SF Pro Display Regular'],
