@@ -16,14 +16,13 @@
 
 #![cfg(target_arch = "wasm32")]
 
-extern crate rust_analyzer_wasm;
 extern crate wasm_bindgen_test;
+extern crate rust_analyzer_wasm;
 use std::assert_eq;
 
-use rust_analyzer_wasm::{
-    init_thread_pool,
-    WorldState,
-};
+use wasm_bindgen_rayon::{init_thread_pool};
+
+use rust_analyzer_wasm::WorldState;
 use wasm_bindgen_test::*;
 
 use wasm_bindgen_futures::JsFuture;
