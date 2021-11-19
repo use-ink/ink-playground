@@ -17,33 +17,14 @@
 //! agnostic (E.g. the compile module does not know that's mapped to the
 //! "/compile" route in the end)
 
-use crate::services::gist::common::{
-    from_github_gist,
-    github,
-    Gist,
-    GIST_FILENAME,
-};
-use actix_web::{
-    web::Json,
-    HttpRequest,
-    HttpResponse,
-    Responder,
-};
-use futures::future::{
-    ready,
-    Ready,
-};
+use crate::services::gist::common::{from_github_gist, github, Gist, GIST_FILENAME};
+use actix_web::{web::Json, HttpRequest, HttpResponse, Responder};
+use futures::future::{ready, Ready};
 use hubcaps::{
     self,
-    gists::{
-        Content,
-        GistOptions,
-    },
+    gists::{Content, GistOptions},
 };
-use serde::{
-    Deserialize,
-    Serialize,
-};
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use ts_rs::TS;
 
@@ -93,10 +74,10 @@ impl Responder for GistCreateResponse {
 }
 
 pub async fn route_gist_create(
-    github_token: &str,
+    github_token: String,
     req: Json<GistCreateRequest>,
 ) -> impl Responder {
-    let gist_result = create_gist(github_token, &req.code).await;
+    let gist_result = create_gist(github_token.as_ref(), &req.code).await;
 
     match gist_result {
         Err(error) => {
