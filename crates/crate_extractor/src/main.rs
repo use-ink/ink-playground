@@ -14,18 +14,11 @@
 
 use anyhow::Result;
 use change_json::ChangeJson;
-use std::{
-    fs,
-    path::Path,
-};
+use std::{fs, path::Path};
 mod cli;
 mod load_change;
 use crate::{
-    cli::{
-        CmdCreate,
-        Opts,
-        SubCommand,
-    },
+    cli::{CmdCreate, Opts, SubCommand},
     load_change::LoadCargoConfig,
 };
 use clap::Clap;
@@ -36,13 +29,11 @@ use project_model::CargoConfig;
 /// If the path is relative, an absolute path is created based on the current working directory.
 fn to_abs_path(path: &str) -> Result<vfs::AbsPathBuf> {
     let path = Path::new(&path);
-    Ok(vfs::AbsPathBuf::assert(
-        if path.is_absolute() {
-            path.to_path_buf()
-        } else {
-            std::env::current_dir()?.join(path)
-        },
-    ))
+    Ok(vfs::AbsPathBuf::assert(if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        std::env::current_dir()?.join(path)
+    }))
 }
 
 fn main() {
