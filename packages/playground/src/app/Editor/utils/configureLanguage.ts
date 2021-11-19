@@ -1,6 +1,5 @@
 import { monaco } from 'react-monaco-editor';
 import { WorldState } from '../../../../pkg/rust_analyzer_wasm';
-type Monaco = typeof monaco;
 
 const modeId = 'ra-rust';
 
@@ -170,7 +169,7 @@ export const configureLanguage = (worldState: WorldState, allTokens: Token[]) =>
     },
   });
 
-  setTokens(monaco, allTokens);
+  setTokens(allTokens);
 };
 
 class TokenState {
@@ -211,7 +210,7 @@ function fixTag(tag: string) {
   }
 }
 
-export const setTokens = (monaco: Monaco, allTokens: Token[]) =>
+export const setTokens = (allTokens: Token[]) =>
   monaco.languages.setTokensProvider(modeId, {
     getInitialState: () => new TokenState(),
     tokenize(_, st: TokenState) {
