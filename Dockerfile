@@ -56,7 +56,7 @@ RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 ################################################################################
 
 RUN rustup default stable
-RUN cargo clean
+RUN cargo clean --manifest-path crates/rust_analyzer_wasm/Cargo.toml
 RUN make generate
 
 RUN rustup default nightly
