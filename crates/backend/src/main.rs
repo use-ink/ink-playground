@@ -18,30 +18,16 @@ mod services;
 use crate::{
     cli::Opts,
     services::{
-        compile::{
-            route_compile,
-            COMPILE_SANDBOXED,
-        },
+        compile::{route_compile, COMPILE_SANDBOXED},
         frontend::route_frontend,
-        gist::{
-            create::route_gist_create,
-            load::route_gist_load,
-        },
+        gist::{create::route_gist_create, load::route_gist_load},
     },
 };
 use actix_cors::Cors;
 use actix_web::{
-    middleware::{
-        Condition,
-        DefaultHeaders,
-    },
-    web::{
-        get,
-        post,
-    },
-    App,
-    HttpResponse,
-    HttpServer,
+    middleware::{Condition, DefaultHeaders},
+    web::{get, post},
+    App, HttpResponse, HttpServer,
 };
 use clap::Clap;
 use std::path::Path;
@@ -50,8 +36,7 @@ use std::path::Path;
 async fn main() -> std::io::Result<()> {
     let opts: Opts = Opts::parse();
 
-    // Cloned because they're needed after closure
-    let port = opts.port.clone();
+    let port = opts.port;
     let host = opts.host.clone();
 
     if let Some(path) = &opts.frontend_folder {
@@ -62,7 +47,6 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         let opts: Opts = opts.clone();
-        // Cloned because they're needed after closure
         let frontend_folder = opts.frontend_folder.clone();
 
         let mut app = App::new()
@@ -83,7 +67,7 @@ async fn main() -> std::io::Result<()> {
 
         if let Some(github_token) = opts.github_token {
             let github_token_a = github_token.clone();
-            let github_token_b = github_token.clone();
+            let github_token_b = github_token;
             app = app
                 .route(
                     "gist/create",
