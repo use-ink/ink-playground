@@ -11,7 +11,7 @@ describe('Given Console component is rendered', () => {
   test('Renders empty message container', () => {
     // Given, When
     render(<Console />);
-    const consoleContainer = screen.getByTestId('console-container');
+    const consoleContainer = screen.getByTestId('console-component');
 
     // Then
     expect(consoleContainer).toBeInTheDocument();

@@ -22,7 +22,7 @@ export const ConsoleMessages = ({ messages }: { messages: Message[] }): ReactEle
   };
 
   return (
-    <div className="h-full w-full relative" data-testid="console-container">
+    <div className="h-full w-full relative" data-testid="console-component">
       <div
         className={`
           dark:text-primary dark:bg-primary text-light text-sm subpixel-antialiased  

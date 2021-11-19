@@ -10,7 +10,7 @@ describe('Given the Header component is rendered', () => {
   test('When it appears on the screen', () => {
     // Then ...
     expect(screen.getByText('Settings')).toBeInTheDocument();
-    expect(screen.getByTestId('headerLogo')).toBeInTheDocument();
+    expect(screen.getByTestId('header-logo')).toBeInTheDocument();
   });
 
   test('When settings button was not clicked', () => {

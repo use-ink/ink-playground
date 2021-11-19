@@ -21,9 +21,12 @@ export const Header = (): ReactElement => {
   const settingsOverlay = useRef<OverlayPanel>(null);
 
   return (
-    <div className="dark:text-primary dark:bg-primary dark:border-dark border-light border-b text-light flex max-h-16">
+    <div
+      className="dark:text-primary dark:bg-primary dark:border-dark border-light border-b text-light flex max-h-16"
+      data-testid="header-component"
+    >
       <div className="w-32">
-        <Logo className="h-16 w-32" data-testid="headerLogo" />
+        <Logo className="h-16 w-32" data-testid="header-logo" />
       </div>
       <div className="border-l max-h-8 mt-4 dark:border-dark border-light" />
       <div className={'flex p-3.5 w-full'}>
