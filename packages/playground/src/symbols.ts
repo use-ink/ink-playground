@@ -5,6 +5,7 @@ import SettingsIcon from '~/assets/settings.svg';
 import DeployIcon from '~/assets/deploy.svg';
 import DocsIcon from '~/assets/docs.svg';
 import GistIcon from '~/assets/gist.svg';
+import ShareIcon from '~/assets/share.svg';
 import Logo from '~/assets/ink-logo-on-dark.svg';
 
 export {
@@ -15,5 +16,6 @@ export {
   DeployIcon,
   DocsIcon,
   GistIcon,
+  ShareIcon,
   Logo,
 };
