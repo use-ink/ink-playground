@@ -27,12 +27,13 @@ export const ButtonWithIcon = ({
   const IconOfState = (): ReactElement => {
     if (loading)
       return (
-        <i className="pi pi-spinner animate-spin mt-1.5 mr-1.5" data-testid={'icon-loading'} />
+        <i className="pi pi-spinner animate-spin mt-1.5 mr-1.5 w-4" data-testid={'icon-loading'} />
       );
 
-    if (disabled) return <i className="pi pi-ban mt-1.5 mr-1.5" data-testid={'icon-disabled'} />;
+    if (disabled)
+      return <i className="pi pi-ban mt-1.5 mr-1.5 w-4" data-testid={'icon-disabled'} />;
 
-    return <Icon className={'mt-1.5 mr-1.5'} data-testid={testId} />;
+    return <Icon className={'mt-1.5 mr-1.5 w-4'} data-testid={testId} />;
   };
 
   return (
