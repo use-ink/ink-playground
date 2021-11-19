@@ -13,11 +13,21 @@
 // limitations under the License.
 
 use base_db::{
-    CrateData, CrateDisplayName, CrateGraph, CrateId, CrateName, Dependency, Edition,
-    Env, FileId,
+    CrateData,
+    CrateDisplayName,
+    CrateGraph,
+    CrateId,
+    CrateName,
+    Dependency,
+    Edition,
+    Env,
+    FileId,
 };
 use cfg::CfgOptions;
-use serde::{Deserialize, Serialize};
+use serde::{
+    Deserialize,
+    Serialize,
+};
 use std::ops::Index;
 use tt::SmolStr;
 
@@ -67,10 +77,12 @@ impl From<&CrateGraph> for CrateGraphJson {
                     let mut crate_deps = crate_data
                         .dependencies
                         .iter()
-                        .map(|dep| DepJson {
-                            from: id.0,
-                            name: dep.name.to_string(),
-                            to: dep.crate_id.0,
+                        .map(|dep| {
+                            DepJson {
+                                from: id.0,
+                                name: dep.name.to_string(),
+                                to: dep.crate_id.0,
+                            }
                         })
                         .collect::<Vec<_>>();
                     deps.append(&mut crate_deps);
