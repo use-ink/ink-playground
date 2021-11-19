@@ -1,7 +1,15 @@
 import { ReactElement, useContext, useRef } from 'react';
-import { Logo, CompileIcon, DownloadIcon, GithubRepoIcon, SettingsIcon } from '~/symbols';
+import {
+  Logo,
+  CompileIcon,
+  DownloadIcon,
+  GithubRepoIcon,
+  SettingsIcon,
+  ShareIcon,
+} from '~/symbols';
 import { OverlayPanel, ButtonWithIcon } from '@paritytech/components/';
 import { SettingsSubmenu } from './SettingsSubmenu';
+import { ShareSubmenu } from './ShareSubmenu';
 
 import { AppContext } from '~/context/app/';
 import { MessageContext } from '~/context/messages/';
@@ -19,6 +27,7 @@ export const Header = (): ReactElement => {
   const [, dispatchMessage]: [MessageState, MessageDispatch] = useContext(MessageContext);
 
   const settingsOverlay = useRef<OverlayPanel>(null);
+  const shareOverlay = useRef<OverlayPanel>(null);
 
   return (
     <div className="dark:text-primary dark:bg-primary dark:border-dark border-light border-b text-light flex max-h-16">
@@ -45,6 +54,12 @@ export const Header = (): ReactElement => {
           loading={state.compile.type === 'IN_PROGRESS'}
         />
         <ButtonWithIcon
+          label="Share"
+          Icon={ShareIcon}
+          testId={'buttonIcon'}
+          onClick={e => shareOverlay.current && shareOverlay.current.toggle(e, null)}
+        />
+        <ButtonWithIcon
           label="Settings"
           Icon={SettingsIcon}
           testId={'buttonIcon'}
@@ -65,6 +80,9 @@ export const Header = (): ReactElement => {
       </div>
       <OverlayPanel ref={settingsOverlay} showCloseIcon dismissable>
         <SettingsSubmenu />
+      </OverlayPanel>
+      <OverlayPanel ref={shareOverlay} showCloseIcon dismissable>
+        <ShareSubmenu />
       </OverlayPanel>
     </div>
   );
