@@ -18,30 +18,16 @@ mod services;
 use crate::{
     cli::Opts,
     services::{
-        compile::{
-            route_compile,
-            COMPILE_SANDBOXED,
-        },
+        compile::{route_compile, COMPILE_SANDBOXED},
         frontend::route_frontend,
-        gist::{
-            create::route_gist_create,
-            load::route_gist_load,
-        },
+        gist::{create::route_gist_create, load::route_gist_load},
     },
 };
 use actix_cors::Cors;
 use actix_web::{
-    middleware::{
-        Condition,
-        DefaultHeaders,
-    },
-    web::{
-        get,
-        post,
-    },
-    App,
-    HttpResponse,
-    HttpServer,
+    middleware::{Condition, DefaultHeaders},
+    web::{get, post},
+    App, HttpResponse, HttpServer,
 };
 use clap::Clap;
 use std::path::Path;
@@ -49,21 +35,24 @@ use std::path::Path;
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let opts: Opts = Opts::parse();
-    let port = opts.port;
-    let frontend_folder = opts.frontend_folder;
-    let host = opts.host;
 
-    // opts.github_token.clone();
-    if let Some(path) = &frontend_folder {
+    // Cloned because they're needed after closure
+    let port = opts.port.clone();
+    let host = opts.host.clone();
+
+    if let Some(path) = &opts.frontend_folder {
         if !Path::new(path).is_dir() {
             panic!("{} is not a valid directory.", path);
         }
     }
 
-    let dev_mode = opts.dev_mode;
     HttpServer::new(move || {
+        let opts: Opts = opts.clone();
+        // Cloned because they're needed after closure
+        let frontend_folder = opts.frontend_folder.clone();
+
         let mut app = App::new()
-            .wrap(Condition::new(dev_mode, Cors::permissive()))
+            .wrap(Condition::new(opts.dev_mode, Cors::permissive()))
             .wrap(
                 DefaultHeaders::new()
                     .header("Cross-Origin-Opener-Policy", "same-origin")
@@ -74,25 +63,32 @@ async fn main() -> std::io::Result<()> {
                 post().to(|body| route_compile(COMPILE_SANDBOXED, body)),
             )
             .route(
-                "/gist/create",
-                post().to(|body| route_gist_create("todo... use token", body)),
-            )
-            .route(
-                "/gist/load",
-                post().to(|body| route_gist_load("todo... use token", body)),
-            )
-            .route(
                 "/status",
                 get().to(|| HttpResponse::Ok().body("ink-backend is live")),
             );
 
-        if let Some(path) = &frontend_folder {
-            app = app.service(route_frontend("/", path));
+        if let Some(github_token) = opts.github_token {
+            let github_token_a = github_token.clone();
+            let github_token_b = github_token.clone();
+            app = app
+                .route(
+                    "gist/create",
+                    post()
+                        .to(move |body| route_gist_create(github_token_a.clone(), body)),
+                )
+                .route(
+                    "gist/load",
+                    post().to(move |body| route_gist_load(github_token_b.clone(), body)),
+                );
+        }
+
+        if let Some(path) = frontend_folder {
+            app = app.service(route_frontend("/", path.as_ref()));
         }
 
         app
     })
-    .bind(format!("{}:{}", host, port))?
+    .bind(format!("{}:{}", &host, &port))?
     .run()
     .await?;
 
