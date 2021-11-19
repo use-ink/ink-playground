@@ -18,7 +18,10 @@
 //! "/compile" route in the end)
 
 use hubcaps;
-use serde::{Deserialize, Serialize};
+use serde::{
+    Deserialize,
+    Serialize,
+};
 use ts_rs::TS;
 
 #[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]

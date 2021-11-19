@@ -13,14 +13,29 @@
 // limitations under the License.
 
 use anyhow::Result;
-use crossbeam_channel::{unbounded, Receiver};
+use crossbeam_channel::{
+    unbounded,
+    Receiver,
+};
 use ide::Change;
-use ide_db::base_db::{CrateGraph, SourceRoot, VfsPath};
+use ide_db::base_db::{
+    CrateGraph,
+    SourceRoot,
+    VfsPath,
+};
 use project_model::{
-    CargoConfig, ProjectManifest, ProjectWorkspace, WorkspaceBuildScripts,
+    CargoConfig,
+    ProjectManifest,
+    ProjectWorkspace,
+    WorkspaceBuildScripts,
 };
 use std::sync::Arc;
-use vfs::{file_set::FileSetConfig, loader::Handle, AbsPath, AbsPathBuf};
+use vfs::{
+    file_set::FileSetConfig,
+    loader::Handle,
+    AbsPath,
+    AbsPathBuf,
+};
 
 pub struct LoadCargoConfig {
     pub load_out_dirs_from_check: bool,
@@ -55,11 +70,13 @@ pub fn load_change(
         Box::new(loader)
     };
 
-    ws.set_build_scripts(if load_config.load_out_dirs_from_check {
-        ws.run_build_scripts(cargo_config, progress)?
-    } else {
-        WorkspaceBuildScripts::default()
-    });
+    ws.set_build_scripts(
+        if load_config.load_out_dirs_from_check {
+            ws.run_build_scripts(cargo_config, progress)?
+        } else {
+            WorkspaceBuildScripts::default()
+        },
+    );
 
     let crate_graph =
         ws.to_crate_graph(&mut |_: &AbsPath| Vec::new(), &mut |path: &AbsPath| {
@@ -104,7 +121,7 @@ fn load_crate_graph(
                 config_version: _,
             } => {
                 if n_done == n_total {
-                    break;
+                    break
                 }
             }
             vfs::loader::Message::Loaded { files } => {
