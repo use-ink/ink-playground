@@ -5,7 +5,9 @@ import { Message } from './ConsoleMessage';
 export const ConsoleMessages = ({ messages }: { messages: Message[] }): ReactElement => {
   const AlwaysScrollToBottom = () => {
     const elementRef = useRef<null | HTMLDivElement>(null);
-    useEffect(() => elementRef?.current?.scrollIntoView());
+    useEffect(() => {
+      elementRef.current && elementRef.current.scrollIntoView();
+    });
     return <div ref={elementRef} />;
   };
 

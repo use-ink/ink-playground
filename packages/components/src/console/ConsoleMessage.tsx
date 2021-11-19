@@ -63,7 +63,7 @@ export const ConsoleMessage = ({ message: m, mIndex }: Props) => {
           />
         </div>
         <span className={severityColors[severity]}>{m.prompt}:</span>
-        <span className="pl-2">{m?.content}</span>
+        {m.content && <span className="pl-2">{m.content}</span>}
       </div>
     </>
   );
