@@ -18,16 +18,30 @@ mod services;
 use crate::{
     cli::Opts,
     services::{
-        compile::{route_compile, COMPILE_SANDBOXED},
+        compile::{
+            route_compile,
+            COMPILE_SANDBOXED,
+        },
         frontend::route_frontend,
-        gist::{create::route_gist_create, load::route_gist_load},
+        gist::{
+            create::route_gist_create,
+            load::route_gist_load,
+        },
     },
 };
 use actix_cors::Cors;
 use actix_web::{
-    middleware::{Condition, DefaultHeaders},
-    web::{get, post},
-    App, HttpResponse, HttpServer,
+    middleware::{
+        Condition,
+        DefaultHeaders,
+    },
+    web::{
+        get,
+        post,
+    },
+    App,
+    HttpResponse,
+    HttpServer,
 };
 use clap::Clap;
 use std::path::Path;
