@@ -4,7 +4,7 @@ import * as path from 'path';
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost';
 
-jest.setTimeout(15000);
+jest.setTimeout(30000);
 
 describe('Given the server is up and running', () => {
   test('When a request to the status route is made', async () => {
