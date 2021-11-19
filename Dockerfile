@@ -57,7 +57,10 @@ RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
 RUN rustup default stable
 RUN cargo clean --manifest-path crates/rust_analyzer_wasm/Cargo.toml
-RUN make generate
+RUN cd crates/rust_analyzer_wasm && wasm-pack build --target web --out-dir ../../packages/playground/pkg
+RUN make generate-bindings
+RUN make generate-change-json
+#RUN make generate
 
 RUN rustup default nightly
 RUN make playground-build
