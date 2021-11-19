@@ -50,6 +50,42 @@ describe('Given the Header component is rendered', () => {
       expect(screen.queryByText('Dark Mode')).toBeNull();
     });
   });
+
+  test('When share button was not clicked', () => {
+    // Then ...
+    expect(screen.queryByText('Create Gist')).toBeNull();
+  });
+
+  test('When share button is clicked', () => {
+    const shareButton = screen.getByText('Share');
+    shareButton.click();
+
+    // Then ...
+    expect(screen.getByText('Create Gist')).toBeInTheDocument();
+  });
+
+  test('When share dropdown is closed', async () => {
+    const shareButton = screen.getByText('Share');
+    shareButton.click();
+    const closeButton = screen.getByLabelText('close');
+    closeButton.click();
+
+    // Then ...
+    await waitFor(() => {
+      expect(screen.queryByText('Create Gist')).toBeNull();
+    });
+  });
+
+  test('When share button is clicked twice', async () => {
+    const shareButton = screen.getByText('Share');
+    shareButton.click();
+    shareButton.click();
+
+    // Then ...
+    await waitFor(() => {
+      expect(screen.queryByText('Create Gist')).toBeNull();
+    });
+  });
 });
 
 describe('Given the Header interacts with context', () => {
