@@ -6,7 +6,7 @@ const RenderedOverlayPanel = (): ReactElement => {
   const panel = useRef<OverlayPanel>(null);
   return (
     <>
-      <button onClick={e => panel.current && panel.current.toggle(e)}>Toogle Panel</button>
+      <button onClick={e => panel.current && panel.current.toggle(e)}>Toggle Panel</button>
       <OverlayPanel ref={panel}>Panel Content</OverlayPanel>
     </>
   );
@@ -15,7 +15,7 @@ const RenderedOverlayPanel = (): ReactElement => {
 test('It renders OverlayPanel', () => {
   // Given
   render(<RenderedOverlayPanel />);
-  const togglePanel = screen.getByText('Toogle Panel');
+  const togglePanel = screen.getByText('Toggle Panel');
   // When
   togglePanel.click();
   // Then
