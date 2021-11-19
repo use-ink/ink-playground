@@ -32,7 +32,7 @@ export const Header = (): ReactElement => {
           Icon={CompileIcon}
           testId={'buttonIcon'}
           onClick={() => compile(state, dispatch, dispatchMessage)}
-          disabled={!state.monacoUri}
+          loading={state.compile.type === 'IN_PROGRESS'}
         />
         <ButtonWithIcon
           label="Download"
