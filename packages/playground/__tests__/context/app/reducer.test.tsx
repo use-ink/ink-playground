@@ -1,5 +1,6 @@
 import { CompilationResult } from '@paritytech/commontypes';
 import { reducer, defaultState, CompileState, Action } from '~/context/app/reducer';
+import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
 
 describe('Given the reducer is used to manage state', () => {
   describe('When dark mode is toggled', () => {
@@ -160,5 +161,23 @@ describe('Given the reducer is used to manage state', () => {
     const resultingState = reducer(defaultState, action);
     // Then ...
     expect(resultingState.compile).toStrictEqual(payload);
+  });
+
+  test('When Monaco URI is set via "SET_URI"', () => {
+    // Given
+    const uri: Uri = {
+      path: '/',
+      scheme: 'scheme',
+      authority: 'authority',
+      query: 'query',
+      fragment: 'fragment',
+      fsPath: 'fsPath',
+      with: jest.fn(),
+      toJSON: jest.fn(),
+    };
+    // When
+    const state = reducer(defaultState, { type: 'SET_URI', payload: uri });
+    // Then ...
+    expect(state.monacoUri).toMatchObject(uri);
   });
 });

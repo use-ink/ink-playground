@@ -50,6 +50,20 @@ describe('Given the Header component is rendered', () => {
       expect(screen.queryByText('Dark Mode')).toBeNull();
     });
   });
+
+  test('When "GitHub Repo" button is clicked', () => {
+    // Given
+    const windowOpenMock = jest.fn();
+    window.open = windowOpenMock;
+    const settingsButton = screen.getByText('GitHub Repo');
+    // When
+    settingsButton.click();
+    // Then
+    expect(windowOpenMock).toHaveBeenCalledWith(
+      'https://github.com/paritytech/ink-playground',
+      '_blank'
+    );
+  });
 });
 
 describe('Given the Header interacts with context', () => {
