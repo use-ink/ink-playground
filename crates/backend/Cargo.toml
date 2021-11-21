@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Achim Schneider <achim@parity.io>"]
 license = "Apache-2.0"
-
+readme = "README.md"
 
 [dependencies]
 actix-web = "3.3.2"
