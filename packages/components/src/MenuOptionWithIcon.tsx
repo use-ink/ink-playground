@@ -18,11 +18,11 @@ export const MenuOptionWithIcon = ({
   return (
     <button
       className={
-        'dark:hover:bg-gray-600 hover:bg-gray-200 bg-primary dark:border-dark border-light border-t p-2 w-full text-lg flex'
+        'dark:hover:bg-elevation-3 hover:bg-gray-200 dark:bg-elevation-1 dark:border-dark border-light border-t last:rounded-b py-2 px-4 w-full text-lg flex '
       }
       onClick={(e?) => onClick(e)}
     >
-      <Icon className={'mt-1.5 mr-1.5'} data-testid={testId} />
+      <Icon className={'mt-1.5 mr-3 w-4'} data-testid={testId} />
       {label}
     </button>
   );
