@@ -24,13 +24,22 @@ pub mod load;
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::services::gist::create::route_gist_create;
+    use crate::services::gist::{
+        common::Gist,
+        create::{
+            route_gist_create,
+            GistCreateRequest,
+            GistCreateResponse,
+        },
+        load::route_gist_load,
+    };
     use actix_web::{
         test,
-        web,
+        web::post,
         App,
     };
     use std::env;
+    use tokio_compat_02::FutureExt;
 
     #[actix_rt::test]
     async fn test_gist() {
@@ -41,6 +50,44 @@ mod tests {
         let github_token = env::var("GITHUB_GIST_TOKEN")
             .expect("CI tests must provide a `GITHUB_GIST_TOKEN`");
 
-        assert_eq!(1, 2);
+        let github_token2 = github_token.clone();
+
+        let mut app = test::init_service(
+            App::new()
+                .route(
+                    "gist/create",
+                    post().to(move |body| route_gist_create(github_token.clone(), body)),
+                )
+                .route(
+                    "gist/load",
+                    post().to(move |body| route_gist_load(github_token2.clone(), body)),
+                ),
+        )
+        .await;
+
+        let req = GistCreateRequest {
+            code: "bar".to_string(),
+        };
+
+        let req = test::TestRequest::post()
+            .set_json(&req)
+            .uri("/gist/create")
+            .to_request();
+
+        let res: GistCreateResponse =
+            test::read_response_json(&mut app, req).compat().await;
+
+        let id = match res {
+            GistCreateResponse::Success(Gist {
+                id,
+                url: _,
+                code: _,
+            }) => Ok(id),
+            GistCreateResponse::Error(error) => Err(error),
+        };
+
+        // let id = id.expect("");
+
+        // assert!(id.is_ok(), "{}", id.expect_err(""));
     }
 }
