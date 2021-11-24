@@ -40,6 +40,49 @@ and finally, to start the backend:
 
 `make backend-run`
 
+The last command starts the Rust webserver locally on you computer. You can then access `localhost:4000` from your Browser to open the locally compiled ink! Playground open.
+
+## Overview of the (sub-)repos
+
+We can divide this Repo into two main contributions:
+
+- The folder `crates` is a monorepo containing the Rust source code, its separate crates serve functionalities like the web server which serves the frontend app, the backend services for Smart Contract compilation and Github Gist generation (code sharing) or the rust analyzer functionalities for the IDE.
+- The folder `packages` is a TypeScript/React monorepo, containing the Frontend App which is served by the Rust backend.
+
+### The components of `crates`
+
+#### The crate `backend`
+
+This is the main crate of the web server which serves the frontend app. It is based on the [Actix Web](https://actix?) framework. It serves the directory of the compiled playground app which is located in the `??` folder.
+
+#### The crate `change_json`
+
+The IDE of the frontend app contains a WebAssembly version of [Rust Analyzer](https://??rust-analyzer). We need to provide Rust Analyzer the source code and crate graph of the analyzed smart contract. Usually, Rust Analyzer will scan the file system, load the dependeny data of a rust project into an object, the `change` object and will send this object to its db. Since we can not access the file system in browser based wasm, we had to find another approach. For this we (de-)serialize the `change` object which is encoding the data. This crate contains the methods/traits to (de-)serialize the `change` object.
+
+#### The crate `contract`
+
+This is the sample crate which serves as a blueprint for creating the serialized `change` object.
+
+#### The crate `crate_extractor`
+
+#### The crate `generate_bindings`
+
+#### The crate `rust_analyzer_wasm`
+
+A LSP ([Language Server Protocol](https://??)) of Rust Analyzer(https://??) for the [monaco](https://??) editor which is compiled to WebAssembly and which we execute in the Browser. This crate gets compiled to the `/packages/playground/pkg` subfolder of the `playground` package. Its compiled version provides the executable WebAssembly code and the corresponding TypeScript types.
+
+#### The crate `sandbox`
+
+### The components of `packages`
+
+#### The package `playground`
+
+#### The package `components`
+
+#### The package `_generated`
+
+#### The package `docker_tests`
+
 ## Implemented features:
 
 ### crate-extractor
