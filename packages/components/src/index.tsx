@@ -13,3 +13,5 @@ export { Splitter, SplitterPanel } from './Splitter';
 export { ConsoleMessages } from './console';
 export { Severity } from './console/ConsoleMessage';
 export type { Message, Prompt, Status, SeverityColors } from './console/ConsoleMessage';
+export { LabeledLink } from './LabeledLink';
+export { MenuElementWrapper } from './MenuElementWrapper';
