@@ -20,3 +20,27 @@
 pub mod common;
 pub mod create;
 pub mod load;
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::services::gist::create::route_gist_create;
+    use actix_web::{
+        test,
+        web,
+        App,
+    };
+    use std::env;
+
+    #[actix_rt::test]
+    async fn test_gist() {
+        if env::var("CI") != Ok("true".to_string()) {
+            return
+        }
+
+        let github_token = env::var("GITHUB_GIST_TOKEN")
+            .expect("CI tests must provide a `GITHUB_GIST_TOKEN`");
+
+        assert_eq!(1, 2);
+    }
+}
