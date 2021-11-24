@@ -12,8 +12,8 @@
   @apply hover:bg-transparent hover:text-primary;
 }
 
-.p-overlaypanel-content {
-  @apply rounded dark:text-primary dark:bg-elevation text-lg;
+.p-overlaypanel .p-overlaypanel-content {
+  @apply rounded dark:text-primary dark:bg-elevation text-lg m-0 p-0 pt-1.5;
 }
 
 /* Splitter, SplitPanel */
