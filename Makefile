@@ -250,6 +250,7 @@ clean: crate-rust-analyzer-wasm-clean
 
 
 install: ts-install
+install: generate
 
 lint: rust-lint
 lint: ts-lint
