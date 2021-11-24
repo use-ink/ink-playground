@@ -61,7 +61,7 @@ describe('Given the Header component is rendered', () => {
     shareButton.click();
 
     // Then ...
-    expect(screen.getByText('Create Gist')).toBeInTheDocument();
+    expect(screen.getByText('Create GitHub Gist')).toBeInTheDocument();
   });
 
   test('When share dropdown is closed', async () => {
