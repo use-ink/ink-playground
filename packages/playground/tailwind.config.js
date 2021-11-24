@@ -13,7 +13,10 @@ module.exports = {
       primary: '#1A1D1F',
       secondary: '#D8B6FF',
       danger: '#e3342f',
-      elevation: 'rgba(36, 42, 46, 2)',
+      elevation: '#242A2E',
+      'elevation-1': '#282F33',
+      'elevation-2': '#2C3338',
+      'elevation-3': '#2E353B',
       scrollbar: 'rgba(121, 121, 121, 0.4)',
       'scrollbar-light': 'rgba(121, 121, 121, 0.4)',
       success: '#0AC974',
@@ -42,7 +45,9 @@ module.exports = {
     extend: {},
   },
   variants: {
-    extend: {},
+    extend: {
+      borderRadius: ['last'],
+    },
   },
   plugins: [],
 };
