@@ -8,11 +8,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Echo repo Name
+        run: echo ${{ github.repository }}
+
       - name: Pull `ink-backend` docker image
         run: docker pull docker.io/achimcc/ink-backend:latest
-
-      - name: Echo repo Name
-        run: echo ${{ github.event.repository.name }}
 
       - name: Tag `ink-backend` docker image
         run: docker tag docker.io/achimcc/ink-backend:latest ink-backend
