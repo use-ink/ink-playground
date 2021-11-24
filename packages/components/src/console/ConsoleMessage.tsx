@@ -58,7 +58,7 @@ export const ConsoleMessage = ({ message: m, mIndex }: Props) => {
       <div className="flex mb-1 text-sm subpixel-antialiased" data-testid={`message-${mIndex}`}>
         <div className="w-6">
           <i
-            className={`${icon} ${severityColors[severity]} pt-px`}
+            className={`${icon} ${severityColors[severity]} pt-px w-6`}
             data-testid={`icon-${mIndex}`}
           />
         </div>
