@@ -12,10 +12,10 @@ jobs:
         run: echo ${{ github.repository }}
 
       - name: Pull `ink-backend` docker image
-        run: docker pull docker.io/achimcc/ink-backend:latest
+        run: docker pull docker.io/${{ secrets.DOCKER_USER_NAME }}/ink-backend:latest
 
       - name: Tag `ink-backend` docker image
-        run: docker tag docker.io/achimcc/ink-backend:latest ink-backend
+        run: docker tag docker.io/${{ secrets.DOCKER_USER_NAME }}/ink-backend:latest ink-backend
 
       - name: Build docker
         run: make docker-build
@@ -44,8 +44,8 @@ jobs:
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
       - name: Tag Docker image
-        run: docker tag ink-playground:latest achimcc/ink-playground
+        run: docker tag ink-playground:latest ${{ secrets.DOCKER_USER_NAME }}/ink-playground
 
       - name: Push Docker image
         if: ${{ github.repository == 'paritytech/ink-playground' && github.ref == 'refs/heads/main' }}
-        run: docker push achimcc/ink-playground
+        run: docker push ${{ secrets.DOCKER_USER_NAME }}/ink-playground
