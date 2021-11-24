@@ -31,7 +31,11 @@ mod tests {
             GistCreateRequest,
             GistCreateResponse,
         },
-        load::route_gist_load,
+        load::{
+            route_gist_load,
+            GistLoadRequest,
+            GistLoadResponse,
+        },
     };
     use actix_web::{
         test,
@@ -65,9 +69,11 @@ mod tests {
         )
         .await;
 
-        let req = GistCreateRequest {
-            code: "bar".to_string(),
-        };
+        let code = "sample code".to_string();
+
+        // Create Gist
+
+        let req = GistCreateRequest { code };
 
         let req = test::TestRequest::post()
             .set_json(&req)
@@ -86,8 +92,29 @@ mod tests {
             GistCreateResponse::Error(error) => Err(error),
         };
 
-        // let id = id.expect("");
+        assert!(id.is_ok(), "{}", id.expect_err(""));
 
-        // assert!(id.is_ok(), "{}", id.expect_err(""));
+        // Load Gist
+
+        let req = GistLoadRequest { id: id.expect("") };
+
+        let req = test::TestRequest::post()
+            .set_json(&req)
+            .uri("/gist/load")
+            .to_request();
+
+        let res: GistLoadResponse =
+            test::read_response_json(&mut app, req).compat().await;
+
+        let id = match res {
+            GistLoadResponse::Success(Gist {
+                id,
+                url: _,
+                code: _,
+            }) => Ok(id),
+            GistLoadResponse::Error(error) => Err(error),
+        };
+
+        assert!(id.is_ok(), "{}", id.expect_err(""));
     }
 }

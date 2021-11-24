@@ -45,7 +45,7 @@ use ts_rs::TS;
 
 #[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
 pub struct GistLoadRequest {
-    id: String,
+    pub id: String,
 }
 
 #[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
