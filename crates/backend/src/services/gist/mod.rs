@@ -94,9 +94,11 @@ mod tests {
 
         assert!(id.is_ok(), "{}", id.expect_err(""));
 
+        let id = id.unwrap();
+
         // Load Gist
 
-        let req = GistLoadRequest { id: id.expect("") };
+        let req = GistLoadRequest { id };
 
         let req = test::TestRequest::post()
             .set_json(&req)
