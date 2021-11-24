@@ -1,6 +1,7 @@
 import CompileIcon from '~/assets/compile.svg';
 import DownloadIcon from '~/assets/download.svg';
 import GithubRepoIcon from '~/assets/branch.svg';
+import GithubIcon from '~/assets/github.svg';
 import SettingsIcon from '~/assets/settings.svg';
 import DeployIcon from '~/assets/deploy.svg';
 import DocsIcon from '~/assets/docs.svg';
@@ -12,6 +13,7 @@ export {
   CompileIcon,
   DownloadIcon,
   GithubRepoIcon,
+  GithubIcon,
   SettingsIcon,
   DeployIcon,
   DocsIcon,
