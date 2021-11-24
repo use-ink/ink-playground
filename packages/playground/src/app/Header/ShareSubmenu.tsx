@@ -1,29 +1,43 @@
-import { MenuOptionWithIcon } from '@paritytech/components/';
-import { ReactElement } from 'react';
-import { GithubRepoIcon, ShareIcon } from '~/symbols';
+import { ButtonWithIcon, LabeledLink } from '@paritytech/components/';
+import { ReactElement, useState } from 'react';
+import { GithubIcon } from '~/symbols';
+
+const playgroundLink = 'https://ink-playground.netlify.app/?id=375eb5406914a37d5009842811f4f426';
+const gistLink = 'https://gist.github.com/375eb5406914a37d5009842811f4f426';
 
 export const ShareSubmenu = (): ReactElement => {
+  const [showDemoComponent, setShowDemoComponent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const showDemoAfterTimeout = (): void => {
+    setIsLoading(true);
+    setShowDemoComponent(false);
+    setTimeout(() => {
+      setShowDemoComponent(true);
+      setIsLoading(false);
+    }, 1500);
+  };
+
   return (
-    <div className="w-44">
+    <>
       <h2 className="px-4 pt-1 pb-2">Share Options</h2>
-      <MenuOptionWithIcon
+      <ButtonWithIcon
         // non-breaking space "\u00A0"
-        label={'Create\u00A0Gist'}
-        Icon={GithubRepoIcon}
+        label={'Create\u00A0GitHub\u00A0Gist'}
+        Icon={GithubIcon}
         testId={'buttonIcon'}
         onClick={() => {
-          alert('Create Gist!');
+          showDemoAfterTimeout();
         }}
+        isMenuOption={true}
+        loading={isLoading}
       />
-      <MenuOptionWithIcon
-        // non-breaking space "\u00A0"
-        label={'Share\u00A0Gist'}
-        Icon={ShareIcon}
-        testId={'buttonIcon'}
-        onClick={() => {
-          alert('Share Gist!');
-        }}
-      />
-    </div>
+      {showDemoComponent && (
+        <>
+          <LabeledLink label="Link to Playground:" link={playgroundLink} />
+          <LabeledLink label="Link to GitHub Gist:" link={gistLink} />
+        </>
+      )}
+    </>
   );
 };
