@@ -4,6 +4,7 @@ import 'primeicons/primeicons.css';
 import './style/primereact.custom.css';
 
 export { ButtonWithIcon } from './ButtonWithIcon';
+export { MenuOptionWithIcon } from './MenuOptionWithIcon';
 export { OverlayPanel } from './OverlayPanel';
 export { InputSwitch } from './InputSwitch';
 export type { InputSwitchProps } from './InputSwitch';
