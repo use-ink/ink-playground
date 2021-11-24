@@ -53,7 +53,7 @@ use ts_rs::TS;
 
 #[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
 pub struct GistCreateRequest {
-    code: String,
+    pub code: String,
 }
 
 #[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
