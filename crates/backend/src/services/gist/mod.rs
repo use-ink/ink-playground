@@ -23,7 +23,6 @@ pub mod load;
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use crate::services::gist::{
         common::Gist,
         create::{
