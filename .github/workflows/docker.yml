@@ -47,5 +47,5 @@ jobs:
         run: docker tag ink-playground:latest achimcc/ink-playground
 
       - name: Push Docker image
-        if: github.ref == 'refs/heads/main'
+        if: ${{ github.repository == 'paritytech/ink-playground' && github.ref == 'refs/heads/main' }}
         run: docker push achimcc/ink-playground
