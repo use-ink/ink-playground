@@ -40,5 +40,8 @@ jobs:
           username: ${{ secrets.DOCKER_USER_NAME }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
+      - name: Tag Docker image
+        run: docker tag ink-playground:latest achimcc/ink-playground
+
       - name: Push Docker image
         run: docker push achimcc/ink-playground
