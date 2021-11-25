@@ -193,7 +193,7 @@ docker-run:
 	  --volume /var/run/docker.sock:/var/run/docker.sock \
 	  --publish $(DOCKER_PORT):4000 \
 	  ink-playground
-
+	  
 docker-run-detach:
 	docker run \
 	  --name ink-playground-container \

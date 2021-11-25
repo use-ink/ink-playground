@@ -7,6 +7,7 @@ import { WorkerApi } from './wasm.worker';
 import { configureLanguage, setTokens, Token } from './configureLanguage';
 
 const modeId = 'ra-rust'; // not "rust" to circumvent conflict
+const FILE_ID = 62;
 
 export const startRustAnalyzer = async (uri: Uri) => {
   const model = monaco.editor.getModel(uri);
@@ -45,7 +46,7 @@ export const startRustAnalyzer = async (uri: Uri) => {
     if (!model) return;
     const text = model.getValue();
     await worldState.update(text);
-    const res = await worldState.analyze(183);
+    const res = await worldState.analyze(FILE_ID);
     console.log(res);
     monaco.editor.setModelMarkers(model, modeId, res.diagnostics);
     allTokens.length = 0;
