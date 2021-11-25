@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Test deployment hook
+      - name: Test deployment hook.
         if: ${{ github.repository == 'paritytech/ink-playground' }}
         uses: distributhor/workflow-webhook@v2
         env:
