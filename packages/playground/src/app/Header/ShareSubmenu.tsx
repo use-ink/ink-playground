@@ -11,7 +11,7 @@ const playgroundLink = 'https://ink-playground.netlify.app/?id=375eb5406914a37d5
 const gistLink = 'https://gist.github.com/375eb5406914a37d5009842811f4f426';
 
 export const ShareSubmenu = (): ReactElement => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
   const [, dispatchMessage]: [MessageState, MessageDispatch] = useContext(MessageContext);
