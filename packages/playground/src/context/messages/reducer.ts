@@ -1,4 +1,4 @@
-import { CompilationResult, GistCreateResponse } from '@paritytech/commontypes';
+import { CompilationResult } from '@paritytech/commontypes';
 import { Message, Status, Severity, Prompt } from '@paritytech/components/';
 
 export const defaultState: MessageState = {

@@ -1,4 +1,3 @@
-import { CompileApiResponse, compileRequest } from '~/api/compile';
 import { State, Dispatch } from '../../reducer';
 import { MessageAction, MessageDispatch, GistCreateMessage } from '../../../messages/reducer';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
