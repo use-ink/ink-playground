@@ -46,7 +46,8 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    env: GITHUB_GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+    env:
+      GITHUB_GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
     steps:
       - uses: actions/checkout@v2
       - name: Build
