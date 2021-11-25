@@ -55,7 +55,6 @@ const handleOk = (response: GistCreateResponse): GistCreateMessage => {
         payload: {
           content: `Your GitHub Gist was successfully created: ${response.payload.url}`,
           status: 'DONE',
-          result: response,
         },
       };
   }
