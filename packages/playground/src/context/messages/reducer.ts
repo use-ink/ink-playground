@@ -11,33 +11,42 @@ export type MessageState = {
   nextId: number;
 };
 
-export type MessageAction = SystemMessage | CompilationMessage | GistCreateMessage;
-
-export type SystemMessage = {
-  type: 'LOG_SYSTEM';
+export type MessageAction = {
+  type: 'LOG_COMPILE' | 'LOG_SYSTEM' | 'LOG_GIST';
   payload: {
     status: Status;
     content: string;
+    result?: CompilationResult;
   };
 };
 
-export type CompilationMessage = {
-  type: 'LOG_COMPILE';
-  payload: {
-    status: Status;
-    content: string;
-    result: CompilationResult;
-  };
-};
+// export type MessageAction = SystemMessage | CompilationMessage | GistCreateMessage;
 
-export type GistCreateMessage = {
-  type: 'LOG_GIST';
-  payload: {
-    status: Status;
-    content: string;
-    result: GistCreateResponse;
-  };
-};
+// export type SystemMessage = {
+//   type: 'LOG_SYSTEM';
+//   payload: {
+//     status: Status;
+//     content: string;
+//   };
+// };
+
+// export type CompilationMessage = {
+//   type: 'LOG_COMPILE';
+//   payload: {
+//     status: Status;
+//     content: string;
+//     result: CompilationResult;
+//   };
+// };
+
+// export type GistCreateMessage = {
+//   type: 'LOG_GIST';
+//   payload: {
+//     status: Status;
+//     content: string;
+//     result: GistCreateResponse;
+//   };
+// };
 
 export type MessageDispatch = (action: MessageAction) => void;
 
@@ -90,7 +99,7 @@ export const reducer = (state: MessageState, { type, payload }: MessageAction): 
         case 'ERROR': {
           const id = lastId(state, 'COMPILE');
           // Server error message to attach, if present
-          const serverErrorMsg = payload.result.payload.stderr;
+          const serverErrorMsg = payload.result?.payload.stderr;
           const updateMessage: Message = {
             id,
             prompt: 'COMPILE',
