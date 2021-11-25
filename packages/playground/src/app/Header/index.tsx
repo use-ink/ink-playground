@@ -15,7 +15,7 @@ import { AppContext } from '~/context/app/';
 import { MessageContext } from '~/context/messages/';
 import { Dispatch, State } from '~/context/app/reducer';
 import { MessageState, MessageDispatch } from '~/context/messages/reducer';
-import { compile } from '~/context/app/side-effects';
+import { compile } from '~/context/app/side-effects/compile';
 
 const openRepoUrl = (): void => {
   const repoURL = 'https://github.com/paritytech/ink-playground';
