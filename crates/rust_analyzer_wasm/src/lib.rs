@@ -66,6 +66,8 @@ extern crate web_sys;
 use rayon::prelude::*;
 pub use wasm_bindgen_rayon::init_thread_pool;
 
+const FILE_ID: u32 = 62;
+
 fn derive_analytics(host: &AnalysisHost, file_id: FileId) -> JsValue {
     let analysis = host.analysis();
     let line_index = analysis.file_line_index(file_id).unwrap();
@@ -132,7 +134,7 @@ pub struct WorldState {
 impl WorldState {
     #[wasm_bindgen(constructor)]
     pub fn new() -> Self {
-        let file_id = FileId(183);
+        let file_id = FileId(FILE_ID);
         let analysis_host = AnalysisHost::default();
         let analysis = analysis_host.analysis();
         let analysis_host = AnalysisHost::default();
