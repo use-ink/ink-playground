@@ -1,22 +1,20 @@
 import { ButtonWithIcon, LabeledLink } from '@paritytech/components/';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useContext, useState } from 'react';
 import { GithubIcon } from '~/symbols';
+import { Dispatch, State } from '~/context/app/reducer';
+import { gistCreate } from '~/context/app/side-effects/gists/create';
+import { AppContext } from '~/context/app/';
+import { MessageContext } from '~/context/messages/';
+import { MessageState, MessageDispatch } from '~/context/messages/reducer';
 
 const playgroundLink = 'https://ink-playground.netlify.app/?id=375eb5406914a37d5009842811f4f426';
 const gistLink = 'https://gist.github.com/375eb5406914a37d5009842811f4f426';
 
 export const ShareSubmenu = (): ReactElement => {
-  const [showDemoComponent, setShowDemoComponent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const showDemoAfterTimeout = (): void => {
-    setIsLoading(true);
-    setShowDemoComponent(false);
-    setTimeout(() => {
-      setShowDemoComponent(true);
-      setIsLoading(false);
-    }, 1500);
-  };
+  const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
+  const [, dispatchMessage]: [MessageState, MessageDispatch] = useContext(MessageContext);
 
   return (
     <>
@@ -26,12 +24,12 @@ export const ShareSubmenu = (): ReactElement => {
         Icon={GithubIcon}
         testId={'buttonIcon'}
         onClick={() => {
-          showDemoAfterTimeout();
+          gistCreate(state, dispatch, dispatchMessage);
         }}
         isMenuOption={true}
         loading={isLoading}
       />
-      {showDemoComponent && (
+      {true && (
         <>
           <LabeledLink label="Link to Playground:" link={playgroundLink} />
           <LabeledLink label="Link to GitHub Gist:" link={gistLink} />

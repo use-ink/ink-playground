@@ -1,6 +1,6 @@
 import { CompileApiResponse, compileRequest } from '~/api/compile';
-import { State, Dispatch } from './reducer';
-import { MessageAction, MessageDispatch } from '../messages/reducer';
+import { State, Dispatch } from '~/context/app/reducer';
+import { MessageAction, MessageDispatch } from '~/context/messages/reducer';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 const getMessageAction = (result: CompileApiResponse): MessageAction | undefined => {
