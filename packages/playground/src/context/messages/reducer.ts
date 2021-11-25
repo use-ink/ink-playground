@@ -35,7 +35,6 @@ export type GistCreateMessage = {
   payload: {
     status: Status;
     content: string;
-    result?: GistCreateResponse;
   };
 };
 
