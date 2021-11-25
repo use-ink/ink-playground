@@ -25,11 +25,16 @@ use serde::{
 use ts_rs::TS;
 
 #[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
-#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub struct Gist {
     pub id: String,
     pub url: String,
     pub code: String,
+}
+
+const GISTS_REPO_URL : &str = "https://github.com/ink-playground-gists";
+
+fn create_gist_url(id: &str) {
+    format!("{}/{}", GISTS_REPO_URL, id)
 }
 
 pub fn from_github_gist(gist: hubcaps::gists::Gist) -> Option<Gist> {
@@ -38,9 +43,11 @@ pub fn from_github_gist(gist: hubcaps::gists::Gist) -> Option<Gist> {
         .get(GIST_FILENAME)
         .and_then(|file| file.content.as_ref())?;
 
+    let id = gist.id.as_ref();
+
     Some(Gist {
         id: gist.id,
-        url: gist.url,
+        url: create_gist_url(id),
         code: code.to_string(),
     })
 }

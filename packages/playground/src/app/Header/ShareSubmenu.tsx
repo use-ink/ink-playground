@@ -1,5 +1,5 @@
 import { ButtonWithIcon, LabeledLink } from '@paritytech/components/';
-import { ReactElement, ReactNode, useContext, useState } from 'react';
+import { ReactElement, useContext } from 'react';
 import { GithubIcon } from '~/symbols';
 import { Dispatch, GistState, State } from '~/context/app/reducer';
 import { gistCreate } from '~/context/app/side-effects/gists/create';
@@ -9,17 +9,18 @@ import { MessageState, MessageDispatch } from '~/context/messages/reducer';
 import { Gist, GistCreateResponse } from '@paritytech/commontypes';
 import { GistCreateApiResponse } from '~/api/gists';
 
-const playgroundLink = 'https://ink-playground.netlify.app/?id=375eb5406914a37d5009842811f4f426';
-const gistLink = 'https://gist.github.com/375eb5406914a37d5009842811f4f426';
-
-const ViewError = ({ message }: { message: string }) => <div>Opps!</div>;
+const ViewError = ({ message }: { message: string }) => <div>{message}</div>;
 
 const ViewGist = ({ gist }: { gist: Gist }) => (
   <>
-    <LabeledLink label="Link to Playground:" link={playgroundLink} />
-    <LabeledLink label="Link to GitHub Gist:" link={gistLink} />
+    <LabeledLink label="Link to Playground:" link={gitPlaygroundUrl(gist.id)} />
+    <LabeledLink label="Link to GitHub Gist:" link={gist.url} />
   </>
 );
+
+const gitPlaygroundUrl = (id: string): string => {
+  return `${window.location.href}?id=${id}`;
+};
 
 const GistCreateResponse = ({ response }: { response: GistCreateResponse }): ReactElement => {
   switch (response.type) {

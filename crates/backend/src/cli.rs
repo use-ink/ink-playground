@@ -30,7 +30,7 @@ pub struct Opts {
     #[clap(short = 'f', long = "frontend_folder")]
     pub frontend_folder: Option<String>,
 
-    #[clap(short = 'g', long = "github_token")]
+    #[clap(short = 'g', long = "github_token", env = "GITHUB_GIST_TOKEN")]
     pub github_token: Option<String>,
 
     #[clap(short = 'd', long = "dev_mode")]
