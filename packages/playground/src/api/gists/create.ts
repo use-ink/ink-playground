@@ -1,4 +1,4 @@
-import { COMPILE_URL, GIST_CREATE_URL } from '~/env';
+import { GIST_CREATE_URL } from '~/env';
 import * as Common from '@paritytech/commontypes';
 
 // -------------------------------------------------------------------------------------------------

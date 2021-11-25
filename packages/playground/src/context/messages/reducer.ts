@@ -1,4 +1,4 @@
-import { CompilationResult } from '@paritytech/commontypes';
+import { CompilationResult, GistCreateResponse } from '@paritytech/commontypes';
 import { Message, Status, Severity, Prompt } from '@paritytech/components/';
 
 export const defaultState: MessageState = {
@@ -11,12 +11,31 @@ export type MessageState = {
   nextId: number;
 };
 
-export type MessageAction = {
-  type: 'LOG_COMPILE' | 'LOG_SYSTEM' | 'LOG_GIST';
+export type MessageAction = SystemMessage | CompilationMessage | GistCreateMessage;
+
+export type SystemMessage = {
+  type: 'LOG_SYSTEM';
   payload: {
     status: Status;
     content: string;
-    result?: CompilationResult;
+  };
+};
+
+export type CompilationMessage = {
+  type: 'LOG_COMPILE';
+  payload: {
+    status: Status;
+    content: string;
+    result: CompilationResult;
+  };
+};
+
+export type GistCreateMessage = {
+  type: 'LOG_GIST';
+  payload: {
+    status: Status;
+    content: string;
+    result: GistCreateResponse;
   };
 };
 
@@ -71,7 +90,7 @@ export const reducer = (state: MessageState, { type, payload }: MessageAction): 
         case 'ERROR': {
           const id = lastId(state, 'COMPILE');
           // Server error message to attach, if present
-          const serverErrorMsg = payload.result?.payload.stderr;
+          const serverErrorMsg = payload.result.payload.stderr;
           const updateMessage: Message = {
             id,
             prompt: 'COMPILE',
