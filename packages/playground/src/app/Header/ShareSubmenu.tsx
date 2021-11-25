@@ -22,8 +22,7 @@ export const ShareSubmenu = (): ReactElement => {
     <>
       <h2 className="px-4 pt-1 pb-2">Share Options</h2>
       <ButtonWithIcon
-        // non-breaking space "\u00A0"
-        label={'Create\u00A0GitHub\u00A0Gist'}
+        label={'Create GitHub Gist'}
         Icon={GithubIcon}
         testId={'buttonIcon'}
         onClick={() => {

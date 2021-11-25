@@ -69,8 +69,7 @@ export const Header = (): ReactElement => {
         <div className="flex-grow" />
 
         <ButtonWithIcon
-          // non-breaking space "\u00A0"
-          label={'GitHub\u00A0Repo'}
+          label={'GitHub Repo'}
           Icon={GithubRepoIcon}
           testId={'buttonIcon'}
           onClick={() => {

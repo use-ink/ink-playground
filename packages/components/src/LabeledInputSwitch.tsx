@@ -9,7 +9,7 @@ export interface Props extends InputSwitchProps {
 export const LabeledInputSwitch = (props: Props): ReactElement => {
   return (
     <div className="py-2 flex justify-between">
-      <p>{props.label}</p>
+      <p className="whitespace-nowrap">{props.label}</p>
       <InputSwitch {...props} />
     </div>
   );
