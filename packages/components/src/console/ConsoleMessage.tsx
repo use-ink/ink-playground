@@ -55,15 +55,20 @@ export const ConsoleMessage = ({ message: m, mIndex }: Props) => {
 
   return (
     <>
-      <div className="flex mb-1 text-sm subpixel-antialiased" data-testid={`message-${mIndex}`}>
-        <div className="w-6">
+      <div
+        className="flex mb-1 text-sm subpixel-antialiased basis-zero"
+        data-testid={`message-${mIndex}`}
+      >
+        <div className="whitespace-nowrap">
           <i
-            className={`${icon} ${severityColors[severity]} pt-px w-6`}
+            className={`${icon} ${severityColors[severity]} pt-px`}
             data-testid={`icon-${mIndex}`}
           />
+          <span className={`${severityColors[severity]} ml-2`}>{m.prompt}:</span>
         </div>
-        <span className={severityColors[severity]}>{m.prompt}:</span>
-        <span className="pl-2">{m?.content}</span>
+        <div className="flex">
+          <span className="pl-2">{m?.content}</span>
+        </div>
       </div>
     </>
   );
