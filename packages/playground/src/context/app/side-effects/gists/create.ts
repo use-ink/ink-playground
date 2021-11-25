@@ -1,6 +1,6 @@
 import { CompileApiResponse, compileRequest } from '~/api/compile';
 import { State, Dispatch } from '../../reducer';
-import { MessageAction, MessageDispatch } from '../../../messages/reducer';
+import { MessageAction, MessageDispatch, GistCreateMessage } from '../../../messages/reducer';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { GistCreateApiResponse, gistCreateRequest } from '~/api/gists';
 import { GistCreateResponse } from '@paritytech/commontypes';
@@ -16,7 +16,7 @@ const resetToNotAsked = (dispatch: Dispatch, dispatchMessage: MessageDispatch): 
   });
 };
 
-const getMessageAction = (result: GistCreateApiResponse): MessageAction | undefined => {
+const getMessageAction = (result: GistCreateApiResponse): GistCreateMessage | undefined => {
   switch (result.type) {
     case 'NETWORK_ERROR':
       return {
@@ -35,31 +35,31 @@ const getMessageAction = (result: GistCreateApiResponse): MessageAction | undefi
         },
       };
     case 'OK':
-    //handleOk();
+      handleOk(result.payload);
   }
 };
 
-// const handleOk = (action: GistCreateResponse): MessageAction => {
-//   switch (action.type) {
-//     case 'ERROR':
-//       return {
-//         type: 'LOG_GIST',
-//         payload: {
-//           content: `Compilation Error: ${action.payload.stdout}, ${action.payload.stderr}`,
-//           status: 'ERROR',
-//         },
-//       };
-//     case 'SUCCESS':
-//       return {
-//         type: 'LOG_GIST',
-//         payload: {
-//           content: `Your GitHub Gist was successfully created: ${action.payload.url}`,
-//           status: 'DONE',
-//           result: action,
-//         },
-//       };
-//   }
-// };
+const handleOk = (response: GistCreateResponse): GistCreateMessage => {
+  switch (response.type) {
+    case 'ERROR':
+      return {
+        type: 'LOG_GIST',
+        payload: {
+          content: `Gist creation failed: ${response.payload}`,
+          status: 'ERROR',
+        },
+      };
+    case 'SUCCESS':
+      return {
+        type: 'LOG_GIST',
+        payload: {
+          content: `Your GitHub Gist was successfully created: ${response.payload.url}`,
+          status: 'DONE',
+          result: response,
+        },
+      };
+  }
+};
 
 export async function gistCreate(
   state: State,
