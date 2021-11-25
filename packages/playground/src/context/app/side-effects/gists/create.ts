@@ -35,31 +35,31 @@ const getMessageAction = (result: GistCreateApiResponse): MessageAction | undefi
         },
       };
     case 'OK':
-      handleOk();
+    //handleOk();
   }
 };
 
-const handleOk = (action: GistCreateResponse): MessageAction => {
-  switch (action.type) {
-    case 'ERROR':
-      return {
-        type: 'LOG_GIST',
-        payload: {
-          content: `Compilation Error: ${action.payload.stdout}, ${action.payload.stderr}`,
-          status: 'ERROR',
-        },
-      };
-    case 'SUCCESS':
-      return {
-        type: 'LOG_GIST',
-        payload: {
-          content: `Your GitHub Gist was successfully created: ${action.payload.url}`,
-          status: 'DONE',
-          result: action,
-        },
-      };
-  }
-};
+// const handleOk = (action: GistCreateResponse): MessageAction => {
+//   switch (action.type) {
+//     case 'ERROR':
+//       return {
+//         type: 'LOG_GIST',
+//         payload: {
+//           content: `Compilation Error: ${action.payload.stdout}, ${action.payload.stderr}`,
+//           status: 'ERROR',
+//         },
+//       };
+//     case 'SUCCESS':
+//       return {
+//         type: 'LOG_GIST',
+//         payload: {
+//           content: `Your GitHub Gist was successfully created: ${action.payload.url}`,
+//           status: 'DONE',
+//           result: action,
+//         },
+//       };
+//   }
+// };
 
 export async function gistCreate(
   state: State,
