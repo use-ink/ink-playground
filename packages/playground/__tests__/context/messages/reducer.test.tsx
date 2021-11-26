@@ -2,7 +2,7 @@ import {
   reducer,
   defaultState,
   SystemMessage,
-  GistCreateMessage,
+  GistMessage,
   CompilationMessage,
 } from '~/context/messages/reducer';
 
@@ -231,7 +231,7 @@ describe('Given the reducer is used to manage state', () => {
       // Given
       const status = 'IN_PROGRESS';
       const content = 'Gist message content';
-      const action: GistCreateMessage = {
+      const action: GistMessage = {
         type: 'LOG_GIST',
         payload: {
           content,
@@ -257,7 +257,7 @@ describe('Given the reducer is used to manage state', () => {
       // Given
       const status = 'DONE';
       const content = 'Gist message content';
-      const action: GistCreateMessage = {
+      const action: GistMessage = {
         type: 'LOG_GIST',
         payload: {
           content,
@@ -283,7 +283,7 @@ describe('Given the reducer is used to manage state', () => {
       // Given
       const status = 'ERROR';
       const content = 'Gist message content';
-      const action: GistCreateMessage = {
+      const action: GistMessage = {
         type: 'LOG_GIST',
         payload: {
           content,
@@ -309,7 +309,7 @@ describe('Given the reducer is used to manage state', () => {
       // Given
       const status = 'INFO';
       const content = 'Gist message content';
-      const action: GistCreateMessage = {
+      const action: GistMessage = {
         type: 'LOG_GIST',
         payload: {
           content,

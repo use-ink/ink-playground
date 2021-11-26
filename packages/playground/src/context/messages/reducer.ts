@@ -11,7 +11,7 @@ export type MessageState = {
   nextId: number;
 };
 
-export type MessageAction = SystemMessage | CompilationMessage | GistCreateMessage;
+export type MessageAction = SystemMessage | CompilationMessage | GistMessage;
 
 export type SystemMessage = {
   type: 'LOG_SYSTEM';
@@ -30,7 +30,7 @@ export type CompilationMessage = {
   };
 };
 
-export type GistCreateMessage = {
+export type GistMessage = {
   type: 'LOG_GIST';
   payload: {
     status: Status;
@@ -140,8 +140,8 @@ const reducerLogCompile = (state: MessageState, action: CompilationMessage): Mes
   }
 };
 
-const reducerLogGist = (state: MessageState, action: GistCreateMessage): MessageState => {
-  const appendMessage = (state: MessageState, action: GistCreateMessage): MessageState => {
+const reducerLogGist = (state: MessageState, action: GistMessage): MessageState => {
+  const appendMessage = (state: MessageState, action: GistMessage): MessageState => {
     const newMessage: Message = {
       id: state.nextId,
       prompt: 'GIST',
@@ -156,7 +156,7 @@ const reducerLogGist = (state: MessageState, action: GistCreateMessage): Message
     };
   };
 
-  const updateMessage = (state: MessageState, action: GistCreateMessage): MessageState => {
+  const updateMessage = (state: MessageState, action: GistMessage): MessageState => {
     const id = lastId(state, 'GIST');
     const updateMessage: Message = {
       id,
