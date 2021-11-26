@@ -9,16 +9,13 @@ export type GistLoadApiRequest = Common.GistLoadRequest;
 
 export type GistLoadApiResponse =
   | {
-      type: 'OK';
-      payload: Common.GistLoadResponse;
-    }
-  | {
       type: 'NETWORK_ERROR';
     }
   | {
       type: 'SERVER_ERROR';
       payload: { status: number };
-    };
+    }
+  | Common.GistLoadResponse;
 
 // -------------------------------------------------------------------------------------------------
 // Functions
@@ -26,10 +23,7 @@ export type GistLoadApiResponse =
 
 const mapResponse = async (response: Response): Promise<GistLoadApiResponse> =>
   response.status === 200
-    ? {
-        type: 'OK',
-        payload: await response.json(),
-      }
+    ? await response.json()
     : {
         type: 'SERVER_ERROR',
         payload: { status: response.status },

@@ -1,6 +1,6 @@
 import { useState, useContext, ReactElement } from 'react';
 import MonacoEditor, { MonacoEditorProps } from 'react-monaco-editor';
-import exampleCode from './example-code';
+import exampleCode from '~/app/Editor/example-code';
 import { AppContext } from '~/context/app/';
 import { Dispatch, State } from '~/context/app/reducer';
 export const Editor = (): ReactElement => {

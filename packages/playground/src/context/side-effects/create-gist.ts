@@ -1,5 +1,5 @@
-import { State, Dispatch } from '../../reducer';
-import { MessageAction, MessageDispatch, GistCreateMessage } from '../../../messages/reducer';
+import { State, Dispatch } from '../app/reducer';
+import { MessageAction, MessageDispatch, GistMessage } from '../messages/reducer';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { GistCreateApiResponse, gistCreateRequest } from '~/api/gists';
 import { GistCreateResponse } from '@paritytech/commontypes';
@@ -15,7 +15,7 @@ const resetToNotAsked = (dispatch: Dispatch, dispatchMessage: MessageDispatch): 
   });
 };
 
-const getMessageAction = (result: GistCreateApiResponse): GistCreateMessage => {
+const getMessageAction = (result: GistCreateApiResponse): GistMessage => {
   switch (result.type) {
     case 'NETWORK_ERROR':
       return {
@@ -38,7 +38,7 @@ const getMessageAction = (result: GistCreateApiResponse): GistCreateMessage => {
   }
 };
 
-const handleOk = (response: GistCreateResponse): GistCreateMessage => {
+const handleOk = (response: GistCreateResponse): GistMessage => {
   switch (response.type) {
     case 'ERROR':
       return {
