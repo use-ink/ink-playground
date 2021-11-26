@@ -56,6 +56,7 @@ pub fn create_crate(crate_graph: &mut CrateGraph, f: FileId) -> CrateId {
         f,
         Edition::Edition2018,
         None,
+        None,
         cfg,
         CfgOptions::default(),
         Env::default(),
