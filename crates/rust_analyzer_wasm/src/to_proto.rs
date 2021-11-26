@@ -130,7 +130,6 @@ pub(crate) fn completion_item(
     return_types::CompletionItem {
         kind: completion_item_kind(
             item.kind()
-                .unwrap_or(ide::CompletionItemKind::SymbolKind(ide::SymbolKind::Struct)),
         ),
         label: item.label().to_string(),
         range,
