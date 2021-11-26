@@ -64,6 +64,22 @@ impl From<Change> for ChangeJson {
     }
 }
 
+pub trait Find {
+    fn find_crate(&self, display_name: &str) -> Option<CrateId>;
+}
+
+impl Find for CrateGraph {
+    fn find_crate(&self, display_name: &str) -> Option<CrateId> {
+    self.iter().find(|it| self[*it].display_name.as_deref() == Some(display_name))
+}
+}
+
+impl Find for Change {
+    fn find_crate(&self, display_name: &str) -> Option<CrateId> {
+        self.crate_graph.as_ref()?.find_crate(display_name)
+    }
+}
+
 impl From<&ChangeJson> for Change {
     fn from(change_json: &ChangeJson) -> Self {
         let mut change = Change::default();
@@ -92,17 +108,6 @@ impl From<ChangeJson> for Change {
         Change::from(&change_json)
     }
 }
-
-trait Find {
-    fn find_crate(&self, display_name: &str) -> Option<CrateId>;
-}
-
-impl Find for CrateGraph {
-    fn find_crate(&self, display_name: &str) -> Option<CrateId> {
-    self.iter().find(|it| self[*it].display_name.as_deref() == Some(display_name))
-}
-}
-
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
 struct SourceRootJson {
     roots: Vec<Vec<(u32, Option<String>)>>,
