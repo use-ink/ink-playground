@@ -15,7 +15,7 @@
 #![cfg(target_arch = "wasm32")]
 #![allow(non_snake_case)]
 
-use change_json::ChangeJson;
+use change_json::{ChangeJson, Find};
 use ide::{
     Analysis,
     AnalysisHost,
@@ -66,7 +66,7 @@ extern crate web_sys;
 use rayon::prelude::*;
 pub use wasm_bindgen_rayon::init_thread_pool;
 
-const FILE_ID: u32 = 62;
+const FILE_NAME: &str = "contract";
 
 fn derive_analytics(host: &AnalysisHost, file_id: FileId) -> JsValue {
     let analysis = host.analysis();
@@ -134,7 +134,7 @@ pub struct WorldState {
 impl WorldState {
     #[wasm_bindgen(constructor)]
     pub fn new() -> Self {
-        let file_id = FileId(FILE_ID);
+        let file_id = FileId(0);
         let analysis_host = AnalysisHost::default();
         let analysis = analysis_host.analysis();
         let analysis_host = AnalysisHost::default();
@@ -152,6 +152,10 @@ impl WorldState {
         let change: ChangeJson =
             serde_json::from_str(&json).expect("`Change` deserialization must work");
         let change = Change::from(change);
+        if let Some(crate_id) = change.find_crate(FILE_NAME) {
+            let file_id = &change.crate_graph.as_ref().expect("Can not find CrateData for edited file")[crate_id].root_file_id;
+            self.file_id = *file_id;
+        };
         self.analysis_host.apply_change(change);
     }
 
@@ -173,7 +177,7 @@ impl WorldState {
         log::warn!("analyze");
         init_panic_hook();
         web_sys::console::log_1(&"Starting Analysis!".into());
-        self.file_id = FileId(file_id);
+        // self.file_id = FileId(file_id);
         // this unblocks AnalysisHost
         let analysis_host = AnalysisHost::default();
         self.analysis = analysis_host.analysis();
