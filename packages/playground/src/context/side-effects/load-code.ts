@@ -1,14 +1,15 @@
 import { State, Dispatch } from '../app/reducer';
 import { MessageDispatch } from '../messages/reducer';
-import { gistLoadRequest, GistLoadApiResponse, GistCreateApiResponse } from '~/api/gists';
-import { Gist, GistCreateResponse, GistLoadResponse } from '@paritytech/commontypes';
-// import qs from 'qs';
+import { gistLoadRequest } from '~/api/gists';
+import { GistCreateResponse } from '@paritytech/commontypes';
+import qs from 'qs';
 import exampleCode from '~/app/Editor/example-code';
 
 type Params = { id?: string };
 
-const parse = (input: string): null | Params => {
-  return 'todo' as any;
+const parseParams = (input: string): Params => {
+  const queryString = qs.parse(input);
+  return queryString as Params;
 };
 
 const handleError = (
@@ -64,8 +65,12 @@ const resetToNotAsked = (dispatch: Dispatch, dispatchMessage: MessageDispatch): 
   });
 };
 
-export async function gistLoad(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch) {
-  if (state.gist.type === 'IN_PROGRESS') return;
+export async function loadCode(
+  state: State,
+  dispatch: Dispatch,
+  dispatchMessage: MessageDispatch
+): Promise<string> {
+  if (state.gist.type === 'IN_PROGRESS') return '';
 
   dispatch({ type: 'SET_GIST_STATE', payload: { type: 'IN_PROGRESS' } });
 
@@ -77,12 +82,7 @@ export async function gistLoad(state: State, dispatch: Dispatch, dispatchMessage
     },
   });
 
-  const params = parse(window.location.search.substring(1));
-
-  if (!params) {
-    throw Error('');
-  }
-
+  const params = parseParams(window.location.search.substring(1));
   if (!params.id) {
     return exampleCode;
   }
