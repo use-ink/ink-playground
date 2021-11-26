@@ -31,9 +31,9 @@ pub struct Gist {
     pub code: String,
 }
 
-const GISTS_REPO_URL : &str = "https://github.com/ink-playground-gists";
+const GISTS_REPO_URL: &str = "https://gist.github.com/ink-playground-gists";
 
-fn create_gist_url(id: &str) {
+fn create_gist_url(id: String) -> String {
     format!("{}/{}", GISTS_REPO_URL, id)
 }
 
@@ -43,7 +43,7 @@ pub fn from_github_gist(gist: hubcaps::gists::Gist) -> Option<Gist> {
         .get(GIST_FILENAME)
         .and_then(|file| file.content.as_ref())?;
 
-    let id = gist.id.as_ref();
+    let id = gist.id.clone();
 
     Some(Gist {
         id: gist.id,
