@@ -1,4 +1,4 @@
-import { State, Dispatch } from '../app/reducer';
+import { State, Dispatch as AppDispatch } from '../app/reducer';
 import { MessageDispatch } from '../messages/reducer';
 import { gistLoadRequest } from '~/api/gists';
 import { GistCreateResponse } from '@paritytech/commontypes';
@@ -12,28 +12,35 @@ const parseParams = (input: string): Params => {
   return queryString as Params;
 };
 
-const handleError = (
-  content: string,
-  dispatch: Dispatch,
-  dispatchMessage: MessageDispatch
-): string => {
-  dispatchMessage({
+type Dispatch = {
+  app: AppDispatch;
+  message: MessageDispatch;
+};
+
+const handleError = (content: string, dispatch: Dispatch): string => {
+  dispatch.app({ type: 'SET_GIST_STATE', payload: { type: 'NOT_ASKED' } });
+  dispatch.message({
     type: 'LOG_GIST',
     payload: {
       content,
       status: 'ERROR',
     },
   });
-  resetToNotAsked(dispatch, dispatchMessage);
+  dispatch.message({
+    type: 'LOG_GIST',
+    payload: {
+      content: 'Something went wrong, please try again!',
+      status: 'ERROR',
+    },
+  });
   return '';
 };
 
 const handleSuccess = (
   response: Extract<GistCreateResponse, { type: 'SUCCESS' }>,
-  dispatch: Dispatch,
-  dispatchMessage: MessageDispatch
+  dispatch: Dispatch
 ): string => {
-  dispatchMessage({
+  dispatch.message({
     type: 'LOG_GIST',
     payload: {
       content: `GitHub Gist was successfully loaded from: ${response.payload.url}`,
@@ -41,7 +48,7 @@ const handleSuccess = (
     },
   });
 
-  dispatch({
+  dispatch.app({
     type: 'SET_GIST_STATE',
     payload: {
       type: 'RESULT',
@@ -54,22 +61,7 @@ const handleSuccess = (
   return response.payload.code;
 };
 
-const resetToNotAsked = (dispatch: Dispatch, dispatchMessage: MessageDispatch): void => {
-  dispatch({ type: 'SET_GIST_STATE', payload: { type: 'NOT_ASKED' } });
-  dispatchMessage({
-    type: 'LOG_GIST',
-    payload: {
-      content: 'Something went wrong, please try again!',
-      status: 'ERROR',
-    },
-  });
-};
-
-export async function loadCode(
-  state: State,
-  dispatch: Dispatch,
-  dispatchMessage: MessageDispatch
-): Promise<string> {
+export async function loadCode(state: State, dispatch: Dispatch): Promise<string> {
   if (state.gist.type === 'IN_PROGRESS') return '';
 
   const params = parseParams(window.location.search.substring(1));
@@ -77,9 +69,9 @@ export async function loadCode(
     return exampleCode;
   }
 
-  dispatch({ type: 'SET_GIST_STATE', payload: { type: 'IN_PROGRESS' } });
+  dispatch.app({ type: 'SET_GIST_STATE', payload: { type: 'IN_PROGRESS' } });
 
-  dispatchMessage({
+  dispatch.message({
     type: 'LOG_GIST',
     payload: {
       content: 'Loading GitHub Gist...',
@@ -91,12 +83,12 @@ export async function loadCode(
 
   switch (result.type) {
     case 'NETWORK_ERROR':
-      return handleError('Network error!', dispatch, dispatchMessage);
+      return handleError('Network error!', dispatch);
     case 'SERVER_ERROR':
-      return handleError('Server error!', dispatch, dispatchMessage);
+      return handleError('Server error!', dispatch);
     case 'ERROR':
-      return handleError('There was an error loading Gist.', dispatch, dispatchMessage);
+      return handleError('There was an error loading Gist.', dispatch);
     case 'SUCCESS':
-      return handleSuccess(result, dispatch, dispatchMessage);
+      return handleSuccess(result, dispatch);
   }
 }

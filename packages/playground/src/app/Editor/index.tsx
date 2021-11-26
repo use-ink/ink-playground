@@ -12,7 +12,7 @@ export const Editor = (): ReactElement => {
   const [, dispatchMessage]: [MessageState, MessageDispatch] = useContext(MessageContext);
 
   useEffect(() => {
-    loadCode(state, dispatch, dispatchMessage).then(code => {
+    loadCode(state, { app: dispatch, message: dispatchMessage }).then(code => {
       setInitialCode(code);
     });
   }, []);
