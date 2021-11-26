@@ -112,6 +112,7 @@ impl From<&CrateGraphJson> for CrateGraph {
                 file_id,
                 edition,
                 display_name,
+                None,
                 cfg_options,
                 potential_cfg_options,
                 env,
@@ -161,13 +162,13 @@ impl From<&CfgOptions> for CfgOptionsJson {
     fn from(cfg_options: &CfgOptions) -> Self {
         let options = cfg_options
             .get_cfg_keys()
-            .iter()
+            .into_iter()
             .map(|key| {
                 (
                     String::from(key.as_str()),
                     cfg_options
                         .get_cfg_values(key)
-                        .iter()
+                        .into_iter()
                         .map(|val| String::from(val.as_str()))
                         .collect::<Vec<_>>(),
                 )
@@ -223,6 +224,7 @@ mod tests {
             FileId(1u32),
             Edition::Edition2018,
             None,
+            None,
             CfgOptions::default(),
             CfgOptions::default(),
             Env::default(),
@@ -232,6 +234,7 @@ mod tests {
             FileId(2u32),
             Edition::Edition2018,
             None,
+            None,
             CfgOptions::default(),
             CfgOptions::default(),
             Env::default(),
@@ -240,6 +243,7 @@ mod tests {
         let crate3 = graph.add_crate_root(
             FileId(3u32),
             Edition::Edition2018,
+            None,
             None,
             CfgOptions::default(),
             CfgOptions::default(),

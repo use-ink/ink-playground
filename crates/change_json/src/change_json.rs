@@ -74,7 +74,7 @@ impl From<&ChangeJson> for Change {
         if let Some(local) = change_json.local_roots.as_ref() {
             roots.append(&mut local.to_roots(false))
         }
-        if let Some(library) = change_json.library_roots.as_ref() {
+        if let Some(library ) = change_json.library_roots.as_ref() {
             roots.append(&mut library.to_roots(true))
         }
         change.set_roots(roots);
