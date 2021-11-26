@@ -1,15 +1,21 @@
-import { useState, useContext, ReactElement } from 'react';
+import { useState, useContext, ReactElement, useEffect } from 'react';
 import MonacoEditor, { MonacoEditorProps } from 'react-monaco-editor';
-import exampleCode from '~/app/Editor/example-code';
 import { AppContext } from '~/context/app/';
+import { MessageContext } from '~/context/messages/';
 import { Dispatch, State } from '~/context/app/reducer';
-export const Editor = (): ReactElement => {
-  const [code, setCode] = useState(exampleCode);
-  const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
+import { MessageDispatch, MessageState } from '~/context/messages/reducer';
+import { loadCode } from '~/context/side-effects/load-code';
 
-  const handleChange = (newValue: string): void => {
-    setCode(newValue);
-  };
+export const Editor = (): ReactElement => {
+  const [initialCode, setInitialCode] = useState<string>('');
+  const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
+  const [, dispatchMessage]: [MessageState, MessageDispatch] = useContext(MessageContext);
+
+  useEffect(() => {
+    loadCode(state, dispatch, dispatchMessage).then(code => {
+      setInitialCode(code);
+    });
+  }, []);
 
   const editorDidMount = async (editor: MonacoEditor['editor']): Promise<void> => {
     if (editor) {
@@ -33,9 +39,8 @@ export const Editor = (): ReactElement => {
     <MonacoEditor
       language="rust"
       theme={state.darkmode ? 'vs-dark' : 'vs'}
-      value={code}
+      value={initialCode}
       options={options}
-      onChange={handleChange}
       editorDidMount={editorDidMount}
     />
   );
