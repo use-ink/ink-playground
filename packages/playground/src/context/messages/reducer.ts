@@ -141,7 +141,7 @@ const reducerLogCompile = (state: MessageState, action: CompilationMessage): Mes
 };
 
 const reducerLogGist = (state: MessageState, action: GistCreateMessage): MessageState => {
-  if (action.payload.status === 'IN_PROGRESS' || action.payload.status === 'INFO') {
+  const appendMessage = (state: MessageState, action: GistCreateMessage): MessageState => {
     const newMessage: Message = {
       id: state.nextId,
       prompt: 'GIST',
@@ -154,7 +154,9 @@ const reducerLogGist = (state: MessageState, action: GistCreateMessage): Message
       messages: [...state.messages, newMessage],
       nextId: state.nextId + 1,
     };
-  } else {
+  };
+
+  const updateMessage = (state: MessageState, action: GistCreateMessage): MessageState => {
     const id = lastId(state, 'GIST');
     const updateMessage: Message = {
       id,
@@ -167,6 +169,15 @@ const reducerLogGist = (state: MessageState, action: GistCreateMessage): Message
       ...state,
       messages: [...state.messages, updateMessage],
     };
+  };
+
+  switch (action.payload.status) {
+    case 'IN_PROGRESS':
+    case 'INFO':
+      return appendMessage(state, action);
+    case 'DONE':
+    case 'ERROR':
+      return updateMessage(state, action);
   }
 };
 
