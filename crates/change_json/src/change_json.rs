@@ -16,10 +16,11 @@ use crate::crate_graph_json;
 use base_db::{
     Change,
     CrateGraph,
+    CrateId,
     FileId,
     FileSet,
     SourceRoot,
-    VfsPath, CrateId,
+    VfsPath,
 };
 use crate_graph_json::CrateGraphJson;
 use serde::{
@@ -70,8 +71,9 @@ pub trait Find {
 
 impl Find for CrateGraph {
     fn find_crate(&self, display_name: &str) -> Option<CrateId> {
-    self.iter().find(|it| self[*it].display_name.as_deref() == Some(display_name))
-}
+        self.iter()
+            .find(|it| self[*it].display_name.as_deref() == Some(display_name))
+    }
 }
 
 impl Find for Change {
