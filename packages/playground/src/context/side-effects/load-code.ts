@@ -37,7 +37,7 @@ const handleSuccess = (
     type: 'LOG_GIST',
     payload: {
       content: `GitHub Gist was successfully loaded from: ${response.payload.url}`,
-      status: 'ERROR',
+      status: 'DONE',
     },
   });
 
@@ -72,6 +72,11 @@ export async function loadCode(
 ): Promise<string> {
   if (state.gist.type === 'IN_PROGRESS') return '';
 
+  const params = parseParams(window.location.search.substring(1));
+  if (!params.id) {
+    return exampleCode;
+  }
+
   dispatch({ type: 'SET_GIST_STATE', payload: { type: 'IN_PROGRESS' } });
 
   dispatchMessage({
@@ -82,10 +87,6 @@ export async function loadCode(
     },
   });
 
-  const params = parseParams(window.location.search.substring(1));
-  if (!params.id) {
-    return exampleCode;
-  }
   const result = await gistLoadRequest({ id: params.id });
 
   switch (result.type) {
