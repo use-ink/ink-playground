@@ -46,11 +46,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
     steps:
-      - run: echo $GITHUB_GIST_TOKEN
-      - run: echo $GITHUB_GIST_TOKEN | rev
       - uses: actions/checkout@v2
       - name: Build
         run: cargo build --verbose
