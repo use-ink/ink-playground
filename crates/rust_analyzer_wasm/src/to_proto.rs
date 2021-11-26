@@ -128,9 +128,7 @@ pub(crate) fn completion_item(
     let return_types::TextEdit { range, text } = edit.unwrap();
 
     return_types::CompletionItem {
-        kind: completion_item_kind(
-            item.kind()
-        ),
+        kind: completion_item_kind(item.kind()),
         label: item.label().to_string(),
         range,
         detail: item.detail().map(|it| it.to_string()),
