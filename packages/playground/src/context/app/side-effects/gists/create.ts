@@ -15,7 +15,7 @@ const resetToNotAsked = (dispatch: Dispatch, dispatchMessage: MessageDispatch): 
   });
 };
 
-const getMessageAction = (result: GistCreateApiResponse): GistCreateMessage | undefined => {
+const getMessageAction = (result: GistCreateApiResponse): GistCreateMessage => {
   switch (result.type) {
     case 'NETWORK_ERROR':
       return {
@@ -34,7 +34,7 @@ const getMessageAction = (result: GistCreateApiResponse): GistCreateMessage | un
         },
       };
     case 'OK':
-      handleOk(result.payload);
+      return handleOk(result.payload);
   }
 };
 
