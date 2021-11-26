@@ -51,7 +51,9 @@ mod tests {
         }
 
         // Test is deactivated due to Github token issues.
-        return
+        if true {
+            return
+        }
 
         let github_token = env::var("GITHUB_GIST_TOKEN")
             .expect("CI tests must provide a `GITHUB_GIST_TOKEN`");
