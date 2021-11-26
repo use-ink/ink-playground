@@ -19,7 +19,7 @@ use base_db::{
     FileId,
     FileSet,
     SourceRoot,
-    VfsPath,
+    VfsPath, CrateId,
 };
 use crate_graph_json::CrateGraphJson;
 use serde::{
@@ -91,6 +91,16 @@ impl From<ChangeJson> for Change {
     fn from(change_json: ChangeJson) -> Self {
         Change::from(&change_json)
     }
+}
+
+trait Find {
+    fn find_crate(&self, display_name: &str) -> Option<CrateId>;
+}
+
+impl Find for CrateGraph {
+    fn find_crate(&self, display_name: &str) -> Option<CrateId> {
+    self.iter().find(|it| self[*it].display_name.as_deref() == Some(display_name))
+}
 }
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
