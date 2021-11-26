@@ -1,7 +1,7 @@
 import { State, Dispatch } from '../app/reducer';
 import { MessageDispatch } from '../messages/reducer';
-import { gistLoadRequest, GistLoadApiResponse } from '~/api/gists';
-import { Gist } from '@paritytech/commontypes';
+import { gistLoadRequest, GistLoadApiResponse, GistCreateApiResponse } from '~/api/gists';
+import { Gist, GistCreateResponse, GistLoadResponse } from '@paritytech/commontypes';
 // import qs from 'qs';
 import exampleCode from '~/app/Editor/example-code';
 
@@ -28,7 +28,7 @@ const handleError = (
 };
 
 const handleSuccess = (
-  response: { type: 'SUCCESS'; payload: Gist },
+  response: Extract<GistCreateResponse, { type: 'SUCCESS' }>,
   dispatch: Dispatch,
   dispatchMessage: MessageDispatch
 ): string => {
@@ -39,10 +39,17 @@ const handleSuccess = (
       status: 'ERROR',
     },
   });
-  // dispatch({
-  //   type: 'SET_GIST_STATE',
-  //   payload: { type: 'RESULT', payload: response },
-  // });
+
+  dispatch({
+    type: 'SET_GIST_STATE',
+    payload: {
+      type: 'RESULT',
+      payload: {
+        type: 'OK',
+        payload: response,
+      },
+    },
+  });
   return response.payload.code;
 };
 
