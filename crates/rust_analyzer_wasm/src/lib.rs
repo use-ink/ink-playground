@@ -15,7 +15,10 @@
 #![cfg(target_arch = "wasm32")]
 #![allow(non_snake_case)]
 
-use change_json::{ChangeJson, Find};
+use change_json::{
+    ChangeJson,
+    Find,
+};
 use ide::{
     Analysis,
     AnalysisHost,
@@ -153,7 +156,11 @@ impl WorldState {
             serde_json::from_str(&json).expect("`Change` deserialization must work");
         let change = Change::from(change);
         if let Some(crate_id) = change.find_crate(FILE_NAME) {
-            let file_id = &change.crate_graph.as_ref().expect("Can not find CrateData for edited file")[crate_id].root_file_id;
+            let file_id = &change
+                .crate_graph
+                .as_ref()
+                .expect("Can not find CrateData for edited file")[crate_id]
+                .root_file_id;
             self.file_id = *file_id;
         };
         self.analysis_host.apply_change(change);
