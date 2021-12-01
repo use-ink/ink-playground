@@ -30,7 +30,9 @@ export const Header = (): ReactElement => {
   const shareOverlay = useRef<OverlayPanel>(null);
 
   const hasDownloadableResult =
-    state.compile.type === 'RESULT' && state.compile.payload.type === 'OK';
+    state.compile.type === 'RESULT' &&
+    state.compile.payload.type === 'OK' &&
+    state.compile.payload.payload.type === 'SUCCESS';
 
   return (
     <div className="dark:text-primary dark:bg-primary dark:border-dark border-light border-b text-light flex max-h-16">
@@ -50,9 +52,7 @@ export const Header = (): ReactElement => {
           label="Download"
           Icon={DownloadIcon}
           testId={'buttonIcon'}
-          onClick={() => {
-            alert('Download!');
-          }}
+          onClick={() => handleDownload(state)}
           disabled={!hasDownloadableResult || !state.monacoUri}
           loading={state.compile.type === 'IN_PROGRESS'}
         />
@@ -88,4 +88,34 @@ export const Header = (): ReactElement => {
       </OverlayPanel>
     </div>
   );
+};
+
+const handleDownload = (state: State) => {
+  if (
+    state.compile.type !== 'RESULT' ||
+    state.compile.payload.type !== 'OK' ||
+    state.compile.payload.payload.type !== 'SUCCESS'
+  )
+    return;
+
+  const wasm = state.compile.payload.payload.payload.wasm;
+
+  downloadBlob(wasm);
+};
+
+export const downloadBlob = (code: number[]): void => {
+  const blob = new Blob([new Uint8Array(code).buffer]);
+
+  const a = document.createElement('a');
+  a.download = 'result.contract';
+  a.href = URL.createObjectURL(blob);
+  a.dataset.downloadurl = ['application/json', a.download, a.href].join(':');
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  setTimeout(() => {
+    URL.revokeObjectURL(a.href);
+  }, 1500);
 };
