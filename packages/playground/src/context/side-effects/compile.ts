@@ -34,7 +34,7 @@ const getMessageAction = (result: CompileApiResponse): MessageAction | undefined
         return {
           type: 'LOG_COMPILE',
           payload: {
-            content: 'Compiling finished',
+            content: 'Compilation finished',
             status: 'DONE',
             result: result.payload,
           },
@@ -51,7 +51,7 @@ export async function compile(state: State, dispatch: Dispatch, dispatchMessage:
   dispatchMessage({
     type: 'LOG_COMPILE',
     payload: {
-      content: 'Compiling has started...',
+      content: 'Compilation has started...',
       status: 'IN_PROGRESS',
     },
   });
