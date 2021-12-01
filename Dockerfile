@@ -62,6 +62,11 @@ RUN make generate-bindings
 RUN make generate-change-json
 
 RUN rustup default nightly
+
+ARG COMPILE_URL=/compile
+ARG GIST_LOAD_URL=/gist/load
+ARG COMPILE_URL=/gist/create
+
 RUN make playground-build
 
 RUN rustup default stable
