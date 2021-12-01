@@ -1,6 +1,7 @@
 import { useEffect, useRef, ReactElement } from 'react';
 import { ConsoleMessage } from './ConsoleMessage';
 import { Message } from './ConsoleMessage';
+import { Severity } from '@paritytech/components/';
 
 export const ConsoleMessages = ({ messages }: { messages: Message[] }): ReactElement => {
   const AlwaysScrollToBottom = () => {
@@ -9,10 +10,34 @@ export const ConsoleMessages = ({ messages }: { messages: Message[] }): ReactEle
     return <div ref={elementRef} />;
   };
 
+  const messages_: Message[] = [
+    {
+      id: 0,
+      prompt: 'SYSTEM',
+      status: 'IN_PROGRESS',
+      severity: Severity.IN_PROGRESS,
+    },
+    {
+      id: 1,
+      prompt: 'SYSTEM',
+      status: 'DONE',
+      severity: Severity.DONE,
+      content: 'I am some short content..',
+    },
+    {
+      id: 2,
+      prompt: 'SYSTEM',
+      status: 'IN_PROGRESS',
+      severity: Severity.IN_PROGRESS,
+      content:
+        'I am some very loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong long long long long long long long long long long long long long long long long long long long long long long long content..',
+    },
+  ];
+
   const Messages = () => {
     return (
       <>
-        {messages.map((message, index) => {
+        {messages_.map((message, index) => {
           return <ConsoleMessage key={message.id} mIndex={index} message={message} />;
         })}
       </>

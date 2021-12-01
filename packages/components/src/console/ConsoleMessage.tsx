@@ -1,3 +1,5 @@
+import { ReactElement } from 'react';
+
 interface Props {
   message: Message;
   mIndex: number;
@@ -49,27 +51,28 @@ const selectIcon = (status: Status): string => {
   }
 };
 
-export const ConsoleMessage = ({ message: m, mIndex }: Props) => {
+const Prompt = ({ message: m, mIndex }: Props): ReactElement => {
   const severity: Severity = m.severity;
   const icon: string = selectIcon(m.status);
 
   return (
-    <>
-      <div
-        className="flex mb-1 text-sm subpixel-antialiased basis-zero"
-        data-testid={`message-${mIndex}`}
-      >
-        <div className="whitespace-nowrap">
-          <i
-            className={`${icon} ${severityColors[severity]} pt-px`}
-            data-testid={`icon-${mIndex}`}
-          />
-          <span className={`${severityColors[severity]} ml-2`}>{m.prompt}:</span>
-        </div>
-        <div className="flex">
-          <span className="pl-2">{m?.content}</span>
-        </div>
+    <div className="whitespace-nowrap flex self-start content-center">
+      <div className="w-6">
+        <i
+          className={`${icon} ${severityColors[severity]} leading-normal`}
+          data-testid={`icon-${mIndex}`}
+        />
       </div>
-    </>
+      <span className={`${severityColors[severity]}`}>{m.prompt}:</span>
+    </div>
+  );
+};
+
+export const ConsoleMessage = ({ message: m, mIndex }: Props): ReactElement => {
+  return (
+    <div className="flex mb-1 basis-zero" data-testid={`message-${mIndex}`}>
+      <Prompt message={m} mIndex={mIndex} />
+      <span className="pl-2">{m?.content}</span>
+    </div>
   );
 };
