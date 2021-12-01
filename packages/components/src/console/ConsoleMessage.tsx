@@ -59,11 +59,11 @@ const Prompt = ({ message: m, mIndex }: Props): ReactElement => {
     <div className="whitespace-nowrap flex self-start content-center">
       <div className="w-6">
         <i
-          className={`${icon} ${severityColors[severity]} leading-normal`}
+          className={`${icon} ${severityColors[severity]} leading-normal top-inset-0.5`}
           data-testid={`icon-${mIndex}`}
         />
       </div>
-      <span className={`${severityColors[severity]}`}>{m.prompt}:</span>
+      <span className={`${severityColors[severity]} mt-px2 mr-2`}>{m.prompt}:</span>
     </div>
   );
 };
@@ -72,7 +72,7 @@ export const ConsoleMessage = ({ message: m, mIndex }: Props): ReactElement => {
   return (
     <div className="flex mb-1 basis-zero" data-testid={`message-${mIndex}`}>
       <Prompt message={m} mIndex={mIndex} />
-      <span className="pl-2">{m?.content}</span>
+      <span className="pl-2 mt-px2">{m?.content}</span>
     </div>
   );
 };
