@@ -18,6 +18,12 @@
 
 DOCKER_PORT ?= 3000
 
+GIST_CREATE_URL ?= http://localhost:4000/gist/create
+
+GIST_LOAD_URL ?= http://localhost:4000/gist/load
+
+COMPILE_URL ?= http://localhost:4000/compile
+
 ################################################################################
 # GENERATE
 ################################################################################
@@ -43,11 +49,14 @@ generate: generate-change-json
 ################################################################################
 
 playground-build:
-	COMPILE_URL=/compile yarn workspace playground run build
+	yarn workspace playground run build
 
 playground-start: generate-bindings
 playground-start:
-	COMPILE_URL=http://localhost:4000/compile yarn workspace playground run start
+	COMPILE_URL=$(COMPILE_URL) \
+	GIST_LOAD_URL=$(GIST_LOAD_URL) \
+	GIST_CREATE_URL=$(GIST_CREATE_URL) \
+	yarn workspace playground run start
 
 playground-clean:
 	yarn workspace playground run clean
