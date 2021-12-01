@@ -108,7 +108,7 @@ async fn main() -> std::io::Result<()> {
             }
             None => {
                 println!("Warning: Starting backend without serving static frontend files due to missing configuration.")
-            } 
+            }
         }
 
         app
