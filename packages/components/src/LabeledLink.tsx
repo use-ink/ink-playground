@@ -6,12 +6,12 @@ export type LabeledLinkProps = {
 };
 
 export const LabeledLink = ({ label, link }: LabeledLinkProps): ReactElement => {
-  const [animatePing, setAnimatePing] = useState('');
+  const [animatePing, setAnimatePing] = useState(false);
 
   const showAnimation = (): void => {
-    setAnimatePing('animate-ping');
+    setAnimatePing(true);
     setTimeout(() => {
-      setAnimatePing('');
+      setAnimatePing(false);
     }, 750);
   };
 
@@ -29,7 +29,7 @@ export const LabeledLink = ({ label, link }: LabeledLinkProps): ReactElement => 
             navigator.clipboard.writeText(link);
           }}
         >
-          <i className={`pi pi-copy ml-4 ${animatePing}`} />
+          <i className={`pi pi-copy ml-4 ${animatePing ? 'animate-ping' : ''}`} />
         </button>
       </div>
     </div>
