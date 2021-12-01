@@ -1,4 +1,4 @@
-import { useState, useContext, ReactElement, useEffect } from 'react';
+import { useState, useContext, ReactElement } from 'react';
 import MonacoEditor, { MonacoEditorProps } from 'react-monaco-editor';
 import { AppContext } from '~/context/app/';
 import { MessageContext } from '~/context/messages/';
@@ -7,25 +7,26 @@ import { MessageDispatch, MessageState } from '~/context/messages/reducer';
 import { loadCode } from '~/context/side-effects/load-code';
 
 export const Editor = (): ReactElement => {
-  const [initialCode, setInitialCode] = useState<string>('');
+  const [code, setCode] = useState<string>('');
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
   const [, dispatchMessage]: [MessageState, MessageDispatch] = useContext(MessageContext);
-
-  useEffect(() => {
-    loadCode(state, { app: dispatch, message: dispatchMessage }).then(code => {
-      setInitialCode(code);
-    });
-  }, []);
 
   const editorDidMount = async (editor: MonacoEditor['editor']): Promise<void> => {
     if (editor) {
       editor.focus();
       const model = editor.getModel();
       if (model) {
+        loadCode(state, { app: dispatch, message: dispatchMessage }).then(code => {
+          model.setValue(code);
+        });
         dispatch({ type: 'SET_URI', payload: model.uri });
         await import('./utils/startRustAnalyzer').then(code => code.startRustAnalyzer(model.uri));
       }
     }
+  };
+
+  const handleChange = (newValue: string): void => {
+    setCode(newValue);
   };
 
   const options: MonacoEditorProps['options'] = {
@@ -39,7 +40,8 @@ export const Editor = (): ReactElement => {
     <MonacoEditor
       language="rust"
       theme={state.darkmode ? 'vs-dark' : 'vs'}
-      value={initialCode}
+      value={code}
+      onChange={handleChange}
       options={options}
       editorDidMount={editorDidMount}
     />
