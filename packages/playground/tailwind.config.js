@@ -42,7 +42,12 @@ module.exports = {
       dark: '#3C3D47',
       light: '#cecece',
     }),
-    extend: {},
+    extend: {
+      spacing: {
+        px2: '2px',
+        px3: '3px',
+      },
+    },
   },
   variants: {
     extend: {
