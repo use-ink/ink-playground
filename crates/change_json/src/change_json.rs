@@ -16,6 +16,7 @@ use crate::crate_graph_json;
 use base_db::{
     Change,
     CrateGraph,
+    CrateId,
     FileId,
     FileSet,
     SourceRoot,
