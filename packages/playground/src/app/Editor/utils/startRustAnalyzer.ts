@@ -6,10 +6,12 @@ import { WorkerApi } from './wasm.worker';
 
 import { configureLanguage, setTokens, Token } from './configureLanguage';
 
+import { MessageDispatch } from '~/context/messages/reducer';
+
 const modeId = 'ra-rust'; // not "rust" to circumvent conflict
 const FILE_ID = 62;
 
-export const startRustAnalyzer = async (uri: Uri) => {
+export const startRustAnalyzer = async (uri: Uri, messageDispatch: MessageDispatch) => {
   const model = monaco.editor.getModel(uri);
   if (!model) return;
 
@@ -55,8 +57,13 @@ export const startRustAnalyzer = async (uri: Uri) => {
   }
 
   await update();
-  model.onDidChangeContent(update);
+  await model.onDidChangeContent(update);
 
   // rust analyzer loaded and diagnostics ready -> switch to rust analyzer
-  monaco.editor.setModelLanguage(model, modeId);
+  await monaco.editor.setModelLanguage(model, modeId);
+
+  messageDispatch({
+    type: 'LOG_SYSTEM',
+    payload: { status: 'DONE', content: 'Rust Analyzer Ready' },
+  });
 };

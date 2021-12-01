@@ -28,7 +28,9 @@ export const Editor = (): ReactElement => {
           type: 'LOG_SYSTEM',
           payload: { status: 'IN_PROGRESS', content: 'Loading Rust Analyzer...' },
         });
-        await import('./utils/startRustAnalyzer').then(code => code.startRustAnalyzer(model.uri));
+        await import('./utils/startRustAnalyzer').then(code =>
+          code.startRustAnalyzer(model.uri, messageDispatch)
+        );
       }
     }
   };
