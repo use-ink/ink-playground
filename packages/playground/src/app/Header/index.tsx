@@ -29,6 +29,9 @@ export const Header = (): ReactElement => {
   const settingsOverlay = useRef<OverlayPanel>(null);
   const shareOverlay = useRef<OverlayPanel>(null);
 
+  const hasDownloadableResult =
+    state.compile.type === 'RESULT' && state.compile.payload.type === 'OK';
+
   return (
     <div className="dark:text-primary dark:bg-primary dark:border-dark border-light border-b text-light flex max-h-16">
       <div className="w-32">
@@ -50,7 +53,7 @@ export const Header = (): ReactElement => {
           onClick={() => {
             alert('Download!');
           }}
-          disabled={!state.monacoUri}
+          disabled={!hasDownloadableResult || !state.monacoUri}
           loading={state.compile.type === 'IN_PROGRESS'}
         />
         <ButtonWithIcon
