@@ -103,7 +103,10 @@ pub async fn route_gist_create(
             println!("{:?}", error);
             GistCreateResponse::Error("Gist creation failed".to_string())
         }
-        Ok(gist) => GistCreateResponse::Success(gist),
+        Ok(gist) => {
+            println!("Gist creation of id {:?} succeeded.", gist.id);
+            GistCreateResponse::Success(gist)
+        }
     }
 }
 

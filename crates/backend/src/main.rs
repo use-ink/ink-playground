@@ -79,23 +79,36 @@ async fn main() -> std::io::Result<()> {
                 get().to(|| HttpResponse::Ok().body("ink-backend is live")),
             );
 
-        if let Some(github_token) = opts.github_token {
-            let github_token_a = github_token.clone();
-            let github_token_b = github_token;
-            app = app
-                .route(
-                    "gist/create",
-                    post()
-                        .to(move |body| route_gist_create(github_token_a.clone(), body)),
-                )
-                .route(
-                    "gist/load",
-                    post().to(move |body| route_gist_load(github_token_b.clone(), body)),
-                );
+        match opts.github_token {
+            Some(github_token) => {
+                let github_token_a = github_token.clone();
+                let github_token_b = github_token;
+                app = app
+                    .route(
+                        "gist/create",
+                        post().to(move |body| {
+                            route_gist_create(github_token_a.clone(), body)
+                        }),
+                    )
+                    .route(
+                        "gist/load",
+                        post().to(move |body| {
+                            route_gist_load(github_token_b.clone(), body)
+                        }),
+                    );
+            }
+            None => {
+                println!("Warning: Starting backend without gist endpoint due to missing token.")
+            }
         }
 
-        if let Some(path) = frontend_folder {
-            app = app.service(route_frontend("/", path.as_ref()));
+        match frontend_folder {
+            Some(path) => {
+                app = app.service(route_frontend("/", path.as_ref()));
+            }
+            None => {
+                println!("Warning: Starting backend without serving static frontend files due to missing configuration.")
+            } 
         }
 
         app

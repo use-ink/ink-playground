@@ -89,7 +89,10 @@ pub async fn route_gist_load(
             println!("{:?}", error);
             GistLoadResponse::Error("Loading Gist failed".to_string())
         }
-        Ok(gist) => GistLoadResponse::Success(gist),
+        Ok(gist) => {
+            println!("Successfully loaded gist of id {:?}", gist.id);
+            GistLoadResponse::Success(gist)
+        }
     }
 }
 
