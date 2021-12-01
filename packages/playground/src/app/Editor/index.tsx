@@ -11,6 +11,10 @@ export const Editor = (): ReactElement => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
   const [, dispatchMessage]: [MessageState, MessageDispatch] = useContext(MessageContext);
 
+  const handleChange = (newValue: string): void => {
+    setCode(newValue);
+  };
+
   const editorDidMount = async (editor: MonacoEditor['editor']): Promise<void> => {
     if (editor) {
       editor.focus();
@@ -20,13 +24,13 @@ export const Editor = (): ReactElement => {
           model.setValue(code);
         });
         dispatch({ type: 'SET_URI', payload: model.uri });
+        dispatchMessage({
+          type: 'LOG_SYSTEM',
+          payload: { status: 'IN_PROGRESS', content: 'Loading Rust Analyzer...' },
+        });
         await import('./utils/startRustAnalyzer').then(code => code.startRustAnalyzer(model.uri));
       }
     }
-  };
-
-  const handleChange = (newValue: string): void => {
-    setCode(newValue);
   };
 
   const options: MonacoEditorProps['options'] = {
