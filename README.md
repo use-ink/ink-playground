@@ -20,7 +20,7 @@ An ink! Playground which provides a Browser based IDE for editing Smart Contract
 
 ## Getting started
 
-The actual ink! playground is a fronted app which is developed using TypeScript and React. It is contained in the `packages/playground` folder.
+The ink! playground is a fronted app which is developed using TypeScript and React. It is contained in the `packages/playground` folder.
 
 The repo contains a Rust backend which is implemented with the [actix-web](https://github.com/actix/actix-web) framework and which can be found in the 'crates/backend' folder.
 
@@ -33,6 +33,8 @@ To clone and build the whole project on your local machine, enter:
 `cd ink-playground`
 
 `make install`
+
+`make generate`
 
 `make build`
 
@@ -53,11 +55,11 @@ We can divide this Repo into two main contributions:
 
 #### The crate `backend`
 
-This is the main crate of the web server which serves the frontend app. It is based on the [Actix Web](https://actix?) framework. It serves the directory of the compiled playground app which is located in the `??` folder.
+This is the main crate of the web server which serves the frontend app. It is based on the [Actix Web](https://actix.rs/) framework. It serves the directory of the compiled playground app which is located in the `/packages/playground/dist` folder after executing `make build` (which involves the compilation of the produciton bundle of the Frontend app).
 
 #### The crate `change_json`
 
-The IDE of the frontend app contains a WebAssembly version of [Rust Analyzer](https://??rust-analyzer). We need to provide Rust Analyzer the source code and crate graph of the analyzed smart contract. Usually, Rust Analyzer will scan the file system, load the dependeny data of a rust project into an object, the `change` object and will send this object to its db. Since we can not access the file system in browser based wasm, we had to find another approach. For this we (de-)serialize the `change` object which is encoding the data. This crate contains the methods/traits to (de-)serialize the `change` object.
+The IDE of the frontend app contains a WebAssembly version of [Rust Analyzer](https://rust-analyzer.github.io/). We need to provide Rust Analyzer the source code and crate graph of the analyzed smart contract. Usually, Rust Analyzer will scan the file system, load the dependeny data of a rust project into an object, the `change` object and will send this object to its db. Since we can not access the file system in browser based wasm, we had to find another approach. For this we (de-)serialize the `change` object which is encoding the data. This crate contains the methods/traits to (de-)serialize the `change` object.
 
 #### The crate `contract`
 
@@ -67,11 +69,15 @@ This is the sample crate which serves as a blueprint for creating the serialized
 
 #### The crate `generate_bindings`
 
+Utilizes []
+
 #### The crate `rust_analyzer_wasm`
 
-A LSP ([Language Server Protocol](https://??)) of Rust Analyzer(https://??) for the [monaco](https://??) editor which is compiled to WebAssembly and which we execute in the Browser. This crate gets compiled to the `/packages/playground/pkg` subfolder of the `playground` package. Its compiled version provides the executable WebAssembly code and the corresponding TypeScript types.
+A LSP ([Language Server Protocol](https://microsoft.github.io/language-server-protocol/)) of [Rust Analyzer](https://rust-analyzer.github.io/) for the [monaco](https://microsoft.github.io/monaco-editor/) editor which is compiled to WebAssembly and which we execute in the Browser. This crate gets compiled to the `/packages/playground/pkg` subfolder of the `playground` package. Its compiled version provides the executable WebAssembly code and the corresponding TypeScript types.
 
 #### The crate `sandbox`
+
+Provides the sandbox environment which triggers the compilation of ink! Smart Contracts which is executed by the backend server from the `backend` crate.
 
 ### The components of `packages`
 
