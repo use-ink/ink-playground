@@ -1,4 +1,4 @@
-import { CompileApiResponse, compileRequest } from '~/api/compile';
+import { CompileApiResponse, compileRequest } from '@paritytech/ink-editor/api';
 import { State, Dispatch } from '~/context/app/reducer';
 import { MessageAction, MessageDispatch } from '~/context/messages/reducer';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
