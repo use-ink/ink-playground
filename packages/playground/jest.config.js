@@ -15,5 +15,7 @@ module.exports = {
     'monaco-editor': '<rootDir>/../../node_modules/react-monaco-editor',
     '@paritytech/components/(.*)': '<rootDir>/../components/src/$1',
     '^@paritytech/components/': '<rootDir>/../components/src',
+    '@paritytech/ink-editor/(.*)': '<rootDir>/../ink-editor/src/$1',
+    '^@paritytech/ink-editor/': '<rootDir>/../ink-editor/src',
   },
 };
