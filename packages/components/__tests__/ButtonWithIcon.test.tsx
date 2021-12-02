@@ -55,12 +55,10 @@ describe('Given Button states were changed', () => {
       />
     );
     const testButton = await screen.findByText('testButtonDisabled');
-    const disabledIcon = await screen.findByTestId('icon-disabled');
 
     // Then ...
     expect(testButton).toBeInTheDocument();
     expect(testButton).toHaveClass('cursor-not-allowed');
-    expect(disabledIcon).toBeInTheDocument();
   });
 
   test('Given disabled Button is clicked', async () => {
