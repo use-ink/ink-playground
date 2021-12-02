@@ -1,4 +1,9 @@
 import { ReactElement, MouseEvent } from 'react';
+import tailwindConfig from '../../playground/tailwind.config';
+import resolveConfig from 'tailwindcss/resolveConfig';
+import { TailwindConfig } from 'tailwindcss/tailwind-config';
+
+const fullConfig = resolveConfig(tailwindConfig as TailwindConfig);
 
 export type ButtonProps = {
   label: string;
@@ -29,11 +34,17 @@ export const ButtonWithIcon = ({
   const IconOfState = (): ReactElement => {
     const iconStyle = 'mt-1.5 mr-1.5 w-4';
     const spinnerIcon = `pi pi-spinner animate-spin ${iconStyle}`;
-    const disabledIcon = `pi pi-ban ${iconStyle}`;
+    const disabledIcon = `dark:text-gray-600 text-gray-400 ${iconStyle}`;
+
+    // Get shades of gray from tailwind config
+    type Colors = { gray: Record<string, string> };
+    const colors = fullConfig.theme.colors as Colors;
+    const gray600 = colors.gray['600'];
+    const gray200 = colors.gray['200'];
 
     if (loading) return <i className={spinnerIcon} data-testid={'icon-loading'} />;
-    if (disabled) return <i className={disabledIcon} data-testid={'icon-disabled'} />;
-    return <Icon className={iconStyle} data-testid={testId} />;
+    if (disabled) return <Icon color={gray600} className={disabledIcon} data-testid={testId} />;
+    return <Icon color={gray200} className={iconStyle} data-testid={testId} />;
   };
 
   const menuOptionStyle =
