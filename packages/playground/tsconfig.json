@@ -23,7 +23,7 @@
 
       "@paritytech/ink-editor": ["../ink-editor/src"],
       "@paritytech/ink-editor/*": ["../ink-editor/src/*"],
-      
+
       "@paritytech/components": ["../components/src/"],
       "@paritytech/components/*": ["../components/src/*"]
     }
