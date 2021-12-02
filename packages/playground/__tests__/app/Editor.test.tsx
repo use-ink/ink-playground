@@ -1,4 +1,4 @@
-import { InkEditor } from '@paritytech/ink-editor';
+import { InkEditor } from '../../../ink-editor/src';
 import { render } from '@testing-library/react';
 
 jest.mock('monaco-editor/esm/vs/editor/editor.api.js');
