@@ -2649,6 +2649,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/tailwindcss@npm:^2.2.4":
+  version: 2.2.4
+  resolution: "@types/tailwindcss@npm:2.2.4"
+  checksum: 024fb3cfc63164390db9a1d10f4bd65c06a280f115394106dc5085db5fef9a0679c3cc45ec1196c79aaa3b45cedab101ac49767b409eb49b0ee9e16dd6aed3e7
+  languageName: node
+  linkType: hard
+
 "@types/testing-library__jest-dom@npm:^5.9.1":
   version: 5.14.1
   resolution: "@types/testing-library__jest-dom@npm:5.14.1"
@@ -8608,6 +8615,7 @@ __metadata:
     "@types/react": ^17.0.27
     "@types/react-dom": ^17.0.8
     "@types/react-test-renderer": ^17.0.1
+    "@types/tailwindcss": ^2.2.4
     autoprefixer: ^9
     comlink: ^4.3.1
     copy-webpack-plugin: ^9.1.0
