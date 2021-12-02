@@ -29,7 +29,7 @@ export const Editor = (): ReactElement => {
           payload: { status: 'IN_PROGRESS', content: 'Loading Rust Analyzer...' },
         });
         await import('./utils/startRustAnalyzer').then(code =>
-          code.startRustAnalyzer(model.uri, messageDispatch)
+          code.startRustAnalyzer(model.uri, dispatchMessage)
         );
       }
     }
