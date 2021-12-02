@@ -22,6 +22,7 @@ module.exports = {
     alias: {
       '~': path.resolve(__dirname, 'src/'),
       '@paritytech/components': path.resolve(__dirname, '../components/src'),
+      '@paritytech/ink-editor': path.resolve(__dirname, '../ink-editor/src'),
     },
   },
   stats: 'errors-only',
