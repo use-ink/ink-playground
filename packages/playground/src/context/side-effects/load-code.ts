@@ -3,7 +3,7 @@ import { MessageDispatch } from '../messages/reducer';
 import { gistLoadRequest } from '~/api/gists';
 import { GistCreateResponse } from '@paritytech/commontypes';
 import qs from 'qs';
-import exampleCode from '~/app/Editor/example-code';
+import exampleCode from '@paritytech/ink-editor/example-code';
 
 type Params = { id?: string };
 
