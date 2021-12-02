@@ -17,8 +17,8 @@
     "baseUrl": "./",
     "paths": {
       "~/*": ["./src/*"],
-      "@paritytech/components": ["../components/src"],
-      "@paritytech/components/*": ["../components/src/*"]
+      "@paritytech/common": ["../common/src"],
+      "@paritytech/common/*": ["../common/src/*"]
     }
   },
   "include": ["src", "jest", "__tests__"],
