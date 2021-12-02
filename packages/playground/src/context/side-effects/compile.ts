@@ -2,6 +2,7 @@ import { CompileApiResponse, compileRequest } from '@paritytech/ink-editor/api';
 import { State, Dispatch } from '~/context/app/reducer';
 import { MessageAction, MessageDispatch } from '~/context/messages/reducer';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+import { COMPILE_URL } from '~/env';
 
 const getMessageAction = (result: CompileApiResponse): MessageAction | undefined => {
   switch (result.type) {
@@ -74,7 +75,7 @@ export async function compile(state: State, dispatch: Dispatch, dispatchMessage:
 
   const code = model.getValue();
 
-  const result = await compileRequest({ source: code });
+  const result = await compileRequest({ compileUrl: COMPILE_URL || '' }, { source: code });
 
   dispatch({
     type: 'SET_COMPILE_STATE',
