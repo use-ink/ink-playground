@@ -1,9 +1,9 @@
 import * as Comlink from 'comlink';
-import { WorldState } from '../../../../pkg';
+import { WorldState } from '../../../playground/pkg';
 
 async function initHandlers(): Promise<WorldState & Comlink.ProxyMarked> {
   // If threads are unsupported in this browser, skip this handler.
-  const rust_wasm = await import('../../../../pkg/rust_analyzer_wasm');
+  const rust_wasm = await import('../../../playground/pkg/rust_analyzer_wasm');
   await rust_wasm.default();
   const numThreads = navigator.hardwareConcurrency;
   // must be included to init rayon thread pool with web workers
