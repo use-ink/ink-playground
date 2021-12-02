@@ -3,6 +3,8 @@ import MonacoEditor, { MonacoEditorProps } from 'react-monaco-editor';
 import exampleCode from './example-code';
 import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
 
+export { exampleCode };
+
 export interface InkEditorProps {
   code: string;
   onCodeChange?: (code: string) => void;
