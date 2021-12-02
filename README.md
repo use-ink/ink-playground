@@ -1,6 +1,6 @@
 # ink! Playground
 
-An ink! Playground which provides a Browser based IDE for editing Smart Contracts written in [ink](https://github.com/paritytech/ink).
+An ink! Playground which provides a Browser based IDE for editing Smart Contracts written in [ink!](https://github.com/paritytech/ink).
 
 (Planned) Features:
 

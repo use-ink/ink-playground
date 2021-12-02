@@ -15,7 +15,7 @@
 use clap::Clap;
 
 #[derive(Clap)]
-#[clap(version = "0.1", about = "Generate bindings from ink backend")]
+#[clap(version = "0.1", about = "Generate bindings from ink! backend")]
 pub struct Opts {
     #[clap(short = 't', long = "target")]
     pub target: String,
