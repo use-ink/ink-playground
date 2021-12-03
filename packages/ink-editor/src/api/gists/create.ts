@@ -1,4 +1,3 @@
-import { GIST_CREATE_URL } from '~/env';
 import * as Common from '@paritytech/commontypes';
 
 // -------------------------------------------------------------------------------------------------
@@ -35,7 +34,12 @@ const mapResponse = async (response: Response): Promise<GistCreateApiResponse> =
         payload: { status: response.status },
       };
 
+type Config = {
+  gistCreateUrl: string;
+};
+
 export const gistCreateRequest = (
+  config: Config,
   request: GistCreateApiRequest
 ): Promise<GistCreateApiResponse> => {
   const opts: RequestInit = {
@@ -46,7 +50,7 @@ export const gistCreateRequest = (
     body: JSON.stringify(request),
   };
 
-  return fetch(GIST_CREATE_URL || '', opts)
+  return fetch(config.gistCreateUrl, opts)
     .then(mapResponse)
     .catch(() => ({ type: 'NETWORK_ERROR' }));
 };

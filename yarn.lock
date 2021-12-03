@@ -2039,9 +2039,14 @@ __metadata:
   resolution: "@paritytech/ink-editor@workspace:packages/ink-editor"
   dependencies:
     comlink: ^4.3.1
+    copy-webpack-plugin: ^9.1.0
+    monaco-editor: ^0.30.1
+    monaco-editor-webpack-plugin: ^6.0.0
     react: ^17.0.2
     react-dom: ^17.0.2
     react-monaco-editor: ^0.45.0
+    ts-loader: ^9.2.3
+    webpack: ^5.64.4
   languageName: unknown
   linkType: soft
 
@@ -7988,10 +7993,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"monaco-editor-webpack-plugin@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "monaco-editor-webpack-plugin@npm:6.0.0"
+  dependencies:
+    loader-utils: ^2.0.0
+  peerDependencies:
+    monaco-editor: 0.30.x
+    webpack: ^4.5.0 || 5.x
+  checksum: 8f3ac71fe5461af10cd76f45dafb3a70672756b260b1421478cb0e690d719c6394748dabec11ea4e8f0b7db944f00a7f007d55da8e0fd470d19e9a466e789fa4
+  languageName: node
+  linkType: hard
+
 "monaco-editor@npm:^0.27.0":
   version: 0.27.0
   resolution: "monaco-editor@npm:0.27.0"
   checksum: 766ce20ea6f5b5861ce3a05fa437d0755622520ce3e7d6af84a103ea5daa52fe7053cfa4ab470fa84eb42a27810c336b39764c984b9cd30bc32fd69b2eba233b
+  languageName: node
+  linkType: hard
+
+"monaco-editor@npm:^0.30.1":
+  version: 0.30.1
+  resolution: "monaco-editor@npm:0.30.1"
+  checksum: 474b8b2f252eaa9d0c02a9b3b9ff587abfbe7e39bb825441e9277d983a80807eca049a26900706113139e0f8c1d664ad346aa25f3c3a30aab0ac3518943e1bed
   languageName: node
   linkType: hard
 
@@ -8629,7 +8653,6 @@ __metadata:
     "@types/tailwindcss": ^2.2.4
     autoprefixer: ^9
     comlink: ^4.3.1
-    copy-webpack-plugin: ^9.1.0
     css-loader: ^6.3.0
     html-webpack-plugin: ^5.3.1
     jest: ^27.2.0
@@ -8652,6 +8675,7 @@ __metadata:
     webpack-bundle-analyzer: ^4.4.2
     webpack-cli: ^4.7.2
     webpack-dev-server: ^4.2.1
+    webpack-merge: ^5.8.0
   languageName: unknown
   linkType: soft
 
@@ -10777,6 +10801,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"watchpack@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "watchpack@npm:2.3.0"
+  dependencies:
+    glob-to-regexp: ^0.4.1
+    graceful-fs: ^4.1.2
+  checksum: 54f577fe311ae6130b43c3202ddc5c66ea8cdc5e0569b6e1dbccf5c0f5f4f8d4d00b7b97f6ae6d53e9361766bf0dc4e6dc7b30e57392948af9795217f6d9d7a7
+  languageName: node
+  linkType: hard
+
 "wbuf@npm:^1.1.0, wbuf@npm:^1.7.3":
   version: 1.7.3
   resolution: "wbuf@npm:1.7.3"
@@ -10907,7 +10941,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-merge@npm:^5.7.3":
+"webpack-merge@npm:^5.7.3, webpack-merge@npm:^5.8.0":
   version: 5.8.0
   resolution: "webpack-merge@npm:5.8.0"
   dependencies:
@@ -10958,6 +10992,43 @@ __metadata:
   bin:
     webpack: bin/webpack.js
   checksum: d2a1baddaed03f2ce70c13501b89935d4bb4af30b4accb0d2dfbd00ec6f491eaf46272346cedcf013b477e131c8cc202ee0b2d2c51ece1cfb713fd2d98b80a52
+  languageName: node
+  linkType: hard
+
+"webpack@npm:^5.64.4":
+  version: 5.64.4
+  resolution: "webpack@npm:5.64.4"
+  dependencies:
+    "@types/eslint-scope": ^3.7.0
+    "@types/estree": ^0.0.50
+    "@webassemblyjs/ast": 1.11.1
+    "@webassemblyjs/wasm-edit": 1.11.1
+    "@webassemblyjs/wasm-parser": 1.11.1
+    acorn: ^8.4.1
+    acorn-import-assertions: ^1.7.6
+    browserslist: ^4.14.5
+    chrome-trace-event: ^1.0.2
+    enhanced-resolve: ^5.8.3
+    es-module-lexer: ^0.9.0
+    eslint-scope: 5.1.1
+    events: ^3.2.0
+    glob-to-regexp: ^0.4.1
+    graceful-fs: ^4.2.4
+    json-parse-better-errors: ^1.0.2
+    loader-runner: ^4.2.0
+    mime-types: ^2.1.27
+    neo-async: ^2.6.2
+    schema-utils: ^3.1.0
+    tapable: ^2.1.1
+    terser-webpack-plugin: ^5.1.3
+    watchpack: ^2.3.0
+    webpack-sources: ^3.2.2
+  peerDependenciesMeta:
+    webpack-cli:
+      optional: true
+  bin:
+    webpack: bin/webpack.js
+  checksum: 62ac598291374fa5269c80fcd82ad3cbf8e8c3f837c2bf6ea80812812154d9f4d3390c6fdc1ce85323e6fdd46132e3e3db08cde9a1b4d61197879e867c7c1375
   languageName: node
   linkType: hard
 

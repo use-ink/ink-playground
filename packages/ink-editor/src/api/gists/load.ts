@@ -1,4 +1,3 @@
-import { GIST_LOAD_URL } from '~/env';
 import * as Common from '@paritytech/commontypes';
 
 // -------------------------------------------------------------------------------------------------
@@ -29,7 +28,14 @@ const mapResponse = async (response: Response): Promise<GistLoadApiResponse> =>
         payload: { status: response.status },
       };
 
-export const gistLoadRequest = (request: GistLoadApiRequest): Promise<GistLoadApiResponse> => {
+type Config = {
+  gistCreateUrl: string;
+};
+
+export const gistLoadRequest = (
+  config: Config,
+  request: GistLoadApiRequest
+): Promise<GistLoadApiResponse> => {
   const opts: RequestInit = {
     method: 'POST',
     mode: 'cors',
@@ -38,7 +44,7 @@ export const gistLoadRequest = (request: GistLoadApiRequest): Promise<GistLoadAp
     body: JSON.stringify(request),
   };
 
-  return fetch(GIST_LOAD_URL || '', opts)
+  return fetch(config.gistCreateUrl, opts)
     .then(mapResponse)
     .catch(() => ({ type: 'NETWORK_ERROR' }));
 };
