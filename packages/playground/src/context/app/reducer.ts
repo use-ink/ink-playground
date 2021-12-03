@@ -1,4 +1,4 @@
-import { CompileApiResponse } from '@paritytech/ink-editor/api';
+import { CompileApiResponse } from '@paritytech/ink-editor/api/compile';
 import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
 import { GistCreateApiResponse } from '~/api/gists';
 
