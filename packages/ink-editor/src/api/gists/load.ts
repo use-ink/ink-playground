@@ -29,7 +29,7 @@ const mapResponse = async (response: Response): Promise<GistLoadApiResponse> =>
       };
 
 type Config = {
-  gistCreateUrl: string;
+  gistLoadUrl: string;
 };
 
 export const gistLoadRequest = (
@@ -44,7 +44,7 @@ export const gistLoadRequest = (
     body: JSON.stringify(request),
   };
 
-  return fetch(config.gistCreateUrl, opts)
+  return fetch(config.gistLoadUrl, opts)
     .then(mapResponse)
     .catch(() => ({ type: 'NETWORK_ERROR' }));
 };
