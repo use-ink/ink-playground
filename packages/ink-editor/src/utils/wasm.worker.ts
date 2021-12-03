@@ -1,5 +1,5 @@
 import * as Comlink from 'comlink';
-import { WorldState } from '../../../ink-editor/pkg';
+import { WorldState } from '../../pkg';
 
 async function initHandlers(): Promise<WorldState & Comlink.ProxyMarked> {
   // If threads are unsupported in this browser, skip this handler.
