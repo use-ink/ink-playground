@@ -37,7 +37,7 @@ generate-change-json:
 		-o packages/_generated/change/src/change.json
 
 generate-rust-analyzer:
-	wasm-pack build crates/rust_analyzer_wasm/ --out-dir ../../packages/playground/pkg --target web
+	wasm-pack build crates/rust_analyzer_wasm/ --out-dir ../../packages/ink-editor/pkg --target web
 
 generate: generate-rust-analyzer
 generate: generate-bindings
@@ -136,7 +136,7 @@ crate-rust-analyzer-wasm-test: crate-rust-analyzer-wasm-test-chrome
 crate-rust-analyzer-wasm-test: crate-rust-analyzer-wasm-test-firefox
 
 crate-rust-analyzer-wasm-clean: 
-	rm -rf packages/playground/pkg
+	rm -rf packages/ink-editor/pkg
 
 ################################################################################
 # ECOSYSTEM: RUST

@@ -29,13 +29,13 @@ RUN make install
 RUN apt-get install --yes \
     apt-transport-https ca-certificates curl gnupg lsb-release
 
-RUN curl -fsSL https://download.docker.com/linux/debian/gpg | \
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg |
     gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
 RUN echo \
     "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
     https://download.docker.com/linux/debian \
-    $(lsb_release -cs) stable" | \
+    $(lsb_release -cs) stable" |
     tee /etc/apt/sources.list.d/docker.list >/dev/null
 
 RUN apt --yes update
@@ -57,7 +57,7 @@ RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
 RUN rustup default stable
 RUN cargo clean --manifest-path crates/rust_analyzer_wasm/Cargo.toml
-RUN cd crates/rust_analyzer_wasm && wasm-pack build --target web --out-dir ../../packages/playground/pkg
+RUN cd crates/rust_analyzer_wasm && wasm-pack build --target web --out-dir ../../packages/ink-editor/pkg
 RUN make generate-bindings
 RUN make generate-change-json
 
