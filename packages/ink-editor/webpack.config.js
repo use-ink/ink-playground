@@ -12,6 +12,9 @@ const webpackConfig = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.wasm', '.css'],
+    alias: {
+      '@paritytech/commontypes': '../commontypes/src',
+    },
   },
   stats: 'errors-only',
   module: {

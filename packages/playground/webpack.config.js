@@ -1,13 +1,10 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
-// const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const tailwindcss = require('tailwindcss');
 const { EnvironmentPlugin } = require('webpack');
 const { merge } = require('webpack-merge');
 const inkEditorConfig = require('../ink-editor/webpack.config.js');
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 const webpackConfig = {
   mode: 'development',
@@ -89,6 +86,6 @@ const webpackConfig = {
   },
 };
 
-const mergedConfig = merge(webpackConfig, inkEditorConfig);
+const mergedConfig = merge(inkEditorConfig, webpackConfig);
 
 module.exports = mergedConfig;
