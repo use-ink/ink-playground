@@ -1,7 +1,7 @@
 import { State, Dispatch } from '../app/reducer';
 import { MessageAction, MessageDispatch, GistMessage } from '../messages/reducer';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import { GistCreateApiResponse, gistCreateRequest } from '~/api/gists';
+import { GistCreateApiResponse, gistCreateRequest } from '@paritytech/ink-editor/api/gists';
 import { GistCreateResponse } from '@paritytech/commontypes';
 
 const resetToNotAsked = (dispatch: Dispatch, dispatchMessage: MessageDispatch): void => {

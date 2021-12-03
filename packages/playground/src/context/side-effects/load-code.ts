@@ -1,6 +1,6 @@
 import { State, Dispatch as AppDispatch } from '../app/reducer';
 import { MessageDispatch } from '../messages/reducer';
-import { gistLoadRequest } from '~/api/gists';
+import { gistLoadRequest } from '@paritytech/ink-editor/api/gists';
 import { GistCreateResponse } from '@paritytech/commontypes';
 import qs from 'qs';
 import exampleCode from '@paritytech/ink-editor/example-code';

@@ -7,7 +7,7 @@ import { AppContext } from '~/context/app/';
 import { MessageContext } from '~/context/messages/';
 import { MessageState, MessageDispatch } from '~/context/messages/reducer';
 import { Gist, GistCreateResponse } from '@paritytech/commontypes';
-import { GistCreateApiResponse } from '~/api/gists';
+import { GistCreateApiResponse } from '@paritytech/ink-editor/api/gists';
 import qs from 'qs';
 
 const ViewError = ({ message }: { message: string }) => <div>{message}</div>;
