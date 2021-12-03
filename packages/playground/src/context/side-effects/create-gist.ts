@@ -3,6 +3,7 @@ import { MessageAction, MessageDispatch, GistMessage } from '../messages/reducer
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { GistCreateApiResponse, gistCreateRequest } from '@paritytech/ink-editor/api/gists';
 import { GistCreateResponse } from '@paritytech/commontypes';
+import { GIST_CREATE_URL } from '~/env';
 
 const resetToNotAsked = (dispatch: Dispatch, dispatchMessage: MessageDispatch): void => {
   dispatch({ type: 'SET_GIST_STATE', payload: { type: 'NOT_ASKED' } });
@@ -92,7 +93,12 @@ export async function gistCreate(
 
   const code = model.getValue();
 
-  const result = await gistCreateRequest({ code });
+  const result = await gistCreateRequest(
+    {
+      gistCreateUrl: GIST_CREATE_URL || '',
+    },
+    { code }
+  );
 
   dispatch({
     type: 'SET_GIST_STATE',

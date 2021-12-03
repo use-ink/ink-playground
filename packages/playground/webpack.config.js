@@ -3,12 +3,13 @@ const htmlWebpackPlugin = require('html-webpack-plugin');
 // const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const tailwindcss = require('tailwindcss');
 const { EnvironmentPlugin } = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { merge } = require('webpack-merge');
+const inkEditorConfig = require('../ink-editor/webpack.config.js');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
-module.exports = {
+const webpackConfig = {
   mode: 'development',
   entry: {
     app: './src/index.tsx',
@@ -35,18 +36,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [tailwindcss('./tailwind.config.js'), require('autoprefixer')],
-              },
-            },
-          },
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.svg$/,
@@ -70,11 +60,6 @@ module.exports = {
       title: 'Parity ink! Playground',
       template: './src/index.html',
     }),
-    // new WasmPackPlugin({
-    //   crateDirectory: path.resolve(__dirname, '../../crates/rust_analyzer_wasm'),
-    //   extraArgs: '--target web -- -Z build-std=panic_abort,std',
-    //   outDir: path.resolve(__dirname, './pkg'),
-    // }),
     new MiniCssExtractPlugin({
       filename: 'styles.css',
       chunkFilename: 'styles.css',
@@ -84,22 +69,12 @@ module.exports = {
       generateStatsFile: false,
       statsFilename: '../bundle-size-stats.json',
     }),
-    new MonacoWebpackPlugin({
-      // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
-      languages: ['rust'],
-    }),
-    new CopyWebpackPlugin({
-      patterns: [{ from: '../_generated/change/src' }],
-    }),
     new EnvironmentPlugin({
       COMPILE_URL: '',
       GIST_CREATE_URL: '',
       GIST_LOAD_URL: '',
     }),
   ],
-  experiments: {
-    asyncWebAssembly: true,
-  },
   devServer: {
     headers: {
       'Cross-Origin-Opener-Policy': 'same-origin',
@@ -113,3 +88,7 @@ module.exports = {
     },
   },
 };
+
+const mergedConfig = merge(webpackConfig, inkEditorConfig);
+
+module.exports = mergedConfig;

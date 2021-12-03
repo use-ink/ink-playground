@@ -4,6 +4,7 @@ import { gistLoadRequest } from '@paritytech/ink-editor/api/gists';
 import { GistCreateResponse } from '@paritytech/commontypes';
 import qs from 'qs';
 import exampleCode from '@paritytech/ink-editor/example-code';
+import { GIST_LOAD_URL } from '~/env';
 
 type Params = { id?: string };
 
@@ -79,7 +80,12 @@ export async function loadCode(state: State, dispatch: Dispatch): Promise<string
     },
   });
 
-  const result = await gistLoadRequest({ id: params.id });
+  const result = await gistLoadRequest(
+    {
+      gistLoadUrl: GIST_LOAD_URL || '',
+    },
+    { id: params.id }
+  );
 
   switch (result.type) {
     case 'NETWORK_ERROR':
