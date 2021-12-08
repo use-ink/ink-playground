@@ -1,4 +1,5 @@
 import { monaco } from 'react-monaco-editor';
+import { Thenable } from 'monaco-editor/esm/vs/editor/editor.api';
 import { WorldState } from '../../../../pkg/rust_analyzer_wasm';
 
 const modeId = 'ra-rust';
