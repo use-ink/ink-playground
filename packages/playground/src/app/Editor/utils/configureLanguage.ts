@@ -42,8 +42,30 @@ export const configureLanguage = (worldState: WorldState, allTokens: Token[]) =>
   });
 
   monaco.languages.registerHoverProvider(modeId, {
-    provideHover: (_, pos) => worldState.hover(pos.lineNumber, pos.column),
+    provideHover: (_, pos) => {
+      let res = worldState.hover(pos.lineNumber, pos.column) as Thenable<monaco.languages.Hover>;
+      let mod = res.then(content => {
+        if (content.range) {
+          return {
+            contents: [
+              {
+                ...content.contents[0],
+                value: JSON.parse(
+                  JSON.stringify(content.contents[0]?.value)
+                    .replaceAll(/```(.*?)```/g, '```rust$1```')
+                    .replaceAll('rustrust', 'rust')
+                ),
+                supportThemeIcons: true,
+              },
+            ],
+            range: content.range,
+          } as monaco.languages.Hover;
+        }
+      });
+      return mod;
+    },
   });
+
   monaco.languages.registerCodeLensProvider(modeId, {
     async provideCodeLenses(m) {
       const code_lenses: Array<CodeLensSymbol> = await worldState.code_lenses();
