@@ -44,8 +44,8 @@ export const configureLanguage = (worldState: WorldState, allTokens: Token[]) =>
 
   monaco.languages.registerHoverProvider(modeId, {
     provideHover: (_, pos) => {
-      let res = worldState.hover(pos.lineNumber, pos.column) as Thenable<monaco.languages.Hover>;
-      let mod = res.then(content => {
+      const res = worldState.hover(pos.lineNumber, pos.column) as Thenable<monaco.languages.Hover>;
+      const mod = res.then(content => {
         if (content.range) {
           return {
             contents: [
