@@ -1,12 +1,9 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
-// const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const tailwindcss = require('tailwindcss');
 const { EnvironmentPlugin } = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { merge } = require('webpack-merge');
 const inkEditorConfig = require('../ink-editor/webpack.config');
 
@@ -31,35 +28,13 @@ const localConfig = {
   module: {
     rules: [
       {
-        test: /.tsx?$/,
-        use: 'ts-loader',
-        exclude: ['/node_modules/'],
-      },
-      {
         test: /\.css$/,
         use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
           {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
                 plugins: [tailwindcss('./tailwind.config.js'), require('autoprefixer')],
-              },
-            },
-          },
-        ],
-      },
-      {
-        test: /\.svg$/,
-        use: [
-          {
-            loader: '@svgr/webpack',
-            options: {
-              typescript: true,
-              ext: 'tsx',
-              replaceAttrValues: {
-                '#D3D4DB': '{props.color}',
               },
             },
           },
@@ -72,26 +47,11 @@ const localConfig = {
       title: 'Parity ink! Playground',
       template: './src/index.html',
     }),
-    // new WasmPackPlugin({
-    //   crateDirectory: path.resolve(__dirname, '../../crates/rust_analyzer_wasm'),
-    //   extraArgs: '--target web -- -Z build-std=panic_abort,std',
-    //   outDir: path.resolve(__dirname, './pkg'),
-    // }),
-    new MiniCssExtractPlugin({
-      filename: 'styles.css',
-      chunkFilename: 'styles.css',
-    }),
+
     new BundleAnalyzerPlugin({
       analyzerMode: 'disabled',
       generateStatsFile: false,
       statsFilename: '../bundle-size-stats.json',
-    }),
-    new MonacoWebpackPlugin({
-      // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
-      languages: ['rust'],
-    }),
-    new CopyWebpackPlugin({
-      patterns: [{ from: '../_generated/change/src' }],
     }),
     new EnvironmentPlugin({
       COMPILE_URL: '',
