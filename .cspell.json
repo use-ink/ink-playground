@@ -82,6 +82,7 @@
     "Consts",
     "Customcolor",
     "proto",
-    "rustdoc"
+    "rustdoc",
+    "rustrust"
   ]
 }
