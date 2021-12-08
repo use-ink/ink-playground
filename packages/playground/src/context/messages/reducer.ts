@@ -49,6 +49,13 @@ const lastId = (state: MessageState, prompt: Prompt): number => {
   return state.nextId;
 };
 
+const extractContractSize = (stdout: string): number => {
+  const regex = /Optimized: ([0-9]+\.[0-9]+)K/g;
+  const result = stdout.match(regex);
+  if (!result || !result[1]) return NaN;
+  return parseInt(result[1], 10);
+};
+
 const reducerLogSystem = (state: MessageState, action: SystemMessage): MessageState => {
   if (action.payload.status === 'IN_PROGRESS' || action.payload.status === 'INFO') {
     const newMessage: Message = {
@@ -101,6 +108,7 @@ const reducerLogCompile = (state: MessageState, action: CompilationMessage): Mes
     }
     case 'DONE': {
       const id = lastId(state, 'COMPILE');
+      // Set "compilation in progress" message to "DONE"
       const updateMessage: Message = {
         id,
         prompt: 'COMPILE',
@@ -108,6 +116,8 @@ const reducerLogCompile = (state: MessageState, action: CompilationMessage): Mes
         content: action.payload.content,
         severity: Severity[action.payload.status],
       };
+      // Extract contract size from "stdout"
+      // Dispatch message with compilation details
       const newMessage: Message = {
         id: state.nextId,
         prompt: 'COMPILE',
@@ -117,6 +127,18 @@ const reducerLogCompile = (state: MessageState, action: CompilationMessage): Mes
         }`,
         severity: Severity.INFO,
       };
+
+      const contractSize = extractContractSize(action.payload.result?.payload.stdout || '');
+
+      console.log(contractSize);
+
+      // const sizeMessage: Message = {
+      //   id: state.nextId,
+      //   prompt: 'COMPILE',
+      //   status: 'INFO',
+      //   content: `Your contract size is ${contractSize}K`,
+      //   severity: Severity.INFO,
+      // };
       return {
         ...state,
         messages: [...state.messages, updateMessage, newMessage],
