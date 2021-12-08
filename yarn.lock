@@ -2040,7 +2040,7 @@ __metadata:
   dependencies:
     comlink: ^4.3.1
     copy-webpack-plugin: ^9.1.0
-    monaco-editor: ^0.30.1
+    mini-css-extract-plugin: ^2.4.2
     monaco-editor-webpack-plugin: ^6.0.0
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -7981,18 +7981,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"monaco-editor-webpack-plugin@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "monaco-editor-webpack-plugin@npm:4.2.0"
-  dependencies:
-    loader-utils: ^2.0.0
-  peerDependencies:
-    monaco-editor: 0.25.x || 0.26.x || 0.27.x || 0.28.x
-    webpack: ^4.5.0 || 5.x
-  checksum: 165da4085635e19f8dc7f9a30c6c473422ea54115d8051c99fb4c90eb94e6403ab9ddb99f5506016feb8065ec50a27d2c340f10cc90c2e500dc7258da659846e
-  languageName: node
-  linkType: hard
-
 "monaco-editor-webpack-plugin@npm:^6.0.0":
   version: 6.0.0
   resolution: "monaco-editor-webpack-plugin@npm:6.0.0"
@@ -8009,13 +7997,6 @@ __metadata:
   version: 0.27.0
   resolution: "monaco-editor@npm:0.27.0"
   checksum: 766ce20ea6f5b5861ce3a05fa437d0755622520ce3e7d6af84a103ea5daa52fe7053cfa4ab470fa84eb42a27810c336b39764c984b9cd30bc32fd69b2eba233b
-  languageName: node
-  linkType: hard
-
-"monaco-editor@npm:^0.30.1":
-  version: 0.30.1
-  resolution: "monaco-editor@npm:0.30.1"
-  checksum: 474b8b2f252eaa9d0c02a9b3b9ff587abfbe7e39bb825441e9277d983a80807eca049a26900706113139e0f8c1d664ad346aa25f3c3a30aab0ac3518943e1bed
   languageName: node
   linkType: hard
 
@@ -8653,11 +8634,12 @@ __metadata:
     "@types/tailwindcss": ^2.2.4
     autoprefixer: ^9
     comlink: ^4.3.1
+    copy-webpack-plugin: ^9.1.0
     css-loader: ^6.3.0
     html-webpack-plugin: ^5.3.1
     jest: ^27.2.0
     mini-css-extract-plugin: ^2.4.2
-    monaco-editor-webpack-plugin: ^4.2.0
+    monaco-editor-webpack-plugin: ^6.0.0
     postcss: ^7
     postcss-cli: ^9.0.1
     postcss-loader: ^6.2.0
@@ -8671,7 +8653,7 @@ __metadata:
     ts-loader: ^9.2.3
     typescript: ^4.4.3
     use-reducer-logger: ^1.0.2
-    webpack: ^5.52.1
+    webpack: ^5.64.4
     webpack-bundle-analyzer: ^4.4.2
     webpack-cli: ^4.7.2
     webpack-dev-server: ^4.2.1
@@ -10791,16 +10773,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"watchpack@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "watchpack@npm:2.2.0"
-  dependencies:
-    glob-to-regexp: ^0.4.1
-    graceful-fs: ^4.1.2
-  checksum: e275f48fae29edee3195c51a8312b609581b9be5ce323d3102ffd082cb124f48d7a393ce05e4110239e4354379e04d78a97ceb26ae367746e7e218bf258135c8
-  languageName: node
-  linkType: hard
-
 "watchpack@npm:^2.3.0":
   version: 2.3.0
   resolution: "watchpack@npm:2.3.0"
@@ -10955,43 +10927,6 @@ __metadata:
   version: 3.2.2
   resolution: "webpack-sources@npm:3.2.2"
   checksum: cc81f1f1bfd1c25c7a565598850294b515bcccf7974d0249b4a0c8c607307866ce3f9e8cdef1c74d5facfb0d993944c499cfd4b7c8f52d01359b6671cc5823d4
-  languageName: node
-  linkType: hard
-
-"webpack@npm:^5.52.1":
-  version: 5.64.1
-  resolution: "webpack@npm:5.64.1"
-  dependencies:
-    "@types/eslint-scope": ^3.7.0
-    "@types/estree": ^0.0.50
-    "@webassemblyjs/ast": 1.11.1
-    "@webassemblyjs/wasm-edit": 1.11.1
-    "@webassemblyjs/wasm-parser": 1.11.1
-    acorn: ^8.4.1
-    acorn-import-assertions: ^1.7.6
-    browserslist: ^4.14.5
-    chrome-trace-event: ^1.0.2
-    enhanced-resolve: ^5.8.3
-    es-module-lexer: ^0.9.0
-    eslint-scope: 5.1.1
-    events: ^3.2.0
-    glob-to-regexp: ^0.4.1
-    graceful-fs: ^4.2.4
-    json-parse-better-errors: ^1.0.2
-    loader-runner: ^4.2.0
-    mime-types: ^2.1.27
-    neo-async: ^2.6.2
-    schema-utils: ^3.1.0
-    tapable: ^2.1.1
-    terser-webpack-plugin: ^5.1.3
-    watchpack: ^2.2.0
-    webpack-sources: ^3.2.2
-  peerDependenciesMeta:
-    webpack-cli:
-      optional: true
-  bin:
-    webpack: bin/webpack.js
-  checksum: d2a1baddaed03f2ce70c13501b89935d4bb4af30b4accb0d2dfbd00ec6f491eaf46272346cedcf013b477e131c8cc202ee0b2d2c51ece1cfb713fd2d98b80a52
   languageName: node
   linkType: hard
 
