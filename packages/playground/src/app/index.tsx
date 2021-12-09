@@ -22,7 +22,6 @@ const App = (): ReactElement => {
           code={code}
           onCodeChange={setCode}
           onRustAnalyzerStartLoad={() => {
-            console.log(3);
             messageDispatch({
               type: 'LOG_SYSTEM',
               payload: { status: 'IN_PROGRESS', content: 'Loading Rust Analyzer...' },
