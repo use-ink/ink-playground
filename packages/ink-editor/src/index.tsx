@@ -8,6 +8,8 @@ export { exampleCode };
 export interface InkEditorProps {
   code: string;
   onCodeChange?: (code: string) => void;
+  onRustAnalyzerStartLoad?: () => void;
+  onRustAnalyzerFinishLoad?: () => void;
   setURI?: (uri: Uri) => void;
   numbering?: boolean;
   minimap?: boolean;
@@ -27,7 +29,11 @@ export const InkEditor = (props: InkEditorProps): ReactElement => {
       const model = editor.getModel();
       if (model) {
         props.setURI && props.setURI(model.uri);
-        await import('./utils/startRustAnalyzer').then(code => code.startRustAnalyzer(model.uri));
+        await import('./utils/startRustAnalyzer').then(async code => {
+          props.onRustAnalyzerStartLoad && props.onRustAnalyzerStartLoad();
+          await code.startRustAnalyzer(model.uri);
+          props.onRustAnalyzerFinishLoad && props.onRustAnalyzerFinishLoad();
+        });
       }
     }
   };
