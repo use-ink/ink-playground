@@ -9,6 +9,7 @@ export const defaultState: State = {
   compile: { type: 'NOT_ASKED' },
   monacoUri: null,
   gist: { type: 'NOT_ASKED' },
+  contractSize: null,
 };
 
 export type State = {
@@ -18,6 +19,7 @@ export type State = {
   compile: CompileState;
   monacoUri: Uri | null;
   gist: GistState;
+  contractSize: number | null;
 };
 
 export type GistState =
@@ -36,7 +38,8 @@ export type Action =
   | { type: 'SET_MINIMAP'; payload: boolean }
   | { type: 'SET_COMPILE_STATE'; payload: CompileState }
   | { type: 'SET_GIST_STATE'; payload: GistState }
-  | { type: 'SET_URI'; payload: Uri };
+  | { type: 'SET_URI'; payload: Uri }
+  | { type: 'SET_CONTRACT_SIZE'; payload: number | null };
 
 export type Dispatch = (action: Action) => void;
 
@@ -71,6 +74,11 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         monacoUri: action.payload,
+      };
+    case 'SET_CONTRACT_SIZE':
+      return {
+        ...state,
+        contractSize: action.payload,
       };
     default:
       return state;
