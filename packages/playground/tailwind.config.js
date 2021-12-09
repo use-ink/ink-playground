@@ -1,14 +1,17 @@
 module.exports = {
-  purge: [
-    './src/**/*.html',
-    './src/**/*.ts',
-    './src/**/*.tsx',
-    './src/**/*.css',
-    '../components/src/**/*.html',
-    '../components/src/**/*.ts',
-    '../components/src/**/*.tsx',
-    '../components/src/**/*.css',
-  ],
+  purge: {
+    enabled: true,
+    content: [
+      './src/**/*.html',
+      './src/**/*.ts',
+      './src/**/*.tsx',
+      './src/**/*.css',
+      '../components/src/**/*.html',
+      '../components/src/**/*.ts',
+      '../components/src/**/*.tsx',
+      '../components/src/**/*.css',
+    ],
+  },
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     fontFamily: {
