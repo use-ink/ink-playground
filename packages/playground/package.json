@@ -12,7 +12,7 @@
     "use-reducer-logger": "^1.0.2"
   },
   "scripts": {
-    "build": "rimraf dist && webpack --config webpack.config.js --mode production",
+    "build": "rimraf dist && NODE_ENV=production webpack --config webpack.config.js --mode production",
     "start": "webpack serve --host 0.0.0.0",
     "clean": "rimraf dist node_modules",
     "test": "jest --update-snapshot",
