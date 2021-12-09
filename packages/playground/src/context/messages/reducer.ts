@@ -50,7 +50,6 @@ const lastId = (state: MessageState, prompt: Prompt): number => {
 };
 
 const reducerLogSystem = (state: MessageState, action: SystemMessage): MessageState => {
-  console.log(4);
   if (action.payload.status === 'IN_PROGRESS' || action.payload.status === 'INFO') {
     const newMessage: Message = {
       id: state.nextId,
