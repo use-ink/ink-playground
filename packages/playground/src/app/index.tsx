@@ -23,12 +23,13 @@ const App = (): ReactElement => {
             <InkEditor
               code={code}
               onCodeChange={setCode}
-              onRustAnalyzerStartLoad={() =>
+              onRustAnalyzerStartLoad={() => {
+                console.log(3);
                 messageDispatch({
                   type: 'LOG_SYSTEM',
                   payload: { status: 'IN_PROGRESS', content: 'Loading Rust Analyzer...' },
-                })
-              }
+                });
+              }}
               onRustAnalyzerFinishLoad={() =>
                 messageDispatch({
                   type: 'LOG_SYSTEM',
