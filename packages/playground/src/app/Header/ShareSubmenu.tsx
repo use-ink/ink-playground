@@ -54,7 +54,11 @@ const GistState = ({ gistState }: { gistState: GistState }): ReactElement | null
   }
 };
 
-export const ShareSubmenu = (): ReactElement => {
+type Props = {
+  darkmode: boolean;
+};
+
+export const ShareSubmenu = ({ darkmode }: Props): ReactElement => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
   const [, dispatchMessage]: [MessageState, MessageDispatch] = useContext(MessageContext);
 
@@ -67,6 +71,7 @@ export const ShareSubmenu = (): ReactElement => {
         label={state.gist.type === 'NOT_ASKED' ? 'Create GitHub Gist' : 'Create New Github Gist'}
         Icon={GithubIcon}
         placeIconRight={true}
+        darkmode={darkmode}
         testId={'buttonIcon'}
         onClick={() => {
           gistCreate(state, dispatch, dispatchMessage);

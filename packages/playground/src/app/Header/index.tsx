@@ -16,10 +16,35 @@ import { MessageContext } from '~/context/messages/';
 import { Dispatch, State } from '~/context/app/reducer';
 import { MessageState, MessageDispatch } from '~/context/messages/reducer';
 import { compile } from '~/context/side-effects/compile';
+import * as sizeLimit from '~/constants';
 
 const openRepoUrl = (): void => {
   const repoURL = 'https://github.com/paritytech/ink-playground';
   window.open(repoURL, '_blank');
+};
+
+const mapBorderColor = (size: number | null): string => {
+  if (!size) return '';
+  if (size <= sizeLimit.OPTIMAL_SIZE) {
+    return 'border-green-400';
+  } else if (size <= sizeLimit.ACCEPTABLE_SIZE) {
+    return 'border-blue-400';
+  } else if (size <= sizeLimit.PROBLEMATIC_SIZE) {
+    return 'border-yellow-400';
+  }
+  return 'border-red-400';
+};
+
+const mapTooltipContent = (size: number | null): string => {
+  if (!size) return '';
+  if (size <= sizeLimit.OPTIMAL_SIZE) {
+    return `Your contract has an optimal size of ${size} KB`;
+  } else if (size <= sizeLimit.ACCEPTABLE_SIZE) {
+    return `Your contract has an acceptable size of ${size} KB`;
+  } else if (size <= sizeLimit.PROBLEMATIC_SIZE) {
+    return `Your contract has a problematic size of ${size} KB`;
+  }
+  return `Your contract has an incompatible size of ${size} KB`;
 };
 
 export const Header = (): ReactElement => {
@@ -34,6 +59,9 @@ export const Header = (): ReactElement => {
     state.compile.payload.type === 'OK' &&
     state.compile.payload.payload.type === 'SUCCESS';
 
+  const borderColor = mapBorderColor(state.contractSize);
+  const tooltipContent = mapTooltipContent(state.contractSize);
+
   return (
     <div className="dark:text-primary dark:bg-primary dark:border-dark border-light border-b text-light flex max-h-16">
       <div className="w-32">
@@ -44,6 +72,7 @@ export const Header = (): ReactElement => {
         <ButtonWithIcon
           label="Compile"
           Icon={CompileIcon}
+          darkmode={state.darkmode}
           testId={'buttonIcon'}
           onClick={() => compile(state, dispatch, dispatchMessage)}
           loading={state.compile.type === 'IN_PROGRESS'}
@@ -51,20 +80,25 @@ export const Header = (): ReactElement => {
         <ButtonWithIcon
           label="Download"
           Icon={DownloadIcon}
+          darkmode={state.darkmode}
           testId={'buttonIcon'}
           onClick={() => handleDownload(state)}
           disabled={!hasDownloadableResult || !state.monacoUri}
           loading={state.compile.type === 'IN_PROGRESS'}
+          borderColor={borderColor}
+          tooltipContent={tooltipContent}
         />
         <ButtonWithIcon
           label="Share"
           Icon={ShareIcon}
+          darkmode={state.darkmode}
           testId={'buttonIcon'}
           onClick={e => shareOverlay.current && shareOverlay.current.toggle(e, null)}
         />
         <ButtonWithIcon
           label="Settings"
           Icon={SettingsIcon}
+          darkmode={state.darkmode}
           testId={'buttonIcon'}
           onClick={e => settingsOverlay.current && settingsOverlay.current.toggle(e, null)}
         />
@@ -74,6 +108,7 @@ export const Header = (): ReactElement => {
         <ButtonWithIcon
           label={'GitHub Repo'}
           Icon={GithubRepoIcon}
+          darkmode={state.darkmode}
           testId={'buttonIcon'}
           onClick={() => {
             openRepoUrl();
@@ -84,7 +119,7 @@ export const Header = (): ReactElement => {
         <SettingsSubmenu />
       </OverlayPanel>
       <OverlayPanel ref={shareOverlay} showCloseIcon dismissable>
-        <ShareSubmenu />
+        <ShareSubmenu darkmode={state.darkmode} />
       </OverlayPanel>
     </div>
   );

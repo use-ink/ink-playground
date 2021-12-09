@@ -63,6 +63,11 @@ module.exports = {
       ...theme('colors'),
       dark: '#3C3D47',
       light: '#cecece',
+      primary: '#1A1D1F',
+      elevation: '#242A2E',
+      'elevation-1': '#282F33',
+      'elevation-2': '#2C3338',
+      'elevation-3': '#2E353B',
     }),
     extend: {
       spacing: {
