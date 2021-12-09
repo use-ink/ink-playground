@@ -44,6 +44,13 @@ const getMessageAction = (result: CompileApiResponse): MessageAction | undefined
   }
 };
 
+const extractContractSize = (stdout: string): number => {
+  const regex = /([0-9]+\.[0-9]+)K/g;
+  const result = stdout.match(regex);
+  if (!result || !result[1]) return NaN;
+  return parseFloat(result[1]);
+};
+
 export async function compile(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch) {
   if (state.compile.type === 'IN_PROGRESS') return;
 
@@ -81,6 +88,19 @@ export async function compile(state: State, dispatch: Dispatch, dispatchMessage:
     type: 'SET_COMPILE_STATE',
     payload: { type: 'RESULT', payload: result },
   });
+
+  if (result.type === 'OK' && result.payload.type === 'SUCCESS') {
+    const contractSize = extractContractSize(result.payload.payload.stdout);
+    dispatch({
+      type: 'SET_CONTRACT_SIZE',
+      payload: contractSize,
+    });
+  } else {
+    dispatch({
+      type: 'SET_CONTRACT_SIZE',
+      payload: null,
+    });
+  }
 
   const action: MessageAction | undefined = getMessageAction(result);
   if (action) dispatchMessage(action);
