@@ -2,22 +2,22 @@ import { Splitter, SplitterPanel } from '@paritytech/components/';
 import { ReactElement } from 'react';
 
 type LayoutProps = {
-  Header: () => ReactElement;
-  Editor: () => ReactElement;
-  Console: () => ReactElement;
+  header: ReactElement;
+  editor: ReactElement;
+  console: ReactElement;
 };
 
-export const Layout = ({ Header, Editor, Console }: LayoutProps) => {
+export const Layout = ({ header, editor, console }: LayoutProps) => {
   return (
     <div className="h-screen flex flex-col">
-      <Header />
+      {header}
       <div className="flex-grow">
         <Splitter className="h-full" layout="vertical" gutterSize={6}>
           <SplitterPanel size={80} className="overflow-hidden min-h-0">
-            <Editor />
+            {editor}
           </SplitterPanel>
           <SplitterPanel size={20} className="overflow-hidden">
-            <Console />
+            {console}
           </SplitterPanel>
         </Splitter>
       </div>
