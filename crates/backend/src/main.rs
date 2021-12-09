@@ -32,6 +32,7 @@ use crate::{
 use actix_cors::Cors;
 use actix_web::{
     middleware::{
+        self,
         Condition,
         DefaultHeaders,
     },
@@ -64,6 +65,7 @@ async fn main() -> std::io::Result<()> {
         let frontend_folder = opts.frontend_folder.clone();
 
         let mut app = App::new()
+            .wrap(middleware::Compress::default())
             .wrap(Condition::new(opts.dev_mode, Cors::permissive()))
             .wrap(
                 DefaultHeaders::new()
