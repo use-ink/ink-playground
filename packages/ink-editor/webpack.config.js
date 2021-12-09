@@ -34,6 +34,9 @@ const webpackConfig = {
             options: {
               typescript: true,
               ext: 'tsx',
+              replaceAttrValues: {
+                '#D3D4DB': '{props.color}',
+              },
             },
           },
         ],
