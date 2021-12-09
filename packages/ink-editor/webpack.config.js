@@ -1,6 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const webpackConfig = {
   output: {
@@ -47,6 +48,9 @@ const webpackConfig = {
     new MiniCssExtractPlugin({
       filename: 'styles.css',
       chunkFilename: 'styles.css',
+    }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: '../_generated/change/src' }],
     }),
   ],
   devServer: {
