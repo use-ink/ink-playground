@@ -11,6 +11,7 @@ describe('Given the ButtonWithIcon component is rendered', () => {
       <ButtonWithIcon
         label="testButton"
         Icon={DemoSvg}
+        darkmode={true}
         testId={'buttonIcon'}
         onClick={() => {
           wasClicked();
@@ -47,6 +48,7 @@ describe('Given Button states were changed', () => {
       <ButtonWithIcon
         label="testButtonDisabled"
         Icon={DemoSvg}
+        darkmode={true}
         testId={'buttonIcon'}
         disabled={true}
         onClick={() => {
@@ -68,6 +70,7 @@ describe('Given Button states were changed', () => {
       <ButtonWithIcon
         label="testButtonDisabled"
         Icon={DemoSvg}
+        darkmode={true}
         testId={'buttonIcon'}
         disabled={true}
         onClick={() => {
@@ -91,6 +94,7 @@ describe('Given Button states were changed', () => {
       <ButtonWithIcon
         label="testButtonLoading"
         Icon={DemoSvg}
+        darkmode={true}
         testId={'buttonIcon'}
         loading={true}
         onClick={() => {
@@ -114,6 +118,7 @@ describe('Given Button states were changed', () => {
       <ButtonWithIcon
         label="testButtonLoading"
         Icon={DemoSvg}
+        darkmode={true}
         testId={'buttonIcon'}
         loading={true}
         onClick={() => {
@@ -137,6 +142,7 @@ describe('Given Button states were changed', () => {
       <ButtonWithIcon
         label="testButtonLoadingDisabled"
         Icon={DemoSvg}
+        darkmode={true}
         testId={'buttonIcon'}
         loading={true}
         disabled={true}
@@ -161,6 +167,7 @@ describe('Given Button states were changed', () => {
       <ButtonWithIcon
         label="testButtonLoadingDisabled"
         Icon={DemoSvg}
+        darkmode={true}
         testId={'buttonIcon'}
         loading={true}
         disabled={true}
