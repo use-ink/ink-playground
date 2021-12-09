@@ -3,13 +3,16 @@ import { InkEditor, exampleCode } from '@paritytech/ink-editor';
 import { Layout } from './Layout';
 import { Header } from './Header';
 import { AppContext, AppProvider } from '~/context/app/';
-import { MessageProvider } from '../context/messages/';
+import { MessageContext, MessageProvider } from '../context/messages/';
 import { ReactElement, useContext, useState } from 'react';
 import { Dispatch, State } from '~/context/app/reducer';
+import { MessageDispatch, MessageState } from '~/context/messages/reducer';
 
 const App = (): ReactElement => {
   const [code, setCode] = useState(exampleCode);
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
+  const [messageState, messageDispatch]: [MessageState, MessageDispatch] =
+    useContext(MessageContext);
 
   return (
     <AppProvider>
@@ -20,6 +23,18 @@ const App = (): ReactElement => {
             <InkEditor
               code={code}
               onCodeChange={setCode}
+              onRustAnalyzerStartLoad={() =>
+                messageDispatch({
+                  type: 'LOG_SYSTEM',
+                  payload: { status: 'IN_PROGRESS', content: 'Loading Rust Analyzer...' },
+                })
+              }
+              onRustAnalyzerFinishLoad={() =>
+                messageDispatch({
+                  type: 'LOG_SYSTEM',
+                  payload: { status: 'DONE', content: 'Rust Analyzer Ready' },
+                })
+              }
               numbering={state.numbering}
               darkmode={state.darkmode}
               minimap={state.minimap}
