@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement } from 'react';
 
 interface Props {
   message: Message;
@@ -11,7 +11,8 @@ export type Message = {
   status: Status;
   severity: Severity;
   content?: string;
-  preContent?: ReactNode;
+  preContent?: string;
+  preContentColor?: string;
 };
 
 export type Prompt = 'COMPILE' | 'SYSTEM' | 'GIST';
@@ -74,7 +75,7 @@ export const ConsoleMessage = ({ message: m, mIndex }: Props): ReactElement => {
     <div className="flex mb-1 basis-zero" data-testid={`message-${mIndex}`}>
       <Prompt message={m} mIndex={mIndex} />
       <span className="pl-2 mt-px2">
-        {m.preContent && <span>{m.preContent} </span>}
+        {m.preContent && <span className={m.preContentColor}>{m.preContent} </span>}
         {m.content}
       </span>
     </div>

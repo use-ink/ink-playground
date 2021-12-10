@@ -14,7 +14,7 @@ import { ShareSubmenu } from './ShareSubmenu';
 import { AppContext } from '~/context/app/';
 import { MessageContext } from '~/context/messages/';
 import { Dispatch, State } from '~/context/app/reducer';
-import { MessageState, MessageDispatch, mapTooltipContent } from '~/context/messages/reducer';
+import { MessageState, MessageDispatch, mapSizeInfo } from '~/context/messages/reducer';
 import { compile } from '~/context/side-effects/compile';
 import * as sizeLimit from '~/constants';
 
@@ -48,7 +48,7 @@ export const Header = (): ReactElement => {
     state.compile.payload.payload.type === 'SUCCESS';
 
   const borderColor = mapBorderColor(state.contractSize);
-  const tooltipContent = mapTooltipContent(state.contractSize);
+  const tooltipContent = mapSizeInfo(state.contractSize);
 
   return (
     <div className="dark:text-primary dark:bg-primary dark:border-dark border-light border-b text-light flex max-h-16">
