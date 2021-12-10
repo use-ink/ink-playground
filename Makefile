@@ -49,6 +49,9 @@ generate: generate-change-json
 ################################################################################
 
 playground-build:
+	COMPILE_URL=/compile \
+	GIST_LOAD_URL=/gist/load \
+	GIST_CREATE_URL=/gist/create \
 	yarn workspace playground run build
 
 playground-start: generate-bindings
