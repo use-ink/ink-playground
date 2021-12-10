@@ -32,6 +32,10 @@
 
 /* Tooltip */
 
-.p-tooltip {
-  @apply shadow-none;
+.custom-tooltip.p-tooltip .p-tooltip-text {
+  @apply bg-white text-black dark:bg-elevation-2 dark:text-white;
+}
+
+.custom-tooltip.p-tooltip .p-tooltip-arrow {
+  @apply border-white dark:border-elevation;
 }
