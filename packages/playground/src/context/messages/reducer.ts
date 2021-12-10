@@ -51,16 +51,27 @@ const lastId = (state: MessageState, prompt: Prompt): number => {
   return state.nextId;
 };
 
-export const mapTooltipContent = (size: number | null): string => {
+export const mapSizeInfo = (size: number | null): string => {
   if (!size) return '';
   if (size <= sizeLimit.OPTIMAL_SIZE) {
-    return `Your contract has an optimal size of ${size} KB`;
+    return `Your contract has an optimal size of ${size} KB.`;
   } else if (size <= sizeLimit.ACCEPTABLE_SIZE) {
-    return `Your contract has an acceptable size of ${size} KB`;
+    return `Your contract has an acceptable size of ${size} KB.`;
   } else if (size <= sizeLimit.PROBLEMATIC_SIZE) {
-    return `Your contract has a problematic size of ${size} KB`;
+    return `Your contract has a problematic size of ${size} KB.`;
   }
-  return `Your contract has an incompatible size of ${size} KB`;
+  return `Your contract has an incompatible size of ${size} KB.`;
+};
+
+const mapContentColor = (size: number): string => {
+  if (size <= sizeLimit.OPTIMAL_SIZE) {
+    return 'text-green-400';
+  } else if (size <= sizeLimit.ACCEPTABLE_SIZE) {
+    return 'text-blue-400';
+  } else if (size <= sizeLimit.PROBLEMATIC_SIZE) {
+    return 'text-yellow-400';
+  }
+  return 'text-red-400';
 };
 
 const reducerLogSystem = (state: MessageState, action: SystemMessage): MessageState => {
@@ -132,7 +143,8 @@ const reducerLogCompile = (state: MessageState, action: CompilationMessage): Mes
         content: `This is your compile Result: ${
           action.payload.result ? action.payload.result.payload.stdout : '<Result>'
         }`,
-        preContent: mapTooltipContent(contractSize),
+        preContent: mapSizeInfo(contractSize),
+        preContentColor: mapContentColor(contractSize),
         severity: Severity.INFO,
       };
       return {
