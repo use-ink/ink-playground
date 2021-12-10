@@ -11,8 +11,20 @@ import { MessageDispatch, MessageState } from '~/context/messages/reducer';
 const App = (): ReactElement => {
   const [code, setCode] = useState(exampleCode);
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
-  const [messageState, messageDispatch]: [MessageState, MessageDispatch] =
-    useContext(MessageContext);
+  const [, messageDispatch]: [MessageState, MessageDispatch] = useContext(MessageContext);
+
+  const onRustAnalyzerStartLoad = () => {
+    messageDispatch({
+      type: 'LOG_SYSTEM',
+      payload: { status: 'IN_PROGRESS', content: 'Loading Rust Analyzer...' },
+    });
+  };
+
+  const onRustAnalyzerFinishLoad = () =>
+    messageDispatch({
+      type: 'LOG_SYSTEM',
+      payload: { status: 'DONE', content: 'Rust Analyzer Ready' },
+    });
 
   return (
     <Layout
@@ -21,18 +33,8 @@ const App = (): ReactElement => {
         <InkEditor
           code={code}
           onCodeChange={setCode}
-          onRustAnalyzerStartLoad={() => {
-            messageDispatch({
-              type: 'LOG_SYSTEM',
-              payload: { status: 'IN_PROGRESS', content: 'Loading Rust Analyzer...' },
-            });
-          }}
-          onRustAnalyzerFinishLoad={() =>
-            messageDispatch({
-              type: 'LOG_SYSTEM',
-              payload: { status: 'DONE', content: 'Rust Analyzer Ready' },
-            })
-          }
+          onRustAnalyzerStartLoad={onRustAnalyzerStartLoad}
+          onRustAnalyzerFinishLoad={onRustAnalyzerFinishLoad}
           numbering={state.numbering}
           darkmode={state.darkmode}
           minimap={state.minimap}
@@ -44,7 +46,7 @@ const App = (): ReactElement => {
   );
 };
 
-const AppWrapped = (): ReactElement => {
+const AppWithProvider = (): ReactElement => {
   return (
     <AppProvider>
       <MessageProvider>
@@ -54,4 +56,4 @@ const AppWrapped = (): ReactElement => {
   );
 };
 
-export default AppWrapped;
+export default AppWithProvider;
