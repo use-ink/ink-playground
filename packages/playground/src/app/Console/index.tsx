@@ -20,6 +20,8 @@ const filterMessages = (messages: Message[]): Message[] => {
     if (latestMessage) message = latestMessage;
     // Only push the first occurrence to the messagesToRender
     // To preserve original message order
+    if (message.preContent)
+      message.preContent = <span className="text-green-400">{message.preContent}</span>;
     if (isFirst(messages, message.id, index)) messagesToRender.push(message);
   });
   return messagesToRender;

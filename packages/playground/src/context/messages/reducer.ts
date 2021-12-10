@@ -1,5 +1,7 @@
 import { CompilationResult } from '@paritytech/commontypes';
 import { Message, Status, Severity, Prompt } from '@paritytech/components/';
+import * as sizeLimit from '~/constants';
+import { extractContractSize } from '../side-effects/compile';
 
 export const defaultState: MessageState = {
   messages: [],
@@ -47,6 +49,18 @@ const lastId = (state: MessageState, prompt: Prompt): number => {
   if (lastId !== undefined) return lastId;
   // if no last id available, return nextId
   return state.nextId;
+};
+
+export const mapTooltipContent = (size: number | null): string => {
+  if (!size) return '';
+  if (size <= sizeLimit.OPTIMAL_SIZE) {
+    return `Your contract has an optimal size of ${size} KB`;
+  } else if (size <= sizeLimit.ACCEPTABLE_SIZE) {
+    return `Your contract has an acceptable size of ${size} KB`;
+  } else if (size <= sizeLimit.PROBLEMATIC_SIZE) {
+    return `Your contract has a problematic size of ${size} KB`;
+  }
+  return `Your contract has an incompatible size of ${size} KB`;
 };
 
 const reducerLogSystem = (state: MessageState, action: SystemMessage): MessageState => {
@@ -110,6 +124,7 @@ const reducerLogCompile = (state: MessageState, action: CompilationMessage): Mes
         severity: Severity[action.payload.status],
       };
       // Dispatch message with compilation details
+      const contractSize = extractContractSize(action.payload.result?.payload.stdout || '');
       const newMessage: Message = {
         id: state.nextId,
         prompt: 'COMPILE',
@@ -117,6 +132,7 @@ const reducerLogCompile = (state: MessageState, action: CompilationMessage): Mes
         content: `This is your compile Result: ${
           action.payload.result ? action.payload.result.payload.stdout : '<Result>'
         }`,
+        preContent: mapTooltipContent(contractSize),
         severity: Severity.INFO,
       };
       return {

@@ -44,7 +44,7 @@ const getMessageAction = (result: CompileApiResponse): MessageAction | undefined
   }
 };
 
-const extractContractSize = (stdout: string): number => {
+export const extractContractSize = (stdout: string): number => {
   const regex = /([0-9]+\.[0-9]+)K/g;
   const result = stdout.match(regex);
   if (!result || !result[1]) return NaN;
