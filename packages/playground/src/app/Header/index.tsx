@@ -14,7 +14,7 @@ import { ShareSubmenu } from './ShareSubmenu';
 import { AppContext } from '~/context/app/';
 import { MessageContext } from '~/context/messages/';
 import { Dispatch, State } from '~/context/app/reducer';
-import { MessageState, MessageDispatch } from '~/context/messages/reducer';
+import { MessageState, MessageDispatch, mapTooltipContent } from '~/context/messages/reducer';
 import { compile } from '~/context/side-effects/compile';
 import * as sizeLimit from '~/constants';
 
@@ -33,18 +33,6 @@ const mapBorderColor = (size: number | null): string => {
     return 'border-yellow-400';
   }
   return 'border-red-400';
-};
-
-const mapTooltipContent = (size: number | null): string => {
-  if (!size) return '';
-  if (size <= sizeLimit.OPTIMAL_SIZE) {
-    return `Your contract has an optimal size of ${size} KB`;
-  } else if (size <= sizeLimit.ACCEPTABLE_SIZE) {
-    return `Your contract has an acceptable size of ${size} KB`;
-  } else if (size <= sizeLimit.PROBLEMATIC_SIZE) {
-    return `Your contract has a problematic size of ${size} KB`;
-  }
-  return `Your contract has an incompatible size of ${size} KB`;
 };
 
 export const Header = (): ReactElement => {
