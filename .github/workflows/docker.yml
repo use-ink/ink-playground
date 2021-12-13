@@ -37,7 +37,7 @@ jobs:
         run: sudo cp daemon.json /etc/docker/daemon.json
 
       - name: Restart docker service
-        run: systemctl restart docker.service
+        run: sudo systemctl restart docker.service
 
       - name: Build docker
         run: make docker-build
