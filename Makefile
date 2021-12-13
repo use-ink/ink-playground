@@ -201,17 +201,17 @@ docker-build:
 
 docker-run:
 	docker run \
+	  --runtime=sysbox-runc \
 	  --volume /tmp:/tmp \
-	  --volume /var/run/docker.sock:/var/run/docker.sock \
 	  --publish $(DOCKER_PORT):4000 \
 	  ink-playground
 	  
 docker-run-detach:
 	docker run \
+	  --runtime=sysbox-runc \
 	  --name ink-playground-container \
 	  --detach \
 	  --volume /tmp:/tmp \
-	  --volume /var/run/docker.sock:/var/run/docker.sock \
 	  --publish $(DOCKER_PORT):4000 \
 	  ink-playground
 
@@ -220,9 +220,9 @@ docker-test:
 
 docker-shell:
 	docker run \
+	  --runtime=sysbox-runc \
 	  -it \
 	  --volume /tmp:/tmp \
-	  --volume /var/run/docker.sock:/var/run/docker.sock \
 	  --entrypoint /bin/bash \
 	  --publish $(DOCKER_PORT):4000 \
 	  ink-playground
