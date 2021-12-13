@@ -84,4 +84,4 @@ RUN make backend-build-prod
 # Entrypoint
 ################################################################################
 
-ENTRYPOINT [ "/on-start.sh" ]
+ENTRYPOINT [ "./on-start.sh" ]
