@@ -15,7 +15,8 @@
     "yarn.lock",
     "**/yarn-error.log",
     "assets/architecture*.xml",
-    "packages/_generated/change/src/change.json"
+    "packages/_generated/change/src/change.json",
+    "sysbox/*"
   ],
   "words": [
     "Menlo",
