@@ -6,6 +6,7 @@ sleep 2
 
 # pull inner images
 docker pull achimcc/ink-backend:latest
+docker tag achimcc/ink-backend ink-backend
 
 # dockerd cleanup (remove the .pid file as otherwise it prevents
 # dockerd from launching correctly inside sys container)
