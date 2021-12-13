@@ -1,9 +1,0 @@
-{
-  "runtimes": {
-    "sysbox-runc": {
-      "path": "/usr/bin/sysbox-runc"
-    }
-  },
-  "default-runtime": "sysbox-runc",
-  "userns-remap": "sysbox"
-}
