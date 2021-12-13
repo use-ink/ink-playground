@@ -19,7 +19,7 @@ jobs:
         run: wget https://downloads.nestybox.com/sysbox/releases/v0.4.1/sysbox-ce_0.4.1-0.ubuntu-focal_amd64.deb
 
       - name: Add shiftfs module
-        run: sudo modprobe shiftfs
+        run: sudo ./install-shiftfs.sh
 
       - name: Install Sysbox
         run: sudo apt-get install ./sysbox-ce_0.4.1-0.ubuntu-focal_amd64.deb
