@@ -1,6 +1,6 @@
 #!/bin/sh
 cd ~
-git clone --branch=k5.13 git://github.com/toby63/shiftfs-dkms.git shiftfs-dkms
+git clone git://github.com/toby63/shiftfs-dkms.git shiftfs-dkms
 cd shiftfs-dkms
 sudo make -f Makefile.dkms
 sudo find /lib/modules/$(uname -r)/ -iname \"*shiftf*\"
