@@ -18,7 +18,10 @@ jobs:
       - name: get Sysbox
         run: wget https://downloads.nestybox.com/sysbox/releases/v0.4.1/sysbox-ce_0.4.1-0.ubuntu-focal_amd64.deb
 
-      - name: Install shiftfs kernel module
+      - name: Install dkms
+        run: sudo apt-get install dkms
+
+      - name: Install shiftfs kernel module with dkms
         run: ./install-shiftfs.sh
 
       - name: Install Sysbox
