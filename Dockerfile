@@ -87,4 +87,4 @@ RUN chmod +x /usr/bin/on-start.sh
 # Entrypoint
 ################################################################################
 
-ENTRYPOINT [ "on-start.sh" ]
+ENTRYPOINT [ "/on-start.sh" ]
