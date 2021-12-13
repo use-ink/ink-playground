@@ -42,6 +42,9 @@ RUN apt --yes update
 
 RUN apt-get --yes install docker-ce docker-ce-cli containerd.io
 
+COPY docker-pull.sh /usr/bin
+RUN chmod +x /usr/bin/docker-pull.sh && docker-pull.sh && rm /usr/bin/docker-pull.sh
+
 ################################################################################
 # Prepare
 ################################################################################
