@@ -66,6 +66,7 @@ export const ShareSubmenu = (): ReactElement => {
       <ButtonWithIcon
         label={'Create GitHub Gist'}
         Icon={GithubIcon}
+        placeIconRight={true}
         testId={'buttonIcon'}
         onClick={() => {
           gistCreate(state, dispatch, dispatchMessage);
