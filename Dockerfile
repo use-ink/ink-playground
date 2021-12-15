@@ -3,7 +3,7 @@
 ################################################################################
 
 # Start from a rust base image
-FROM rust:1.56.1
+FROM rust:1.57
 
 # Set the current directory
 WORKDIR /app
@@ -80,13 +80,11 @@ RUN make playground-build
 RUN rustup default stable
 RUN make backend-build-prod
 
+COPY sysbox/on-start.sh /usr/bin
+RUN chmod +x /usr/bin/on-start.sh
+
 ################################################################################
 # Entrypoint
 ################################################################################
 
-ENTRYPOINT [ \
-    "./target/release/backend", \
-    "--port", "4000", \
-    "--host", "0.0.0.0", \
-    "--frontend_folder", "packages/playground/dist" \
-    ]
+ENTRYPOINT [ "on-start.sh" ]
