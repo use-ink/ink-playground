@@ -3,7 +3,8 @@ import tailwindConfig from '../../playground/tailwind.config';
 import resolveConfig from 'tailwindcss/resolveConfig';
 import { TailwindConfig } from 'tailwindcss/tailwind-config';
 
-const fullConfig = resolveConfig(tailwindConfig as TailwindConfig);
+// The types comming from Tailwind do not play along nicely with custom fonts
+const fullConfig = resolveConfig(tailwindConfig as unknown as TailwindConfig);
 
 export type ButtonProps = {
   label: string;
