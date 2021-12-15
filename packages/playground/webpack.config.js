@@ -1,6 +1,7 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const tailwindcss = require('tailwindcss');
 const { EnvironmentPlugin } = require('webpack');
@@ -42,12 +43,15 @@ const localConfig = {
       },
     ],
   },
+  optimization: {
+    minimizer: [new CssMinimizerPlugin()],
+  },
   plugins: [
+    new MiniCssExtractPlugin(),
     new htmlWebpackPlugin({
       title: 'Parity ink! Playground',
       template: './src/index.html',
     }),
-
     new BundleAnalyzerPlugin({
       analyzerMode: 'disabled',
       generateStatsFile: false,
