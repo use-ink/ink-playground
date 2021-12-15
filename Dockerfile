@@ -87,9 +87,4 @@ RUN chmod +x /usr/bin/on-start.sh
 # Entrypoint
 ################################################################################
 
-ENTRYPOINT [ \
-    "./target/release/backend", \
-    "--port", "4000", \
-    "--host", "0.0.0.0", \
-    "--frontend_folder", "packages/playground/dist" \
-    ]
+ENTRYPOINT [ "on-start.sh" ]
