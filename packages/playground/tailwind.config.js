@@ -16,6 +16,7 @@ module.exports = {
       medium: ['SF Pro Display Medium'],
       bold: ['SF Pro Display Bold'],
       italic: ['SF Pro Display Italic'],
+      mono: ['Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
     },
     fontSize: {
       xs: '.75rem',
