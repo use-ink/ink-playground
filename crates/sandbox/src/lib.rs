@@ -34,7 +34,6 @@ use snafu::{
 };
 use std::{
     ffi::OsStr,
-    fmt,
     fs::{
         self,
         File,
