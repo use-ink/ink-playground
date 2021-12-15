@@ -64,7 +64,7 @@ export const ShareSubmenu = (): ReactElement => {
     <>
       <h2 className="px-4 pt-1 pb-2">Share Options</h2>
       <ButtonWithIcon
-        label={'Create GitHub Gist'}
+        label={state.gist.type === 'NOT_ASKED' ? 'Create GitHub Gist' : 'Create New Github Gist'}
         Icon={GithubIcon}
         placeIconRight={true}
         testId={'buttonIcon'}
