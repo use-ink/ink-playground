@@ -68,6 +68,8 @@ module.exports = {
       spacing: {
         px2: '2px',
         px3: '3px',
+        px4: '4px',
+        px5: '5px',
       },
     },
   },
