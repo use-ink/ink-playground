@@ -23,16 +23,16 @@ const openRepoUrl = (): void => {
   window.open(repoURL, '_blank');
 };
 
-const mapBorderColor = (size: number | null): string => {
-  if (!size) return '';
+const mapBorderColor = (size: number | null): { color: string; shade: string } => {
+  if (!size) return { color: '', shade: '' };
   if (size <= sizeLimit.OPTIMAL_SIZE) {
-    return 'border-green-400';
+    return { color: 'green', shade: '400' };
   } else if (size <= sizeLimit.ACCEPTABLE_SIZE) {
-    return 'border-blue-400';
+    return { color: 'blue', shade: '400' };
   } else if (size <= sizeLimit.PROBLEMATIC_SIZE) {
-    return 'border-yellow-400';
+    return { color: 'yellow', shade: '400' };
   }
-  return 'border-red-400';
+  return { color: 'red', shade: '400' };
 };
 
 export const Header = (): ReactElement => {
