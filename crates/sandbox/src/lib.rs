@@ -169,7 +169,6 @@ impl Sandbox {
         println!("Executing command: \n{:?}", command);
 
         let output = run_command_with_timeout(command)?;
-
         let file = fs::read_dir(&self.output_dir)
             .context(UnableToReadOutput)?
             .flatten()
@@ -177,7 +176,7 @@ impl Sandbox {
             .find(|path| path.extension() == Some(OsStr::new("contract")));
 
         let stdout = vec_to_str(output.stdout)?;
-        let mut stderr = vec_to_str(output.stderr)?;
+        let stderr = vec_to_str(output.stderr)?;
 
         let compile_response = match file {
             Some(file) => {
@@ -193,17 +192,7 @@ impl Sandbox {
                     Err(_) => CompilationResult::Error { stderr, stdout },
                 }
             }
-            None => {
-                // If we didn't find the file, it's *most* likely that
-                // the user's code was invalid. Tack on our own error
-                // to the compiler's error instead of failing the
-                // request.
-                use self::fmt::Write;
-                write!(&mut stderr, "\nUnable to locate file")
-                    .expect("Unable to write to a string");
-
-                CompilationResult::Error { stderr, stdout }
-            }
+            None => CompilationResult::Error { stderr, stdout },
         };
 
         Ok(compile_response)
