@@ -7,6 +7,7 @@ export type LabeledLinkProps = {
 
 export const LabeledLink = ({ label, link }: LabeledLinkProps): ReactElement => {
   const [animatePing, setAnimatePing] = useState(false);
+  const abbreviatedLink = link.substr(0, 32);
 
   const showAnimation = (): void => {
     setAnimatePing(true);
@@ -16,11 +17,11 @@ export const LabeledLink = ({ label, link }: LabeledLinkProps): ReactElement => 
   };
 
   return (
-    <div className="dark:bg-elevation dark:border-dark border-light border-t last:rounded-b py-2 px-4 w-full text-lg">
+    <div className="dark:bg-elevation dark:border-dark border-light border-t last:rounded-b pt-2 pb-4 px-4 w-full text-lg">
       <p className="text-sm mt-1 mb-2 whitespace-nowrap">{label}</p>
       <div className="dark:bg-primary dark:border-dark bg-gray-200 border-light last:rounded-b py-2 px-4 w-full text-lg flex justify-between items-center rounded">
         <a href={link} target="_blank" className="text-sm">
-          {link}
+          {abbreviatedLink}...
         </a>
         <button
           onClick={() => {
