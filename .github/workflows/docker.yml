@@ -66,7 +66,6 @@ jobs:
       - name: Push Docker image
         if: ${{ github.repository == 'paritytech/ink-playground' && github.ref == 'refs/heads/main' }}
         run: docker push ${{ secrets.DOCKER_USER_NAME }}/ink-playground
-
 #      - name: Invoke deployment hook
 #        if: ${{ github.repository == 'paritytech/ink-playground' && github.ref == 'refs/heads/main' }}
 #        uses: distributhor/workflow-webhook@v2
