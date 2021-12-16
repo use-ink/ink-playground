@@ -76,17 +76,6 @@ export const ConsoleMessage = ({ message: m, mIndex }: Props): ReactElement => {
       <Prompt message={m} mIndex={mIndex} />
       <span className="pl-2 mt-px2 font-mono">
         {m.preContent && <span className={m.preContentColor}>{m.preContent} </span>}
-        {m.content}
-      </span>
-    </div>
-  );
-};
-
-export const ConsoleMessage = ({ message: m, mIndex }: Props): ReactElement => {
-  return (
-    <div className="flex mb-1 basis-zero" data-testid={`message-${mIndex}`}>
-      <Prompt message={m} mIndex={mIndex} />
-      <span className="pl-2 mt-px2">
         {m?.content?.split('\n').map(line => (
           <>
             {line}
