@@ -17,14 +17,15 @@ import { Dispatch, State } from '~/context/app/reducer';
 import { MessageState, MessageDispatch, mapSizeInfo } from '~/context/messages/reducer';
 import { compile } from '~/context/side-effects/compile';
 import * as sizeLimit from '~/constants';
+import { Colors } from '@paritytech/components/ButtonWithIcon';
 
 const openRepoUrl = (): void => {
   const repoURL = 'https://github.com/paritytech/ink-playground';
   window.open(repoURL, '_blank');
 };
 
-const mapBorderColor = (size: number | null): { color: string; shade: string } => {
-  if (!size) return { color: '', shade: '' };
+const mapBorderColor = (size: number | null): { color: keyof Colors; shade: string } => {
+  if (!size) return { color: 'gray', shade: '600' };
   if (size <= sizeLimit.OPTIMAL_SIZE) {
     return { color: 'green', shade: '400' };
   } else if (size <= sizeLimit.ACCEPTABLE_SIZE) {
