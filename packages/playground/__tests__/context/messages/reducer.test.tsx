@@ -167,7 +167,7 @@ describe('Given the reducer is used to manage state', () => {
         id: 0,
         prompt: 'COMPILE',
         status: 'INFO',
-        content: 'This is your compile Result: <Result>',
+        content: '\nThis is your compile Result:\n<Result>',
         severity: 'Info',
       });
       expect(state.nextId).toBe(1);

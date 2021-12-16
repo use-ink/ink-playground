@@ -140,7 +140,7 @@ const reducerLogCompile = (state: MessageState, action: CompilationMessage): Mes
         id: state.nextId,
         prompt: 'COMPILE',
         status: 'INFO',
-        content: `This is your compile Result: ${
+        content: `\nThis is your compile Result:\n${
           action.payload.result ? action.payload.result.payload.stdout : '<Result>'
         }`,
         preContent: mapSizeInfo(contractSize),
