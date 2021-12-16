@@ -43,14 +43,6 @@ RUN apt --yes update
 RUN apt-get --yes install docker-ce docker-ce-cli containerd.io
 
 ################################################################################
-# Configure Sysbox and pull ink-backend image
-# see: https://github.com/nestybox/sysbox/blob/master/docs/quickstart/images.md
-################################################################################
-
-# COPY sysbox/docker-pull.sh /usr/bin
-# RUN chmod +x /usr/bin/docker-pull.sh && docker-pull.sh && rm /usr/bin/docker-pull.sh
-
-################################################################################
 # Prepare
 ################################################################################
 
