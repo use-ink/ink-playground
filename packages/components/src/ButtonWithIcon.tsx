@@ -52,9 +52,8 @@ export const ButtonWithIcon = ({
   const iconRight = 'mt-px4 ml-2 w-5';
 
   const IconOfState = ({ style }: { style: string }): ReactElement => {
-    const iconStyle = 'mt-1.5 mr-1.5 w-4';
-    const spinnerIcon = `pi pi-spinner animate-spin ${iconStyle}`;
-    const disabledIcon = `dark:text-gray-600 text-gray-400 ${iconStyle}`;
+    const spinnerIcon = `pi pi-spinner animate-spin ${style}`;
+    const disabledIcon = `dark:text-gray-600 text-gray-400 ${style}`;
 
     const colors = fullConfig.theme.colors as Colors;
     // Icon colors
