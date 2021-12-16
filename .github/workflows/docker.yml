@@ -35,6 +35,11 @@ jobs:
         env:
           DOCKER_PORT: 4000
 
+      - name: Sleep for 10s
+        uses: juliangruber/sleep-action@v1
+        with:
+          time: 120s
+
       - name: Install docker-tests
         run: yarn workspace docker-tests install
 
