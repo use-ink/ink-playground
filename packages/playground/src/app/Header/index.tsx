@@ -25,7 +25,7 @@ const openRepoUrl = (): void => {
 };
 
 const mapBorderColor = (size: number | null): { color: keyof Colors; shade: string } => {
-  if (!size) return { color: 'gray', shade: '600' };
+  if (!size) return { color: 'gray', shade: '200' };
   if (size <= sizeLimit.OPTIMAL_SIZE) {
     return { color: 'green', shade: '400' };
   } else if (size <= sizeLimit.ACCEPTABLE_SIZE) {
@@ -48,7 +48,7 @@ export const Header = (): ReactElement => {
     state.compile.payload.type === 'OK' &&
     state.compile.payload.payload.type === 'SUCCESS';
 
-  const borderColor = mapBorderColor(state.contractSize);
+  const iconColor = mapBorderColor(state.contractSize);
   const tooltipContent = mapSizeInfo(state.contractSize);
 
   return (
@@ -74,7 +74,7 @@ export const Header = (): ReactElement => {
           onClick={() => handleDownload(state)}
           disabled={!hasDownloadableResult || !state.monacoUri}
           loading={state.compile.type === 'IN_PROGRESS'}
-          borderColor={borderColor}
+          iconColor={iconColor}
           tooltipContent={tooltipContent}
         />
         <ButtonWithIcon
