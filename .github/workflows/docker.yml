@@ -35,7 +35,7 @@ jobs:
         env:
           DOCKER_PORT: 4000
 
-      - name: Sleep for 10s
+      - name: Sleep for 120, allow Docker image to boot up
         uses: juliangruber/sleep-action@v1
         with:
           time: 120s
