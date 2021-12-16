@@ -67,10 +67,10 @@ jobs:
         if: ${{ github.repository == 'paritytech/ink-playground' && github.ref == 'refs/heads/main' }}
         run: docker push ${{ secrets.DOCKER_USER_NAME }}/ink-playground
 
-      - name: Invoke deployment hook
-        if: ${{ github.repository == 'paritytech/ink-playground' && github.ref == 'refs/heads/main' }}
-        uses: distributhor/workflow-webhook@v2
-        env:
-          webhook_type: 'form-urlencoded'
-          webhook_url: ${{ secrets.WEBHOOK_URL }}/redeploy
-          webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
+#      - name: Invoke deployment hook
+#        if: ${{ github.repository == 'paritytech/ink-playground' && github.ref == 'refs/heads/main' }}
+#        uses: distributhor/workflow-webhook@v2
+#        env:
+#          webhook_type: 'form-urlencoded'
+#          webhook_url: ${{ secrets.WEBHOOK_URL }}/redeploy
+#          webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
