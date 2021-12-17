@@ -133,6 +133,18 @@ pub enum CompilationResult {
     },
 }
 
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
+pub struct RustFormatRequest {
+    pub code: String,
+}
+
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
+#[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum RustFormatResponse {
+    Success { code: String },
+    Error { code: String },
+}
+
 // -------------------------------------------------------------------------------------------------
 // CONSTANTS
 // -------------------------------------------------------------------------------------------------
@@ -195,6 +207,10 @@ impl Sandbox {
         };
 
         Ok(compile_response)
+    }
+
+    pub fn rust_format(&self, req: &RustFormatRequest) -> Result<RustFormatResponse> {
+        todo!()
     }
 
     fn write_source_code(&self, code: &str) -> Result<()> {

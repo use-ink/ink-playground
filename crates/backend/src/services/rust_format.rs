@@ -24,24 +24,16 @@ pub use sandbox::{
     Sandbox,
 };
 
-use futures::future::{
-    ready,
-    Ready,
-};
-
 use actix_web::{
     web::Json,
-    HttpRequest,
     HttpResponse,
     Responder,
 };
 
-use serde::{
-    Deserialize,
-    Serialize,
+use sandbox::{
+    RustFormatRequest,
+    RustFormatResponse,
 };
-
-use ts_rs::TS;
 
 use sandbox;
 
@@ -49,43 +41,25 @@ use sandbox;
 // IMPLEMENTATION
 // -------------------------------------------------------------------------------------------------
 
-#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
-pub struct RustFormatRequest {
-    pub code: String,
-}
+fn format_code(req: RustFormatRequest) -> sandbox::Result<RustFormatResponse> {
+    let sandbox = Sandbox::new()?;
 
-#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
-#[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
-pub enum RustFormatResponse {
-    Success(String),
-    Error(String),
-}
-
-impl Responder for RustFormatResponse {
-    type Error = actix_web::Error;
-    type Future = Ready<Result<HttpResponse, actix_web::Error>>;
-
-    fn respond_to(self, _req: &HttpRequest) -> Self::Future {
-        let body = serde_json::to_string(&self).unwrap();
-
-        ready(Ok(HttpResponse::Ok()
-            .content_type("application/json")
-            .body(body)))
-    }
+    sandbox.rust_format(&req)
 }
 
 pub async fn route_rust_format(req: Json<RustFormatRequest>) -> impl Responder {
-    let format_result = 1;
+    let result = format_code(RustFormatRequest {
+        code: req.code.to_string(),
+    });
 
-    // match compile_result {
-    //     Ok(result) => {
-    //         let compile_result = serde_json::to_string(&result).unwrap();
-    //         HttpResponse::Ok().body(compile_result)
-    //     }
-    //     Err(err) => {
-    //         eprintln!("{:?}", err);
-    //         HttpResponse::InternalServerError().finish()
-    //     }
-    // }
-    RustFormatResponse::Success("formatted code".to_string())
+    match result {
+        Ok(result) => {
+            let format_result = serde_json::to_string(&result).unwrap();
+            HttpResponse::Ok().body(format_result)
+        }
+        Err(err) => {
+            eprintln!("{:?}", err);
+            HttpResponse::InternalServerError().finish()
+        }
+    }
 }
