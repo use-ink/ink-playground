@@ -12,10 +12,18 @@ import qs from 'qs';
 
 const ViewError = ({ message }: { message: string }) => <div>{message}</div>;
 
-const ViewGist = ({ gist }: { gist: Gist }) => (
+const ViewGist = ({ gist }: { gist?: Gist }) => (
   <>
-    <LabeledLink label="Link to Playground:" link={gitPlaygroundUrl(gist.id)} />
-    <LabeledLink label="Link to GitHub Gist:" link={gist.url} />
+    <LabeledLink
+      label="Link to Playground:"
+      link={gist ? gitPlaygroundUrl(gist.id) : 'Click "Create GitHub Gist"'}
+      isPlaceholderText={!gist}
+    />
+    <LabeledLink
+      label="Link to GitHub Gist:"
+      link={gist ? gist.url : 'Click "Create GitHub Gist"'}
+      isPlaceholderText={!gist}
+    />
   </>
 );
 
@@ -46,9 +54,9 @@ const ApiResponse = ({ response }: { response: GistCreateApiResponse }): ReactEl
 const GistState = ({ gistState }: { gistState: GistState }): ReactElement | null => {
   switch (gistState.type) {
     case 'NOT_ASKED':
-      return null;
+      return <ViewGist />;
     case 'IN_PROGRESS':
-      return null;
+      return <ViewGist />;
     case 'RESULT':
       return <ApiResponse response={gistState.payload} />;
   }
