@@ -1,7 +1,17 @@
 import { useState, ReactElement } from 'react';
-import MonacoEditor, { MonacoEditorProps } from 'react-monaco-editor';
+import MonacoEditor, { MonacoEditorProps, monaco } from 'react-monaco-editor';
 import exampleCode from './example-code';
 import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
+
+monaco.editor.defineTheme('custom-dark', {
+  base: 'vs-dark',
+  inherit: true,
+  rules: [],
+  colors: {
+    'editor.background': '#1A1D1F',
+    'minimap.background': '#1e2124',
+  },
+});
 
 export { exampleCode };
 
@@ -48,7 +58,7 @@ export const InkEditor = (props: InkEditorProps): ReactElement => {
   return (
     <MonacoEditor
       language="rust"
-      theme={props.darkmode ? 'vs-dark' : 'vs'}
+      theme={props.darkmode ? 'custom-dark' : 'vs'}
       value={code}
       options={options}
       onChange={handleChange}
