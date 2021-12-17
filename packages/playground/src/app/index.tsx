@@ -20,11 +20,16 @@ const App = (): ReactElement => {
     });
   };
 
-  const onRustAnalyzerFinishLoad = () =>
+  const onRustAnalyzerFinishLoad = () => {
+    dispatch({
+      type: 'SET_RUST_ANALYZER_STATE',
+      payload: true,
+    });
     messageDispatch({
       type: 'LOG_SYSTEM',
       payload: { status: 'DONE', content: 'Rust Analyzer Ready' },
     });
+  };
 
   return (
     <Layout
@@ -37,6 +42,7 @@ const App = (): ReactElement => {
           onRustAnalyzerFinishLoad={onRustAnalyzerFinishLoad}
           numbering={state.numbering}
           darkmode={state.darkmode}
+          rustAnalyzer={state.rustAnalyzer}
           minimap={state.minimap}
           setURI={uri => dispatch({ type: 'SET_URI', payload: uri })}
         />

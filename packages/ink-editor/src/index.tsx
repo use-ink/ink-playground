@@ -6,50 +6,84 @@ import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
 const teal = '67c6b0';
 const lightTeal = '67c6b0';
 const white = 'ffffff';
+const darkGray = '4e4e4e';
 const green = '709950';
 const orange = 'ce9178';
 const blue = '6298d4';
 const lightBlue = '95d9fc';
 const yellow = 'dcdd9b';
 
+const rules = [
+  { token: 'comment', foreground: green },
+  { token: 'builtin_attr', foreground: teal },
+  { token: 'string_literal', foreground: orange },
+  { token: 'keyword', foreground: blue },
+  { token: 'module', foreground: teal },
+  { token: 'struct', foreground: lightTeal },
+  { token: 'field', foreground: lightBlue },
+  { token: 'builtin_type', foreground: lightTeal },
+  { token: 'function', foreground: yellow },
+  { token: 'value_param', foreground: lightTeal },
+  { token: 'self_type', foreground: teal },
+  { token: 'trait', foreground: teal },
+  { token: 'self_keyword', foreground: blue },
+  { token: 'variable', foreground: lightBlue },
+  { token: 'unresolved_reference', foreground: blue },
+  { token: 'macro', foreground: blue },
+  { token: 'bool_literal', foreground: lightBlue },
+];
+
+// Define an extra default theme to set the correct background colors
+monaco.editor.defineTheme('default-dark', {
+  base: 'vs-dark',
+  inherit: true,
+  rules: [],
+  colors: {
+    'editor.background': '#1A1D1F',
+    'minimap.background': '#1e2124',
+  },
+});
+
 monaco.editor.defineTheme('custom-dark', {
   base: 'vs-dark',
   inherit: true,
   rules: [
-    // { token: 'comment', foreground: 'ffa500', fontStyle: 'italic underline' },
-    // { token: 'comment.js', foreground: '008800', fontStyle: 'bold' },
-    // { token: 'comment.css', foreground: '0000ff' } // will inherit fontStyle from `comment` above
-    { token: 'comment', foreground: green },
     { token: 'none', foreground: white },
     { token: 'attribute', foreground: white },
-    { token: 'builtin_attr', foreground: teal },
     { token: 'parenthesis', foreground: white },
     { token: 'operator', foreground: white },
-    { token: 'string_literal', foreground: orange },
     { token: 'comma', foreground: white },
-    { token: 'keyword', foreground: blue },
-    { token: 'module', foreground: teal },
     { token: 'semicolon', foreground: white },
     { token: 'brace', foreground: white },
-    { token: 'struct', foreground: lightTeal },
-    { token: 'field', foreground: lightBlue },
     { token: 'colon', foreground: white },
-    { token: 'builtin_type', foreground: lightTeal },
-    { token: 'function', foreground: yellow },
-    { token: 'value_param', foreground: lightTeal },
-    { token: 'self_type', foreground: teal },
-    { token: 'trait', foreground: teal },
-    { token: 'self_keyword', foreground: blue },
     { token: 'logical', foreground: white },
     { token: 'punctuation', foreground: white },
-    { token: 'variable', foreground: lightBlue },
-    { token: 'unresolved_reference', foreground: blue },
-    { token: 'macro', foreground: blue },
-    { token: 'bool_literal', foreground: lightBlue },
+    ...rules,
   ],
   colors: {
     'editor.background': '#1A1D1F',
     'minimap.background': '#1e2124',
+  },
+});
+
+monaco.editor.defineTheme('custom-light', {
+  base: 'vs',
+  inherit: true,
+  rules: [
+    { token: 'none', foreground: darkGray },
+    { token: 'attribute', foreground: darkGray },
+    { token: 'parenthesis', foreground: darkGray },
+    { token: 'operator', foreground: darkGray },
+    { token: 'comma', foreground: darkGray },
+    { token: 'semicolon', foreground: darkGray },
+    { token: 'brace', foreground: darkGray },
+    { token: 'colon', foreground: darkGray },
+    { token: 'logical', foreground: darkGray },
+    { token: 'punctuation', foreground: darkGray },
+    ...rules,
+  ],
+  colors: {
+    'minimap.background': '#f2f2f2',
   },
 });
 
@@ -64,37 +98,8 @@ export interface InkEditorProps {
   numbering?: boolean;
   minimap?: boolean;
   darkmode?: boolean;
+  rustAnalyzer?: boolean;
 }
-
-/*
-comment
-none
-attribute
-builtin_attr
-parenthesis
-operator
-string_literal
-comma
-keyword
-module
-semicolon
-brace
-struct
-field
-colon
-builtin_type
-function
-value_param
-self_type
-trait
-self_keyword
-logical
-punctuation
-variable
-unresolved_reference
-macro
-bool_literal
-*/
 
 export const InkEditor = (props: InkEditorProps): ReactElement => {
   const [code, setCode] = useState(exampleCode);
@@ -125,10 +130,13 @@ export const InkEditor = (props: InkEditorProps): ReactElement => {
     lineNumbers: props.numbering ? 'on' : 'off',
   };
 
+  const darkTheme = props.rustAnalyzer ? 'custom-dark' : 'default-dark';
+  const lightTheme = props.rustAnalyzer ? 'custom-light' : 'vs';
+
   return (
     <MonacoEditor
       language="rust"
-      theme={props.darkmode ? 'custom-dark' : 'vs'}
+      theme={props.darkmode ? darkTheme : lightTheme}
       value={code}
       options={options}
       onChange={handleChange}

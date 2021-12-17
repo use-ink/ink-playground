@@ -50,6 +50,7 @@ export const startRustAnalyzer = async (uri: Uri) => {
     monaco.editor.setModelMarkers(model, modeId, res.diagnostics);
     allTokens.length = 0;
     allTokens.push(...res.highlights);
+    monaco.editor.setTheme('custom-dark');
     setTokens(allTokens);
   }
 

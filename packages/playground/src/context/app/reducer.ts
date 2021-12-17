@@ -10,6 +10,7 @@ export const defaultState: State = {
   monacoUri: null,
   gist: { type: 'NOT_ASKED' },
   contractSize: null,
+  rustAnalyzer: false,
 };
 
 export type State = {
@@ -20,6 +21,7 @@ export type State = {
   monacoUri: Uri | null;
   gist: GistState;
   contractSize: number | null;
+  rustAnalyzer: boolean;
 };
 
 export type GistState =
@@ -39,7 +41,8 @@ export type Action =
   | { type: 'SET_COMPILE_STATE'; payload: CompileState }
   | { type: 'SET_GIST_STATE'; payload: GistState }
   | { type: 'SET_URI'; payload: Uri }
-  | { type: 'SET_CONTRACT_SIZE'; payload: number | null };
+  | { type: 'SET_CONTRACT_SIZE'; payload: number | null }
+  | { type: 'SET_RUST_ANALYZER_STATE'; payload: boolean };
 
 export type Dispatch = (action: Action) => void;
 
@@ -64,6 +67,11 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         compile: action.payload,
+      };
+    case 'SET_RUST_ANALYZER_STATE':
+      return {
+        ...state,
+        rustAnalyzer: action.payload,
       };
     case 'SET_GIST_STATE':
       return {
