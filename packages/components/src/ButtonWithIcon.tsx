@@ -48,7 +48,7 @@ export const ButtonWithIcon = ({
 }: ButtonProps): ReactElement => {
   const disabledClasses = disabled || loading ? 'cursor-not-allowed opacity-60' : '';
 
-  const iconLeft = 'mt-1.5 mr-1.5 w-4';
+  const iconLeft = 'mt-px3 mr-1.5 w-4';
   const iconRight = 'mt-px4 ml-2 w-5';
 
   const IconOfState = ({ style }: { style: string }): ReactElement => {
@@ -69,10 +69,10 @@ export const ButtonWithIcon = ({
   };
 
   const menuOptionStyle =
-    'dark:hover:bg-elevation-3 bg-gray-100 hover:bg-gray-200 dark:bg-elevation-1 dark:border-dark border-light border-t last:rounded-b py-2 px-4 w-full text-lg flex whitespace-nowrap';
+    'dark:hover:bg-elevation-3 bg-gray-100 hover:bg-gray-200 dark:bg-elevation-1 dark:border-dark border-light border-t last:rounded-b py-2 px-4 w-full flex whitespace-nowrap';
 
   const buttonStyle =
-    'dark:hover:bg-elevation hover:bg-gray-200 pt-px3 px-3 mr-1 rounded text-lg flex whitespace-nowrap';
+    'dark:hover:bg-elevation hover:bg-gray-200 pt-px7 px-3 mr-1 rounded flex whitespace-nowrap';
 
   // create an identifier, because otherwise tooltip would render
   // multiple times, for all button occurrences in the app

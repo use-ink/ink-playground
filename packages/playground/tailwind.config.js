@@ -75,6 +75,8 @@ module.exports = {
         px3: '3px',
         px4: '4px',
         px5: '5px',
+        px6: '6px',
+        px7: '7px',
       },
     },
   },
