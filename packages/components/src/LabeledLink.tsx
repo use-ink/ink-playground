@@ -39,7 +39,9 @@ export const LabeledLink = ({ label, link, isPlaceholderText }: LabeledLinkProps
         ) : (
           <>
             <p className="text-sm whitespace-nowrap opacity-60">{link}</p>
-            <i className="pi pi-copy ml-4 opacity-60" />
+            <button className="cursor-not-allowed" disabled={true}>
+              <i className="pi pi-copy ml-4 opacity-60" />
+            </button>
           </>
         )}
       </div>
