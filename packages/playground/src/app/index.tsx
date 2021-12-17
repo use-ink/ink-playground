@@ -47,6 +47,7 @@ const App = (): ReactElement => {
           onRustAnalyzerFinishLoad={onRustAnalyzerFinishLoad}
           numbering={state.numbering}
           darkmode={state.darkmode}
+          rustAnalyzer={state.rustAnalyzer}
           minimap={state.minimap}
           setURI={uri => dispatch({ type: 'SET_URI', payload: uri })}
         />
