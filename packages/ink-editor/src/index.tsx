@@ -23,7 +23,12 @@ const light_yellow = 'D9CA00';
 monaco.editor.defineTheme('default-dark', {
   base: 'vs-dark',
   inherit: true,
-  rules: [],
+  rules: [
+    // { token: 'comment', foreground: 'ffa500', fontStyle: 'italic underline' },
+    // { token: 'comment.js', foreground: '008800', fontStyle: 'bold' },
+    // { token: 'comment.css', foreground: '0000ff' } // will inherit fontStyle from `comment` above
+    { token: 'builtin_type', foreground: '54b0b0' },
+  ],
   colors: {
     'editor.background': '#1A1D1F',
     'minimap.background': '#1e2124',
@@ -118,7 +123,6 @@ export interface InkEditorProps {
   darkmode?: boolean;
   rustAnalyzer?: boolean;
 }
-
 export const InkEditor = (props: InkEditorProps): ReactElement | null => {
   const editorDidMount = async (editor: MonacoEditor['editor']): Promise<void> => {
     if (editor) {
