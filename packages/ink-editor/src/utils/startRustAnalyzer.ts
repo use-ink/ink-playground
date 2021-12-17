@@ -9,25 +9,6 @@ import { configureLanguage, setTokens, Token } from './configureLanguage';
 const modeId = 'ra-rust'; // not "rust" to circumvent conflict
 const FILE_ID = 62;
 
-type Highlight = {
-  tag: string;
-  range: {
-    endColumn: number;
-    endLineNumber: number;
-    startColumn: number;
-    startLineNumber: number;
-  };
-};
-
-const getHighlights = (highlights: Highlight[]) => {
-  const allTags: string[] = [];
-  highlights.forEach(highlight => allTags.push(highlight.tag));
-  const uniqueHighlightTagsSet = new Set(allTags);
-  const uniqueHighlightTags = Array.from(uniqueHighlightTagsSet);
-  console.log('UNIQUE TAGS:', uniqueHighlightTags);
-  return highlights;
-};
-
 export const startRustAnalyzer = async (uri: Uri) => {
   const model = monaco.editor.getModel(uri);
   if (!model) return;
@@ -66,21 +47,6 @@ export const startRustAnalyzer = async (uri: Uri) => {
     const text = model.getValue();
     await worldState.update(text);
     const res = await worldState.analyze(FILE_ID);
-
-    const highlights = getHighlights(res.highlights);
-    const highlightSubset = highlights.slice(0, 1000);
-
-    highlightSubset.forEach(highlight => {
-      console.log(
-        `%c${highlight.tag} %cLINE: %c${highlight.range.startLineNumber}/${highlight.range.endLineNumber} %cCOLUMN: %c${highlight.range.startColumn}/${highlight.range.endColumn}`,
-        'color: teal',
-        'color: #cecece',
-        'color: lightblue',
-        'color: #cecece',
-        'color: lightblue'
-      );
-    });
-
     monaco.editor.setModelMarkers(model, modeId, res.diagnostics);
     allTokens.length = 0;
     allTokens.push(...res.highlights);
