@@ -210,29 +210,6 @@ class TokenState {
   }
 }
 
-function fixTag(tag: string) {
-  switch (tag) {
-    case 'builtin':
-      return 'variable.predefined';
-    case 'attribute':
-      return 'key';
-    case 'builtin_type':
-    case 'self_type':
-    case 'bool_literal':
-      return 'keyword';
-    case 'value_param':
-      return 'value';
-    case 'string_literal':
-      return 'string';
-    case 'macro':
-      return 'number.hex';
-    case 'literal':
-      return 'number';
-    default:
-      return tag;
-  }
-}
-
 export const setTokens = (allTokens: Token[]) =>
   monaco.languages.setTokensProvider(modeId, {
     getInitialState: () => new TokenState(),
@@ -241,7 +218,7 @@ export const setTokens = (allTokens: Token[]) =>
 
       const tokens = filteredTokens.map(token => ({
         startIndex: token.range.startColumn - 1,
-        scopes: fixTag(token.tag),
+        scopes: token.tag,
       }));
       tokens.sort((a, b) => a.startIndex - b.startIndex);
 
