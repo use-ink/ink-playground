@@ -6,7 +6,12 @@ import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
 monaco.editor.defineTheme('custom-dark', {
   base: 'vs-dark',
   inherit: true,
-  rules: [],
+  rules: [
+    // { token: 'comment', foreground: 'ffa500', fontStyle: 'italic underline' },
+    // { token: 'comment.js', foreground: '008800', fontStyle: 'bold' },
+    // { token: 'comment.css', foreground: '0000ff' } // will inherit fontStyle from `comment` above
+    { token: 'builtin_type', foreground: '54b0b0' },
+  ],
   colors: {
     'editor.background': '#1A1D1F',
     'minimap.background': '#1e2124',
@@ -25,6 +30,36 @@ export interface InkEditorProps {
   minimap?: boolean;
   darkmode?: boolean;
 }
+
+/*
+comment
+none
+attribute
+builtin_attr
+parenthesis
+operator
+string_literal
+comma
+keyword
+module
+semicolon
+brace
+struct
+field
+colon
+builtin_type
+function
+value_param
+self_type
+trait
+self_keyword
+logical
+punctuation
+variable
+unresolved_reference
+macro
+bool_literal
+*/
 
 export const InkEditor = (props: InkEditorProps): ReactElement => {
   const [code, setCode] = useState(exampleCode);
