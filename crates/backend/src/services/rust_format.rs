@@ -74,7 +74,7 @@ impl Responder for RustFormatResponse {
     }
 }
 
-pub async fn route_format(req: Json<RustFormatRequest>) -> impl Responder {
+pub async fn route_rust_format(req: Json<RustFormatRequest>) -> impl Responder {
     let format_result = 1;
 
     // match compile_result {
