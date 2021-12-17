@@ -16,7 +16,7 @@ import { MessageContext } from '~/context/messages/';
 import { Dispatch, State } from '~/context/app/reducer';
 import { MessageState, MessageDispatch, mapSizeInfo } from '~/context/messages/reducer';
 import { compile } from '~/context/side-effects/compile';
-import { rustFormat } from '~/context/side-effects/rustFormat';
+import { rustFormat } from '~/context/side-effects/rust-format';
 import * as sizeLimit from '~/constants';
 import { Colors } from '@paritytech/components/ButtonWithIcon';
 
