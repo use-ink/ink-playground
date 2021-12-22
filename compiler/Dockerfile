@@ -2,6 +2,10 @@ ARG REGISTRY_PATH=docker.io/paritytech
 
 FROM ${REGISTRY_PATH}/ink-ci-linux:production
 
+ENV CARGO_TARGET_DIR="/target"
+
+RUN cargo install --git https://github.com/paritytech/cargo-contract
+
 # Instantiate new Contract
 RUN cargo contract new contract
 
