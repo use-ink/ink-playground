@@ -72,7 +72,7 @@ export const ButtonWithIcon = ({
     'dark:hover:bg-elevation-3 bg-gray-100 hover:bg-gray-200 dark:bg-elevation-1 dark:border-dark border-light border-t last:rounded-b py-2 px-4 w-full flex whitespace-nowrap';
 
   const buttonStyle =
-    'dark:hover:bg-elevation hover:bg-gray-200 pt-px7 px-3 mr-1 rounded flex whitespace-nowrap';
+    'dark:hover:bg-elevation hover:bg-gray-200 pt-px5 pb-px3 px-3 mr-1 rounded flex whitespace-nowrap';
 
   // create an identifier, because otherwise tooltip would render
   // multiple times, for all button occurrences in the app
@@ -89,7 +89,7 @@ export const ButtonWithIcon = ({
   }`;
 
   return (
-    <>
+    <div className="m-auto">
       {tooltipContent && (
         <Tooltip
           target={`.${tooltipTarget}`}
@@ -109,6 +109,6 @@ export const ButtonWithIcon = ({
         {label}
         {placeIconRight && <IconOfState style={iconRight} />}
       </button>
-    </>
+    </div>
   );
 };
