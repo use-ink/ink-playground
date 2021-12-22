@@ -18,8 +18,14 @@ jobs:
       - name: Pull `ink-backend` docker image
         run: docker pull docker.io/achimcc/ink-backend:latest
 
+      - name: Pull `rustfmt` docker image
+        run: docker pull shepmaster/rustfmt:latest
+
       - name: Tag `ink-backend` docker image
         run: docker tag docker.io/achimcc/ink-backend:latest ink-backend
+
+      - name: Tag `rustfmt` docker image
+        run: docker tag shepmaster/rustfmt:latest rustfmt
 
       - name: Build docker
         run: make docker-build

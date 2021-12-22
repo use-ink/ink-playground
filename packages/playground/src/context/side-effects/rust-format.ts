@@ -28,16 +28,22 @@ export async function rustFormat(
 
   const oldCode = model?.getValue();
 
-  const newCode = await rustFormatRequest(
+  const requestResult = await rustFormatRequest(
     { rustFormatUrl: RUST_FORMAT_URL || '' },
     { code: oldCode }
   );
 
-  if (!(newCode.type === 'OK')) {
+  if (!(requestResult.type === 'OK')) {
     return;
   }
 
-  model?.setValue(newCode.payload.payload);
+  const newCode = requestResult.payload;
+
+  if (!(newCode.type === 'SUCCESS')) {
+    return;
+  }
+
+  model?.setValue(newCode.payload.code);
 
   dispatch({ type: 'SET_CODE', payload: 'foo' });
 }
