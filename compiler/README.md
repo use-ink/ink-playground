@@ -2,7 +2,7 @@
 
 This Docker image is based on: https://github.com/paritytech/scripts/blob/master/dockerfiles/ink-ci-linux/Dockerfile
 
-It is modified in a way such that it provides a prebuild ink! Smart Contract in order to minimize build time for standard ink contracts without extra dependencies.
+It is modified in a way such that it provides a pre-build ink! Smart Contract in order to minimize build time for standard ink contracts without extra dependencies.
 
 ## Usage
 
