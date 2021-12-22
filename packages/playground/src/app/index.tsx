@@ -9,7 +9,7 @@ import { Dispatch, State } from '~/context/app/reducer';
 import { MessageDispatch, MessageState } from '~/context/messages/reducer';
 import { loadCode } from '~/context/side-effects/load-code';
 
-const App = (): ReactElement | null => {
+const App = (): ReactElement => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
   const [, messageDispatch]: [MessageState, MessageDispatch] = useContext(MessageContext);
   const [code, setCode] = useState<string>();
@@ -36,27 +36,24 @@ const App = (): ReactElement | null => {
     });
   };
 
-  if (code)
-    // render app when code is loaded
-    return (
-      <Layout
-        header={<Header />}
-        editor={
-          <InkEditor
-            code={code}
-            onCodeChange={setCode}
-            onRustAnalyzerStartLoad={onRustAnalyzerStartLoad}
-            onRustAnalyzerFinishLoad={onRustAnalyzerFinishLoad}
-            numbering={state.numbering}
-            darkmode={state.darkmode}
-            minimap={state.minimap}
-            setURI={uri => dispatch({ type: 'SET_URI', payload: uri })}
-          />
-        }
-        console={<Console />}
-      />
-    );
-  return null;
+  return (
+    <Layout
+      header={<Header />}
+      editor={
+        <InkEditor
+          code={code}
+          onCodeChange={setCode}
+          onRustAnalyzerStartLoad={onRustAnalyzerStartLoad}
+          onRustAnalyzerFinishLoad={onRustAnalyzerFinishLoad}
+          numbering={state.numbering}
+          darkmode={state.darkmode}
+          minimap={state.minimap}
+          setURI={uri => dispatch({ type: 'SET_URI', payload: uri })}
+        />
+      }
+      console={<Console />}
+    />
+  );
 };
 
 const AppWithProvider = (): ReactElement => {

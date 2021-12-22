@@ -1,4 +1,4 @@
-import { useState, ReactElement } from 'react';
+import { ReactElement } from 'react';
 import MonacoEditor, { MonacoEditorProps, monaco } from 'react-monaco-editor';
 import exampleCode from './example-code';
 import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
@@ -108,7 +108,7 @@ monaco.editor.defineTheme('custom-light', {
 export { exampleCode };
 
 export interface InkEditorProps {
-  code: string;
+  code?: string;
   onCodeChange?: (code: string) => void;
   onRustAnalyzerStartLoad?: () => void;
   onRustAnalyzerFinishLoad?: () => void;
@@ -119,13 +119,7 @@ export interface InkEditorProps {
   rustAnalyzer?: boolean;
 }
 
-export const InkEditor = (props: InkEditorProps): ReactElement => {
-  const [code, setCode] = useState(props.code);
-
-  const handleChange = (newValue: string): void => {
-    setCode(newValue);
-  };
-
+export const InkEditor = (props: InkEditorProps): ReactElement | null => {
   const editorDidMount = async (editor: MonacoEditor['editor']): Promise<void> => {
     if (editor) {
       editor.focus();
@@ -151,14 +145,16 @@ export const InkEditor = (props: InkEditorProps): ReactElement => {
   const darkTheme = props.rustAnalyzer ? 'custom-dark' : 'default-dark';
   const lightTheme = props.rustAnalyzer ? 'custom-light' : 'vs';
 
-  return (
-    <MonacoEditor
-      language="rust"
-      theme={props.darkmode ? darkTheme : lightTheme}
-      value={code}
-      options={options}
-      onChange={handleChange}
-      editorDidMount={editorDidMount}
-    />
-  );
+  if (props.code)
+    return (
+      <MonacoEditor
+        language="rust"
+        theme={props.darkmode ? darkTheme : lightTheme}
+        value={props.code}
+        options={options}
+        onChange={props.onCodeChange}
+        editorDidMount={editorDidMount}
+      />
+    );
+  return null;
 };
