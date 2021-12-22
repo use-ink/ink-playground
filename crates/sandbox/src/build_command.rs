@@ -38,6 +38,7 @@ pub fn build_format_command(input_file: &Path, output_dir: &Path) -> Command {
 
     cmd.arg("rustfmt").args(&["cargo", "fmt"]);
 
+    println!("Formatting command is {:?}", cmd);
     log::debug!("Formatting command is {:?}", cmd);
 
     cmd

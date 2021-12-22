@@ -218,9 +218,18 @@ impl Sandbox {
 
         let output = run_command_with_timeout(command)?;
 
-        Ok(RustFormatResponse::Success {
-            code: "foooo maaa".to_string(),
-        })
+        println!("{:?}", output);
+
+        match output.status.code() {
+            Some(0) => {
+                let code = vec_to_str(output.stdout)?;
+                Ok(RustFormatResponse::Success { code })
+            }
+            _ => {
+                let message = vec_to_str(output.stdout)?;
+                Ok(RustFormatResponse::Error { message })
+            }
+        }
     }
 
     fn write_source_code(&self, code: &str) -> Result<()> {
