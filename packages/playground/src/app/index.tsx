@@ -1,17 +1,22 @@
 import { Console } from './Console';
-import { InkEditor, exampleCode } from '@paritytech/ink-editor';
+import { InkEditor } from '@paritytech/ink-editor';
 import { Layout } from './Layout';
 import { Header } from './Header';
 import { AppContext, AppProvider } from '~/context/app/';
 import { MessageContext, MessageProvider } from '~/context/messages/';
-import { ReactElement, useContext, useState } from 'react';
+import { ReactElement, useContext, useEffect, useState } from 'react';
 import { Dispatch, State } from '~/context/app/reducer';
 import { MessageDispatch, MessageState } from '~/context/messages/reducer';
+import { loadCode } from '~/context/side-effects/load-code';
 
-const App = (): ReactElement => {
-  const [code, setCode] = useState(exampleCode);
+const App = (): ReactElement | null => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
   const [, messageDispatch]: [MessageState, MessageDispatch] = useContext(MessageContext);
+  const [code, setCode] = useState<string>();
+
+  useEffect(() => {
+    loadCode(state, { app: dispatch, message: messageDispatch }).then(setCode);
+  }, []);
 
   const onRustAnalyzerStartLoad = () => {
     messageDispatch({
@@ -31,25 +36,27 @@ const App = (): ReactElement => {
     });
   };
 
-  return (
-    <Layout
-      header={<Header />}
-      editor={
-        <InkEditor
-          code={code}
-          onCodeChange={setCode}
-          onRustAnalyzerStartLoad={onRustAnalyzerStartLoad}
-          onRustAnalyzerFinishLoad={onRustAnalyzerFinishLoad}
-          numbering={state.numbering}
-          darkmode={state.darkmode}
-          rustAnalyzer={state.rustAnalyzer}
-          minimap={state.minimap}
-          setURI={uri => dispatch({ type: 'SET_URI', payload: uri })}
-        />
-      }
-      console={<Console />}
-    />
-  );
+  if (code)
+    // render app when code is loaded
+    return (
+      <Layout
+        header={<Header />}
+        editor={
+          <InkEditor
+            code={code}
+            onCodeChange={setCode}
+            onRustAnalyzerStartLoad={onRustAnalyzerStartLoad}
+            onRustAnalyzerFinishLoad={onRustAnalyzerFinishLoad}
+            numbering={state.numbering}
+            darkmode={state.darkmode}
+            minimap={state.minimap}
+            setURI={uri => dispatch({ type: 'SET_URI', payload: uri })}
+          />
+        }
+        console={<Console />}
+      />
+    );
+  return null;
 };
 
 const AppWithProvider = (): ReactElement => {
