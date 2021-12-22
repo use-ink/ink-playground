@@ -30,7 +30,7 @@ use actix_web::{
     Responder,
 };
 
-use sandbox::{
+pub use sandbox::{
     RustFormatRequest,
     RustFormatResponse,
 };

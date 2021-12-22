@@ -22,7 +22,10 @@ mod build_command;
 mod docker_command;
 mod example_code;
 
-use crate::build_command::build_compile_command;
+use crate::build_command::{
+    build_compile_command,
+    build_format_command,
+};
 use serde::{
     Deserialize,
     Serialize,
@@ -142,7 +145,7 @@ pub struct RustFormatRequest {
 #[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum RustFormatResponse {
     Success { code: String },
-    Error { code: String },
+    Error { message: String },
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -210,7 +213,14 @@ impl Sandbox {
     }
 
     pub fn rust_format(&self, req: &RustFormatRequest) -> Result<RustFormatResponse> {
-        todo!()
+        self.write_source_code(&req.code)?;
+        let command = build_format_command(&self.input_file, &self.output_dir);
+
+        let output = run_command_with_timeout(command)?;
+
+        Ok(RustFormatResponse::Success {
+            code: "foooo maaa".to_string(),
+        })
     }
 
     fn write_source_code(&self, code: &str) -> Result<()> {
