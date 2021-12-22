@@ -120,7 +120,7 @@ export interface InkEditorProps {
 }
 
 export const InkEditor = (props: InkEditorProps): ReactElement => {
-  const [code, setCode] = useState(exampleCode);
+  const [code, setCode] = useState(props.code);
 
   const handleChange = (newValue: string): void => {
     setCode(newValue);
