@@ -53,7 +53,7 @@ export const ButtonWithIcon = ({
 
   const IconOfState = ({ style }: { style: string }): ReactElement => {
     const spinnerIcon = `pi pi-spinner animate-spin ${style}`;
-    const disabledIcon = `dark:text-gray-600 text-gray-400 ${style}`;
+    const disabledIcon = `${style}`;
 
     const colors = fullConfig.theme.colors as Colors;
     // Icon colors
