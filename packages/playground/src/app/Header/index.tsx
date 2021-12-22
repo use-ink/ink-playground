@@ -24,8 +24,8 @@ const openRepoUrl = (): void => {
   window.open(repoURL, '_blank');
 };
 
-const mapBorderColor = (size: number | null): { color: keyof Colors; shade: string } => {
-  if (!size) return { color: 'gray', shade: '200' };
+const mapIconColor = (size: number | null): { color: keyof Colors; shade: string } | undefined => {
+  if (!size) return undefined;
   if (size <= sizeLimit.OPTIMAL_SIZE) {
     return { color: 'green', shade: '400' };
   } else if (size <= sizeLimit.ACCEPTABLE_SIZE) {
@@ -48,7 +48,7 @@ export const Header = (): ReactElement => {
     state.compile.payload.type === 'OK' &&
     state.compile.payload.payload.type === 'SUCCESS';
 
-  const iconColor = mapBorderColor(state.contractSize);
+  const iconColor = mapIconColor(state.contractSize);
   const tooltipContent = mapSizeInfo(state.contractSize);
 
   return (
