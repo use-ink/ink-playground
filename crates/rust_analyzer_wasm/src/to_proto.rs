@@ -42,8 +42,11 @@ pub(crate) fn completion_item_kind(
         ide::CompletionItemKind::Binding => Variable,
         ide::CompletionItemKind::SymbolKind(it) => {
             match it {
+                ide::SymbolKind::Attribute => Property,
+                ide::SymbolKind::BuiltinAttr => Property,
                 ide::SymbolKind::Const => Constant,
                 ide::SymbolKind::ConstParam => Constant,
+                ide::SymbolKind::Derive => Property,
                 ide::SymbolKind::Enum => Enum,
                 ide::SymbolKind::Field => Field,
                 ide::SymbolKind::Function => Function,
@@ -56,6 +59,7 @@ pub(crate) fn completion_item_kind(
                 ide::SymbolKind::SelfParam => Value,
                 ide::SymbolKind::Static => Value,
                 ide::SymbolKind::Struct => Struct,
+                ide::SymbolKind::ToolModule => Property,
                 ide::SymbolKind::Trait => Interface,
                 ide::SymbolKind::TypeAlias => Value,
                 ide::SymbolKind::TypeParam => TypeParameter,
@@ -65,7 +69,7 @@ pub(crate) fn completion_item_kind(
             }
         }
         ide::CompletionItemKind::Method => Method,
-        ide::CompletionItemKind::Attribute => Property,
+    //    ide::CompletionItemKind::Attribute => Property,
         ide::CompletionItemKind::UnresolvedReference => User,
     }
 }
@@ -208,8 +212,11 @@ pub(crate) fn symbol_kind(kind: ide::StructureNodeKind) -> return_types::SymbolK
     };
 
     match kind {
+        ide::SymbolKind::Attribute => SymbolKind::Property,
+        ide::SymbolKind::BuiltinAttr => SymbolKind::Property,
         ide::SymbolKind::Const => SymbolKind::Constant,
         ide::SymbolKind::ConstParam => SymbolKind::Constant,
+        ide::SymbolKind::Derive => SymbolKind::Property,
         ide::SymbolKind::Enum => SymbolKind::Enum,
         ide::SymbolKind::Field => SymbolKind::Field,
         ide::SymbolKind::Function => SymbolKind::Function,
@@ -223,6 +230,7 @@ pub(crate) fn symbol_kind(kind: ide::StructureNodeKind) -> return_types::SymbolK
         ide::SymbolKind::Static => SymbolKind::Constant,
         ide::SymbolKind::Struct => SymbolKind::Struct,
         ide::SymbolKind::Trait => SymbolKind::Interface,
+        ide::SymbolKind::ToolModule => SymbolKind::Property,
         ide::SymbolKind::TypeAlias => SymbolKind::TypeParameter,
         ide::SymbolKind::TypeParam => SymbolKind::TypeParameter,
         ide::SymbolKind::Union => SymbolKind::Struct,
