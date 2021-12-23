@@ -4219,6 +4219,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"copy-webpack-plugin@npm:^10.2.0":
+  version: 10.2.0
+  resolution: "copy-webpack-plugin@npm:10.2.0"
+  dependencies:
+    fast-glob: ^3.2.7
+    glob-parent: ^6.0.1
+    globby: ^12.0.2
+    normalize-path: ^3.0.0
+    schema-utils: ^4.0.0
+    serialize-javascript: ^6.0.0
+  peerDependencies:
+    webpack: ^5.1.0
+  checksum: ae99dc42d0fbe4d7fc4a6a0902130c4420c7a2f27a995df55b4fcaa5c5aec371b4545609249f93e8db0f5b95daaed053e74f38d794ace1336f21886c29e2fddc
+  languageName: node
+  linkType: hard
+
 "copy-webpack-plugin@npm:^9.1.0":
   version: 9.1.0
   resolution: "copy-webpack-plugin@npm:9.1.0"
@@ -5863,7 +5879,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globby@npm:^12.0.0":
+"globby@npm:^12.0.0, globby@npm:^12.0.2":
   version: 12.0.2
   resolution: "globby@npm:12.0.2"
   dependencies:
@@ -8765,7 +8781,7 @@ __metadata:
     "@types/tailwindcss": ^2.2.4
     autoprefixer: ^9
     comlink: ^4.3.1
-    copy-webpack-plugin: ^9.1.0
+    copy-webpack-plugin: ^10.2.0
     css-loader: ^6.3.0
     html-webpack-plugin: ^5.3.1
     jest: ^27.2.0
