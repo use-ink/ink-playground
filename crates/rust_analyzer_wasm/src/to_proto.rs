@@ -69,7 +69,6 @@ pub(crate) fn completion_item_kind(
             }
         }
         ide::CompletionItemKind::Method => Method,
-    //    ide::CompletionItemKind::Attribute => Property,
         ide::CompletionItemKind::UnresolvedReference => User,
     }
 }
