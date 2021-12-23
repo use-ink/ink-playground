@@ -46,7 +46,7 @@ export const startRustAnalyzer = async (uri: Uri) => {
     if (!model) return;
     const text = model.getValue();
     await worldState.update(text);
-    const res = await worldState.analyze(FILE_ID);
+    const res = await worldState.analyze();
     monaco.editor.setModelMarkers(model, modeId, res.diagnostics);
     allTokens.length = 0;
     allTokens.push(...res.highlights);
