@@ -13,13 +13,13 @@ crossbeam-channel = "0.5.0"
 anyhow = "1.0.43"
 log = "0.4.14"
 tracing = "0.1"
-ide_db = { package = "ra_ap_ide_db", version = "0.0.83" }
-ide = { package = "ra_ap_ide", version = "0.0.83" }
-hir = { package = "ra_ap_hir", version = "0.0.83" }
-project_model = { package = "ra_ap_project_model", version = "0.0.83" }
-vfs = { package = "ra_ap_vfs", version = "0.0.83" }
-tt = { package = "ra_ap_tt", version = "0.0.83" }
-vfs_notify = { package = "ra_ap_vfs-notify", version = "0.0.83" }
-profile = { package = "ra_ap_profile", version = "0.0.83" }
+ide_db = { package = "ra_ap_ide_db", version = "0.0.87" }
+ide = { package = "ra_ap_ide", version = "0.0.87" }
+hir = { package = "ra_ap_hir", version = "0.0.87" }
+project_model = { package = "ra_ap_project_model", version = "0.0.87" }
+vfs = { package = "ra_ap_vfs", version = "0.0.87" }
+tt = { package = "ra_ap_tt", version = "0.0.87" }
+vfs_notify = { package = "ra_ap_vfs-notify", version = "0.0.87" }
+profile = { package = "ra_ap_profile", version = "0.0.87" }
 
 change_json = { path = "../change_json" }
