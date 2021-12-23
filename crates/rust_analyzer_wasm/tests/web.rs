@@ -38,6 +38,7 @@ use ide::{
 };
 use ide_db::base_db::{
     CrateName,
+    CrateOrigin,
     Dependency,
     Env,
     FileSet,
@@ -61,6 +62,7 @@ pub fn create_crate(crate_graph: &mut CrateGraph, f: FileId) -> CrateId {
         CfgOptions::default(),
         Env::default(),
         Default::default(),
+        CrateOrigin::Lang,
     )
 }
 
