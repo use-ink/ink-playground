@@ -218,6 +218,10 @@ impl Sandbox {
 
         let output = run_command_with_timeout(command)?;
 
+        let contents = fs::read_to_string(format!("{:?}/outfile", &self.output_dir));
+
+        println!("{:?}", contents);
+
         println!("{:?}", output);
 
         match output.status.code() {
@@ -226,8 +230,11 @@ impl Sandbox {
                 Ok(RustFormatResponse::Success { code })
             }
             _ => {
-                let message = vec_to_str(output.stdout)?;
-                Ok(RustFormatResponse::Error { message })
+                let stderr = vec_to_str(output.stderr)?;
+                let stdout = vec_to_str(output.stdout)?;
+                Ok(RustFormatResponse::Error {
+                    message: format!("{}{}", stderr, stdout),
+                })
             }
         }
     }

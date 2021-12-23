@@ -36,7 +36,13 @@ const DOCKER_OUTPUT: &str = "/playground-result";
 pub fn build_format_command(input_file: &Path, output_dir: &Path) -> Command {
     let mut cmd = build_docker_command(input_file, output_dir);
 
-    cmd.arg("rustfmt").args(&["cargo", "fmt"]);
+    cmd.arg("rustfmt").args(&[
+        "--emit",
+        "stdout",
+        "lib.rs",
+        ">",
+        "/playground-result/outfile",
+    ]);
 
     println!("Formatting command is {:?}", cmd);
     log::debug!("Formatting command is {:?}", cmd);
