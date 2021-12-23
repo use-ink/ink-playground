@@ -7,6 +7,7 @@ const tailwindcss = require('tailwindcss');
 const { EnvironmentPlugin } = require('webpack');
 const { merge } = require('webpack-merge');
 const inkEditorConfig = require('../ink-editor/webpack.config');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const localConfig = {
   mode: 'development',
@@ -51,6 +52,9 @@ const localConfig = {
     new htmlWebpackPlugin({
       title: 'Parity ink! Playground',
       template: './src/index.html',
+    }),
+    new CopyPlugin({
+      patterns: [{ from: './public/favicon.ico' }, { from: './public/favicon.png' }],
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'disabled',
