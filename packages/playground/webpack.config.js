@@ -51,6 +51,7 @@ const localConfig = {
     new MiniCssExtractPlugin(),
     new htmlWebpackPlugin({
       title: 'Parity ink! Playground',
+      favicon: './public/favicon.ico',
       template: './src/index.html',
     }),
     new CopyPlugin({
