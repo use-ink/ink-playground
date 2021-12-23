@@ -180,7 +180,7 @@ impl WorldState {
         web_sys::console::log_1(&"This worked!".into());
     }
 
-    pub fn analyze(&mut self, file_id: u32) -> JsValue {
+    pub fn analyze(&mut self) -> JsValue {
         log::warn!("analyze");
         init_panic_hook();
         web_sys::console::log_1(&"Starting Analysis!".into());
