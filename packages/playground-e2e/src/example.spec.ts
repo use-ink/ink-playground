@@ -17,5 +17,11 @@ test('title was found', async ({ page }) => {
 test('logo was found', async ({ page }) => {
   await page.goto(env.PLAYGROUND_URL);
   const logo = page.locator('data-test-id=headerLogo');
-  await expect(logo).toBeVisible();
+  await expect(logo);
+});
+
+test('gist URL works', async ({ page }) => {
+  await page.goto(env.PLAYGROUND_URL + '?id=b1af981d1875f809b0198e7b169a3ef5');
+  const title = page.locator('title');
+  await expect(title).toHaveText('ink! Playground');
 });
