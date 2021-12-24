@@ -163,6 +163,7 @@ impl Sandbox {
         let scratch = TempDir::new("playground").context(UnableToCreateTempDir)?;
         let input_file = scratch.path().join("input.rs");
         let output_dir = scratch.path().join("output");
+
         fs::create_dir(&output_dir).context(UnableToCreateOutputDir)?;
 
         fs::set_permissions(&output_dir, wide_open_permissions())
@@ -218,25 +219,30 @@ impl Sandbox {
 
         let output = run_command_with_timeout(command)?;
 
-        let contents = fs::read_to_string(format!("{:?}/outfile", &self.output_dir));
-
-        println!("{:?}", contents);
+        let code = fs::read_to_string(&self.input_file);
 
         println!("{:?}", output);
 
-        match output.status.code() {
-            Some(0) => {
-                let code = vec_to_str(output.stdout)?;
-                Ok(RustFormatResponse::Success { code })
-            }
-            _ => {
-                let stderr = vec_to_str(output.stderr)?;
-                let stdout = vec_to_str(output.stdout)?;
-                Ok(RustFormatResponse::Error {
-                    message: format!("{}{}", stderr, stdout),
-                })
-            }
-        }
+        Ok(RustFormatResponse::Success {
+            code: code.unwrap(),
+        })
+
+        // Unfortunately for some reason we cannot read the status code from output
+        // So the below code does not work:
+        //
+        // match output.status.code() {
+        //     Some(0) => {
+        //         let code = vec_to_str(output.stdout)?;
+        //         Ok(RustFormatResponse::Success { code })
+        //     }
+        //     _ => {
+        //         let stderr = vec_to_str(output.stderr)?;
+        //         let stdout = vec_to_str(output.stdout)?;
+        //         Ok(RustFormatResponse::Error {
+        //             message: format!("{}{}", stderr, stdout),
+        //         })
+        //     }
+        // }
     }
 
     fn write_source_code(&self, code: &str) -> Result<()> {

@@ -36,12 +36,12 @@ const DOCKER_OUTPUT: &str = "/playground-result";
 pub fn build_format_command(input_file: &Path, output_dir: &Path) -> Command {
     let mut cmd = build_docker_command(input_file, output_dir);
 
+    // cmd.arg("rustfmt")
+    //     .args(&["echo", "123", "tee", "/playground-result/outfile"]);
+
     cmd.arg("rustfmt").args(&[
-        "--emit",
-        "stdout",
-        "lib.rs",
-        ">",
-        "/playground-result/outfile",
+        "rustfmt", "--emit", "files", "lib.rs",
+        //* "/playground-result/outfile", */
     ]);
 
     println!("Formatting command is {:?}", cmd);
