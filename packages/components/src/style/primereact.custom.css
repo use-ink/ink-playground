@@ -39,3 +39,12 @@
 .custom-tooltip.p-tooltip .p-tooltip-arrow {
   @apply border-white dark:border-elevation;
 }
+
+/* Input Switch */
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  @apply dark:bg-tertiary bg-secondary;
+}
+.p-inputswitch.p-inputswitch-checked:not(.p-disabled):hover .p-inputswitch-slider {
+  @apply dark:bg-tertiary bg-secondary;
+}
