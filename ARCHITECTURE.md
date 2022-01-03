@@ -13,11 +13,19 @@ We provide here a detailed description of the architecture of ink! Playground an
   </p>
 </figure>
 
-## Architecture of the individual components:
+## Architecture of the individual packages:
 
 ### Playground
 
 - Project directory: `/packages/playground`
+
+### Components
+
+- Project directory: `/packages/components`
+
+### Ink Editor
+
+- Project directory: `/packages/ink-editor`
 
 ### Backend
 
@@ -25,7 +33,7 @@ We provide here a detailed description of the architecture of ink! Playground an
 
 ### Rust Analyzer WASM
 
-- Project directory: `/packages/rust_analyzer_wasm`
+- Project directory: `/crates/rust_analyzer_wasm`
 
 ### Crate Extractor
 
