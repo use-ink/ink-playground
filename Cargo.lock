@@ -802,6 +802,7 @@ dependencies = [
  "ra_ap_tt",
  "ra_ap_vfs",
  "ra_ap_vfs-notify",
+ "rustc-hash",
  "serde",
  "serde_json",
  "tracing",

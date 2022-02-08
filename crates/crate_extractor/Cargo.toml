@@ -13,6 +13,7 @@ crossbeam-channel = "0.5.0"
 anyhow = "1.0.43"
 log = "0.4.14"
 tracing = "0.1"
+rustc-hash = "1.1.0"
 ide_db = { package = "ra_ap_ide_db", version = "0.0.95" }
 ide = { package = "ra_ap_ide", version = "0.0.95" }
 hir = { package = "ra_ap_hir", version = "0.0.95" }
