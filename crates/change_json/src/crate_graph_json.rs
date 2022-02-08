@@ -18,6 +18,7 @@ use base_db::{
     CrateGraph,
     CrateId,
     CrateName,
+    CrateOrigin,
     Dependency,
     Edition,
     Env,
@@ -117,6 +118,7 @@ impl From<&CrateGraphJson> for CrateGraph {
                 potential_cfg_options,
                 env,
                 Vec::new(),
+                CrateOrigin::Unknown
             );
         }
         for dep in &crate_graph_json.deps {
@@ -229,6 +231,7 @@ mod tests {
             CfgOptions::default(),
             Env::default(),
             Default::default(),
+            CrateOrigin::Unknown
         );
         let crate2 = graph.add_crate_root(
             FileId(2u32),
@@ -239,6 +242,7 @@ mod tests {
             CfgOptions::default(),
             Env::default(),
             Default::default(),
+            CrateOrigin::Unknown
         );
         let crate3 = graph.add_crate_root(
             FileId(3u32),
@@ -249,6 +253,7 @@ mod tests {
             CfgOptions::default(),
             Env::default(),
             Default::default(),
+            CrateOrigin::Unknown
         );
         graph
             .add_dep(
