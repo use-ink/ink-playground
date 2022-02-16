@@ -18,6 +18,7 @@ ink_eth_compatibility = { version = "3.0.0-rc8", default-features = false }
 scale = { package = "parity-scale-codec", version = "2", default-features = false, features = ["derive"] }
 scale-info = { version = "1", default-features = false, features = ["derive"], optional = true }
 
+
 [lib]
 name = "contract"
 path = "lib.rs"
@@ -25,9 +26,6 @@ crate-type = [
 	# Used for normal contract Wasm blobs.
 	"cdylib",
 ]
-
-[profile.release]
-overflow-checks = false
 
 [features]
 default = ["std"]
@@ -38,7 +36,6 @@ std = [
     "ink_env/std",
     "ink_storage/std",
     "ink_lang/std",
-    "ink_prelude/std",
     "scale/std",
     "scale-info",
     "scale-info/std",
