@@ -10,7 +10,7 @@ readme = "README.md"
 ink_primitives = { version = "3.0.0-rc8", default-features = false }
 ink_metadata = { version = "3.0.0-rc8", default-features = false, features = ["derive"], optional = true }
 ink_env = { version = "3.0.0-rc8", default-features = false, features = ["ink-debug"] }
-ink_storage = { version = "3.0.0-8", default-features = false }
+ink_storage = { version = "3.0.0-rc8", default-features = false }
 ink_lang = { version = "3.0.0-rc8", default-features = false }
 ink_prelude = { version = "3.0.0-rc8", default-features = false }
 ink_eth_compatibility = { version = "3.0.0-rc8", default-features = false }
