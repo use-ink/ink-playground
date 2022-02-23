@@ -48,7 +48,10 @@ use actix_web::{
 use actix_web_prom::PrometheusMetrics;
 
 use clap::Clap;
-use std::{path::Path, collections::HashMap};
+use std::{
+    collections::HashMap,
+    path::Path,
+};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
