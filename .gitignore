@@ -19,6 +19,4 @@ packages/_generated/src
 !.yarn/sdks
 !.yarn/versions
 coverage
-docker-compose.yml
-prometheus.yml
-monitoring/*
+
