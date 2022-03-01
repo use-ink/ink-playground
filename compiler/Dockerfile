@@ -8,6 +8,8 @@ RUN cargo install dylint-link
 
 RUN cargo install --git https://github.com/paritytech/cargo-contract
 
+RUN cargo install cargo-dylint
+
 # Instantiate new Contract
 RUN cargo contract new contract
 
