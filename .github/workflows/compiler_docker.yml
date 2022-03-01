@@ -8,6 +8,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Compare Cargo.toml files
+        run: diff ./compiler/Cargo.toml ./crates/contract/Cargo.toml
+
       - name: Build docker
         run: docker build --tag ink-backend ./compiler/.
 

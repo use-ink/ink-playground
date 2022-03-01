@@ -1,5 +1,5 @@
 [package]
-name = "contract"
+name = "contracts"
 version = "3.0.0-rc8"
 edition = "2021"
 authors = ["Achim Schneider <achim@parity.io>"]
