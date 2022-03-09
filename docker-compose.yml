@@ -13,8 +13,6 @@ services:
       - '--web.external-url=http://localhost:9090'
     networks:
       - prometheus
-  #    extra_hosts:
-  #      - 'host.docker.internal:4000'
 
   grafana:
     image: grafana/grafana:latest
