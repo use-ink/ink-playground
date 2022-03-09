@@ -20,16 +20,3 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER_NAME }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-  push:
-    on:
-      push:
-        branches:
-          - main
-    steps:
-      - name: Tag Docker image
-        if: ${{ github.repository == 'paritytech/ink-playground' && github.ref == 'refs/heads/main' }}
-        run: docker tag ink-backend:latest ${{ secrets.DOCKER_USER_NAME }}/ink-backend
-
-      - name: Push Docker image
-        if: ${{ github.repository == 'paritytech/ink-playground' && github.ref == 'refs/heads/main' }}
-        run: docker push ${{ secrets.DOCKER_USER_NAME }}/ink-backend
