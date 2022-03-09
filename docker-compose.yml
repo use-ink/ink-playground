@@ -1,28 +1,32 @@
 version: '3.8'
 services:
-  # prometheus:
-  #   image: prom/prometheus:latest
-  #   container_name: prometheus
-  #   restart: always
-  #   ports:
-  #     - '9090:9090'
-  #   volumes:
-  #     - ./monitoring/prometheus:/etc/prometheus
-  #   command:
-  #     - '--config.file=/etc/prometheus/prometheus.yml'
-  #     - '--web.external-url=http://localhost:9090'
-  # #    extra_hosts:
-  # #      - 'host.docker.internal:4000'
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: always
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./monitoring/prometheus:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.external-url=http://localhost:9090'
+    networks:
+      - prometheus
+  #    extra_hosts:
+  #      - 'host.docker.internal:4000'
 
-  # grafana:
-  #   image: grafana/grafana:latest
-  #   container_name: grafana
-  #   restart: always
-  #   ports:
-  #     - '5000:3000'
-  #   environment:
-  #     GF_SECURITY_ADMIN_USER: admin
-  #     GF_SECURITY_ADMIN_PASSWORD: admin
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    ports:
+      - '5000:3000'
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    networks:
+      - prometheus
 
   playground:
     image: ink-playground:latest
@@ -33,3 +37,8 @@ services:
     ports:
       - '4000:4000'
     runtime: sysbox-runc
+    networks:
+      - prometheus
+
+networks:
+  prometheus:
