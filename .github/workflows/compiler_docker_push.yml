@@ -2,7 +2,7 @@ name: Compiler_Docker_Push
 
 on:
   workflow_run:
-    workflows: ['Compiler_Docker']
+    workflows: [Compiler_Docker]
     types:
       - completed
 
