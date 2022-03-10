@@ -49,9 +49,9 @@ jobs:
         if: always()
         run: make docker-log
   push:
-    branches:
-      - main
-
+    runs-on:
+      branches:
+        - main
     steps:
       - name: Login to DockerHub
         if: ${{ github.repository == 'paritytech/ink-playground' && github.ref == 'refs/heads/main' }}
