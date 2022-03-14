@@ -1,0 +1,33 @@
+name: Compiler_Docker
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Compare Cargo.toml files
+        run: diff ./compiler/Cargo.toml ./crates/contract/Cargo.toml
+
+      - name: Build docker
+        run: docker build --tag ink-backend ./compiler/.
+
+  push:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
+    steps:
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER_NAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USER_NAME }}/ink-backend
