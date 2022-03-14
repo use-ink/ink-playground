@@ -14,13 +14,13 @@
   "license": "ISC",
   "dependencies": {
     "primeicons": "^4.1.0",
-    "primereact": "^7.0.0",
+    "primereact": "^7.2.1",
     "react-transition-group": "^4.4.2"
   },
   "devDependencies": {
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^27.3.1",
+    "jest": "^27.5.1",
     "rimraf": "^3.0.2",
-    "ts-jest": "^27.0.7"
+    "ts-jest": "^27.1.3"
   }
 }
