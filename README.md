@@ -42,7 +42,7 @@ and finally, to start the backend:
 
 `make backend-run`
 
-The last command starts the Rust webserver locally on you computer. You can then access `localhost:4000` from your Browser to open the locally compiled ink! Playground open.
+The last command starts the Rust webserver locally on you computer. You can then access `localhost:4000` from your browser to open the locally compiled ink! Playground open.
 
 ## Detailed usage instructions:
 
@@ -50,11 +50,15 @@ The last command starts the Rust webserver locally on you computer. You can then
 
 Important commands from the make file:
 
-- `playground-start`
+- `make install`
+  Installs all the required TypeScript dependencies from all monorepo packages by using `yarn install`.
+- `make backend-run`
+  Starts a the actix web server backend and serves the release version of the playground frontend from the folder `packages/playground/dist`. Make sure to run `make build` first to build all the required Rust and frontend dependencies.
+- `make playground-start`
   Starts a dev build of the frontend repo of ink! Playground which allows for easy debugging of the Frontend code / UI, involving Rust Analyzer. Note that the compile/gist functionalities will not be available when invoking `make playground-start`
-- `docker-build`
+- `make docker-build`
   Then deployment of the ink! Playground app is done in our CI by building and uploading the docker image which we generate from our [Dockerfile](./Dockerfile). Running make `docker-build` generates this docker image and tags it with `ink-playground`.
-- `ci`
+- `make ci`
   With `make ci`, we run the majority of tests which we execute in our Github CI.
 
 ### crate-extractor
