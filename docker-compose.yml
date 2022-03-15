@@ -32,6 +32,9 @@ services:
     restart: always
     volumes:
       - /tmp:/tmp
+      - type: bind
+        source: ./dockerhost
+        target: /var/lib/docker
     ports:
       - '4000:4000'
     runtime: sysbox-runc
