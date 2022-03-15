@@ -39,5 +39,8 @@ jobs:
           username: ${{ secrets.DOCKER_USER_NAME }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
+      - name: Tag Docker image
+        run: docker tag ink-backend:latest ${{ secrets.DOCKER_USER_NAME }}/ink-backend
+
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USER_NAME }}/ink-backend
