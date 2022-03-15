@@ -89,6 +89,9 @@
     "proto",
     "rustdoc",
     "rustrust",
-    "codegen"
+    "codegen",
+    "grafana",
+    "sysbox",
+    "runc"
   ]
 }
