@@ -12,6 +12,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Cache docker images
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-docker-images
+        with:
+          path: /var/lib/docker
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
+
       - name: Compare Cargo.toml files
         run: diff ./compiler/Cargo.toml ./crates/contract/Cargo.toml
 
@@ -23,6 +31,8 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
     steps:
+      - uses: actions/checkout@v2
+
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
