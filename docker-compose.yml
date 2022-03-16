@@ -7,10 +7,12 @@ services:
     ports:
       - '9090:9090'
     volumes:
-      - ./monitoring/prometheus:/etc/prometheus
+      - ./config:/prometheus
+      - ./data/prometheus:/data
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--config.file=/prometheus/prometheus.yml'
       - '--web.external-url=http://localhost:9090'
+      - '--storage.tsdb.path=/data'
     networks:
       - prometheus
 
