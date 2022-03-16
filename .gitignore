@@ -19,4 +19,5 @@ packages/_generated/src
 !.yarn/sdks
 !.yarn/versions
 coverage
-
+dockerhost
+data

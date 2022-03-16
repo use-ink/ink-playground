@@ -16,17 +16,17 @@ services:
     networks:
       - prometheus
 
-  grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
-    restart: always
-    ports:
-      - '5000:3000'
-    environment:
-      GF_SECURITY_ADMIN_USER: admin
-      GF_SECURITY_ADMIN_PASSWORD: admin
-    networks:
-      - prometheus
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   container_name: grafana
+  #   restart: always
+  #   ports:
+  #     - '5000:3000'
+  #   environment:
+  #     GF_SECURITY_ADMIN_USER: admin
+  #     GF_SECURITY_ADMIN_PASSWORD: admin
+  #   networks:
+  #     - prometheus
 
   playground:
     image: ink-playground:latest
