@@ -35,6 +35,9 @@ jobs:
       - name: Build docker
         run: make docker-build
 
+      - name: List Docker images
+        run: ls /var/lib/docker/images
+
       - name: Run docker
         run: make docker-run-detach
         env:
