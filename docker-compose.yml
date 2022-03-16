@@ -2,17 +2,18 @@ version: '3.8'
 services:
   prometheus:
     image: prom/prometheus:latest
+    user: '1000:1000'
     container_name: prometheus
     restart: always
     ports:
       - '9090:9090'
     volumes:
       - ./config:/prometheus
-      - ./data/prometheus:/data
+      # - ./data/prometheus:/data
     command:
       - '--config.file=/prometheus/prometheus.yml'
       - '--web.external-url=http://localhost:9090'
-      - '--storage.tsdb.path=/data'
+      # - '--storage.tsdb.path=/data'
     networks:
       - prometheus
 
@@ -32,13 +33,15 @@ services:
     image: ink-playground:latest
     container_name: playground
     restart: always
+    environment:
+      - GITHUB_GIST_TOKEN="${GITHUB_GIST_TOKEN}"
     volumes:
       - /tmp:/tmp
       - type: bind
         source: ./dockerhost
         target: /var/lib/docker
     ports:
-      - '4000:4000'
+      - '3000:4000'
     runtime: sysbox-runc
     networks:
       - prometheus
