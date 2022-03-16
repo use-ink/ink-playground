@@ -36,7 +36,7 @@ jobs:
         run: make docker-build
 
       - name: List Docker images
-        run: ls /var/lib/docker/images
+        run: ls /var/lib/docker/image
 
       - name: Run docker
         run: make docker-run-detach
