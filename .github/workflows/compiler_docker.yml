@@ -12,46 +12,23 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cache docker images
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-docker-images
-        with:
-          path: /var/lib/docker
-          key: ${{ runner.os }}-build-${{ env.cache-name }}
-
       - name: Compare Cargo.toml files
         run: diff ./compiler/Cargo.toml ./crates/contract/Cargo.toml
 
       - name: Build docker
         run: docker build --tag ink-backend ./compiler/.
 
-      - name: List Docker images
-        run: ls /var/lib/docker/image
-
-  push:
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
-    steps:
-      - uses: actions/checkout@v2
-
       - name: Login to DockerHub
+        if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USER_NAME }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
-      - name: Cache docker images
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-docker-images
-        with:
-          path: /var/lib/docker
-          key: ${{ runner.os }}-build-${{ env.cache-name }}
-
       - name: Tag Docker image
+        if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
         run: docker tag ink-backend:latest ${{ secrets.DOCKER_USER_NAME }}/ink-backend
 
       - name: Push Docker image
+        if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
         run: docker push ${{ secrets.DOCKER_USER_NAME }}/ink-backend
