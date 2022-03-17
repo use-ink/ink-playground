@@ -1,14 +1,14 @@
-import { CompileApiResponse, compileRequest } from '@paritytech/ink-editor/api/compile';
+import { TestingApiResponse, testingRequest } from '@paritytech/ink-editor/api/testing';
 import { State, Dispatch } from '~/context/app/reducer';
 import { MessageAction, MessageDispatch } from '~/context/messages/reducer';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { TESTING_URL } from '~/env';
 
-const getMessageAction = (result: CompileApiResponse): MessageAction | undefined => {
+const getMessageAction = (result: TestingApiResponse): MessageAction | undefined => {
   switch (result.type) {
     case 'NETWORK_ERROR':
       return {
-        type: 'LOG_COMPILE',
+        type: 'LOG_TESTING',
         payload: {
           content: 'Network Error',
           status: 'ERROR',
@@ -25,7 +25,7 @@ const getMessageAction = (result: CompileApiResponse): MessageAction | undefined
     case 'OK':
       if (result.payload.type === 'ERROR') {
         return {
-          type: 'LOG_COMPILE',
+          type: 'LOG_TESTING',
           payload: {
             content: `Compilation Error: ${result.payload.payload.stdout}, ${result.payload.payload.stderr}`,
             status: 'ERROR',
@@ -33,9 +33,9 @@ const getMessageAction = (result: CompileApiResponse): MessageAction | undefined
         };
       } else if (result.payload.type === 'SUCCESS') {
         return {
-          type: 'LOG_COMPILE',
+          type: 'LOG_TESTING',
           payload: {
-            content: 'Compilation finished',
+            content: 'Testing finished finished',
             status: 'DONE',
             result: result.payload,
           },
@@ -44,7 +44,7 @@ const getMessageAction = (result: CompileApiResponse): MessageAction | undefined
   }
 };
 
-export async function test(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch) {
+export async function testing(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch) {
   if (state.compile.type === 'IN_PROGRESS') return;
 
   dispatch({ type: 'SET_TESTING_STATE', payload: { type: 'IN_PROGRESS' } });
@@ -75,7 +75,7 @@ export async function test(state: State, dispatch: Dispatch, dispatchMessage: Me
 
   const code = model.getValue();
 
-  const result = await compileRequest({ compileUrl: TESTING_URL || '' }, { source: code });
+  const result = await testingRequest({ compileUrl: TESTING_URL || '' }, { source: code });
 
   dispatch({
     type: 'SET_TESTING_STATE',
