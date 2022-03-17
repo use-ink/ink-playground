@@ -20,7 +20,9 @@ use crate::{
     services::{
         compile::{
             route_compile,
+            route_test,
             COMPILE_SANDBOXED,
+            TESTING_SANDBOXED,
         },
         frontend::route_frontend,
         gist::{
