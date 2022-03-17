@@ -56,7 +56,6 @@ const selectIcon = (status: Status): string => {
 
 const Prompt = ({ message: m, mIndex }: Props): ReactElement => {
   const severity: Severity = m.severity;
-  console.log('message: ', m);
   const icon: string = selectIcon(m.status);
 
   return (

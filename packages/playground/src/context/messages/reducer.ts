@@ -211,7 +211,6 @@ const reducerLogTesting = (state: MessageState, action: TestingMessage): Message
       };
       // Dispatch message with testing details
       const status = (action.payload.result?.type || 'INFO') as Status;
-      console.log('status: ', status);
       const newMessage: Message = {
         id: state.nextId,
         prompt: 'TEST',
