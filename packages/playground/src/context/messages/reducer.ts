@@ -215,7 +215,7 @@ const reducerLogTesting = (state: MessageState, action: TestingMessage): Message
         id: state.nextId,
         prompt: 'TEST',
         status,
-        content: `\nThis is your test Result:\n${
+        content: `This is your test Result:\n${
           action.payload.result ? action.payload.result.payload.stdout : '<Result>'
         }`,
         severity: Severity[status],
