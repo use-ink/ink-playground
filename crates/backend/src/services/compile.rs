@@ -81,17 +81,17 @@ pub const TESTING_SANDBOXED: TestingStrategy = |req| {
 };
 
 pub async fn route_test(
-    compile_strategy: CompileStrategy,
-    req: Json<CompilationRequest>,
+    compile_strategy: TestingStrategy,
+    req: Json<TestingRequest>,
 ) -> impl Responder {
-    let compile_result = compile_strategy(CompilationRequest {
+    let testing_result = compile_strategy(TestingRequest {
         source: req.source.to_string(),
     });
 
-    match compile_result {
+    match testing_result {
         Ok(result) => {
-            let compile_result = serde_json::to_string(&result).unwrap();
-            HttpResponse::Ok().body(compile_result)
+            let testing_result = serde_json::to_string(&result).unwrap();
+            HttpResponse::Ok().body(testing_result)
         }
         Err(err) => {
             eprintln!("{:?}", err);
