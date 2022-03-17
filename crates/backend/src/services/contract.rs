@@ -133,7 +133,7 @@ mod tests {
     const TESTING_MOCKED: TestingStrategy = |req| {
         if req.source == "foo" {
             Ok(TestingResult::Success {
-                stdout: format!("Rquest of {} succeeded.", req.source),
+                stdout: format!("Request of {} succeeded.", req.source),
                 stderr: "".to_string(),
             })
         } else {
