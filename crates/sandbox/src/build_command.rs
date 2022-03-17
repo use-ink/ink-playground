@@ -133,7 +133,7 @@ fn build_execution_command() -> Vec<String> {
 }
 
 fn testing_execution_command() -> Vec<String> {
-    let build_cmd = "cargo contract test --offline 2>&1".to_string();
+    let build_cmd = "cargo contract test 2>&1".to_string();
 
     let command = format!("{}", build_cmd);
 
