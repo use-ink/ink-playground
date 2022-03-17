@@ -1,8 +1,8 @@
 import * as Common from '@paritytech/commontypes';
 
-export type CompileApiRequest = Common.CompilationRequest;
+export type TestingApiRequest = Common.TestingRequest;
 
-export type CompileApiResponse =
+export type TestingApiResponse =
   | {
       type: 'OK';
       payload: Common.CompilationResult;
@@ -19,7 +19,7 @@ export type Config = {
   compileUrl: string;
 };
 
-const mapResponse = async (response: Response): Promise<CompileApiResponse> =>
+const mapResponse = async (response: Response): Promise<TestingApiResponse> =>
   response.status === 200
     ? {
         type: 'OK',
@@ -32,8 +32,8 @@ const mapResponse = async (response: Response): Promise<CompileApiResponse> =>
 
 export const compileRequest = (
   config: Config,
-  request: CompileApiRequest
-): Promise<CompileApiResponse> => {
+  request: TestingApiRequest
+): Promise<TestingApiResponse> => {
   const opts: RequestInit = {
     method: 'POST',
     mode: 'cors',

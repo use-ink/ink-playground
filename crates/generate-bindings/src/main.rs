@@ -27,6 +27,9 @@ fn main() -> std::io::Result<()> {
         backend::services::contract::CompilationResult,
         backend::services::contract::CompilationRequest,
 
+        backend::services::contract::TestingResult,
+        backend::services::contract::TestingRequest,
+
         backend::services::gist::common::Gist,
 
         backend::services::gist::load::GistLoadResponse,
