@@ -17,11 +17,12 @@ export type Message = {
 
 export type Prompt = 'COMPILE' | 'SYSTEM' | 'GIST' | 'TEST';
 
-export type Status = 'IN_PROGRESS' | 'DONE' | 'ERROR' | 'INFO';
+export type Status = 'IN_PROGRESS' | 'DONE' | 'ERROR' | 'INFO' | 'SUCCESS';
 
 export enum Severity {
   INFO = 'Info',
   DONE = 'Success',
+  SUCCESS = 'Success',
   ERROR = 'Error',
   IN_PROGRESS = 'InProgress',
 }
@@ -55,6 +56,7 @@ const selectIcon = (status: Status): string => {
 
 const Prompt = ({ message: m, mIndex }: Props): ReactElement => {
   const severity: Severity = m.severity;
+  console.log('message: ', m);
   const icon: string = selectIcon(m.status);
 
   return (

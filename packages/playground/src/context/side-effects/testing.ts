@@ -23,11 +23,13 @@ const getMessageAction = (result: TestingApiResponse): MessageAction | undefined
         },
       };
     case 'OK':
+      console.log('+++switching, result: ', result.payload.type);
       if (result.payload.type === 'ERROR') {
+        console.log('logging error!')
         return {
           type: 'LOG_TESTING',
           payload: {
-            content: `Compilation Error: ${result.payload.payload.stdout}, ${result.payload.payload.stderr}`,
+            content: `Testing Error: ${result.payload.payload.stdout}, ${result.payload.payload.stderr}`,
             status: 'ERROR',
           },
         };
@@ -48,8 +50,8 @@ function interpret_response(response: TestingApiResponse): TestingApiResponse {
   if (response.type === 'OK' && response.payload.type === 'SUCCESS') {
     const has_test_error = /ERROR:/.test(response.payload.payload.stdout);
     if (has_test_error) {
-      let result = Object.assign(response, { payload: { type: 'ERROR' } });
-      console.log('result: ', result);
+      let result = Object.assign(response, { ...response, payload: { ...response.payload, type: 'ERROR' } });
+      console.log('+++result: ', result);
       return result;
     }
   }

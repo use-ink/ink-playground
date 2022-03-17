@@ -211,6 +211,7 @@ const reducerLogTesting = (state: MessageState, action: TestingMessage): Message
       };
       // Dispatch message with testing details
       const status = (action.payload.result?.type || 'INFO') as Status;
+      console.log('status: ', status);
       const newMessage: Message = {
         id: state.nextId,
         prompt: 'TEST',
@@ -279,6 +280,7 @@ const reducerLogGist = (state: MessageState, action: GistMessage): MessageState 
     case 'INFO':
       return appendMessage(state, action);
     case 'DONE':
+    case 'SUCCESS':
     case 'ERROR':
       return updateMessage(state, action);
   }
