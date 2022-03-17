@@ -207,10 +207,10 @@ mod tests {
     #[actix_rt::test]
     async fn test_testing_success() {
         // TODO: Write reusable helper to setup service
-        let mut app = test::init_service(App::new().route(
-            "/",
-            web::post().to(|body| route_test(TESTING_MOCKED, body)),
-        ))
+        let mut app = test::init_service(
+            App::new()
+                .route("/", web::post().to(|body| route_test(TESTING_MOCKED, body))),
+        )
         .await;
 
         let req = TestingRequest {
@@ -236,10 +236,10 @@ mod tests {
     #[actix_rt::test]
     async fn test_testing_failure() {
         // TODO: Write reusable helper to setup service
-        let mut app = test::init_service(App::new().route(
-            "/",
-            web::post().to(|body| route_test(TESTING_MOCKED, body)),
-        ))
+        let mut app = test::init_service(
+            App::new()
+                .route("/", web::post().to(|body| route_test(TESTING_MOCKED, body))),
+        )
         .await;
 
         let req = TestingRequest {
