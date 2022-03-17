@@ -35,7 +35,7 @@ const getMessageAction = (result: TestingApiResponse): MessageAction | undefined
         return {
           type: 'LOG_TESTING',
           payload: {
-            content: 'Testing finished finished',
+            content: 'Testing finished',
             status: 'DONE',
             result: result.payload,
           },
@@ -52,7 +52,7 @@ export async function testing(state: State, dispatch: Dispatch, dispatchMessage:
   dispatchMessage({
     type: 'LOG_TESTING',
     payload: {
-      content: 'Compilation has started...',
+      content: 'Testing has started...',
       status: 'IN_PROGRESS',
     },
   });
