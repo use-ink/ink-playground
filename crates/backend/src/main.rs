@@ -18,7 +18,7 @@ mod services;
 use crate::{
     cli::Opts,
     services::{
-        compile::{
+        contract::{
             route_compile,
             route_test,
             COMPILE_SANDBOXED,
