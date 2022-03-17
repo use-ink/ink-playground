@@ -24,8 +24,8 @@ fn main() -> std::io::Result<()> {
     let target = format!("{}/index.d.ts", &target);
 
     export_here! {
-        backend::services::compile::CompilationResult,
-        backend::services::compile::CompilationRequest,
+        backend::services::contract::CompilationResult,
+        backend::services::contract::CompilationRequest,
 
         backend::services::gist::common::Gist,
 
