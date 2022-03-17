@@ -30,7 +30,7 @@ const mapResponse = async (response: Response): Promise<TestingApiResponse> =>
         payload: { status: response.status },
       };
 
-export const compileRequest = (
+export const testingRequest = (
   config: Config,
   request: TestingApiRequest
 ): Promise<TestingApiResponse> => {
