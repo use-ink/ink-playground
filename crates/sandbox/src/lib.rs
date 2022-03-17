@@ -133,6 +133,24 @@ pub enum CompilationResult {
     },
 }
 
+#[derive(Deserialize, Serialize, TS, Debug, Clone)]
+pub struct TestingRequest {
+    pub source: String,
+}
+
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
+#[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum TestingResult {
+    Success {
+        stdout: String,
+        stderr: String,
+    },
+    Error {
+        stdout: String,
+        stderr: String,
+    },
+}
+
 // -------------------------------------------------------------------------------------------------
 // CONSTANTS
 // -------------------------------------------------------------------------------------------------
