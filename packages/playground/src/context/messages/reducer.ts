@@ -211,16 +211,17 @@ const reducerLogTesting = (state: MessageState, action: TestingMessage): Message
       };
       // Dispatch message with compilation details
       const contractSize = extractContractSize(action.payload.result?.payload.stdout || '');
+      const status = (action.payload.result?.type || 'INFO') as Status;
       const newMessage: Message = {
         id: state.nextId,
         prompt: 'TEST',
-        status: 'INFO',
+        status,
         content: `\nThis is your test Result:\n${
           action.payload.result ? action.payload.result.payload.stdout : '<Result>'
         }`,
         preContent: mapSizeInfo(contractSize),
         preContentColor: mapContentColor(contractSize),
-        severity: Severity.INFO,
+        severity: Severity[status],
       };
       return {
         ...state,

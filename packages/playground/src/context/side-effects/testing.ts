@@ -44,6 +44,18 @@ const getMessageAction = (result: TestingApiResponse): MessageAction | undefined
   }
 };
 
+function interpret_response(response: TestingApiResponse): TestingApiResponse {
+  if (response.type === 'OK' && response.payload.type === 'SUCCESS') {
+    const has_test_error = /ERROR:/.test(response.payload.payload.stdout);
+    if (has_test_error) {
+      let result = Object.assign(response, { payload: { type: 'ERROR' } });
+      console.log('result: ', result);
+      return result;
+    }
+  }
+  return response;
+}
+
 export async function testing(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch) {
   if (state.compile.type === 'IN_PROGRESS') return;
 
@@ -75,7 +87,9 @@ export async function testing(state: State, dispatch: Dispatch, dispatchMessage:
 
   const code = model.getValue();
 
-  const result = await testingRequest({ compileUrl: TESTING_URL || '' }, { source: code });
+  const result = await testingRequest({ compileUrl: TESTING_URL || '' }, { source: code }).then(
+    interpret_response
+  );
 
   dispatch({
     type: 'SET_TESTING_STATE',
