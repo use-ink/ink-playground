@@ -8,6 +8,7 @@ export const defaultState: State = {
   minimap: true,
   numbering: true,
   compile: { type: 'NOT_ASKED' },
+  testing: { type: 'NOT_ASKED' },
   monacoUri: null,
   gist: { type: 'NOT_ASKED' },
   contractSize: null,
@@ -19,6 +20,7 @@ export type State = {
   minimap: boolean;
   numbering: boolean;
   compile: CompileState;
+  testing: TestingState;
   monacoUri: Uri | null;
   gist: GistState;
   contractSize: number | null;
