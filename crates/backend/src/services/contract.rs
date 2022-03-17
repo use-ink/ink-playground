@@ -133,13 +133,13 @@ mod tests {
     const TESTING_MOCKED: TestingStrategy = |req| {
         if req.source == "foo" {
             Ok(TestingResult::Success {
-                stdout: format!("Request of {} succeeded.", req.source),
+                stdout: format!("Testing of {} succeeded.", req.source),
                 stderr: "".to_string(),
             })
         } else {
             Ok(TestingResult::Error {
                 stdout: "".to_string(),
-                stderr: format!("Request of {} failed.", req.source),
+                stderr: format!("Testing of {} failed.", req.source),
             })
         }
     };
@@ -198,7 +198,7 @@ mod tests {
             res,
             TestingResult::Error {
                 stdout: "".to_string(),
-                stderr: "Testing of bar failed.".to_string()
+                stderr: "Compilation of bar failed.".to_string()
             }
         );
     }
@@ -256,7 +256,7 @@ mod tests {
             res,
             TestingResult::Error {
                 stdout: "".to_string(),
-                stderr: "Request of bar failed.".to_string()
+                stderr: "Testing of bar failed.".to_string()
             }
         );
     }
