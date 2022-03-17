@@ -16,7 +16,7 @@ const getMessageAction = (result: TestingApiResponse): MessageAction | undefined
       };
     case 'SERVER_ERROR':
       return {
-        type: 'LOG_COMPILE',
+        type: 'LOG_TESTING',
         payload: {
           content: `Server Error: ${result.payload.status}`,
           status: 'ERROR',
