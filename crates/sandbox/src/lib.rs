@@ -263,7 +263,7 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
     use std::os::unix::process::ExitStatusExt;
 
     let timeout = DOCKER_PROCESS_TIMEOUT_HARD;
-    println!("now compiling!");
+    println!("executing command!");
     let output = command.output().await.context(UnableToStartCompiler)?;
     println!("Done! {:?}", output);
     // Exit early, in case we don't have the container
