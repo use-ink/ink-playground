@@ -74,7 +74,7 @@ pub async fn route_compile(
     }
 }
 
-pub const TESTING_SANDBOXED: TestingStrategy = |req| {
+pub const TEST_SANDBOXED: TestingStrategy = |req| {
     let sandbox = Sandbox::new()?;
 
     sandbox.test(&req)

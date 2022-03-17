@@ -22,7 +22,7 @@ use crate::{
             route_compile,
             route_test,
             COMPILE_SANDBOXED,
-            TESTING_SANDBOXED,
+            TEST_SANDBOXED,
         },
         frontend::route_frontend,
         gist::{
@@ -77,6 +77,10 @@ async fn main() -> std::io::Result<()> {
             .route(
                 "/compile",
                 post().to(|body| route_compile(COMPILE_SANDBOXED, body)),
+            )
+            .route(
+                "/test",
+                post().to(|body| route_compile(TEST_SANDBOXED, body)),
             )
             .route(
                 "/status",
