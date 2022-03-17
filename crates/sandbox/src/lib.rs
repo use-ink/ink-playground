@@ -22,7 +22,10 @@ mod build_command;
 mod docker_command;
 mod example_code;
 
-use crate::build_command::{build_compile_command, build_testing_command};
+use crate::build_command::{
+    build_compile_command,
+    build_testing_command,
+};
 use serde::{
     Deserialize,
     Serialize,
@@ -221,7 +224,7 @@ impl Sandbox {
         let stdout = vec_to_str(output.stdout)?;
         let stderr = vec_to_str(output.stderr)?;
 
-        let testing_response = TestingResult::Success {stderr, stdout};
+        let testing_response = TestingResult::Success { stderr, stdout };
 
         Ok(testing_response)
     }
