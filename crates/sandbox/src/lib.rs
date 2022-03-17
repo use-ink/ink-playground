@@ -141,14 +141,8 @@ pub struct TestingRequest {
 #[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
 #[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum TestingResult {
-    Success {
-        stdout: String,
-        stderr: String,
-    },
-    Error {
-        stdout: String,
-        stderr: String,
-    },
+    Success { stdout: String, stderr: String },
+    Error { stdout: String, stderr: String },
 }
 
 // -------------------------------------------------------------------------------------------------

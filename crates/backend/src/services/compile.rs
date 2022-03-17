@@ -27,9 +27,9 @@ use actix_web::{
 pub use sandbox::{
     CompilationRequest,
     CompilationResult,
+    Sandbox,
     TestingRequest,
     TestingResult,
-    Sandbox,
 };
 
 use sandbox;
@@ -55,6 +55,32 @@ pub const COMPILE_SANDBOXED: CompileStrategy = |req| {
 };
 
 pub async fn route_compile(
+    compile_strategy: CompileStrategy,
+    req: Json<CompilationRequest>,
+) -> impl Responder {
+    let compile_result = compile_strategy(CompilationRequest {
+        source: req.source.to_string(),
+    });
+
+    match compile_result {
+        Ok(result) => {
+            let compile_result = serde_json::to_string(&result).unwrap();
+            HttpResponse::Ok().body(compile_result)
+        }
+        Err(err) => {
+            eprintln!("{:?}", err);
+            HttpResponse::InternalServerError().finish()
+        }
+    }
+}
+
+pub const TESTING_SANDBOXED: TestingStrategy = |req| {
+    let sandbox = Sandbox::new()?;
+
+    sandbox.test(&req)
+};
+
+pub async fn route_test(
     compile_strategy: CompileStrategy,
     req: Json<CompilationRequest>,
 ) -> impl Responder {

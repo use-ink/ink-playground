@@ -34,7 +34,7 @@ const DOCKER_WORKDIR: &str = "/builds/contract/";
 const DOCKER_OUTPUT: &str = "/playground-result";
 
 pub fn build_compile_command(input_file: &Path, output_dir: &Path) -> Command {
-    let mut cmd = build_docker_command(input_file, output_dir);
+    let mut cmd = build_docker_command(input_file, Some(output_dir));
 
     let execution_cmd = build_execution_command();
 
@@ -45,7 +45,19 @@ pub fn build_compile_command(input_file: &Path, output_dir: &Path) -> Command {
     cmd
 }
 
-fn build_docker_command(input_file: &Path, output_dir: &Path) -> Command {
+pub fn build_testing_command(input_file: &Path) -> Command {
+    let mut cmd = build_docker_command(input_file, None);
+
+    let execution_cmd = testing_execution_command();
+
+    cmd.arg(&DOCKER_CONTAINER_NAME).args(&execution_cmd);
+
+    log::debug!("Testing command is {:?}", cmd);
+
+    cmd
+}
+
+fn build_docker_command(input_file: &Path, output_dir: Option<&Path>) -> Command {
     let file_name = "lib.rs";
 
     let mut mount_input_file = input_file.as_os_str().to_os_string();
@@ -53,16 +65,20 @@ fn build_docker_command(input_file: &Path, output_dir: &Path) -> Command {
     mount_input_file.push(DOCKER_WORKDIR);
     mount_input_file.push(file_name);
 
-    let mut mount_output_dir = output_dir.as_os_str().to_os_string();
-    mount_output_dir.push(":");
-    mount_output_dir.push(DOCKER_OUTPUT);
-
     let mut cmd = build_basic_secure_docker_command();
 
-    cmd.arg("--volume")
-        .arg(&mount_input_file)
-        .arg("--volume")
-        .arg(&mount_output_dir);
+    cmd.arg("--volume").arg(&mount_input_file);
+
+    match (output_dir) {
+        Some(output_dir) => {
+            let mut mount_output_dir = output_dir.as_os_str().to_os_string();
+            mount_output_dir.push(":");
+            mount_output_dir.push(DOCKER_OUTPUT);
+
+            cmd.arg("--volume").arg(&mount_output_dir);
+        }
+        None => {}
+    }
 
     cmd
 }
@@ -110,6 +126,16 @@ fn build_execution_command() -> Vec<String> {
     let move_cmd = format!("mv {}/contract.contract {}", target_dir, DOCKER_OUTPUT);
 
     let command = format!("{} && {} && {}", clean_cmd, build_cmd, move_cmd);
+
+    let cmd = vec!["/bin/bash".to_string(), "-c".to_string(), command];
+
+    cmd
+}
+
+fn testing_execution_command() -> Vec<String> {
+    let build_cmd = "cargo contract test --offline 2>&1".to_string();
+
+    let command = format!("{}", build_cmd);
 
     let cmd = vec!["/bin/bash".to_string(), "-c".to_string(), command];
 
