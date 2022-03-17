@@ -106,7 +106,7 @@ pub async fn route_test(
 
 #[cfg(test)]
 mod tests {
-    use crate::contract::*;
+    use super::*;
     use actix_web::{
         test,
         web,
