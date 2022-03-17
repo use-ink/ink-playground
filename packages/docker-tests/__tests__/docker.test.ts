@@ -34,17 +34,3 @@ describe('Given the server provides a working compile endpoint', () => {
     ).resolves.toMatchObject({ status: 200, data: { type: 'SUCCESS' } });
   });
 });
-
-describe('Given the server provides a working testing endpoint', () => {
-  test('When a testing request is made', async () => {
-    const source = fs
-      .readFileSync(path.join(__dirname, '../../../crates/contract/lib.rs'))
-      .toString();
-
-    await expect(
-      axios.post(`${BACKEND_URL}/test`, {
-        source,
-      })
-    ).resolves.toMatchObject({ status: 200, data: { type: 'SUCCESS' } });
-  });
-});
