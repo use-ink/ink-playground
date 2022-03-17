@@ -6,6 +6,7 @@ import {
   GithubRepoIcon,
   SettingsIcon,
   ShareIcon,
+  TestingIcon,
 } from '~/symbols';
 import { OverlayPanel, ButtonWithIcon } from '@paritytech/components/';
 import { SettingsSubmenu } from './SettingsSubmenu';
@@ -61,7 +62,7 @@ export const Header = (): ReactElement => {
       <div className={'flex p-3.5 w-full'}>
         <ButtonWithIcon
           label="Test"
-          Icon={CompileIcon}
+          Icon={TestingIcon}
           darkmode={state.darkmode}
           testId={'buttonIcon'}
           onClick={() => testing(state, dispatch, dispatchMessage)}
