@@ -66,7 +66,7 @@ export const Header = (): ReactElement => {
           darkmode={state.darkmode}
           testId={'buttonIcon'}
           onClick={() => testing(state, dispatch, dispatchMessage)}
-          loading={state.compile.type === 'IN_PROGRESS'}
+          loading={state.testing.type === 'IN_PROGRESS'}
         />
         <ButtonWithIcon
           label="Compile"

@@ -80,7 +80,7 @@ export const reducer = (state: State, action: Action): State => {
     case 'SET_TESTING_STATE':
       return {
         ...state,
-        compile: action.payload,
+        testing: action.payload,
       };
     case 'SET_RUST_ANALYZER_STATE':
       return {
