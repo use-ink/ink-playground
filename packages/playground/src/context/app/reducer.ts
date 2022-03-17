@@ -34,11 +34,17 @@ export type CompileState =
   | { type: 'IN_PROGRESS' }
   | { type: 'RESULT'; payload: CompileApiResponse };
 
+export type TestingState =
+  | { type: 'NOT_ASKED' }
+  | { type: 'IN_PROGRESS' }
+  | { type: 'RESULT'; payload: TestingApiResponse };
+
 export type Action =
   | { type: 'SET_DARKMODE'; payload: boolean }
   | { type: 'SET_NUMBERING'; payload: boolean }
   | { type: 'SET_MINIMAP'; payload: boolean }
   | { type: 'SET_COMPILE_STATE'; payload: CompileState }
+  | { type: 'SET_TESTING_STATE'; payload: TestingState }
   | { type: 'SET_GIST_STATE'; payload: GistState }
   | { type: 'SET_URI'; payload: Uri }
   | { type: 'SET_CONTRACT_SIZE'; payload: number | null }
@@ -64,6 +70,11 @@ export const reducer = (state: State, action: Action): State => {
         minimap: action.payload,
       };
     case 'SET_COMPILE_STATE':
+      return {
+        ...state,
+        compile: action.payload,
+      };
+    case 'SET_TESTING_STATE':
       return {
         ...state,
         compile: action.payload,
