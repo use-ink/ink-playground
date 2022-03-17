@@ -27,6 +27,8 @@ use actix_web::{
 pub use sandbox::{
     CompilationRequest,
     CompilationResult,
+    TestingRequest,
+    TestingResult,
     Sandbox,
 };
 
@@ -37,6 +39,8 @@ use sandbox;
 // -------------------------------------------------------------------------------------------------
 
 pub type CompileStrategy = fn(CompilationRequest) -> sandbox::Result<CompilationResult>;
+
+pub type TestingStrategy = fn(TestingRequest) -> sandbox::Result<TestingResult>;
 
 // -------------------------------------------------------------------------------------------------
 // IMPLEMENTATION
