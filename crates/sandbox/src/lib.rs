@@ -22,7 +22,7 @@ mod build_command;
 mod docker_command;
 mod example_code;
 
-use crate::build_command::build_compile_command;
+use crate::build_command::{build_compile_command, build_testing_command};
 use serde::{
     Deserialize,
     Serialize,
@@ -207,6 +207,23 @@ impl Sandbox {
         };
 
         Ok(compile_response)
+    }
+
+    pub fn test(&self, req: &TestingRequest) -> Result<TestingResult> {
+        self.write_source_code(&req.source)?;
+
+        let command = build_testing_command(&self.input_file);
+
+        println!("Executing command: \n{:?}", command);
+
+        let output = run_command_with_timeout(command)?;
+
+        let stdout = vec_to_str(output.stdout)?;
+        let stderr = vec_to_str(output.stderr)?;
+
+        let testing_response = TestingResult::Success {stderr, stdout};
+
+        Ok(testing_response)
     }
 
     fn write_source_code(&self, code: &str) -> Result<()> {
