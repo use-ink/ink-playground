@@ -80,7 +80,7 @@ async fn main() -> std::io::Result<()> {
             )
             .route(
                 "/test",
-                post().to(|body| route_compile(TEST_SANDBOXED, body)),
+                post().to(|body| route_test(TEST_SANDBOXED, body)),
             )
             .route(
                 "/status",
