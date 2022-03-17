@@ -16,6 +16,7 @@ import { MessageContext } from '~/context/messages/';
 import { Dispatch, State } from '~/context/app/reducer';
 import { MessageState, MessageDispatch, mapSizeInfo } from '~/context/messages/reducer';
 import { compile } from '~/context/side-effects/compile';
+import { testing } from '~/context/side-effects/testing';
 import * as sizeLimit from '~/constants';
 import { Colors } from '@paritytech/components/ButtonWithIcon';
 
@@ -63,7 +64,7 @@ export const Header = (): ReactElement => {
           Icon={CompileIcon}
           darkmode={state.darkmode}
           testId={'buttonIcon'}
-          onClick={() => compile(state, dispatch, dispatchMessage)}
+          onClick={() => testing(state, dispatch, dispatchMessage)}
           loading={state.compile.type === 'IN_PROGRESS'}
         />
         <ButtonWithIcon

@@ -2,7 +2,7 @@ import { CompileApiResponse, compileRequest } from '@paritytech/ink-editor/api/c
 import { State, Dispatch } from '~/context/app/reducer';
 import { MessageAction, MessageDispatch } from '~/context/messages/reducer';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import { COMPILE_URL } from '~/env';
+import { TESTING_URL } from '~/env';
 
 const getMessageAction = (result: CompileApiResponse): MessageAction | undefined => {
   switch (result.type) {
@@ -44,68 +44,6 @@ const getMessageAction = (result: CompileApiResponse): MessageAction | undefined
   }
 };
 
-export const extractContractSize = (stdout: string): number => {
-  const regex = /([0-9]+\.[0-9]+)K/g;
-  const result = stdout.match(regex);
-  if (!result || !result[1]) return NaN;
-  return parseFloat(result[1]);
-};
-
-export async function compile(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch) {
-  if (state.compile.type === 'IN_PROGRESS') return;
-
-  dispatch({ type: 'SET_COMPILE_STATE', payload: { type: 'IN_PROGRESS' } });
-
-  dispatchMessage({
-    type: 'LOG_COMPILE',
-    payload: {
-      content: 'Compilation has started...',
-      status: 'IN_PROGRESS',
-    },
-  });
-
-  const { monacoUri: uri } = state;
-
-  if (!uri) {
-    // ToDo: implement proper error handling
-    dispatch({ type: 'SET_COMPILE_STATE', payload: { type: 'NOT_ASKED' } });
-    return;
-  }
-
-  const model = monaco.editor.getModel(uri);
-
-  if (!model) {
-    // ToDo: implement proper error handling
-    dispatch({ type: 'SET_COMPILE_STATE', payload: { type: 'NOT_ASKED' } });
-    return;
-  }
-
-  const code = model.getValue();
-
-  const result = await compileRequest({ compileUrl: COMPILE_URL || '' }, { source: code });
-
-  dispatch({
-    type: 'SET_COMPILE_STATE',
-    payload: { type: 'RESULT', payload: result },
-  });
-
-  if (result.type === 'OK' && result.payload.type === 'SUCCESS') {
-    const contractSize = extractContractSize(result.payload.payload.stdout);
-    dispatch({
-      type: 'SET_CONTRACT_SIZE',
-      payload: contractSize,
-    });
-  } else {
-    dispatch({
-      type: 'SET_CONTRACT_SIZE',
-      payload: null,
-    });
-  }
-
-  const action: MessageAction | undefined = getMessageAction(result);
-  if (action) dispatchMessage(action);
-}
-
 export async function test(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch) {
   if (state.compile.type === 'IN_PROGRESS') return;
 
@@ -123,7 +61,7 @@ export async function test(state: State, dispatch: Dispatch, dispatchMessage: Me
 
   if (!uri) {
     // ToDo: implement proper error handling
-    dispatch({ type: 'SET_COMPILE_STATE', payload: { type: 'NOT_ASKED' } });
+    dispatch({ type: 'SET_TESTING_STATE', payload: { type: 'NOT_ASKED' } });
     return;
   }
 
@@ -131,31 +69,18 @@ export async function test(state: State, dispatch: Dispatch, dispatchMessage: Me
 
   if (!model) {
     // ToDo: implement proper error handling
-    dispatch({ type: 'SET_COMPILE_STATE', payload: { type: 'NOT_ASKED' } });
+    dispatch({ type: 'SET_TESTING_STATE', payload: { type: 'NOT_ASKED' } });
     return;
   }
 
   const code = model.getValue();
 
-  const result = await compileRequest({ compileUrl: COMPILE_URL || '' }, { source: code });
+  const result = await compileRequest({ compileUrl: TESTING_URL || '' }, { source: code });
 
   dispatch({
-    type: 'SET_COMPILE_STATE',
+    type: 'SET_TESTING_STATE',
     payload: { type: 'RESULT', payload: result },
   });
-
-  if (result.type === 'OK' && result.payload.type === 'SUCCESS') {
-    const contractSize = extractContractSize(result.payload.payload.stdout);
-    dispatch({
-      type: 'SET_CONTRACT_SIZE',
-      payload: contractSize,
-    });
-  } else {
-    dispatch({
-      type: 'SET_CONTRACT_SIZE',
-      payload: null,
-    });
-  }
 
   const action: MessageAction | undefined = getMessageAction(result);
   if (action) dispatchMessage(action);
