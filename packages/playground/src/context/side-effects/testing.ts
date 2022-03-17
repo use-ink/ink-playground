@@ -48,7 +48,7 @@ function interpret_response(response: TestingApiResponse): TestingApiResponse {
   if (response.type === 'OK' && response.payload.type === 'SUCCESS') {
     const has_test_error = /ERROR:/.test(response.payload.payload.stdout);
     if (has_test_error) {
-      let result = Object.assign(response, {
+      const result = Object.assign(response, {
         ...response,
         payload: { ...response.payload, type: 'ERROR' },
       });
