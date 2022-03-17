@@ -182,7 +182,7 @@ const reducerLogCompile = (state: MessageState, action: CompilationMessage): Mes
 const reducerLogTesting = (state: MessageState, action: TestingMessage): MessageState => {
   switch (action.payload.status) {
     case 'ERROR': {
-      const id = lastId(state, 'COMPILE');
+      const id = lastId(state, 'TEST');
       // Server error message to attach, if present
       const serverErrorMsg = action.payload.result?.payload.stderr;
       const updateMessage: Message = {
@@ -201,7 +201,7 @@ const reducerLogTesting = (state: MessageState, action: TestingMessage): Message
     }
     case 'DONE': {
       const id = lastId(state, 'TEST');
-      // Set "compilation in progress" message to "DONE"
+      // Set "running tests..." message to "DONE"
       const updateMessage: Message = {
         id,
         prompt: 'TEST',
@@ -210,7 +210,6 @@ const reducerLogTesting = (state: MessageState, action: TestingMessage): Message
         severity: Severity[action.payload.status],
       };
       // Dispatch message with testing details
-      const contractSize = extractContractSize(action.payload.result?.payload.stdout || '');
       const status = (action.payload.result?.type || 'INFO') as Status;
       const newMessage: Message = {
         id: state.nextId,
@@ -219,8 +218,6 @@ const reducerLogTesting = (state: MessageState, action: TestingMessage): Message
         content: `\nThis is your test Result:\n${
           action.payload.result ? action.payload.result.payload.stdout : '<Result>'
         }`,
-        preContent: mapSizeInfo(contractSize),
-        preContentColor: mapContentColor(contractSize),
         severity: Severity[status],
       };
       return {
