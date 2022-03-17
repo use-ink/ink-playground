@@ -69,15 +69,12 @@ fn build_docker_command(input_file: &Path, output_dir: Option<&Path>) -> Command
 
     cmd.arg("--volume").arg(&mount_input_file);
 
-    match output_dir {
-        Some(output_dir) => {
-            let mut mount_output_dir = output_dir.as_os_str().to_os_string();
-            mount_output_dir.push(":");
-            mount_output_dir.push(DOCKER_OUTPUT);
+    if let Some(output_dir) = output_dir {
+        let mut mount_output_dir = output_dir.as_os_str().to_os_string();
+        mount_output_dir.push(":");
+        mount_output_dir.push(DOCKER_OUTPUT);
 
-            cmd.arg("--volume").arg(&mount_output_dir);
-        }
-        None => {}
+        cmd.arg("--volume").arg(&mount_output_dir);
     }
 
     cmd
