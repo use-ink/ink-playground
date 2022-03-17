@@ -24,6 +24,8 @@ GIST_LOAD_URL ?= http://localhost:4000/gist/load
 
 COMPILE_URL ?= http://localhost:4000/compile
 
+TESTING_URL ?= http://localhost:4000/test
+
 ################################################################################
 # GENERATE
 ################################################################################
