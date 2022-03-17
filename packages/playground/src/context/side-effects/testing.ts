@@ -64,7 +64,7 @@ export async function testing(state: State, dispatch: Dispatch, dispatchMessage:
   dispatchMessage({
     type: 'LOG_TESTING',
     payload: {
-      content: 'Testing has started...',
+      content: 'Running tests..',
       status: 'IN_PROGRESS',
     },
   });

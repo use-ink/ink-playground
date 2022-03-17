@@ -209,7 +209,7 @@ const reducerLogTesting = (state: MessageState, action: TestingMessage): Message
         content: action.payload.content,
         severity: Severity[action.payload.status],
       };
-      // Dispatch message with compilation details
+      // Dispatch message with testing details
       const contractSize = extractContractSize(action.payload.result?.payload.stdout || '');
       const status = (action.payload.result?.type || 'INFO') as Status;
       const newMessage: Message = {
