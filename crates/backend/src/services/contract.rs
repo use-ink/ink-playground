@@ -113,7 +113,7 @@ mod tests {
         App,
     };
 
-    /// A code request strategy mock. Accepts only `foo` as "correct" source code.
+    /// A compile strategy mock. Accepts only `foo` as "correct" source code.
     const COMPILE_MOCKED: CompileStrategy = |req| {
         if req.source == "foo" {
             Ok(CompilationResult::Success {
@@ -129,7 +129,7 @@ mod tests {
         }
     };
 
-    /// A code request strategy mock. Accepts only `foo` as "correct" source code.
+    /// A testing strategy mock. Accepts only `foo` as "correct" source code.
     const TESTING_MOCKED: TestingStrategy = |req| {
         if req.source == "foo" {
             Ok(TestingResult::Success {
