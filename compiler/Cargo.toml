@@ -1,6 +1,6 @@
 [package]
-name = "contrwct"
-version = "3.0.0-rc9"
+name = "contract"
+version = "3.0"
 edition = "2021"
 authors = ["Achim Schneider <achim@parity.io>"]
 license = "Apache-2.0"
