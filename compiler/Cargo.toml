@@ -1,5 +1,5 @@
 [package]
-name = "contract"
+name = "contrwct"
 version = "3.0.0-rc9"
 edition = "2021"
 authors = ["Achim Schneider <achim@parity.io>"]
@@ -7,20 +7,20 @@ license = "Apache-2.0"
 readme = "README.md"
 
 [dependencies]
-ink_primitives = { version = "3.0.0-rc9", default-features = false }
-ink_metadata = { version = "3.0.0-rc9", default-features = false, features = ["derive"], optional = true }
-ink_env = { version = "3.0.0-rc9", default-features = false, features = ["ink-debug"] }
-ink_storage = { version = "3.0.0-rc9", default-features = false }
-ink_lang = { version = "3.0.0-rc9", default-features = false }
-ink_prelude = { version = "3.0.0-rc9", default-features = false }
-ink_eth_compatibility = { version = "3.0.0-rc9", default-features = false }
+ink_primitives = { version = "3.0", default-features = false }
+ink_metadata = { version = "3.0", default-features = false, features = ["derive"], optional = true }
+ink_env = { version = "3.0", default-features = false, features = ["ink-debug"] }
+ink_storage = { version = "3.0", default-features = false }
+ink_lang = { version = "3.0", default-features = false }
+ink_prelude = { version = "3.0", default-features = false }
+ink_eth_compatibility = { version = "3.0", default-features = false }
 
 scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
 scale-info = { version = "2", default-features = false, features = ["derive"], optional = true }
 
 
 [lib]
-name = "contract"
+name = "flipper"
 path = "lib.rs"
 crate-type = [
 	# Used for normal contract Wasm blobs.
