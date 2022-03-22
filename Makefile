@@ -60,7 +60,7 @@ playground-build:
 playground-start: generate-bindings
 playground-start:
 	COMPILE_URL=$(COMPILE_URL) \
-	COMPILE_URL=$(TESTING_URL) \
+	TESTING_URL=$(TESTING_URL) \
 	GIST_LOAD_URL=$(GIST_LOAD_URL) \
 	GIST_CREATE_URL=$(GIST_CREATE_URL) \
 	yarn workspace playground run start
