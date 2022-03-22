@@ -187,7 +187,7 @@ mod tests {
         let req = CompilationRequest {
             source: "bar".to_string(),
         };
-        
+
         let req = test::TestRequest::post()
             .set_json(&req)
             .uri("/")
