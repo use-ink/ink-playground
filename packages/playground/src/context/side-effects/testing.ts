@@ -74,16 +74,22 @@ export async function testing(state: State, dispatch: Dispatch, dispatchMessage:
   const { monacoUri: uri } = state;
 
   if (!uri) {
-    // ToDo: implement proper error handling
     dispatch({ type: 'SET_TESTING_STATE', payload: { type: 'NOT_ASKED' } });
+    dispatchMessage({
+      type: 'LOG_TESTING',
+      payload: { status: 'ERROR', content: 'UI Error: Monaco Editor not available' },
+    });
     return;
   }
 
   const model = monaco.editor.getModel(uri);
 
   if (!model) {
-    // ToDo: implement proper error handling
     dispatch({ type: 'SET_TESTING_STATE', payload: { type: 'NOT_ASKED' } });
+    dispatchMessage({
+      type: 'LOG_TESTING',
+      payload: { status: 'ERROR', content: 'UI Error: failed to access Monaco Editor' },
+    });
     return;
   }
 
