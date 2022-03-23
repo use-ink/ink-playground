@@ -20,7 +20,7 @@ scale-info = { version = "2", default-features = false, features = ["derive"], o
 
 
 [lib]
-name = "flipper"
+name = "contract"
 path = "lib.rs"
 crate-type = [
 	# Used for normal contract Wasm blobs.
