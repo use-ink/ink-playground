@@ -40,7 +40,6 @@ export type CompileState =
 export type TestingState =
   | { type: 'NOT_ASKED' }
   | { type: 'IN_PROGRESS' }
-  | { type: 'UI_ERROR' }
   | { type: 'RESULT'; payload: TestingApiResponse };
 
 export type Action =
