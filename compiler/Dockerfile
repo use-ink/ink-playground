@@ -6,7 +6,7 @@ ENV CARGO_TARGET_DIR="/target"
 
 RUN cargo install dylint-link cargo-dylint
 
-RUN cargo install cargo-contract
+RUN cargo install --git https://github.com/paritytech/cargo-contract
 
 # Instantiate new Contract
 RUN cargo contract new contract
