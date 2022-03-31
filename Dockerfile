@@ -3,7 +3,7 @@
 ################################################################################
 
 # Start from a rust base image
-FROM rust:1.57
+FROM rust:1.57 as build
 
 # Set the current directory
 WORKDIR /app
@@ -71,6 +71,11 @@ RUN make playground-build
 
 RUN rustup default stable
 RUN make backend-build-prod
+
+FROM nestybox/debian-buster-docker
+
+COPY --from=build /app/target/release/backend /app/target/release/backend
+COPY --from=build /app/packages/playground/dist /app/packages/playground/dist
 
 COPY sysbox/on-start.sh /usr/bin
 RUN chmod +x /usr/bin/on-start.sh
