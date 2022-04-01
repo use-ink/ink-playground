@@ -51,7 +51,7 @@ RUN make playground-build
 RUN rustup default stable
 RUN make backend-build-prod
 
-FROM debian:buster-slim
+FROM debian:stable-slim
 
 COPY --from=build /app/target/release/backend /app/target/release/backend
 COPY --from=build /app/packages/playground/dist /app/packages/playground/dist
