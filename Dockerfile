@@ -51,7 +51,7 @@ RUN make playground-build
 RUN rustup default stable
 RUN make backend-build-prod
 
-FROM debian:stable-slim
+FROM debian:buster-slim
 
 COPY --from=build /app/target/release/backend /app/target/release/backend
 COPY --from=build /app/packages/playground/dist /app/packages/playground/dist
@@ -78,8 +78,9 @@ RUN apt --yes update
 
 RUN apt-get --yes install docker-ce docker-ce-cli containerd.io
 
+
 ################################################################################
-# Provide Startup Script
+# Provide Start
 ################################################################################
 
 COPY sysbox/on-start.sh /usr/bin
