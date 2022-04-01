@@ -16,7 +16,7 @@
 # This is useful to get an early local feedback how real CI will run.
 ################################################################################
 
-DOCKER_PORT ?= 3000
+DOCKER_PORT ?= 4000
 
 GIST_CREATE_URL ?= http://localhost:4000/gist/create
 
