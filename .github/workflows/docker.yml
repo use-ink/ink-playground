@@ -32,10 +32,10 @@ jobs:
         env:
           DOCKER_PORT: 4000
 
-      - name: Sleep for 1000s, allow Docker image to boot up
+      - name: Sleep for 120s, allow Docker image to boot up
         uses: juliangruber/sleep-action@v1
         with:
-          time: 1000s
+          time: 120s
 
       - name: Install docker-tests
         run: yarn workspace docker-tests install
