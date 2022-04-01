@@ -4,9 +4,9 @@ FROM ${REGISTRY_PATH}/ink-ci-linux:production
 
 ENV CARGO_TARGET_DIR="/target"
 
-RUN cargo install dylint-link cargo-dylint
+# RUN cargo install dylint-link cargo-dylint
 
-RUN cargo install cargo-contract
+# RUN cargo install cargo-contract
 
 # Instantiate new Contract
 RUN cargo contract new contract
