@@ -201,7 +201,10 @@ ts-check-all: components-test
 ################################################################################
 
 docker-build:
-	docker build --tag ink-playground .
+	DOCKER_BUILDKIT=1 docker build \
+	  --tag achimcc/ink-playground:latest \
+	  --cache-from achimcc/ink-playground:latest \
+	  --build-arg BUILDKIT_INLINE_CACHE=1 .
 
 docker-run:
 	docker run \
