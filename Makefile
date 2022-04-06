@@ -205,6 +205,8 @@ docker-build:
 	  --tag achimcc/ink-playground:latest \
 	  --cache-from achimcc/ink-playground:latest \
 	  --build-arg BUILDKIT_INLINE_CACHE=1 .
+docker-build:
+    docker tag achimcc/ink-playground:latest ink-playground
 
 docker-run:
 	docker run \
