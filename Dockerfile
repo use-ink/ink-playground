@@ -62,7 +62,7 @@ COPY --from=build /app/packages/playground/dist /app/packages/playground/dist
 # see: https://www.how2shout.com/linux/install-docker-ce-on-debian-11-bullseye-linux/
 ################################################################################
 
-RUN apt-get install --yes \
+RUN apt-get update && apt-get install --yes \
     apt-transport-https ca-certificates curl gnupg lsb-release
 
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | \
