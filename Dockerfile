@@ -17,7 +17,7 @@ COPY . .
 
 RUN apt-get --yes update
 RUN apt-get --yes upgrade
-RUN apt-get install --yes apt-utils curl npm
+RUN apt-get install --yes apt-utils curl npm pkg-config
 RUN curl -sL https://deb.nodesource.com/setup_17.x | bash -
 RUN apt-get install -y nodejs
 RUN npm install --global yarn
@@ -66,7 +66,7 @@ COPY --from=builder /app/packages/playground/dist /app/packages/playground/dist
 ################################################################################
 
 RUN apt-get update && apt-get install --yes \
-    apt-transport-https ca-certificates curl gnupg lsb-release
+    apt-transport-https ca-certificates curl gnupg lsb-release 
 
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | \
     gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
