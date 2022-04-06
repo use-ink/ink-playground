@@ -3,7 +3,7 @@
 ################################################################################
 
 # Start from a rust base image
-FROM rust:slim-buster as builder
+FROM rust:1.57 as builder
 
 # Set the current directory
 WORKDIR /app
@@ -17,9 +17,7 @@ COPY . .
 
 RUN apt-get --yes update
 RUN apt-get --yes upgrade
-RUN apt-get install --yes apt-utils curl npm pkg-config
-RUN curl -sL https://deb.nodesource.com/setup_17.x | bash -
-RUN apt-get install -y nodejs
+RUN apt-get install --yes nodejs npm
 RUN npm install --global yarn
 RUN make install
 
@@ -54,7 +52,7 @@ RUN make playground-build
 RUN rustup default stable
 RUN make backend-build-prod
 
-FROM debian:slim-buster
+FROM rust:1.57-slim-buster
 
 COPY --from=builder /app/target/release/backend /app/target/release/backend
 COPY --from=builder /app/packages/playground/dist /app/packages/playground/dist
