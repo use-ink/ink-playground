@@ -3,7 +3,7 @@
 ################################################################################
 
 # Start from a rust base image
-FROM rust:1.57 as build
+FROM rust:slim-buster as builder
 
 # Set the current directory
 WORKDIR /app
@@ -51,10 +51,10 @@ RUN make playground-build
 RUN rustup default stable
 RUN make backend-build-prod
 
-FROM debian:stable-slim
+FROM debian:slim-buster
 
-COPY --from=build /app/target/release/backend /app/target/release/backend
-COPY --from=build /app/packages/playground/dist /app/packages/playground/dist
+COPY --from=builder /app/target/release/backend /app/target/release/backend
+COPY --from=builder /app/packages/playground/dist /app/packages/playground/dist
 
 
 ################################################################################
@@ -74,7 +74,7 @@ RUN echo \
     $(lsb_release -cs) stable" | \
     tee /etc/apt/sources.list.d/docker.list >/dev/null
 
-RUN apt --yes update
+RUN apt-get --yes update
 
 RUN apt-get --yes install docker-ce docker-ce-cli containerd.io
 
