@@ -51,7 +51,7 @@ RUN make playground-build
 RUN rustup default stable
 RUN make backend-build-prod
 
-FROM rust:1.57-slim-bullseye
+FROM debian:slim-bullseye
 
 COPY --from=builder /app/target/release/backend /app/target/release/backend
 COPY --from=builder /app/packages/playground/dist /app/packages/playground/dist
