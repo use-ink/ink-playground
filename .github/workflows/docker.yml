@@ -25,7 +25,7 @@ jobs:
         run: sudo systemctl restart docker.service
 
       - name: Build docker
-        run: make docker-build
+        run: make docker-buildkit
 
       - name: Tag Docker image
         run: docker tag ${{ secrets.DOCKER_USER_NAME }}/ink-playground:latest ink-playground
@@ -38,7 +38,7 @@ jobs:
       - name: Sleep for 120s, allow Docker image to boot up
         uses: juliangruber/sleep-action@v1
         with:
-          time: 210s
+          time: 120s
 
       - name: Install docker-tests
         run: yarn workspace docker-tests install
