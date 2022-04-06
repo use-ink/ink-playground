@@ -61,20 +61,20 @@ export const Header = (): ReactElement => {
       <div className="border-l max-h-8 mt-4 dark:border-dark border-light" />
       <div className={'flex p-3.5 w-full'}>
         <ButtonWithIcon
-          label="Test"
-          Icon={TestingIcon}
-          darkmode={state.darkmode}
-          testId={'buttonIcon'}
-          onClick={() => testing(state, dispatch, dispatchMessage)}
-          loading={state.testing.type === 'IN_PROGRESS'}
-        />
-        <ButtonWithIcon
           label="Compile"
           Icon={CompileIcon}
           darkmode={state.darkmode}
           testId={'buttonIcon'}
           onClick={() => compile(state, dispatch, dispatchMessage)}
           loading={state.compile.type === 'IN_PROGRESS'}
+        />
+        <ButtonWithIcon
+          label="Test"
+          Icon={TestingIcon}
+          darkmode={state.darkmode}
+          testId={'buttonIcon'}
+          onClick={() => testing(state, dispatch, dispatchMessage)}
+          loading={state.testing.type === 'IN_PROGRESS'}
         />
         <ButtonWithIcon
           label="Download"
