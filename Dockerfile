@@ -17,10 +17,10 @@ COPY . .
 
 RUN apt-get --yes update
 RUN apt-get --yes upgrade
-RUN apt-get install --yes curl npm
+RUN apt-get install --yes apt-utils curl npm
 RUN curl -sL https://deb.nodesource.com/setup_17.x | bash -
 RUN apt-get install -y nodejs
-RUN npm install --global yar
+RUN npm install --global yarn
 RUN make install
 
 ################################################################################
