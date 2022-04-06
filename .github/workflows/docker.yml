@@ -27,6 +27,9 @@ jobs:
       - name: Build docker
         run: make docker-build
 
+      - name: Tag Docker image
+        run: docker tag ${{ secrets.DOCKER_USER_NAME }}/ink-playground:latest ink-playground
+
       - name: Run docker
         run: make docker-run-detach
         env:
@@ -55,10 +58,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER_NAME }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-
-      - name: Tag Docker image
-        if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
-        run: docker tag ink-playground:latest ${{ secrets.DOCKER_USER_NAME }}/ink-playground
 
       - name: Push Docker image
         if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
