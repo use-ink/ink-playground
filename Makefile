@@ -196,12 +196,15 @@ ts-check-all: components-test
 # DOCKER
 ################################################################################
 
-docker-build:
-	DOCKER_BUILDKIT=0 docker build \
+docker-buildkit:
+	DOCKER_BUILDKIT=1 docker build \
 	  --tag achimcc/ink-playground:latest \
 	  --cache-from achimcc/ink-playground:latest \
 	  --build-arg BUILDKIT_INLINE_CACHE=1 .
 
+docker-build:
+	docker build --tag ink-playground .
+	
 docker-run:
 	docker run \
 	  --runtime=sysbox-runc \
