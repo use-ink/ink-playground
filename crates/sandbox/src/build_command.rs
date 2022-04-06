@@ -130,7 +130,7 @@ fn build_execution_command() -> Vec<String> {
 }
 
 fn testing_execution_command() -> Vec<String> {
-    let test_cmd = "cargo contract test 2>&1".to_string();
+    let test_cmd = "cargo test 2>&1".to_string();
 
     let cmd = vec!["/bin/bash".to_string(), "-c".to_string(), test_cmd];
 
