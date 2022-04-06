@@ -19,6 +19,8 @@ RUN apt-get --yes update
 RUN apt-get --yes upgrade
 RUN apt-get install --yes nodejs npm
 RUN npm install --global yarn
+RUN curl -sL https://deb.nodesource.com/setup_17.x | bash -
+RUN apt-get install -y nodejs
 RUN make install
 
 ################################################################################
