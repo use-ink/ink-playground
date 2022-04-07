@@ -22,7 +22,10 @@ mod build_command;
 mod docker_command;
 mod example_code;
 
-use crate::build_command::build_compile_command;
+use crate::build_command::{
+    build_compile_command,
+    build_testing_command,
+};
 use serde::{
     Deserialize,
     Serialize,
@@ -133,6 +136,18 @@ pub enum CompilationResult {
     },
 }
 
+#[derive(Deserialize, Serialize, TS, Debug, Clone)]
+pub struct TestingRequest {
+    pub source: String,
+}
+
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
+#[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum TestingResult {
+    Success { stdout: String, stderr: String },
+    Error { stdout: String, stderr: String },
+}
+
 // -------------------------------------------------------------------------------------------------
 // CONSTANTS
 // -------------------------------------------------------------------------------------------------
@@ -197,6 +212,23 @@ impl Sandbox {
         Ok(compile_response)
     }
 
+    pub fn test(&self, req: &TestingRequest) -> Result<TestingResult> {
+        self.write_source_code(&req.source)?;
+
+        let command = build_testing_command(&self.input_file);
+
+        println!("Executing command: \n{:?}", command);
+
+        let output = run_command_with_timeout(command)?;
+
+        let stdout = vec_to_str(output.stdout)?;
+        let stderr = vec_to_str(output.stderr)?;
+
+        let testing_response = TestingResult::Success { stderr, stdout };
+
+        Ok(testing_response)
+    }
+
     fn write_source_code(&self, code: &str) -> Result<()> {
         fs::write(&self.input_file, code).context(UnableToCreateSourceFile)?;
         fs::set_permissions(&self.input_file, wide_open_permissions())
@@ -234,7 +266,7 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
     use std::os::unix::process::ExitStatusExt;
 
     let timeout = DOCKER_PROCESS_TIMEOUT_HARD;
-    println!("now compiling!");
+    println!("executing command!");
     let output = command.output().await.context(UnableToStartCompiler)?;
     println!("Done! {:?}", output);
     // Exit early, in case we don't have the container

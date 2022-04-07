@@ -64,6 +64,7 @@ RUN make generate-change-json
 RUN rustup default nightly
 
 ARG COMPILE_URL=/compile
+ARG TESTING_URL=/test
 ARG GIST_LOAD_URL=/gist/load
 ARG GIST_CREATE_URL=/gist/create
 

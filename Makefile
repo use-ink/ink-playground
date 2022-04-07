@@ -24,6 +24,8 @@ GIST_LOAD_URL ?= http://localhost:4000/gist/load
 
 COMPILE_URL ?= http://localhost:4000/compile
 
+TESTING_URL ?= http://localhost:4000/test
+
 ################################################################################
 # GENERATE
 ################################################################################
@@ -50,6 +52,7 @@ generate: generate-change-json
 
 playground-build:
 	COMPILE_URL=/compile \
+	TESTING_URL=/test \
 	GIST_LOAD_URL=/gist/load \
 	GIST_CREATE_URL=/gist/create \
 	yarn workspace playground run build
@@ -57,6 +60,7 @@ playground-build:
 playground-start: generate-bindings
 playground-start:
 	COMPILE_URL=$(COMPILE_URL) \
+	TESTING_URL=$(TESTING_URL) \
 	GIST_LOAD_URL=$(GIST_LOAD_URL) \
 	GIST_CREATE_URL=$(GIST_CREATE_URL) \
 	yarn workspace playground run start
