@@ -33,11 +33,17 @@ RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 RUN cd crates/rust_analyzer_wasm && wasm-pack build --target web --out-dir ../../packages/ink-editor/pkg
 
 # Start from base image
-FROM base as frontend-generated
+FROM base as frontend-bindings
 
 # Build
 
 RUN make generate-bindings
+
+# Start from base image
+FROM base as frontend-change-json
+
+# Build
+
 RUN make generate-change-json
 
 ################################################################################
@@ -55,12 +61,19 @@ RUN apt-get install --yes nodejs npm
 RUN npm install --global yarn
 RUN make install
 
-COPY --from=frontend-generated /app/packages/_generated /app/packages/_generated
+# Copy generated Rust components to Frontend folder
+
+COPY --from=frontend-bindings /app/packages/_generated/commontypes /app/packages/_generated/commontypes
+COPY --from=frontend-change-json /app/packages/_generated/change /app/packages/_generated/change
 COPY --from=frontend-rust-analyzer /app/packages/ink-editor/pkg /app/packages/ink-editor/pkg
+
+# Set ENV vars
 
 ARG COMPILE_URL=/compile
 ARG GIST_LOAD_URL=/gist/load
 ARG GIST_CREATE_URL=/gist/create
+
+# Build Frontend
 
 RUN make playground-build
 
