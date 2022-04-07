@@ -15,13 +15,14 @@ export type Message = {
   preContentColor?: string;
 };
 
-export type Prompt = 'COMPILE' | 'SYSTEM' | 'GIST';
+export type Prompt = 'COMPILE' | 'SYSTEM' | 'GIST' | 'TEST';
 
-export type Status = 'IN_PROGRESS' | 'DONE' | 'ERROR' | 'INFO';
+export type Status = 'IN_PROGRESS' | 'DONE' | 'ERROR' | 'INFO' | 'SUCCESS';
 
 export enum Severity {
   INFO = 'Info',
   DONE = 'Success',
+  SUCCESS = 'Success',
   ERROR = 'Error',
   IN_PROGRESS = 'InProgress',
 }

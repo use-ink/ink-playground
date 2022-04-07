@@ -12,5 +12,6 @@ COPY Cargo.toml /builds/contract/Cargo.toml
 
 # Prebuild ink! dependencies
 RUN cd contract && cargo contract build
+RUN cd contract && cargo test
 
 WORKDIR /builds/contract

@@ -70,6 +70,7 @@ COPY --from=frontend-rust-analyzer /app/packages/ink-editor/pkg /app/packages/in
 # Set ENV vars
 
 ARG COMPILE_URL=/compile
+ARG TESTING_URL=/test
 ARG GIST_LOAD_URL=/gist/load
 ARG GIST_CREATE_URL=/gist/create
 

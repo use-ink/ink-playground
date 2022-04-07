@@ -28,6 +28,8 @@ pub use sandbox::{
     CompilationRequest,
     CompilationResult,
     Sandbox,
+    TestingRequest,
+    TestingResult,
 };
 
 use sandbox;
@@ -37,6 +39,8 @@ use sandbox;
 // -------------------------------------------------------------------------------------------------
 
 pub type CompileStrategy = fn(CompilationRequest) -> sandbox::Result<CompilationResult>;
+
+pub type TestingStrategy = fn(TestingRequest) -> sandbox::Result<TestingResult>;
 
 // -------------------------------------------------------------------------------------------------
 // IMPLEMENTATION
@@ -62,6 +66,32 @@ pub async fn route_compile(
         Ok(result) => {
             let compile_result = serde_json::to_string(&result).unwrap();
             HttpResponse::Ok().body(compile_result)
+        }
+        Err(err) => {
+            eprintln!("{:?}", err);
+            HttpResponse::InternalServerError().finish()
+        }
+    }
+}
+
+pub const TEST_SANDBOXED: TestingStrategy = |req| {
+    let sandbox = Sandbox::new()?;
+
+    sandbox.test(&req)
+};
+
+pub async fn route_test(
+    compile_strategy: TestingStrategy,
+    req: Json<TestingRequest>,
+) -> impl Responder {
+    let testing_result = compile_strategy(TestingRequest {
+        source: req.source.to_string(),
+    });
+
+    match testing_result {
+        Ok(result) => {
+            let testing_result = serde_json::to_string(&result).unwrap();
+            HttpResponse::Ok().body(testing_result)
         }
         Err(err) => {
             eprintln!("{:?}", err);
@@ -99,6 +129,21 @@ mod tests {
         }
     };
 
+    /// A testing strategy mock. Accepts only `foo` as "correct" source code.
+    const TESTING_MOCKED: TestingStrategy = |req| {
+        if req.source == "foo" {
+            Ok(TestingResult::Success {
+                stdout: format!("Testing of {} succeeded.", req.source),
+                stderr: "".to_string(),
+            })
+        } else {
+            Ok(TestingResult::Error {
+                stdout: "".to_string(),
+                stderr: format!("Testing of {} failed.", req.source),
+            })
+        }
+    };
+
     /// Simulates a compilation success on the service
     #[actix_rt::test]
     async fn test_compilation_success() {
@@ -129,7 +174,7 @@ mod tests {
         );
     }
 
-    /// Simulates a compilation failure on the service
+    /// Simulates a testing failure on the service
     #[actix_rt::test]
     async fn test_compilation_failure() {
         // TODO: Write reusable helper to setup service
@@ -142,18 +187,77 @@ mod tests {
         let req = CompilationRequest {
             source: "bar".to_string(),
         };
+
         let req = test::TestRequest::post()
             .set_json(&req)
             .uri("/")
             .to_request();
 
-        let res: CompilationResult = test::read_response_json(&mut app, req).await;
+        let res: TestingResult = test::read_response_json(&mut app, req).await;
 
         assert_eq!(
             res,
-            CompilationResult::Error {
+            TestingResult::Error {
                 stdout: "".to_string(),
                 stderr: "Compilation of bar failed.".to_string()
+            }
+        );
+    }
+
+    /// Simulates a testing success on the service
+    #[actix_rt::test]
+    async fn test_testing_success() {
+        // TODO: Write reusable helper to setup service
+        let mut app = test::init_service(
+            App::new()
+                .route("/", web::post().to(|body| route_test(TESTING_MOCKED, body))),
+        )
+        .await;
+
+        let req = TestingRequest {
+            source: "foo".to_string(),
+        };
+        let req = test::TestRequest::post()
+            .set_json(&req)
+            .uri("/")
+            .to_request();
+
+        let res: TestingResult = test::read_response_json(&mut app, req).await;
+
+        assert_eq!(
+            res,
+            TestingResult::Success {
+                stdout: "Testing of foo succeeded.".to_string(),
+                stderr: "".to_string(),
+            }
+        );
+    }
+
+    /// Simulates a compilation failure on the service
+    #[actix_rt::test]
+    async fn test_testing_failure() {
+        // TODO: Write reusable helper to setup service
+        let mut app = test::init_service(
+            App::new()
+                .route("/", web::post().to(|body| route_test(TESTING_MOCKED, body))),
+        )
+        .await;
+
+        let req = TestingRequest {
+            source: "bar".to_string(),
+        };
+        let req = test::TestRequest::post()
+            .set_json(&req)
+            .uri("/")
+            .to_request();
+
+        let res: TestingResult = test::read_response_json(&mut app, req).await;
+
+        assert_eq!(
+            res,
+            TestingResult::Error {
+                stdout: "".to_string(),
+                stderr: "Testing of bar failed.".to_string()
             }
         );
     }
