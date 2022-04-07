@@ -38,6 +38,7 @@ use actix_web::{
         Condition,
         DefaultHeaders,
     },
+    web,
     web::{
         get,
         post,
@@ -46,8 +47,13 @@ use actix_web::{
     HttpResponse,
     HttpServer,
 };
+use actix_web_prom::PrometheusMetrics;
+
 use clap::Clap;
-use std::path::Path;
+use std::{
+    collections::HashMap,
+    path::Path,
+};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -62,11 +68,21 @@ async fn main() -> std::io::Result<()> {
         }
     }
 
+    fn health() -> HttpResponse {
+        HttpResponse::Ok().finish()
+    }
+
+    let mut labels = HashMap::new();
+    labels.insert("label1".to_string(), "value1".to_string());
+    let prometheus = PrometheusMetrics::new("api", Some("/metrics"), Some(labels));
+
     HttpServer::new(move || {
         let opts: Opts = opts.clone();
         let frontend_folder = opts.frontend_folder.clone();
 
         let mut app = App::new()
+            .wrap(prometheus.clone())
+            .service(web::resource("/health").to(health))
             .wrap(middleware::Compress::default())
             .wrap(Condition::new(opts.dev_mode, Cors::permissive()))
             .wrap(

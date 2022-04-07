@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    user: '1000:1000'
+    container_name: prometheus
+    restart: always
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./config:/prometheus
+    command:
+      - '--config.file=/prometheus/prometheus.yml'
+      - '--web.external-url=http://localhost:9090'
+    networks:
+      - prometheus
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    ports:
+      - '5000:3000'
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
+    networks:
+      - prometheus
+
+  playground:
+    image: ink-playground:latest
+    container_name: playground
+    restart: always
+    environment:
+      - GITHUB_GIST_TOKEN="${GITHUB_GIST_TOKEN}"
+    volumes:
+      - /tmp:/tmp
+      - type: bind
+        source: ./dockerhost
+        target: /var/lib/docker
+    ports:
+      - '3000:4000'
+    runtime: sysbox-runc
+    networks:
+      - prometheus
+
+networks:
+  prometheus:
