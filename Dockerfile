@@ -11,8 +11,37 @@ WORKDIR /app
 # Copy everthing that is not dockerignored to the image
 COPY . .
 
+# Prepare
+
+RUN rustup toolchain install stable
+
 ################################################################################
-# Build Frontend
+# Build Frontend - Rust Part
+################################################################################
+
+# Start from base image
+FROM base as frontend-rust-analyzer
+
+# Prepare
+
+RUN rustup toolchain install nightly-2021-11-04
+RUN rustup component add rust-src --toolchain nightly-2021-11-04-x86_64-unknown-linux-gnu
+RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+# Build
+
+RUN cd crates/rust_analyzer_wasm && wasm-pack build --target web --out-dir ../../packages/ink-editor/pkg
+
+# Start from base image
+FROM base as frontend-generated
+
+# Build
+
+RUN make generate-bindings
+RUN make generate-change-json
+
+################################################################################
+# Build Frontend - TypeScript Part
 ################################################################################
 
 # Start from base image
@@ -26,18 +55,8 @@ RUN apt-get install --yes nodejs npm
 RUN npm install --global yarn
 RUN make install
 
-# Prepare
-
-RUN rustup toolchain install nightly-2021-11-04
-RUN rustup toolchain install stable
-RUN rustup component add rust-src --toolchain nightly-2021-11-04-x86_64-unknown-linux-gnu
-RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-# Build
-
-RUN make generate-rust-analyzer
-RUN make generate-bindings
-RUN make generate-change-json
+COPY --from=frontend-generated /app/packages/_generated /app/packages/_generated
+COPY --from=frontend-rust-analyzer /app/packages/ink-editor/pkg /app/packages/ink-editor/pkg
 
 ARG COMPILE_URL=/compile
 ARG TESTING_URL=/test
@@ -52,10 +71,6 @@ RUN make playground-build
 
 # Start from base image
 FROM base as backend-builder
-
-# Prepare
-
-RUN rustup toolchain install stable
 
 # Build
 
