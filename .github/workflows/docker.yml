@@ -26,6 +26,8 @@ jobs:
 
       - name: Build docker
         run: make docker-buildkit
+        env:
+          DOCKER_USER_NAME: ${{ secrets.DOCKER_USER_NAME }}
 
       - name: Tag Docker image
         run: docker tag ${{ secrets.DOCKER_USER_NAME }}/ink-playground:latest ink-playground
