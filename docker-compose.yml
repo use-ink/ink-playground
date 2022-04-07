@@ -28,7 +28,7 @@ services:
       - prometheus
 
   playground:
-    image: ink-playground:latest
+    image: ${DOCKER_USER_NAME}/ink-playground:latest
     container_name: playground
     restart: always
     environment:
