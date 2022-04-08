@@ -4,7 +4,9 @@ FROM ${REGISTRY_PATH}/ink-ci-linux:production
 
 ENV CARGO_TARGET_DIR="/target"
 
-RUN cargo install --git https://github.com/paritytech/cargo-contract
+RUN cargo install dylint-link cargo-dylint
+
+RUN cargo install cargo-contract
 
 # Instantiate new Contract
 RUN cargo contract new contract
@@ -14,5 +16,6 @@ COPY Cargo.toml /builds/contract/Cargo.toml
 
 # Prebuild ink! dependencies
 RUN cd contract && cargo contract build
+RUN cd contract && cargo test
 
 WORKDIR /builds/contract

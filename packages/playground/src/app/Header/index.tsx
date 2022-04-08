@@ -6,6 +6,7 @@ import {
   GithubRepoIcon,
   SettingsIcon,
   ShareIcon,
+  TestingIcon,
 } from '~/symbols';
 import { OverlayPanel, ButtonWithIcon } from '@paritytech/components/';
 import { SettingsSubmenu } from './SettingsSubmenu';
@@ -16,6 +17,7 @@ import { MessageContext } from '~/context/messages/';
 import { Dispatch, State } from '~/context/app/reducer';
 import { MessageState, MessageDispatch, mapSizeInfo } from '~/context/messages/reducer';
 import { compile } from '~/context/side-effects/compile';
+import { testing } from '~/context/side-effects/testing';
 import * as sizeLimit from '~/constants';
 import { Colors } from '@paritytech/components/ButtonWithIcon';
 
@@ -65,6 +67,14 @@ export const Header = (): ReactElement => {
           testId={'buttonIcon'}
           onClick={() => compile(state, dispatch, dispatchMessage)}
           loading={state.compile.type === 'IN_PROGRESS'}
+        />
+        <ButtonWithIcon
+          label="Test"
+          Icon={TestingIcon}
+          darkmode={state.darkmode}
+          testId={'buttonIcon'}
+          onClick={() => testing(state, dispatch, dispatchMessage)}
+          loading={state.testing.type === 'IN_PROGRESS'}
         />
         <ButtonWithIcon
           label="Download"

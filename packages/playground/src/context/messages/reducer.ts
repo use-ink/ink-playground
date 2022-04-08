@@ -1,4 +1,4 @@
-import { CompilationResult } from '@paritytech/commontypes';
+import { CompilationResult, TestingResult } from '@paritytech/commontypes';
 import { Message, Status, Severity, Prompt } from '@paritytech/components/';
 import * as sizeLimit from '~/constants';
 import { extractContractSize } from '../side-effects/compile';
@@ -13,7 +13,7 @@ export type MessageState = {
   nextId: number;
 };
 
-export type MessageAction = SystemMessage | CompilationMessage | GistMessage;
+export type MessageAction = SystemMessage | CompilationMessage | GistMessage | TestingMessage;
 
 export type SystemMessage = {
   type: 'LOG_SYSTEM';
@@ -29,6 +29,15 @@ export type CompilationMessage = {
     status: Status;
     content: string;
     result?: CompilationResult;
+  };
+};
+
+export type TestingMessage = {
+  type: 'LOG_TESTING';
+  payload: {
+    status: Status;
+    content: string;
+    result?: TestingResult;
   };
 };
 
@@ -170,6 +179,70 @@ const reducerLogCompile = (state: MessageState, action: CompilationMessage): Mes
   }
 };
 
+const reducerLogTesting = (state: MessageState, action: TestingMessage): MessageState => {
+  switch (action.payload.status) {
+    case 'ERROR': {
+      const id = lastId(state, 'TEST');
+      // Server error message to attach, if present
+      const serverErrorMsg = action.payload.result?.payload.stderr;
+      const updateMessage: Message = {
+        id,
+        prompt: 'TEST',
+        status: action.payload.status,
+        // construct error message
+        content: `${action.payload.content}${serverErrorMsg ? `: '${serverErrorMsg}'` : ''}`,
+        severity: Severity[action.payload.status],
+      };
+      return {
+        ...state,
+        messages: [...state.messages, updateMessage],
+        nextId: state.nextId + 1,
+      };
+    }
+    case 'DONE': {
+      const id = lastId(state, 'TEST');
+      // Set "running tests..." message to "DONE"
+      const updateMessage: Message = {
+        id,
+        prompt: 'TEST',
+        status: action.payload.status,
+        content: action.payload.content,
+        severity: Severity[action.payload.status],
+      };
+      // Dispatch message with testing details
+      const status = (action.payload.result?.type || 'INFO') as Status;
+      const newMessage: Message = {
+        id: state.nextId,
+        prompt: 'TEST',
+        status,
+        content: `This is your test Result:\n${
+          action.payload.result ? action.payload.result.payload.stdout : '<Result>'
+        }`,
+        severity: Severity[status],
+      };
+      return {
+        ...state,
+        messages: [...state.messages, updateMessage, newMessage],
+        nextId: state.nextId + 1,
+      };
+    }
+    default: {
+      const newMessage: Message = {
+        id: state.nextId,
+        prompt: 'TEST',
+        status: action.payload.status,
+        content: action.payload.content,
+        severity: Severity[action.payload.status],
+      };
+      return {
+        ...state,
+        messages: [...state.messages, newMessage],
+        nextId: state.nextId + 1,
+      };
+    }
+  }
+};
+
 const reducerLogGist = (state: MessageState, action: GistMessage): MessageState => {
   const appendMessage = (state: MessageState, action: GistMessage): MessageState => {
     const newMessage: Message = {
@@ -206,6 +279,7 @@ const reducerLogGist = (state: MessageState, action: GistMessage): MessageState 
     case 'INFO':
       return appendMessage(state, action);
     case 'DONE':
+    case 'SUCCESS':
     case 'ERROR':
       return updateMessage(state, action);
   }
@@ -221,5 +295,8 @@ export const reducer = (state: MessageState, action: MessageAction): MessageStat
 
     case 'LOG_GIST':
       return reducerLogGist(state, action);
+
+    case 'LOG_TESTING':
+      return reducerLogTesting(state, action);
   }
 };

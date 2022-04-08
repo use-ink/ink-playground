@@ -1,4 +1,5 @@
 import CompileIcon from '~/assets/compile.svg';
+import TestingIcon from '~/assets/testing.svg';
 import DownloadIcon from '~/assets/download.svg';
 import GithubRepoIcon from '~/assets/branch.svg';
 import GithubIcon from '~/assets/github.svg';
@@ -11,6 +12,7 @@ import Logo from '~/assets/ink-logo-on-dark.svg';
 
 export {
   CompileIcon,
+  TestingIcon,
   DownloadIcon,
   GithubRepoIcon,
   GithubIcon,
