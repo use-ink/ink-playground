@@ -239,7 +239,6 @@ docker-log:
 ################################################################################
 
 build: playground-build
-build: crate-extractor-build
 build: backend-build
 
 check-format: rust-check-format

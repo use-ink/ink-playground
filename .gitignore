@@ -20,3 +20,4 @@ packages/_generated/src
 !.yarn/versions
 coverage
 data
+config/data
