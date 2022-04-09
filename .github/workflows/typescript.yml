@@ -78,6 +78,9 @@ jobs:
 
       - name: Generate
         run: make generate
+        env:
+          CC: /usr/local/opt/llvm/bin/clang
+          AR: /usr/local/opt/llvm/bin/llvm-ar
 
       - name: Playground Test
         run: make playground-test
