@@ -49,7 +49,7 @@ jobs:
           args: --workspace --exclude rust_analyzer_wasm --exclude contract --all-targets --all-features -- -D warnings
 
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
