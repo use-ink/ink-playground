@@ -24,5 +24,5 @@ jobs:
       - name: Run wasm-pack test
         run: wasm-pack test --headless --chrome crates/rust_analyzer_wasm
         env:
-          - CC: /usr/local/opt/llvm/bin/clang
-          - AR: /usr/local/opt/llvm/bin/llvm-ar
+          CC: /usr/local/opt/llvm/bin/clang
+          AR: /usr/local/opt/llvm/bin/llvm-ar
