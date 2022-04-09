@@ -12,17 +12,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: get Sysbox
-        run: wget https://downloads.nestybox.com/sysbox/releases/v0.4.1/sysbox-ce_0.4.1-0.ubuntu-focal_amd64.deb
+      # - name: get Sysbox
+      #   run: wget https://downloads.nestybox.com/sysbox/releases/v0.4.1/sysbox-ce_0.4.1-0.ubuntu-focal_amd64.deb
 
-      - name: Install Sysbox
-        run: sudo apt-get install ./sysbox-ce_0.4.1-0.ubuntu-focal_amd64.deb
+      # - name: Install Sysbox
+      #   run: sudo apt-get install ./sysbox-ce_0.4.1-0.ubuntu-focal_amd64.deb
 
-      - name: Configure Sysbox runtime
-        run: sudo cp sysbox/daemon.json /etc/docker/daemon.json
+      # - name: Configure Sysbox runtime
+      #   run: sudo cp sysbox/daemon.json /etc/docker/daemon.json
 
-      - name: Restart docker service
-        run: sudo systemctl restart docker.service
+      # - name: Restart docker service
+      #   run: sudo systemctl restart docker.service
 
       - name: Build docker
         run: make docker-buildkit
