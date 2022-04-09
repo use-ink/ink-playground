@@ -69,7 +69,7 @@ jobs:
       - name: Install required nightly
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: nightly-2021-11-04-x86_64-apple-darwin
+          toolchain: nightly-2021-11-04-x86_64
           override: true
           components: rust-src
 
