@@ -19,8 +19,6 @@ jobs:
         uses: jetli/wasm-pack-action@v0.3.0
         with:
           version: 'latest'
-      - name: Install llvm
-        run: brew install llvm
       - name: Run wasm-pack test
         run: wasm-pack test --headless --chrome crates/rust_analyzer_wasm
         env:
