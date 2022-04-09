@@ -8,7 +8,7 @@ on:
 
 jobs:
   lint:
-    runs-on: 'ubuntu-latest'
+    runs-on: 'macos-latest'
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16.x
@@ -23,7 +23,7 @@ jobs:
         run: make ts-lint
 
   check-format:
-    runs-on: 'ubuntu-latest'
+    runs-on: 'macos-latest'
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16.x
@@ -38,7 +38,7 @@ jobs:
         run: make ts-check-format
 
   check-spelling:
-    runs-on: 'ubuntu-latest'
+    runs-on: 'macos-latest'
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16.x
@@ -53,7 +53,7 @@ jobs:
         run: make ts-check-spelling
 
   test-playground:
-    runs-on: 'ubuntu-latest'
+    runs-on: 'macos-latest'
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16.x
@@ -83,7 +83,7 @@ jobs:
         run: make playground-test
 
   test-components:
-    runs-on: 'ubuntu-latest'
+    runs-on: 'macos-latest'
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16.x

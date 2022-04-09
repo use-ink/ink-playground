@@ -11,7 +11,7 @@ env:
 
 jobs:
   rustfmt:
-    runs-on: 'ubuntu-latest'
+    runs-on: 'macos-latest'
     steps:
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
@@ -30,7 +30,7 @@ jobs:
           args: --all -- --check
 
   clippy:
-    runs-on: 'ubuntu-latest'
+    runs-on: 'macos-latest'
     steps:
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
@@ -49,7 +49,7 @@ jobs:
           args: --workspace --exclude rust_analyzer_wasm --exclude contract --all-targets --all-features -- -D warnings
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
