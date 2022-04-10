@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: docker-practice/actions-setup-docker@master
-        run: docker version
+      - run: set -x
 
       - name: get Sysbox
         run: wget https://downloads.nestybox.com/sysbox/releases/v0.4.1/sysbox-ce_0.4.1-0.ubuntu-focal_amd64.deb
