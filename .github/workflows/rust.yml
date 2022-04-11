@@ -49,11 +49,14 @@ jobs:
           args: --workspace --exclude rust_analyzer_wasm --exclude contract --all-targets --all-features -- -D warnings
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: 'macos-latest'
     steps:
       - uses: actions/checkout@v2
       - name: Build
         run: cargo build --verbose
+        env:
+          CC: /usr/local/opt/llvm/bin/clang
+          AR: /usr/local/opt/llvm/bin/llvm-ar
       - name: Pull docker image
         run: docker pull docker.io/achimcc/ink-backend:latest
       - name: Tag docker image
