@@ -38,7 +38,13 @@ jobs:
         run: docker tag ${{ secrets.DOCKER_USER_NAME }}/ink-playground:latest ink-playground
 
       - name: Run docker
-        run: make docker-run-detach
+        run: docker run \
+	        # --runtime=sysbox-runc \
+	        --name ink-playground-container \
+	        --detach \
+	        --volume /tmp:/tmp \
+	        --publish $(DOCKER_PORT):4000 \
+	          ink-playground
         env:
           DOCKER_PORT: 4000
 
