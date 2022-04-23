@@ -209,7 +209,8 @@ docker-buildkit:
 	  --build-arg BUILDKIT_INLINE_CACHE=1 .
 
 docker-build:
-	docker build --tag ink-playground .
+	DOCKER_BUILDKIT=0 docker build \
+	  --tag ink-playground .
 	
 docker-run:
 	docker run \
