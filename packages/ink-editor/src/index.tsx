@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 import MonacoEditor, { MonacoEditorProps, monaco } from 'react-monaco-editor';
 import exampleCode from './example-code';
 import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
+export { monaco };
 
 const dark_teal = '67c6b0';
 const dark_text = 'ffffff';
