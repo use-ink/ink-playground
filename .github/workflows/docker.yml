@@ -26,13 +26,18 @@ jobs:
 
       - name: Build docker
         run: make docker-buildkit
+        env:
+          DOCKER_USER_NAME: ${{ secrets.DOCKER_USER_NAME }}
+
+      - name: Tag Docker image
+        run: docker tag ${{ secrets.DOCKER_USER_NAME }}/ink-playground:latest ink-playground
 
       - name: Run docker
         run: make docker-run-detach
         env:
           DOCKER_PORT: 4000
 
-      - name: Sleep for 120, allow Docker image to boot up
+      - name: Sleep for 120s, allow Docker image to boot up
         uses: juliangruber/sleep-action@v1
         with:
           time: 120s
@@ -55,10 +60,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER_NAME }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-
-      - name: Tag Docker image
-        if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
-        run: docker tag ink-playground:latest ${{ secrets.DOCKER_USER_NAME }}/ink-playground
 
       - name: Push Docker image
         if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
