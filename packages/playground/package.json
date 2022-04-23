@@ -20,7 +20,9 @@
     "bundlesize:generate": "yarn build && yarn webpack --stats --json=bundle-size-stats.json"
   },
   "workspaceDependencies": {
-    "@paritytech/ink-editor": "*"
+    "@paritytech/ink-editor": "*",
+    "@paritytech/commontypes": "*",
+    "@paritytech/components": "*"
   },
   "devDependencies": {
     "@svgr/webpack": "^6.2.1",
