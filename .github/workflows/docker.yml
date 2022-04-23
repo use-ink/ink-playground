@@ -25,7 +25,7 @@ jobs:
         run: sudo systemctl restart docker.service
 
       - name: Build docker
-        run: make docker-build
+        run: make docker-buildkit
 
       - name: Run docker
         run: make docker-run-detach
