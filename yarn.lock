@@ -8861,7 +8861,6 @@ __metadata:
     "@types/react-test-renderer": ^17.0.1
     "@types/tailwindcss": ^3.0.9
     autoprefixer: ^10.4.4
-    comlink: ^4.3.1
     copy-webpack-plugin: ^10.2.4
     css-loader: ^6.7.1
     html-webpack-plugin: ^5.5.0
