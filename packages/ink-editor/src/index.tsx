@@ -144,7 +144,7 @@ export const InkEditor = (props: InkEditorProps): ReactElement | null => {
   const darkTheme = props.rustAnalyzer ? 'custom-dark' : 'default-dark';
   const lightTheme = props.rustAnalyzer ? 'custom-light' : 'vs';
 
-  if (props.code)
+  if (Object.prototype.hasOwnProperty.call(props, 'code'))
     return (
       <MonacoEditor
         language="rust"
