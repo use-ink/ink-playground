@@ -12,11 +12,15 @@ Features:
 ## Table of Contents
 
 <!-- AUTO-GENERATED-CONTENT:START (TOC) -->
-
 - [Getting started](#getting-started)
-- [Implemented features:](#implemented-features)
-  - [crate-extractor](#crate-extractor) - [Usage:](#usage) - [Description](#description)
-  <!-- AUTO-GENERATED-CONTENT:END -->
+- [Detailed usage instructions:](#detailed-usage-instructions)
+  - [The make file and ink! playground](#the-make-file-and-ink-playground)
+  - [crate-extractor](#crate-extractor)
+- [Overview of the (sub-)repos](#overview-of-the-sub-repos)
+  - [The contributions of `crates`](#the-contributions-of-crates)
+  - [The contributions of `packages`](#the-contributions-of-packages)
+- [The Dockerfiles for ink! playground](#the-dockerfiles-for-ink-playground)
+<!-- AUTO-GENERATED-CONTENT:END -->
 
 ## Getting started
 
