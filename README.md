@@ -1,5 +1,11 @@
 # ink! Playground
 
+<figure>
+<p align="center">
+  <img src="assets/ink_playground.png" alt="ink! Playground">
+  </p>
+</figure>
+
 An ink! Playground which provides a Browser based IDE for editing Smart Contracts written in [ink!](https://github.com/paritytech/ink). A live deployment of the App can be found under [www.ink.playground.xyz](https://www.ink-playground.xyz).
 
 Features:
@@ -12,6 +18,7 @@ Features:
 ## Table of Contents
 
 <!-- AUTO-GENERATED-CONTENT:START (TOC) -->
+
 - [Getting started](#getting-started)
 - [Detailed usage instructions:](#detailed-usage-instructions)
   - [The make file and ink! playground](#the-make-file-and-ink-playground)
