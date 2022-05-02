@@ -26,6 +26,8 @@ COMPILE_URL ?= http://localhost:4000/compile
 
 TESTING_URL ?= http://localhost:4000/test
 
+DOCKER_USER_NAME ?= achimcc
+
 ################################################################################
 # GENERATE
 ################################################################################
@@ -200,9 +202,16 @@ ts-check-all: components-test
 # DOCKER
 ################################################################################
 
-docker-build:
-	docker build --tag ink-playground .
+docker-buildkit:
+	DOCKER_BUILDKIT=1 docker build \
+	  --tag $(DOCKER_USER_NAME)/ink-playground:latest \
+	  --cache-from $(DOCKER_USER_NAME)/ink-playground:latest \
+	  --build-arg BUILDKIT_INLINE_CACHE=1 .
 
+docker-build:
+	DOCKER_BUILDKIT=0 docker build \
+	  --tag ink-playground .
+	
 docker-run:
 	docker run \
 	  --runtime=sysbox-runc \
