@@ -3,6 +3,7 @@
 ## Table of Contents
 
 <!-- AUTO-GENERATED-CONTENT:START (TOC) -->
+
 - [Introduction](#introduction)
 - [The build process:](#the-build-process)
 - [Architecture of the individual packages:](#architecture-of-the-individual-packages)
@@ -11,9 +12,8 @@
   - [Ink Editor](#ink-editor)
   - [Backend](#backend)
   - [Rust Analyzer WASM](#rust-analyzer-wasm)
-  - [Crate Extractor](#crate-extractor)
-    - [Description](#description)
-<!-- AUTO-GENERATED-CONTENT:END -->
+  - [Crate Extractor](#crate-extractor) - [Description](#description)
+  <!-- AUTO-GENERATED-CONTENT:END -->
 
 ## Introduction
 
