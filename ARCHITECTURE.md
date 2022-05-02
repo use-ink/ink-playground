@@ -1,5 +1,20 @@
 # Architecture of ink! Playground
 
+## Table of Contents
+
+<!-- AUTO-GENERATED-CONTENT:START (TOC) -->
+- [Introduction](#introduction)
+- [The build process:](#the-build-process)
+- [Architecture of the individual packages:](#architecture-of-the-individual-packages)
+  - [Playground](#playground)
+  - [Components](#components)
+  - [Ink Editor](#ink-editor)
+  - [Backend](#backend)
+  - [Rust Analyzer WASM](#rust-analyzer-wasm)
+  - [Crate Extractor](#crate-extractor)
+    - [Description](#description)
+<!-- AUTO-GENERATED-CONTENT:END -->
+
 ## Introduction
 
 We provide here a detailed description of the architecture of ink! Playground and each of its components.
