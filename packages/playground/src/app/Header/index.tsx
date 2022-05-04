@@ -7,6 +7,7 @@ import {
   SettingsIcon,
   ShareIcon,
   TestingIcon,
+  InkSquid,
 } from '~/symbols';
 import { OverlayPanel, ButtonWithIcon } from '@paritytech/components/';
 import { SettingsSubmenu } from './SettingsSubmenu';
@@ -114,7 +115,7 @@ export const Header = (): ReactElement => {
 
         <ButtonWithIcon
           label={'ink! Documentation'}
-          Icon={GithubRepoIcon}
+          Icon={InkSquid}
           darkmode={state.darkmode}
           testId={'buttonIconInkDocs'}
           onClick={() => {
