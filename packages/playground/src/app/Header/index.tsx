@@ -7,7 +7,7 @@ import {
   SettingsIcon,
   ShareIcon,
   TestingIcon,
-  InkSquid,
+  DocsIcon,
 } from '~/symbols';
 import { OverlayPanel, ButtonWithIcon } from '@paritytech/components/';
 import { SettingsSubmenu } from './SettingsSubmenu';
@@ -19,29 +19,28 @@ import { Dispatch, State } from '~/context/app/reducer';
 import { MessageState, MessageDispatch, mapSizeInfo } from '~/context/messages/reducer';
 import { compile } from '~/context/side-effects/compile';
 import { testing } from '~/context/side-effects/testing';
-import * as sizeLimit from '~/constants';
-import { CONTRACTS_UI_URL, INK_DOCS_URL, REPO_URL } from '~/env';
+import * as constants from '~/constants';
 import { Colors } from '@paritytech/components/ButtonWithIcon';
 
 const openContractsUiUrl = (): void => {
-  window.open(CONTRACTS_UI_URL, '_blank');
+  window.open(constants.CONTRACTS_UI_URL, '_blank');
 };
 
 const openInkDocsUrl = (): void => {
-  window.open(INK_DOCS_URL, '_blank');
+  window.open(constants.INK_DOCS_URL, '_blank');
 };
 
 const openRepoUrl = (): void => {
-  window.open(REPO_URL, '_blank');
+  window.open(constants.REPO_URL, '_blank');
 };
 
 const mapIconColor = (size: number | null): { color: keyof Colors; shade: string } | undefined => {
   if (!size) return undefined;
-  if (size <= sizeLimit.OPTIMAL_SIZE) {
+  if (size <= constants.OPTIMAL_SIZE) {
     return { color: 'green', shade: '400' };
-  } else if (size <= sizeLimit.ACCEPTABLE_SIZE) {
+  } else if (size <= constants.ACCEPTABLE_SIZE) {
     return { color: 'blue', shade: '400' };
-  } else if (size <= sizeLimit.PROBLEMATIC_SIZE) {
+  } else if (size <= constants.PROBLEMATIC_SIZE) {
     return { color: 'yellow', shade: '400' };
   }
   return { color: 'red', shade: '400' };
@@ -115,7 +114,7 @@ export const Header = (): ReactElement => {
 
         <ButtonWithIcon
           label={'ink! Documentation'}
-          Icon={InkSquid}
+          Icon={DocsIcon}
           darkmode={state.darkmode}
           testId={'buttonIconInkDocs'}
           onClick={() => {
