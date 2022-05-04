@@ -8,6 +8,7 @@ import {
   ShareIcon,
   TestingIcon,
   DocsIcon,
+  DeployIcon,
 } from '~/symbols';
 import { OverlayPanel, ButtonWithIcon } from '@paritytech/components/';
 import { SettingsSubmenu } from './SettingsSubmenu';
@@ -123,7 +124,7 @@ export const Header = (): ReactElement => {
         />
         <ButtonWithIcon
           label={'Deploy on Contracts UI'}
-          Icon={GithubRepoIcon}
+          Icon={DeployIcon}
           darkmode={state.darkmode}
           testId={'buttonIconContractsUi'}
           onClick={() => {
