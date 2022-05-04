@@ -19,11 +19,19 @@ import { MessageState, MessageDispatch, mapSizeInfo } from '~/context/messages/r
 import { compile } from '~/context/side-effects/compile';
 import { testing } from '~/context/side-effects/testing';
 import * as sizeLimit from '~/constants';
+import { CONTRACTS_UI_URL, INK_DOCS_URL, REPO_URL } from '~/env';
 import { Colors } from '@paritytech/components/ButtonWithIcon';
 
+const openContractsUiUrl = (): void => {
+  window.open(CONTRACTS_UI_URL, '_blank');
+};
+
+const openInkDocsUrl = (): void => {
+  window.open(INK_DOCS_URL, '_blank');
+};
+
 const openRepoUrl = (): void => {
-  const repoURL = 'https://github.com/paritytech/ink-playground';
-  window.open(repoURL, '_blank');
+  window.open(REPO_URL, '_blank');
 };
 
 const mapIconColor = (size: number | null): { color: keyof Colors; shade: string } | undefined => {
@@ -105,10 +113,28 @@ export const Header = (): ReactElement => {
         <div className="flex-grow" />
 
         <ButtonWithIcon
+          label={'ink! Documentation'}
+          Icon={GithubRepoIcon}
+          darkmode={state.darkmode}
+          testId={'buttonIconInkDocs'}
+          onClick={() => {
+            openInkDocsUrl();
+          }}
+        />
+        <ButtonWithIcon
+          label={'Deploy on Contracts UI'}
+          Icon={GithubRepoIcon}
+          darkmode={state.darkmode}
+          testId={'buttonIconContractsUi'}
+          onClick={() => {
+            openContractsUiUrl();
+          }}
+        />
+        <ButtonWithIcon
           label={'GitHub Repo'}
           Icon={GithubRepoIcon}
           darkmode={state.darkmode}
-          testId={'buttonIcon'}
+          testId={'buttonIconRepo'}
           onClick={() => {
             openRepoUrl();
           }}
