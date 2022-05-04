@@ -8,6 +8,7 @@ const { EnvironmentPlugin } = require('webpack');
 const { merge } = require('webpack-merge');
 const inkEditorConfig = require('../ink-editor/webpack.config');
 const CopyPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 
 const localConfig = {
   mode: 'development',
@@ -67,6 +68,9 @@ const localConfig = {
       TESTING_URL: '',
       GIST_CREATE_URL: '',
       GIST_LOAD_URL: '',
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
     }),
   ],
   experiments: {
