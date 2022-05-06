@@ -31,9 +31,9 @@ We provide here a detailed description of the architecture of ink! Playground an
 1. Build `crate_extractor` dependencies which generate the `change.json` file for Rust Analyzer which contains the ink! source-code and dependency graph.
 2. Use `crate_extractor` binary to generate the `change.json` file.
 3. Build the `rust_analyzer_wasm` binary which is used to execute Rust Analyzer in the Browser.
-5. Use `generate_bindings` to generate the TypeScript types which are used by the Frontend to communicate with the Acrtix Web backend server.
-6. Build the `playground` frontend.
-7. Build the Actix Web based backend server which serves the Frontend package `playground` to clients.
+4. Use `generate_bindings` to generate the TypeScript types which are used by the Frontend to communicate with the Actix Web backend server.
+5. Build the `playground` frontend.
+6. Build the Actix Web based backend server which serves the Frontend package `playground` to clients.
 
 ## Architecture of the individual packages:
 
