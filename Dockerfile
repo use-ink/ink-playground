@@ -116,7 +116,8 @@ RUN echo \
 
 RUN apt-get --yes update
 
-RUN apt-get --yes install docker-ce docker-ce-cli containerd.io
+RUN apt-get --yes install docker-ce docker-ce-cli \
+    containerd.io=1.5.11-1
 
 # Provide startup scripts
 
