@@ -2,16 +2,16 @@ version: 2
 
 updates:
   - package-ecosystem: github-actions
-    directory: "/"
+    directory: '/'
     schedule:
       interval: daily
-      time: "03:00"
+      time: '03:00'
       timezone: Europe/Berlin
   - package-ecosystem: npm
-    directory: "/"
+    directory: '/'
     schedule:
-      interval: "daily"
+      interval: 'daily'
   - package-ecosystem: cargo
-    directory: "/"
+    directory: '/'
     schedule:
-      interval: "daily"
+      interval: 'daily'
