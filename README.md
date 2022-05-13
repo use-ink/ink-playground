@@ -6,7 +6,7 @@
   </p>
 </figure>
 
-An ink! Playground which provides a Browser based IDE for editing Smart Contracts written in [ink!](https://github.com/paritytech/ink). A live deployment of the App can be found under [www.ink.playground.xyz](https://www.ink-playground.xyz).
+An ink! Playground which provides a Browser based IDE for editing Smart Contracts written in [ink!](https://github.com/paritytech/ink). A live deployment of the App can be found under [www.ink-playground.substrate.io](https://www.ink-playground.substrate.io).
 
 Features:
 
