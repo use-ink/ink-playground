@@ -1,5 +1,7 @@
 module.exports = {
   process() {
-    return `module.exports = 'svg'`;
+    return {
+      code: `module.exports = 'svg'`,
+    };
   },
 };
