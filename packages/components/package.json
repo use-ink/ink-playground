@@ -13,14 +13,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "primeicons": "^4.1.0",
-    "primereact": "^7.2.1",
+    "primeicons": "^5.0.0",
+    "primereact": "^8.1.0",
     "react-transition-group": "^4.4.2"
   },
   "devDependencies": {
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^27.5.1",
+    "jest": "^28.1.0",
     "rimraf": "^3.0.2",
-    "ts-jest": "^27.1.4"
+    "ts-jest": "^28.0.2"
   }
 }
