@@ -9,7 +9,7 @@ readme = "README.md"
 [dependencies]
 serde = "1.0.130"
 tempdir = "0.3.7"
-snafu = "0.6.10"
+snafu = "0.7.1"
 log = "0.4.14"
 tokio = { version = "1.13.0", features = [
     "macros",
