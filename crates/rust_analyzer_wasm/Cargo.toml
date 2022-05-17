@@ -20,7 +20,7 @@ serde_repr = "0.1.7"
 serde-wasm-bindgen = "0.4.3"
 stacker = "0.1.14"
 wasm-bindgen = "0.2.78"
-rayon = "1.5.1"
+rayon = "1.5.3"
 wasm-bindgen-rayon = "1.0.3"
 change_json = {path = "../change_json" }
 
