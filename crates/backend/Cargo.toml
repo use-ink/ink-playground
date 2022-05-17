@@ -17,7 +17,7 @@ actix-cors = "0.5.4"
 ts-rs = { git = "https://github.com/Aleph-Alpha/ts-rs", branch = "main", features = [
     "serde-compat",
 ] }
-futures = "0.3.17"
+futures = "0.3.21"
 hubcaps = "0.6.2"
 
 sandbox = { path = "../sandbox" }
