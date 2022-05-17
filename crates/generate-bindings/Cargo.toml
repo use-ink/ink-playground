@@ -7,8 +7,8 @@ license = "Apache-2.0"
 readme = "README.md"
 
 [dependencies]
-clap = "3.0.0-beta.4"
-ts-rs = { git = "https://github.com/Aleph-Alpha/ts-rs", branch = "main", features = [
+clap = "3.1.18"
+ts-rs = { version = "6.1.2", features = [
     "serde-compat",
 ] }
 
