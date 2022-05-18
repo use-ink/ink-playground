@@ -18,7 +18,7 @@
     "@paritytech/commontypes": "*"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^10.2.4",
+    "copy-webpack-plugin": "^11.0.0",
     "mini-css-extract-plugin": "^2.6.0",
     "monaco-editor-webpack-plugin": "^6.0.0",
     "ts-loader": "^9.3.0",
