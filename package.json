@@ -8,7 +8,7 @@
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
     "cspell": "^5.20.0",
-    "css-minimizer-webpack-plugin": "^3.4.1",
+    "css-minimizer-webpack-plugin": "^4.0.0",
     "eslint": "^8.15.0",
     "markdown-magic": "^2.6.0",
     "prettier": "^2.6.2"
