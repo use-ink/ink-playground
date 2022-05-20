@@ -123,7 +123,6 @@ export const InkEditor = (props: InkEditorProps): ReactElement | null => {
     if (editor) {
       editor.focus();
       const model = editor.getModel();
-      setTimeout(() => editor.setSelection(new monaco.Selection(0, 0, 0, 0)), 10);
       if (model) {
         props.setURI && props.setURI(model.uri);
         await import('./utils/startRustAnalyzer').then(async code => {
