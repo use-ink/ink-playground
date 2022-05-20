@@ -8,15 +8,22 @@ import { ReactElement, useContext, useEffect, useState } from 'react';
 import { Dispatch, State } from '~/context/app/reducer';
 import { MessageDispatch, MessageState } from '~/context/messages/reducer';
 import { loadCode } from '~/context/side-effects/load-code';
+import { monaco } from 'react-monaco-editor';
 
 const App = (): ReactElement => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
   const [, messageDispatch]: [MessageState, MessageDispatch] = useContext(MessageContext);
   const [code, setCode] = useState<string>();
+  let { monacoUri: uri } = state;
 
   useEffect(() => {
-    loadCode(state, { app: dispatch, message: messageDispatch }).then(setCode);
-  }, []);
+    if (!uri) return;
+    loadCode(state, { app: dispatch, message: messageDispatch }).then(code => {
+      const model = monaco.editor.getModel(uri as monaco.Uri);
+      if (!model) return;
+      model.setValue(code);
+    });
+  }, [uri]);
 
   const onRustAnalyzerStartLoad = () => {
     messageDispatch({
