@@ -4,19 +4,25 @@ import { Layout } from './Layout';
 import { Header } from './Header';
 import { AppContext, AppProvider } from '~/context/app/';
 import { MessageContext, MessageProvider } from '~/context/messages/';
-import { ReactElement, useContext, useEffect, useState } from 'react';
+import { ReactElement, useContext, useEffect } from 'react';
 import { Dispatch, State } from '~/context/app/reducer';
 import { MessageDispatch, MessageState } from '~/context/messages/reducer';
 import { loadCode } from '~/context/side-effects/load-code';
+import { monaco } from 'react-monaco-editor';
 
 const App = (): ReactElement => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
   const [, messageDispatch]: [MessageState, MessageDispatch] = useContext(MessageContext);
-  const [code, setCode] = useState<string>();
+  const { monacoUri: uri } = state;
 
   useEffect(() => {
-    loadCode(state, { app: dispatch, message: messageDispatch }).then(setCode);
-  }, []);
+    if (!uri) return;
+    loadCode(state, { app: dispatch, message: messageDispatch }).then(code => {
+      const model = monaco.editor.getModel(uri as monaco.Uri);
+      if (!model) return;
+      model.setValue(code);
+    });
+  }, [uri]);
 
   const onRustAnalyzerStartLoad = () => {
     messageDispatch({
@@ -41,8 +47,6 @@ const App = (): ReactElement => {
       header={<Header />}
       editor={
         <InkEditor
-          code={code}
-          onCodeChange={setCode}
           onRustAnalyzerStartLoad={onRustAnalyzerStartLoad}
           onRustAnalyzerFinishLoad={onRustAnalyzerFinishLoad}
           numbering={state.numbering}
