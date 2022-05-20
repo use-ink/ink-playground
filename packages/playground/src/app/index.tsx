@@ -13,7 +13,7 @@ import { monaco } from 'react-monaco-editor';
 const App = (): ReactElement => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
   const [, messageDispatch]: [MessageState, MessageDispatch] = useContext(MessageContext);
-  let { monacoUri: uri } = state;
+  const { monacoUri: uri } = state;
 
   useEffect(() => {
     if (!uri) return;
