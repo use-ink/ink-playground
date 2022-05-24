@@ -245,7 +245,7 @@ mod tests {
             Env::default(),
             Default::default(),
             false,
-            CrateOrigin::CratesIo { repo: None }
+            CrateOrigin::CratesIo { repo: None },
         );
         let crate3 = graph.add_crate_root(
             FileId(3u32),
@@ -257,7 +257,7 @@ mod tests {
             Env::default(),
             Default::default(),
             false,
-            CrateOrigin::CratesIo { repo: None }
+            CrateOrigin::CratesIo { repo: None },
         );
         graph
             .add_dep(
