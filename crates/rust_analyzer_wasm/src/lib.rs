@@ -14,6 +14,7 @@
 
 #![cfg(target_arch = "wasm32")]
 #![allow(non_snake_case)]
+#![feature(format_args_capture)]
 
 use change_json::{
     ChangeJson,
@@ -70,50 +71,6 @@ use rayon::prelude::*;
 pub use wasm_bindgen_rayon::init_thread_pool;
 
 const FILE_NAME: &str = "contract";
-
-fn derive_analytics(host: &AnalysisHost, file_id: FileId) -> JsValue {
-    let analysis = host.analysis();
-    let line_index = analysis.file_line_index(file_id).unwrap();
-    let config = DiagnosticsConfig::default();
-    let diagnostics: Vec<_> = analysis
-        .diagnostics(&config, AssistResolveStrategy::None, file_id)
-        .unwrap()
-        .into_par_iter()
-        .map(|d| {
-            let Range {
-                startLineNumber,
-                startColumn,
-                endLineNumber,
-                endColumn,
-            } = to_proto::text_range(d.range, &line_index);
-            Diagnostic {
-                message: d.message,
-                severity: to_proto::severity(d.severity),
-                startLineNumber,
-                startColumn,
-                endLineNumber,
-                endColumn,
-            }
-        })
-        .collect();
-    let highlights: Vec<_> = analysis
-        .highlight(file_id)
-        .unwrap()
-        .into_par_iter()
-        .map(|hl| {
-            Highlight {
-                tag: Some(hl.highlight.tag.to_string()),
-                range: to_proto::text_range(hl.range, &line_index),
-            }
-        })
-        .collect();
-    web_sys::console::log_1(&"All Done!".into());
-    serde_wasm_bindgen::to_value(&UpdateResult {
-        diagnostics,
-        highlights,
-    })
-    .unwrap()
-}
 
 #[wasm_bindgen(start)]
 pub fn start() {
@@ -186,10 +143,10 @@ impl WorldState {
         web_sys::console::log_1(&"Starting Analysis!".into());
         // self.file_id = FileId(file_id);
         // this unblocks AnalysisHost
-        let analysis_host = AnalysisHost::default();
-        self.analysis = analysis_host.analysis();
+        // let analysis_host = AnalysisHost::default();
+        // self.analysis = analysis_host.analysis();
         // Now derive results
-        let result = derive_analytics(&self.analysis_host, self.file_id);
+        let result = self.derive_analytics();
         // re-assign analysis for the other methods
         self.analysis = self.analysis_host.analysis();
         web_sys::console::log_1(&"Now Complete!".into());
@@ -535,6 +492,52 @@ impl WorldState {
         };
         let res = to_proto::location_links(nav_info, &line_index);
         serde_wasm_bindgen::to_value(&res).unwrap()
+    }
+
+    fn derive_analytics(&mut self) -> JsValue {
+        // let analysis = host.analysis();
+        let line_index = self.analysis.file_line_index(self.file_id).unwrap();
+        let config = DiagnosticsConfig::default();
+        let diagnostics: Vec<_> = self
+            .analysis
+            .diagnostics(&config, AssistResolveStrategy::None, self.file_id)
+            .unwrap()
+            .into_par_iter()
+            .map(|d| {
+                let Range {
+                    startLineNumber,
+                    startColumn,
+                    endLineNumber,
+                    endColumn,
+                } = to_proto::text_range(d.range, &line_index);
+                Diagnostic {
+                    message: d.message,
+                    severity: to_proto::severity(d.severity),
+                    startLineNumber,
+                    startColumn,
+                    endLineNumber,
+                    endColumn,
+                }
+            })
+            .collect();
+        let highlights: Vec<_> = self
+            .analysis
+            .highlight(self.file_id)
+            .unwrap()
+            .into_par_iter()
+            .map(|hl| {
+                Highlight {
+                    tag: Some(hl.highlight.tag.to_string()),
+                    range: to_proto::text_range(hl.range, &line_index),
+                }
+            })
+            .collect();
+        web_sys::console::log_1(&"All Done!".into());
+        serde_wasm_bindgen::to_value(&UpdateResult {
+            diagnostics,
+            highlights,
+        })
+        .unwrap()
     }
 }
 
