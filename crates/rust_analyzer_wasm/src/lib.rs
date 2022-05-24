@@ -358,7 +358,7 @@ impl WorldState {
         let line_index = self.analysis.file_line_index(self.file_id).unwrap();
 
         let pos = file_position(line_number, column, &line_index, self.file_id);
-        let call_info = match self.analysis.call_info(pos) {
+        let call_info = match self.analysis.signature_help(pos) {
             Ok(Some(call_info)) => call_info,
             _ => return JsValue::NULL,
         };
