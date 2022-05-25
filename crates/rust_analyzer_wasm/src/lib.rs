@@ -14,7 +14,6 @@
 
 #![cfg(target_arch = "wasm32")]
 #![allow(non_snake_case)]
-#![feature(format_args_capture)]
 
 use change_json::{
     ChangeJson,
