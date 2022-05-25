@@ -552,6 +552,6 @@ fn file_position(
         line: line_number - 1,
         col: column - 1,
     };
-    let offset = line_index.offset(line_col);
+    let offset = line_index.offset(line_col).unwrap();
     ide::FilePosition { file_id, offset }
 }
