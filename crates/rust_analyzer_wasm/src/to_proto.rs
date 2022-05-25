@@ -37,6 +37,7 @@ pub(crate) fn completion_item_kind(
     match kind {
         ide::CompletionItemKind::Keyword => Keyword,
         ide::CompletionItemKind::Snippet => Snippet,
+        ide::CompletionItemKind::InferredType => Keyword,
 
         ide::CompletionItemKind::BuiltinType => Struct,
         ide::CompletionItemKind::Binding => Variable,
@@ -59,6 +60,7 @@ pub(crate) fn completion_item_kind(
                 ide::SymbolKind::SelfParam => Value,
                 ide::SymbolKind::Static => Value,
                 ide::SymbolKind::Struct => Struct,
+                ide::SymbolKind::SelfType => Property,
                 ide::SymbolKind::ToolModule => Property,
                 ide::SymbolKind::Trait => Interface,
                 ide::SymbolKind::TypeAlias => Value,
@@ -226,6 +228,7 @@ pub(crate) fn symbol_kind(kind: ide::StructureNodeKind) -> return_types::SymbolK
         ide::SymbolKind::Macro => SymbolKind::Function,
         ide::SymbolKind::Module => SymbolKind::Module,
         ide::SymbolKind::SelfParam => SymbolKind::Variable,
+        ide::SymbolKind::SelfType => SymbolKind::Variable,
         ide::SymbolKind::Static => SymbolKind::Constant,
         ide::SymbolKind::Struct => SymbolKind::Struct,
         ide::SymbolKind::Trait => SymbolKind::Interface,
