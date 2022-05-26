@@ -150,7 +150,7 @@ pub(crate) fn completion_item(
 }
 
 pub(crate) fn signature_information(
-    call_info: ide::SignatureHelp,
+    call_info: ide::CallInfo,
 ) -> return_types::SignatureInformation {
     use return_types::{
         ParameterInformation,
