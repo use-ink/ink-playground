@@ -33,6 +33,14 @@ use ide::{
     Indel,
     TextSize,
 };
+use ide_db::imports::{
+    insert_use::{
+        ImportGranularity,
+        InsertUseConfig,
+        PrefixKind,
+    },
+    SnippetCap,
+};
 pub use ide_db::{
     assists::AssistResolveStrategy,
     base_db::{
@@ -45,14 +53,6 @@ pub use ide_db::{
         SourceRoot,
         VfsPath,
     },
-};
-use ide_db::{
-    imports::insert_use::{
-        ImportGranularity,
-        InsertUseConfig,
-        PrefixKind,
-    },
-    SnippetCap,
 };
 use std::sync::Arc;
 use syntax::TextRange;
