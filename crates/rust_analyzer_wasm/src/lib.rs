@@ -33,7 +33,7 @@ use ide::{
     Indel,
     TextSize,
 };
-use ide_db::imports::{
+use ide_db::helpers::{
     insert_use::{
         ImportGranularity,
         InsertUseConfig,
