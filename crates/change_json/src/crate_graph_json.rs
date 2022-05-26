@@ -118,8 +118,7 @@ impl From<&CrateGraphJson> for CrateGraph {
                 potential_cfg_options,
                 env,
                 Vec::new(),
-                false,
-                CrateOrigin::CratesIo { repo: None },
+                CrateOrigin::Lang,
             );
         }
         for dep in &crate_graph_json.deps {
@@ -232,8 +231,7 @@ mod tests {
             CfgOptions::default(),
             Env::default(),
             Default::default(),
-            false,
-            CrateOrigin::CratesIo { repo: None },
+            CrateOrigin::Lang,
         );
         let crate2 = graph.add_crate_root(
             FileId(2u32),
@@ -244,8 +242,7 @@ mod tests {
             CfgOptions::default(),
             Env::default(),
             Default::default(),
-            false,
-            CrateOrigin::CratesIo { repo: None }
+            CrateOrigin::Lang,
         );
         let crate3 = graph.add_crate_root(
             FileId(3u32),
@@ -256,8 +253,7 @@ mod tests {
             CfgOptions::default(),
             Env::default(),
             Default::default(),
-            false,
-            CrateOrigin::CratesIo { repo: None }
+            CrateOrigin::Lang,
         );
         graph
             .add_dep(

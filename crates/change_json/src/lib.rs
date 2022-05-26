@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// #![feature(format_args_capture)]
 mod change_json;
 mod crate_graph_json;
 
