@@ -23,6 +23,7 @@ use base_db::{
     Edition,
     Env,
     FileId,
+    LangCrateOrigin,
 };
 use cfg::CfgOptions;
 use serde::{
@@ -119,7 +120,7 @@ impl From<&CrateGraphJson> for CrateGraph {
                 env,
                 Vec::new(),
                 false,
-                CrateOrigin::CratesIo { repo: None },
+                CrateOrigin::Lang(LangCrateOrigin::Core),
             );
         }
         for dep in &crate_graph_json.deps {
@@ -233,7 +234,7 @@ mod tests {
             Env::default(),
             Default::default(),
             false,
-            CrateOrigin::CratesIo { repo: None },
+            CrateOrigin::Lang(LangCrateOrigin::Core),
         );
         let crate2 = graph.add_crate_root(
             FileId(2u32),
@@ -245,7 +246,7 @@ mod tests {
             Env::default(),
             Default::default(),
             false,
-            CrateOrigin::CratesIo { repo: None },
+            CrateOrigin::Lang(LangCrateOrigin::Core),
         );
         let crate3 = graph.add_crate_root(
             FileId(3u32),
@@ -257,7 +258,7 @@ mod tests {
             Env::default(),
             Default::default(),
             false,
-            CrateOrigin::CratesIo { repo: None },
+            CrateOrigin::Lang(LangCrateOrigin::Core),
         );
         graph
             .add_dep(
