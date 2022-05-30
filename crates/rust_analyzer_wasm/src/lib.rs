@@ -130,7 +130,6 @@ impl WorldState {
         let mut change = Change::new();
         change.change_file(self.file_id, Some(Arc::new(code)));
         web_sys::console::log_1(&"Apply Change!".into());
-        // Now its safe to apply the change!
         self.host.apply_change(change);
         web_sys::console::log_1(&"This worked!".into());
         self.derive_analytics()
