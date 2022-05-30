@@ -59,7 +59,6 @@ playground-build:
 	GIST_CREATE_URL=/gist/create \
 	yarn workspace playground run build
 
-playground-start: generate-bindings
 playground-start:
 	COMPILE_URL=$(COMPILE_URL) \
 	TESTING_URL=$(TESTING_URL) \
