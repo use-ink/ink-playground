@@ -71,50 +71,6 @@ pub use wasm_bindgen_rayon::init_thread_pool;
 
 const FILE_NAME: &str = "contract";
 
-fn derive_analytics(host: &AnalysisHost, file_id: FileId) -> JsValue {
-    let analysis = host.analysis();
-    let line_index = analysis.file_line_index(file_id).unwrap();
-    let config = DiagnosticsConfig::default();
-    let diagnostics: Vec<_> = analysis
-        .diagnostics(&config, AssistResolveStrategy::None, file_id)
-        .unwrap()
-        .into_par_iter()
-        .map(|d| {
-            let Range {
-                startLineNumber,
-                startColumn,
-                endLineNumber,
-                endColumn,
-            } = to_proto::text_range(d.range, &line_index);
-            Diagnostic {
-                message: d.message,
-                severity: to_proto::severity(d.severity),
-                startLineNumber,
-                startColumn,
-                endLineNumber,
-                endColumn,
-            }
-        })
-        .collect();
-    let highlights: Vec<_> = analysis
-        .highlight(file_id)
-        .unwrap()
-        .into_par_iter()
-        .map(|hl| {
-            Highlight {
-                tag: Some(hl.highlight.tag.to_string()),
-                range: to_proto::text_range(hl.range, &line_index),
-            }
-        })
-        .collect();
-    web_sys::console::log_1(&"All Done!".into());
-    serde_wasm_bindgen::to_value(&UpdateResult {
-        diagnostics,
-        highlights,
-    })
-    .unwrap()
-}
-
 #[wasm_bindgen(start)]
 pub fn start() {
     console_error_panic_hook::set_once();
@@ -168,26 +124,15 @@ impl WorldState {
         self.host.apply_change(change);
     }
 
-    pub fn update(&mut self, code: String) {
+    pub fn update(&mut self, code: String) -> JsValue {
         log::warn!("update");
         init_panic_hook();
         let mut change = Change::new();
         change.change_file(self.file_id, Some(Arc::new(code)));
         web_sys::console::log_1(&"Apply Change!".into());
-        // Now its safe to apply the change!
         self.host.apply_change(change);
         web_sys::console::log_1(&"This worked!".into());
-    }
-
-    pub fn analyze(&mut self) -> JsValue {
-        log::warn!("analyze");
-        init_panic_hook();
-        web_sys::console::log_1(&"Starting Analysis!".into());
-        // Now derive results
-        let result = derive_analytics(&self.host, self.file_id);
-        // re-assign analysis for the other methods
-        web_sys::console::log_1(&"Now Complete!".into());
-        result
+        self.derive_analytics()
     }
 
     pub fn completions(&self, line_number: u32, column: u32) -> JsValue {
@@ -529,6 +474,50 @@ impl WorldState {
         };
         let res = to_proto::location_links(nav_info, &line_index);
         serde_wasm_bindgen::to_value(&res).unwrap()
+    }
+
+    fn derive_analytics(&self) -> JsValue {
+        let analysis = self.analysis();
+        let line_index = analysis.file_line_index(self.file_id).unwrap();
+        let config = DiagnosticsConfig::default();
+        let diagnostics: Vec<_> = analysis
+            .diagnostics(&config, AssistResolveStrategy::None, self.file_id)
+            .unwrap()
+            .into_par_iter()
+            .map(|d| {
+                let Range {
+                    startLineNumber,
+                    startColumn,
+                    endLineNumber,
+                    endColumn,
+                } = to_proto::text_range(d.range, &line_index);
+                Diagnostic {
+                    message: d.message,
+                    severity: to_proto::severity(d.severity),
+                    startLineNumber,
+                    startColumn,
+                    endLineNumber,
+                    endColumn,
+                }
+            })
+            .collect();
+        let highlights: Vec<_> = analysis
+            .highlight(self.file_id)
+            .unwrap()
+            .into_par_iter()
+            .map(|hl| {
+                Highlight {
+                    tag: Some(hl.highlight.tag.to_string()),
+                    range: to_proto::text_range(hl.range, &line_index),
+                }
+            })
+            .collect();
+        web_sys::console::log_1(&"All Done!".into());
+        serde_wasm_bindgen::to_value(&UpdateResult {
+            diagnostics,
+            highlights,
+        })
+        .unwrap()
     }
 }
 
