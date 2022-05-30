@@ -340,32 +340,19 @@ impl WorldState {
     pub fn signature_help(&self, line_number: u32, column: u32) -> JsValue {
         log::warn!("signature_help");
         let line_index = self.analysis().file_line_index(self.file_id).unwrap();
-
         let pos = file_position(line_number, column, &line_index, self.file_id);
-        let call_info = match self.analysis().call_info(pos) {
-            Ok(Some(call_info)) => call_info,
+        let signature_help = match self.analysis().signature_help(pos) {
+            Ok(Some(signature_help)) => signature_help,
             _ => return JsValue::NULL,
         };
-
-        let active_parameter = call_info.active_parameter;
-        let sig_info = to_proto::signature_information(call_info);
-
+        let active_parameter = signature_help.active_parameter;
+        let sig_info = to_proto::signature_information(signature_help);
         let result = SignatureHelp {
             signatures: [sig_info],
             activeSignature: 0,
             activeParameter: active_parameter,
         };
         serde_wasm_bindgen::to_value(&result).unwrap()
-    }
-        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
-        let pos = file_position(line_number, column, &line_index, self.file_id);
-        let nav_info = match self.analysis().goto_definition(pos) {
-            Ok(Some(nav_info)) => nav_info,
-            _ => return JsValue::NULL,
-        };
-
-        let res = to_proto::location_links(nav_info, &line_index);
-        serde_wasm_bindgen::to_value(&res).unwrap()
     }
 
     pub fn type_definition(&self, line_number: u32, column: u32) -> JsValue {
@@ -532,3 +519,7 @@ fn file_position(
     let offset = line_index.offset(line_col).unwrap();
     ide::FilePosition { file_id, offset }
 }
+
+
+
+
