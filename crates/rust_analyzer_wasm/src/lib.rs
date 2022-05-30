@@ -129,7 +129,7 @@ pub fn init_panic_hook() {
 #[wasm_bindgen]
 pub struct WorldState {
     analysis: Analysis,
-    analysis_host: AnalysisHost,
+    host: AnalysisHost,
     file_id: FileId,
 }
 
@@ -138,12 +138,12 @@ impl WorldState {
     #[wasm_bindgen(constructor)]
     pub fn new() -> Self {
         let file_id = FileId(0);
-        let analysis_host = AnalysisHost::default();
-        let analysis = analysis_host.analysis();
-        let analysis_host = AnalysisHost::default();
+        let host = AnalysisHost::default();
+        let analysis = host.analysis();
+        let host = AnalysisHost::default();
         Self {
             analysis,
-            analysis_host,
+            host,
             file_id,
         }
     }
@@ -163,7 +163,7 @@ impl WorldState {
                 .root_file_id;
             self.file_id = *file_id;
         };
-        self.analysis_host.apply_change(change);
+        self.host.apply_change(change);
     }
 
     pub fn update(&mut self, code: String) {
@@ -171,12 +171,12 @@ impl WorldState {
         init_panic_hook();
         let mut change = Change::new();
         change.change_file(self.file_id, Some(Arc::new(code)));
-        let analysis_host = AnalysisHost::default();
-        self.analysis = analysis_host.analysis();
+        let host = AnalysisHost::default();
+        self.analysis = host.analysis();
         web_sys::console::log_1(&"Apply Change!".into());
         // Now its safe to apply the change!
-        self.analysis_host.apply_change(change);
-        self.analysis = self.analysis_host.analysis();
+        self.host.apply_change(change);
+        self.analysis = self.host.analysis();
         web_sys::console::log_1(&"This worked!".into());
     }
 
@@ -186,12 +186,12 @@ impl WorldState {
         web_sys::console::log_1(&"Starting Analysis!".into());
         // self.file_id = FileId(file_id);
         // this unblocks AnalysisHost
-        let analysis_host = AnalysisHost::default();
-        self.analysis = analysis_host.analysis();
+        let host = AnalysisHost::default();
+        self.analysis = host.analysis();
         // Now derive results
-        let result = derive_analytics(&self.analysis_host, self.file_id);
+        let result = derive_analytics(&self.host, self.file_id);
         // re-assign analysis for the other methods
-        self.analysis = self.analysis_host.analysis();
+        self.analysis = self.host.analysis();
         web_sys::console::log_1(&"Now Complete!".into());
         result
     }
