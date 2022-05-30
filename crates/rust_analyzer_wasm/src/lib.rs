@@ -128,9 +128,14 @@ pub fn init_panic_hook() {
 
 #[wasm_bindgen]
 pub struct WorldState {
-    analysis: Analysis,
     host: AnalysisHost,
     file_id: FileId,
+}
+
+impl WorldState {
+    fn analysis(&self) -> Analysis {
+        self.host.analysis()
+    }
 }
 
 #[wasm_bindgen]
@@ -139,10 +144,7 @@ impl WorldState {
     pub fn new() -> Self {
         let file_id = FileId(0);
         let host = AnalysisHost::default();
-        let analysis = host.analysis();
-        let host = AnalysisHost::default();
         Self {
-            analysis,
             host,
             file_id,
         }
@@ -171,12 +173,9 @@ impl WorldState {
         init_panic_hook();
         let mut change = Change::new();
         change.change_file(self.file_id, Some(Arc::new(code)));
-        let host = AnalysisHost::default();
-        self.analysis = host.analysis();
         web_sys::console::log_1(&"Apply Change!".into());
         // Now its safe to apply the change!
         self.host.apply_change(change);
-        self.analysis = self.host.analysis();
         web_sys::console::log_1(&"This worked!".into());
     }
 
@@ -184,14 +183,9 @@ impl WorldState {
         log::warn!("analyze");
         init_panic_hook();
         web_sys::console::log_1(&"Starting Analysis!".into());
-        // self.file_id = FileId(file_id);
-        // this unblocks AnalysisHost
-        let host = AnalysisHost::default();
-        self.analysis = host.analysis();
         // Now derive results
         let result = derive_analytics(&self.host, self.file_id);
         // re-assign analysis for the other methods
-        self.analysis = self.host.analysis();
         web_sys::console::log_1(&"Now Complete!".into());
         result
     }
@@ -216,10 +210,10 @@ impl WorldState {
         };
 
         log::warn!("completions");
-        let line_index = self.analysis.file_line_index(self.file_id).unwrap();
+        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
 
         let pos = file_position(line_number, column, &line_index, self.file_id);
-        let res = match self.analysis.completions(&COMPLETION_CONFIG, pos).unwrap() {
+        let res = match self.analysis().completions(&COMPLETION_CONFIG, pos).unwrap() {
             Some(items) => items,
             None => return JsValue::NULL,
         };
@@ -233,7 +227,7 @@ impl WorldState {
 
     pub fn hover(&self, line_number: u32, column: u32) -> JsValue {
         log::warn!("hover");
-        let line_index = self.analysis.file_line_index(self.file_id).unwrap();
+        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
 
         let FilePosition { file_id, offset } =
             file_position(line_number, column, &line_index, self.file_id);
@@ -242,7 +236,7 @@ impl WorldState {
             range: TextRange::new(TextSize::from(offset), TextSize::from(offset)),
         };
         let info = match self
-            .analysis
+            .analysis()
             .hover(
                 &HoverConfig {
                     links_in_hover: true,
@@ -267,10 +261,10 @@ impl WorldState {
 
     pub fn code_lenses(&self) -> JsValue {
         log::warn!("code_lenses");
-        let line_index = self.analysis.file_line_index(self.file_id).unwrap();
+        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
 
         let results: Vec<_> = self
-            .analysis
+            .analysis()
             .file_structure(self.file_id)
             .unwrap()
             .into_iter()
@@ -292,7 +286,7 @@ impl WorldState {
                     file_id: self.file_id,
                     offset: it.node_range.start(),
                 };
-                let nav_info = self.analysis.goto_implementation(position).unwrap()?;
+                let nav_info = self.analysis().goto_implementation(position).unwrap()?;
 
                 let title = if nav_info.info.len() == 1 {
                     "1 implementation".into()
@@ -328,10 +322,10 @@ impl WorldState {
         include_declaration: bool,
     ) -> JsValue {
         log::warn!("references");
-        let line_index = self.analysis.file_line_index(self.file_id).unwrap();
+        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
 
         let pos = file_position(line_number, column, &line_index, self.file_id);
-        let info = match self.analysis.find_all_refs(pos, None).unwrap() {
+        let info = match self.analysis().find_all_refs(pos, None).unwrap() {
             Some(info) => info,
             _ => return JsValue::NULL,
         };
@@ -361,10 +355,10 @@ impl WorldState {
 
     pub fn prepare_rename(&self, line_number: u32, column: u32) -> JsValue {
         log::warn!("prepare_rename");
-        let line_index = self.analysis.file_line_index(self.file_id).unwrap();
+        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
 
         let pos = file_position(line_number, column, &line_index, self.file_id);
-        let refs = match self.analysis.find_all_refs(pos, None).unwrap() {
+        let refs = match self.analysis().find_all_refs(pos, None).unwrap() {
             None => return JsValue::NULL,
             Some(refs) => refs,
         };
@@ -378,10 +372,10 @@ impl WorldState {
 
     pub fn rename(&self, line_number: u32, column: u32, new_name: &str) -> JsValue {
         log::warn!("rename");
-        let line_index = self.analysis.file_line_index(self.file_id).unwrap();
+        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
 
         let pos = file_position(line_number, column, &line_index, self.file_id);
-        let change = match self.analysis.rename(pos, new_name).unwrap() {
+        let change = match self.analysis().rename(pos, new_name).unwrap() {
             Ok(change) => change,
             Err(_) => return JsValue::NULL,
         };
@@ -398,10 +392,10 @@ impl WorldState {
 
     pub fn signature_help(&self, line_number: u32, column: u32) -> JsValue {
         log::warn!("signature_help");
-        let line_index = self.analysis.file_line_index(self.file_id).unwrap();
+        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
 
         let pos = file_position(line_number, column, &line_index, self.file_id);
-        let call_info = match self.analysis.call_info(pos) {
+        let call_info = match self.analysis().call_info(pos) {
             Ok(Some(call_info)) => call_info,
             _ => return JsValue::NULL,
         };
@@ -419,10 +413,10 @@ impl WorldState {
 
     pub fn definition(&self, line_number: u32, column: u32) -> JsValue {
         log::warn!("definition");
-        let line_index = self.analysis.file_line_index(self.file_id).unwrap();
+        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
 
         let pos = file_position(line_number, column, &line_index, self.file_id);
-        let nav_info = match self.analysis.goto_definition(pos) {
+        let nav_info = match self.analysis().goto_definition(pos) {
             Ok(Some(nav_info)) => nav_info,
             _ => return JsValue::NULL,
         };
@@ -433,10 +427,10 @@ impl WorldState {
 
     pub fn type_definition(&self, line_number: u32, column: u32) -> JsValue {
         log::warn!("type_definition");
-        let line_index = self.analysis.file_line_index(self.file_id).unwrap();
+        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
 
         let pos = file_position(line_number, column, &line_index, self.file_id);
-        let nav_info = match self.analysis.goto_type_definition(pos) {
+        let nav_info = match self.analysis().goto_type_definition(pos) {
             Ok(Some(nav_info)) => nav_info,
             _ => return JsValue::NULL,
         };
@@ -447,9 +441,9 @@ impl WorldState {
 
     pub fn document_symbols(&self) -> JsValue {
         log::warn!("document_symbols");
-        let line_index = self.analysis.file_line_index(self.file_id).unwrap();
+        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
 
-        let struct_nodes = match self.analysis.file_structure(self.file_id) {
+        let struct_nodes = match self.analysis().file_structure(self.file_id) {
             Ok(struct_nodes) => struct_nodes,
             _ => return JsValue::NULL,
         };
@@ -494,12 +488,12 @@ impl WorldState {
 
     pub fn type_formatting(&self, line_number: u32, column: u32, ch: char) -> JsValue {
         log::warn!("type_formatting");
-        let line_index = self.analysis.file_line_index(self.file_id).unwrap();
+        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
 
         let mut pos = file_position(line_number, column, &line_index, self.file_id);
         pos.offset -= TextSize::of('.');
 
-        let edit = self.analysis.on_char_typed(pos, ch);
+        let edit = self.analysis().on_char_typed(pos, ch);
 
         let (_file, edit) = match edit {
             Ok(Some(it)) => it.source_file_edits.into_iter().next().unwrap(),
@@ -512,8 +506,8 @@ impl WorldState {
 
     pub fn folding_ranges(&self) -> JsValue {
         log::warn!("folding_ranges");
-        let line_index = self.analysis.file_line_index(self.file_id).unwrap();
-        if let Ok(folds) = self.analysis.folding_ranges(self.file_id) {
+        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
+        if let Ok(folds) = self.analysis().folding_ranges(self.file_id) {
             let res: Vec<_> = folds
                 .into_par_iter()
                 .map(|fold| to_proto::folding_range(fold, &line_index))
@@ -526,10 +520,10 @@ impl WorldState {
 
     pub fn goto_implementation(&self, line_number: u32, column: u32) -> JsValue {
         log::warn!("goto_implementation");
-        let line_index = self.analysis.file_line_index(self.file_id).unwrap();
+        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
 
         let pos = file_position(line_number, column, &line_index, self.file_id);
-        let nav_info = match self.analysis.goto_implementation(pos) {
+        let nav_info = match self.analysis().goto_implementation(pos) {
             Ok(Some(it)) => it,
             _ => return JsValue::NULL,
         };
