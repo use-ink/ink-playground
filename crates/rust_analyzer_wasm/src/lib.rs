@@ -100,10 +100,7 @@ impl WorldState {
     pub fn new() -> Self {
         let file_id = FileId(0);
         let host = AnalysisHost::default();
-        Self {
-            host,
-            file_id,
-        }
+        Self { host, file_id }
     }
 
     pub fn load(&mut self, json: String) {
@@ -158,7 +155,11 @@ impl WorldState {
         let line_index = self.analysis().file_line_index(self.file_id).unwrap();
 
         let pos = file_position(line_number, column, &line_index, self.file_id);
-        let res = match self.analysis().completions(&COMPLETION_CONFIG, pos).unwrap() {
+        let res = match self
+            .analysis()
+            .completions(&COMPLETION_CONFIG, pos)
+            .unwrap()
+        {
             Some(items) => items,
             None => return JsValue::NULL,
         };
