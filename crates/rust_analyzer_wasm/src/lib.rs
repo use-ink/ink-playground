@@ -355,6 +355,20 @@ impl WorldState {
         serde_wasm_bindgen::to_value(&result).unwrap()
     }
 
+    pub fn definition(&self, line_number: u32, column: u32) -> JsValue {
+        log::warn!("definition");
+        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
+
+        let pos = file_position(line_number, column, &line_index, self.file_id);
+        let nav_info = match self.analysis().goto_definition(pos) {
+            Ok(Some(nav_info)) => nav_info,
+            _ => return JsValue::NULL,
+        };
+
+        let res = to_proto::location_links(nav_info, &line_index);
+        serde_wasm_bindgen::to_value(&res).unwrap()
+    }
+
     pub fn type_definition(&self, line_number: u32, column: u32) -> JsValue {
         log::warn!("type_definition");
         let line_index = self.analysis().file_line_index(self.file_id).unwrap();
