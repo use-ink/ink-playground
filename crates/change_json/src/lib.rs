@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.#![feature(derive_default_enum)]
 
-#![feature(derive_default_enum)]
-
 mod change_json;
 mod crate_graph_json;
 
