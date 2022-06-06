@@ -69,14 +69,19 @@ struct DepJson {
     to: u32,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, Default, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum CrateOriginJson {
     CratesIo {
         repo: Option<String>,
     },
     Lang,
-    #[default]
     Unknown,
+}
+
+impl Default for CrateOriginJson {
+    fn default() -> Self {
+        CrateOriginJson::Unknown
+    }
 }
 
 impl From<&CrateGraph> for CrateGraphJson {
