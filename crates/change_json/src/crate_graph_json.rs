@@ -71,9 +71,7 @@ struct DepJson {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum CrateOriginJson {
-    CratesIo {
-        repo: Option<String>,
-    },
+    CratesIo { repo: Option<String> },
     Lang,
     Unknown,
 }
