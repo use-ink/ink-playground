@@ -11,7 +11,7 @@ serde = "1.0.130"
 tempdir = "0.3.7"
 snafu = "0.6.10"
 log = "0.4.14"
-tokio = { version = "1.13.0", features = [
+tokio = { version = "1.19.1", features = [
     "macros",
     "time",
     "process",
