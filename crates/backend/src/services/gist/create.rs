@@ -51,12 +51,12 @@ use ts_rs::TS;
 // TYPES
 // -------------------------------------------------------------------------------------------------
 
-#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone, Eq)]
 pub struct GistCreateRequest {
     pub code: String,
 }
 
-#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone, Eq)]
 #[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum GistCreateResponse {
     Success(Gist),

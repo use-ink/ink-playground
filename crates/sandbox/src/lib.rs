@@ -122,7 +122,7 @@ pub struct CompilationRequest {
     pub source: String,
 }
 
-#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone, Eq)]
 #[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum CompilationResult {
     Success {
@@ -141,7 +141,7 @@ pub struct TestingRequest {
     pub source: String,
 }
 
-#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone, Eq)]
 #[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum TestingResult {
     Success { stdout: String, stderr: String },

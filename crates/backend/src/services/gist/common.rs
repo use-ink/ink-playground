@@ -24,7 +24,7 @@ use serde::{
 };
 use ts_rs::TS;
 
-#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone)]
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone, Eq)]
 pub struct Gist {
     pub id: String,
     pub url: String,
