@@ -71,9 +71,12 @@ struct DepJson {
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default, PartialEq, Eq)]
 pub enum CrateOriginJson {
-    CratesIo { repo: Option<String> },
+    CratesIo {
+        repo: Option<String>,
+    },
     Lang,
-    #[default] Unknown,
+    #[default]
+    Unknown,
 }
 
 impl From<&CrateGraph> for CrateGraphJson {
@@ -168,7 +171,7 @@ impl From<&CrateData> for CrateDataJson {
             potential_cfg_options,
             env,
             proc_macro,
-            origin
+            origin,
         }
     }
 }
@@ -234,8 +237,8 @@ impl From<&CrateOrigin> for CrateOriginJson {
             CrateOrigin::Unknown => CrateOriginJson::Unknown,
             CrateOrigin::CratesIo { repo: value } => {
                 let value: Option<String> = value.as_ref().map(|str| str.to_string());
-                CrateOriginJson::CratesIo { repo: value}
-            },
+                CrateOriginJson::CratesIo { repo: value }
+            }
         }
     }
 }
@@ -247,8 +250,8 @@ impl From<&CrateOriginJson> for CrateOrigin {
             CrateOriginJson::Unknown => CrateOrigin::Unknown,
             CrateOriginJson::CratesIo { repo: value } => {
                 let value: Option<String> = value.as_ref().map(|str| str.to_string());
-                CrateOrigin::CratesIo { repo: value}
-            },
+                CrateOrigin::CratesIo { repo: value }
+            }
         }
     }
 }
