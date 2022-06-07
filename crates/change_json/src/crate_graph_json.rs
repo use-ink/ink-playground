@@ -34,38 +34,53 @@ use std::ops::Index;
 use tt::SmolStr;
 
 /// Provides a (de-)serializable version of Rust Analyzers `CrateGraph`,  which is a Rust Analyzer (Cargo independent) specific formulation of the dependency graph.
-#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq, Eq)]
 pub struct CrateGraphJson {
     crates: Vec<(u32, CrateDataJson)>,
     deps: Vec<DepJson>,
 }
 
-#[derive(Serialize, Deserialize, Clone, Default, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Default, Debug, PartialEq, Eq)]
 struct CrateDataJson {
     root_file_id: u32,
     edition: String,
     display_name: Option<String>,
+    version: Option<String>,
     cfg_options: CfgOptionsJson,
     potential_cfg_options: CfgOptionsJson,
     env: EnvJson,
     proc_macro: Vec<String>,
+    origin: CrateOriginJson,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq, Eq)]
 struct CfgOptionsJson {
     options: Vec<(String, Vec<String>)>,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq, Eq)]
 struct EnvJson {
     env: Vec<(String, String)>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Default, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Default, Clone, PartialEq, Eq)]
 struct DepJson {
     from: u32,
     name: String,
     to: u32,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub enum CrateOriginJson {
+    CratesIo { repo: Option<String> },
+    Lang,
+    Unknown,
+}
+
+impl Default for CrateOriginJson {
+    fn default() -> Self {
+        CrateOriginJson::Unknown
+    }
 }
 
 impl From<&CrateGraph> for CrateGraphJson {
@@ -110,17 +125,18 @@ impl From<&CrateGraphJson> for CrateGraph {
             let cfg_options = CfgOptions::from(&data.cfg_options);
             let potential_cfg_options = CfgOptions::from(&data.potential_cfg_options);
             let env = Env::from(&data.env);
+            let origin = CrateOrigin::from(&data.origin);
             crate_graph.add_crate_root(
                 file_id,
                 edition,
                 display_name,
-                None,
+                data.version.as_ref().map(|val| val.to_owned()),
                 cfg_options,
                 potential_cfg_options,
                 env,
                 Vec::new(),
                 false,
-                CrateOrigin::Lang(LangCrateOrigin::Core),
+                origin,
             );
         }
         for dep in &crate_graph_json.deps {
@@ -150,14 +166,17 @@ impl From<&CrateData> for CrateDataJson {
             CfgOptionsJson::from(&crate_data.potential_cfg_options);
         let env = EnvJson::from(&crate_data.env);
         let proc_macro = Vec::new();
+        let origin = CrateOriginJson::from(&crate_data.origin);
         CrateDataJson {
             root_file_id,
             edition,
             display_name,
+            version: crate_data.version.as_ref().map(|val| val.to_string()),
             cfg_options,
             potential_cfg_options,
             env,
             proc_macro,
+            origin,
         }
     }
 }
@@ -213,6 +232,32 @@ impl From<&EnvJson> for Env {
             env.set(key, value.to_string())
         }
         env
+    }
+}
+
+impl From<&CrateOrigin> for CrateOriginJson {
+    fn from(crate_origin: &CrateOrigin) -> Self {
+        match crate_origin {
+            CrateOrigin::Lang => CrateOriginJson::Lang,
+            CrateOrigin::Unknown => CrateOriginJson::Unknown,
+            CrateOrigin::CratesIo { repo: value } => {
+                let value: Option<String> = value.as_ref().map(|str| str.to_string());
+                CrateOriginJson::CratesIo { repo: value }
+            }
+        }
+    }
+}
+
+impl From<&CrateOriginJson> for CrateOrigin {
+    fn from(crate_origin: &CrateOriginJson) -> Self {
+        match crate_origin {
+            CrateOriginJson::Lang => CrateOrigin::Lang,
+            CrateOriginJson::Unknown => CrateOrigin::Unknown,
+            CrateOriginJson::CratesIo { repo: value } => {
+                let value: Option<String> = value.as_ref().map(|str| str.to_string());
+                CrateOrigin::CratesIo { repo: value }
+            }
+        }
     }
 }
 
