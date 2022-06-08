@@ -23,6 +23,7 @@ use base_db::{
     Edition,
     Env,
     FileId,
+    LangCrateOrigin,
 };
 use cfg::CfgOptions;
 use serde::{
@@ -72,14 +73,23 @@ struct DepJson {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum CrateOriginJson {
     CratesIo { repo: Option<String> },
-    Lang,
-    Unknown,
+    Lang(LangCrateOriginJson),
 }
 
 impl Default for CrateOriginJson {
     fn default() -> Self {
-        CrateOriginJson::Unknown
+        CrateOriginJson::CratesIo { repo: None }
     }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub enum LangCrateOriginJson {
+    Alloc,
+    Core,
+    ProcMacro,
+    Std,
+    Test,
+    Other,
 }
 
 impl From<&CrateGraph> for CrateGraphJson {
@@ -134,6 +144,7 @@ impl From<&CrateGraphJson> for CrateGraph {
                 potential_cfg_options,
                 env,
                 Vec::new(),
+                false,
                 origin,
             );
         }
@@ -236,8 +247,9 @@ impl From<&EnvJson> for Env {
 impl From<&CrateOrigin> for CrateOriginJson {
     fn from(crate_origin: &CrateOrigin) -> Self {
         match crate_origin {
-            CrateOrigin::Lang => CrateOriginJson::Lang,
-            CrateOrigin::Unknown => CrateOriginJson::Unknown,
+            CrateOrigin::Lang(lang) => {
+                CrateOriginJson::Lang(LangCrateOriginJson::from(lang))
+            }
             CrateOrigin::CratesIo { repo: value } => {
                 let value: Option<String> = value.as_ref().map(|str| str.to_string());
                 CrateOriginJson::CratesIo { repo: value }
@@ -249,12 +261,37 @@ impl From<&CrateOrigin> for CrateOriginJson {
 impl From<&CrateOriginJson> for CrateOrigin {
     fn from(crate_origin: &CrateOriginJson) -> Self {
         match crate_origin {
-            CrateOriginJson::Lang => CrateOrigin::Lang,
-            CrateOriginJson::Unknown => CrateOrigin::Unknown,
+            CrateOriginJson::Lang(lang) => CrateOrigin::Lang(LangCrateOrigin::from(lang)),
             CrateOriginJson::CratesIo { repo: value } => {
                 let value: Option<String> = value.as_ref().map(|str| str.to_string());
                 CrateOrigin::CratesIo { repo: value }
             }
+        }
+    }
+}
+
+impl From<&LangCrateOrigin> for LangCrateOriginJson {
+    fn from(lang_crate_origin: &LangCrateOrigin) -> Self {
+        match lang_crate_origin {
+            LangCrateOrigin::Alloc => LangCrateOriginJson::Alloc,
+            LangCrateOrigin::Core => LangCrateOriginJson::Core,
+            LangCrateOrigin::Other => LangCrateOriginJson::Other,
+            LangCrateOrigin::ProcMacro => LangCrateOriginJson::ProcMacro,
+            LangCrateOrigin::Std => LangCrateOriginJson::Std,
+            LangCrateOrigin::Test => LangCrateOriginJson::Test,
+        }
+    }
+}
+
+impl From<&LangCrateOriginJson> for LangCrateOrigin {
+    fn from(lang_crate_origin: &LangCrateOriginJson) -> Self {
+        match lang_crate_origin {
+            LangCrateOriginJson::Alloc => LangCrateOrigin::Alloc,
+            LangCrateOriginJson::Core => LangCrateOrigin::Core,
+            LangCrateOriginJson::Other => LangCrateOrigin::Other,
+            LangCrateOriginJson::ProcMacro => LangCrateOrigin::ProcMacro,
+            LangCrateOriginJson::Std => LangCrateOrigin::Std,
+            LangCrateOriginJson::Test => LangCrateOrigin::Test,
         }
     }
 }
@@ -276,7 +313,8 @@ mod tests {
             CfgOptions::default(),
             Env::default(),
             Default::default(),
-            CrateOrigin::Lang,
+            false,
+            CrateOrigin::Lang(LangCrateOrigin::Core),
         );
         let crate2 = graph.add_crate_root(
             FileId(2u32),
@@ -287,7 +325,8 @@ mod tests {
             CfgOptions::default(),
             Env::default(),
             Default::default(),
-            CrateOrigin::Lang,
+            false,
+            CrateOrigin::Lang(LangCrateOrigin::Core),
         );
         let crate3 = graph.add_crate_root(
             FileId(3u32),
@@ -298,7 +337,8 @@ mod tests {
             CfgOptions::default(),
             Env::default(),
             Default::default(),
-            CrateOrigin::Lang,
+            false,
+            CrateOrigin::Lang(LangCrateOrigin::Core),
         );
         graph
             .add_dep(

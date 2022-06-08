@@ -32,14 +32,6 @@ use ide::{
     Indel,
     TextSize,
 };
-use ide_db::helpers::{
-    insert_use::{
-        ImportGranularity,
-        InsertUseConfig,
-        PrefixKind,
-    },
-    SnippetCap,
-};
 pub use ide_db::{
     assists::AssistResolveStrategy,
     base_db::{
@@ -52,6 +44,14 @@ pub use ide_db::{
         SourceRoot,
         VfsPath,
     },
+};
+use ide_db::{
+    imports::insert_use::{
+        ImportGranularity,
+        InsertUseConfig,
+        PrefixKind,
+    },
+    SnippetCap,
 };
 use std::sync::Arc;
 use syntax::TextRange;
@@ -137,6 +137,7 @@ impl WorldState {
             enable_postfix_completions: true,
             enable_imports_on_the_fly: true,
             enable_self_on_the_fly: true,
+            enable_private_editable: true,
             add_call_parenthesis: true,
             add_call_argument_snippets: true,
             snippet_cap: SnippetCap::new(true),
@@ -339,16 +340,13 @@ impl WorldState {
     pub fn signature_help(&self, line_number: u32, column: u32) -> JsValue {
         log::warn!("signature_help");
         let line_index = self.analysis().file_line_index(self.file_id).unwrap();
-
         let pos = file_position(line_number, column, &line_index, self.file_id);
-        let call_info = match self.analysis().call_info(pos) {
-            Ok(Some(call_info)) => call_info,
+        let signature_help = match self.analysis().signature_help(pos) {
+            Ok(Some(signature_help)) => signature_help,
             _ => return JsValue::NULL,
         };
-
-        let active_parameter = call_info.active_parameter;
-        let sig_info = to_proto::signature_information(call_info);
-
+        let active_parameter = signature_help.active_parameter;
+        let sig_info = to_proto::signature_information(signature_help);
         let result = SignatureHelp {
             signatures: [sig_info],
             activeSignature: 0,
@@ -532,6 +530,6 @@ fn file_position(
         line: line_number - 1,
         col: column - 1,
     };
-    let offset = line_index.offset(line_col);
+    let offset = line_index.offset(line_col).unwrap();
     ide::FilePosition { file_id, offset }
 }
