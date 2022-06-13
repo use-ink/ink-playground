@@ -22,6 +22,6 @@
     "mini-css-extract-plugin": "^2.6.0",
     "monaco-editor-webpack-plugin": "^7.0.1",
     "ts-loader": "^9.3.0",
-    "webpack": "^5.73.0"
+    "webpack": "^5.72.1"
   }
 }
