@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "primeicons": "^5.0.0",
-    "primereact": "^8.1.0",
+    "primereact": "^8.1.1",
     "react-transition-group": "^4.4.2"
   },
   "devDependencies": {
@@ -22,6 +22,6 @@
     "jest": "^27.5.1",
     "jest-environment-jsdom": "^27.5.1",
     "rimraf": "^3.0.2",
-    "ts-jest": "^27.1.4"
+    "ts-jest": "^27.1.5"
   }
 }
