@@ -44,6 +44,7 @@ pub use ide_db::{
         SourceRoot,
         VfsPath,
     },
+    search::SearchScope,
 };
 use ide_db::{
     imports::insert_use::{
@@ -270,13 +271,12 @@ impl WorldState {
     ) -> JsValue {
         log::warn!("references");
         let line_index = self.analysis().file_line_index(self.file_id).unwrap();
-
         let pos = file_position(line_number, column, &line_index, self.file_id);
-        let info = match self.analysis().find_all_refs(pos, None).unwrap() {
+        let search_scope = Some(SearchScope::single_file(self.file_id));
+        let info = match self.analysis().find_all_refs(pos, search_scope).unwrap() {
             Some(info) => info,
             _ => return JsValue::NULL,
         };
-
         let mut res = vec![];
         for result in info {
             if include_declaration {
