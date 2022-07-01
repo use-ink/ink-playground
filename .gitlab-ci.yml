@@ -39,6 +39,3 @@ check-spelling:
   script:
     - make ts-install
     - make ts-check-spelling
-
-
-
