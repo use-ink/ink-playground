@@ -1,0 +1,44 @@
+default:
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - unknown_failure
+      - api_failure
+
+stages:
+  - lint
+  - test
+  - publish
+
+variables:
+  CI_IMAGE:               "node:16.15"
+
+.kubernetes-env:          &kubernetes-env
+  image:                  $CI_IMAGE
+  tags:
+    - kubernetes-parity-build
+
+lint:
+  stage:                  lint
+  <<:                     *kubernetes-env
+  script:
+    - make ts-install
+    - make ts-lint
+
+check-format:
+  stage:                  lint
+  <<:                     *kubernetes-env
+  script:
+    - make ts-install
+    - make ts-check-format
+
+check-spelling:
+  stage:                  lint
+  <<:                     *kubernetes-env
+  script:
+    - make ts-install
+    - make ts-check-spelling
+
+
+
