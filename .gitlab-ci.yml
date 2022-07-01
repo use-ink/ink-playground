@@ -11,13 +11,29 @@ stages:
   - test
   - publish
 
-variables:
-  CI_IMAGE:               "node:16.15"
+.rust-info-script:                 &rust-info-script
+  - rustup show
+  - cargo --version
+  - rustup +nightly show
+  - cargo +nightly --version
+  - cargo spellcheck --version
+  - bash --version
+  - sccache -s
 
 .kubernetes-env:          &kubernetes-env
-  image:                  $CI_IMAGE
+  image:                  "node:16.15"
   tags:
     - kubernetes-parity-build
+
+.docker-env:                       &docker-env
+  image:                           "paritytech/ci-linux:production"
+  before_script:
+    - *rust-info-script
+    - ./scripts/ci/pre_cache.sh
+    - sccache -s
+  interruptible:                   true
+  tags:
+    - linux-docker
 
 lint:
   stage:                  lint
@@ -39,3 +55,11 @@ check-spelling:
   script:
     - make ts-install
     - make ts-check-spelling
+
+# Test
+test-rust-analyzer-wasm:
+  stage:                  test
+  <<:                     *docker-env
+  script:
+    - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+    - wasm-pack test --headless --chrome crates/rust_analyzer_wasm
