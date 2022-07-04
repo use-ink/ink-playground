@@ -58,7 +58,7 @@ rust-check-format:
   stage:                  lint
   <<:                     *docker-env
   script:
-    - cargo +nightly fmt --all -- check
+    - cargo +nightly fmt --all -- --check
 
 rust-lint:
   stage: lint
