@@ -80,8 +80,6 @@ test-rust:
   <<:                     *docker-env
   script:
     - cargo build --verbose
-    - docker pull docker.io/achimcc/ink-backend:latest
-    - docker tag docker.io/achimcc/ink-backend:latest ink-backend
     - cargo test --workspace --exclude rust_analyzer_wasm --verbose
   tags:
     - linux-docker
