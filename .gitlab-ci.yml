@@ -77,7 +77,8 @@ rust-lint:
 
 test-rust:
   stage:                  test
-  <<:                     *docker-env
+  # <<:                     *docker-env
+  image:                  docker.io/achimcc/ink-backend:latest
   script:
     - cargo build --verbose
     - cargo test --workspace --exclude rust_analyzer_wasm --verbose
