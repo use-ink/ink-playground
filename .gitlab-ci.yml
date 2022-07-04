@@ -33,26 +33,38 @@ stages:
   tags:
     - linux-docker
 
-lint:
+ts-lint:
   stage:                  lint
   <<:                     *kubernetes-env
   script:
     - make ts-install
     - make ts-lint
 
-check-format:
+ts-check-format:
   stage:                  lint
   <<:                     *kubernetes-env
   script:
     - make ts-install
     - make ts-check-format
 
-check-spelling:
+ts-check-spelling:
   stage:                  lint
   <<:                     *kubernetes-env
   script:
     - make ts-install
     - make ts-check-spelling
+
+rust-check-format:
+  stage:                  lint
+  <<:                     *docker-env
+  script:
+    - cargo +nightly fmt --all -- check
+
+rust-lint:
+  stage: lint
+  <<:                     *docker-env
+  script:
+    - cargo +stable clippy --workspace --exclude rust_analyzer_wasm --exclude contract --all-targets --all-features -- -D warnings
 
 # Test
 test-rust-analyzer-wasm:
@@ -62,3 +74,10 @@ test-rust-analyzer-wasm:
     - rustup toolchain install nightly-2022-05-24-x86_64-unknown-linux-gnu
     - rustup component add rust-src --toolchain nightly-2022-05-24-x86_64-unknown-linux-gnu
     - wasm-pack test --headless --chrome crates/rust_analyzer_wasm
+
+test-rust:
+  stage:                  test
+  script:
+    - ls -a
+  tags:
+    - linux-docker
