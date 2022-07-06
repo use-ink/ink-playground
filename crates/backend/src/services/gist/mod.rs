@@ -60,7 +60,7 @@ mod tests {
 
         let github_token2 = github_token.clone();
 
-        let mut app = test::init_service(
+        let app = test::init_service(
             App::new()
                 .route(
                     "gist/create",
