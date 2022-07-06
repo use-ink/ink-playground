@@ -19,9 +19,10 @@
 //! strategy. This allows easy mocking.
 
 use actix_web::{
+    body::BoxBody,
     web::Json,
     HttpResponse,
-    Responder, body::BoxBody,
+    Responder,
 };
 
 pub use sandbox::{
@@ -101,7 +102,6 @@ pub async fn route_test(
 }
 
 pub async fn route_status() -> HttpResponse<BoxBody> {
-    
     HttpResponse::Ok().body("ink-backend is live")
 }
 
