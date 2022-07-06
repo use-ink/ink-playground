@@ -24,10 +24,11 @@ use crate::services::gist::common::{
     GIST_FILENAME,
 };
 use actix_web::{
+    body::BoxBody,
     web::Json,
     HttpRequest,
     HttpResponse,
-    Responder, body::BoxBody,
+    Responder,
 };
 use hubcaps::{
     self,
