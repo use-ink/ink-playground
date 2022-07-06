@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#![feature(async_closure)]
 mod cli;
 mod services;
 
@@ -47,7 +48,7 @@ use actix_web::{
     HttpResponse,
     HttpServer,
 };
-use actix_web_prom::PrometheusMetrics;
+use actix_web_prom::PrometheusMetricsBuilder;
 
 use clap::Clap;
 use std::{
@@ -68,13 +69,17 @@ async fn main() -> std::io::Result<()> {
         }
     }
 
-    fn health() -> HttpResponse {
+    async fn health() -> HttpResponse {
         HttpResponse::Ok().finish()
     }
 
     let mut labels = HashMap::new();
     labels.insert("label1".to_string(), "value1".to_string());
-    let prometheus = PrometheusMetrics::new("api", Some("/metrics"), Some(labels));
+    let prometheus = PrometheusMetricsBuilder::new("api")
+        .endpoint("/metrics")
+        .const_labels(labels)
+        .build()
+        .unwrap();
 
     HttpServer::new(move || {
         let opts: Opts = opts.clone();
@@ -87,8 +92,8 @@ async fn main() -> std::io::Result<()> {
             .wrap(Condition::new(opts.dev_mode, Cors::permissive()))
             .wrap(
                 DefaultHeaders::new()
-                    .header("Cross-Origin-Opener-Policy", "same-origin")
-                    .header("Cross-Origin-Embedder-Policy", "require-corp"),
+                    .add(("Cross-Origin-Opener-Policy", "same-origin"))
+                    .add(("Cross-Origin-Embedder-Policy", "require-corp")),
             )
             .route(
                 "/compile",
@@ -100,7 +105,7 @@ async fn main() -> std::io::Result<()> {
             )
             .route(
                 "/status",
-                get().to(|| HttpResponse::Ok().body("ink-backend is live")),
+                get().to(async || HttpResponse::Ok().body("ink-backend is live")),
             );
 
         match opts.github_token {
