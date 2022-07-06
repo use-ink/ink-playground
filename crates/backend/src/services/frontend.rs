@@ -45,11 +45,11 @@ mod tests {
         let mut app =
             test::init_service(App::new().service(route_frontend("/", temp_dir))).await;
 
-        let req = test::TestRequest::with_header("content-type", "text/plain")
-            .uri("/")
+        let req = test::TestRequest::with_uri("/")
+            .insert_header(("content-type", "text/plain"))
             .to_request();
 
-        let content = test::read_response(&mut app, req).await;
+        let content = test::call_and_read_body(&mut app, req).await;
 
         assert_eq!(content, "Hello, world!".to_string());
     }
@@ -65,11 +65,11 @@ mod tests {
         let mut app =
             test::init_service(App::new().service(route_frontend("/", temp_dir))).await;
 
-        let req = test::TestRequest::with_header("content-type", "text/plain")
-            .uri("/foo.txt")
+        let req = test::TestRequest::with_uri("/foo.txt")
+            .insert_header(("content-type", "text/plain"))
             .to_request();
 
-        let content = test::read_response(&mut app, req).await;
+        let content = test::call_and_read_body(&mut app, req).await;
 
         assert_eq!(content, "Hello, world!".to_string());
     }
@@ -85,7 +85,8 @@ mod tests {
         let mut app =
             test::init_service(App::new().service(route_frontend("/", temp_dir))).await;
 
-        let req = test::TestRequest::with_header("content-type", "text/plain")
+        let req = test::TestRequest::with_uri("/foobar.txt")
+            .insert_header(("content-type", "text/plain"))
             .uri("/foobar.txt")
             .to_request();
 
