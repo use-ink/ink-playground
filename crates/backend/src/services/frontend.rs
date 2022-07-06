@@ -42,7 +42,7 @@ mod tests {
         let mut test_file = File::create(format!("{}/index.html", temp_dir)).unwrap();
         test_file.write_all(b"Hello, world!").unwrap();
 
-        let mut app =
+        let app =
             test::init_service(App::new().service(route_frontend("/", temp_dir))).await;
 
         let req = test::TestRequest::with_uri("/")
@@ -62,7 +62,7 @@ mod tests {
         let mut test_file = File::create(format!("{}/foo.txt", temp_dir)).unwrap();
         test_file.write_all(b"Hello, world!").unwrap();
 
-        let mut app =
+        let app =
             test::init_service(App::new().service(route_frontend("/", temp_dir))).await;
 
         let req = test::TestRequest::with_uri("/foo.txt")
@@ -82,7 +82,7 @@ mod tests {
         let mut test_file = File::create(format!("{}/foo.txt", temp_dir)).unwrap();
         test_file.write_all(b"Hello, world!").unwrap();
 
-        let mut app =
+        let app =
             test::init_service(App::new().service(route_frontend("/", temp_dir))).await;
 
         let req = test::TestRequest::with_uri("/foobar.txt")
