@@ -167,7 +167,7 @@ mod tests {
             .uri("/")
             .to_request();
 
-        let res: CompilationResult = test::call_and_read_body_json(&mut app, req).await;
+        let res: CompilationResult = test::call_and_read_body_json(&app, req).await;
 
         assert_eq!(
             res,
@@ -198,7 +198,7 @@ mod tests {
             .uri("/")
             .to_request();
 
-        let res: TestingResult = test::call_and_read_body_json(&mut app, req).await;
+        let res: TestingResult = test::call_and_read_body_json(&app, req).await;
 
         assert_eq!(
             res,
@@ -227,7 +227,7 @@ mod tests {
             .uri("/")
             .to_request();
 
-        let res: TestingResult = test::call_and_read_body_json(&mut app, req).await;
+        let res: TestingResult = test::call_and_read_body_json(&app, req).await;
 
         assert_eq!(
             res,
@@ -256,7 +256,7 @@ mod tests {
             .uri("/")
             .to_request();
 
-        let res: TestingResult = test::call_and_read_body_json(&mut app, req).await;
+        let res: TestingResult = test::call_and_read_body_json(&app, req).await;
 
         assert_eq!(
             res,

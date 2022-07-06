@@ -49,7 +49,7 @@ mod tests {
             .insert_header(("content-type", "text/plain"))
             .to_request();
 
-        let content = test::call_and_read_body(&mut app, req).await;
+        let content = test::call_and_read_body(&app, req).await;
 
         assert_eq!(content, "Hello, world!".to_string());
     }
@@ -69,7 +69,7 @@ mod tests {
             .insert_header(("content-type", "text/plain"))
             .to_request();
 
-        let content = test::call_and_read_body(&mut app, req).await;
+        let content = test::call_and_read_body(&app, req).await;
 
         assert_eq!(content, "Hello, world!".to_string());
     }
@@ -90,7 +90,7 @@ mod tests {
             .uri("/foobar.txt")
             .to_request();
 
-        let resp = test::call_service(&mut app, req).await;
+        let resp = test::call_service(&app, req).await;
 
         assert_eq!(resp.status(), http::StatusCode::NOT_FOUND);
     }
