@@ -85,7 +85,7 @@ mod tests {
             .to_request();
 
         let res: GistCreateResponse =
-            test::read_response_json(&mut app, req).compat().await;
+            test::call_and_read_body_json(&mut app, req).compat().await;
 
         let id = match res {
             GistCreateResponse::Success(Gist {
@@ -110,7 +110,7 @@ mod tests {
             .to_request();
 
         let res: GistLoadResponse =
-            test::read_response_json(&mut app, req).compat().await;
+            test::call_and_read_body_json(&mut app, req).compat().await;
 
         let id = match res {
             GistLoadResponse::Success(Gist {
