@@ -153,7 +153,7 @@ mod tests {
     #[actix_rt::test]
     async fn test_compilation_success() {
         // TODO: Write reusable helper to setup service
-        let mut app = test::init_service(App::new().route(
+        let app = test::init_service(App::new().route(
             "/",
             web::post().to(|body| route_compile(COMPILE_MOCKED, body)),
         ))
@@ -183,7 +183,7 @@ mod tests {
     #[actix_rt::test]
     async fn test_compilation_failure() {
         // TODO: Write reusable helper to setup service
-        let mut app = test::init_service(App::new().route(
+        let app = test::init_service(App::new().route(
             "/",
             web::post().to(|body| route_compile(COMPILE_MOCKED, body)),
         ))
@@ -213,7 +213,7 @@ mod tests {
     #[actix_rt::test]
     async fn test_testing_success() {
         // TODO: Write reusable helper to setup service
-        let mut app = test::init_service(
+        let app = test::init_service(
             App::new()
                 .route("/", web::post().to(|body| route_test(TESTING_MOCKED, body))),
         )
@@ -242,7 +242,7 @@ mod tests {
     #[actix_rt::test]
     async fn test_testing_failure() {
         // TODO: Write reusable helper to setup service
-        let mut app = test::init_service(
+        let app = test::init_service(
             App::new()
                 .route("/", web::post().to(|body| route_test(TESTING_MOCKED, body))),
         )
