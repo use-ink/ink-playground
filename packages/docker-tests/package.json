@@ -1,7 +1,7 @@
 {
   "name": "docker-tests",
   "devDependencies": {
-    "@types/jest": "^27.5.2",
+    "@types/jest": "^28.1.4",
     "axios": "^0.27.2",
     "jest": "^28.1.1",
     "ts-jest": "^28.0.4",

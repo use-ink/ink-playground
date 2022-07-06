@@ -2881,13 +2881,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^27.5.2":
-  version: 27.5.2
-  resolution: "@types/jest@npm:27.5.2"
+"@types/jest@npm:^28.1.4":
+  version: 28.1.4
+  resolution: "@types/jest@npm:28.1.4"
   dependencies:
-    jest-matcher-utils: ^27.0.0
-    pretty-format: ^27.0.0
-  checksum: 7e11c6826aa429ad990dc262e4e4b54aa36573287fddf15773e4137f07d11d3105f0dd9f1baff73252160a057df23f5529bb83b1bf83cd3f45f9460a5ca5c22e
+    jest-matcher-utils: ^28.0.0
+    pretty-format: ^28.0.0
+  checksum: 97e22c600397bb4f30e39b595f8285ae92e4eb29a1ef6d1689749e4a4da683d88ecfe717b64492f6adc4c17c1c989520c3546f938c84a7d435c6ac3acf1a2bdc
   languageName: node
   linkType: hard
 
@@ -5323,7 +5323,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "docker-tests@workspace:packages/docker-tests"
   dependencies:
-    "@types/jest": ^27.5.2
+    "@types/jest": ^28.1.4
     axios: ^0.27.2
     jest: ^28.1.1
     ts-jest: ^28.0.4
@@ -7392,7 +7392,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-matcher-utils@npm:^28.1.1":
+"jest-matcher-utils@npm:^28.0.0, jest-matcher-utils@npm:^28.1.1":
   version: 28.1.1
   resolution: "jest-matcher-utils@npm:28.1.1"
   dependencies:
@@ -9143,7 +9143,7 @@ __metadata:
     "@tailwindcss/postcss7-compat": ^2.2.17
     "@testing-library/jest-dom": ^5.16.4
     "@testing-library/react": ^12.1.5
-    "@types/jest": ^27.5.2
+    "@types/jest": ^28.1.4
     "@types/react": ^18.0.15
     "@types/react-dom": ^18.0.6
     "@types/react-test-renderer": ^18.0.0
@@ -9804,7 +9804,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pretty-format@npm:^28.1.1":
+"pretty-format@npm:^28.0.0, pretty-format@npm:^28.1.1":
   version: 28.1.1
   resolution: "pretty-format@npm:28.1.1"
   dependencies:
