@@ -20,9 +20,10 @@ use crate::{
     services::{
         contract::{
             route_compile,
+            route_status,
             route_test,
             COMPILE_SANDBOXED,
-            TEST_SANDBOXED, route_status,
+            TEST_SANDBOXED,
         },
         frontend::route_frontend,
         gist::{
