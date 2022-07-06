@@ -2300,7 +2300,7 @@ __metadata:
     primereact: ^8.1.1
     react-transition-group: ^4.4.2
     rimraf: ^3.0.2
-    ts-jest: ^28.0.4
+    ts-jest: ^28.0.5
   languageName: unknown
   linkType: soft
 
@@ -2315,7 +2315,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-monaco-editor: ^0.49.0
-    ts-loader: ^9.3.0
+    ts-loader: ^9.3.1
     webpack: ^5.73.0
   languageName: unknown
   linkType: soft
@@ -5326,7 +5326,7 @@ __metadata:
     "@types/jest": ^28.1.4
     axios: ^0.27.2
     jest: ^28.1.1
-    ts-jest: ^28.0.4
+    ts-jest: ^28.0.5
     typescript: ^4.7.4
   languageName: unknown
   linkType: soft
@@ -9168,8 +9168,8 @@ __metadata:
     remove: ^0.1.5
     rimraf: ^3.0.2
     tailwindcss: ^3.0.24
-    ts-jest: ^28.0.4
-    ts-loader: ^9.3.0
+    ts-jest: ^28.0.5
+    ts-loader: ^9.3.1
     typescript: ^4.7.4
     use-reducer-logger: ^1.0.2
     webpack: ^5.73.0
@@ -11342,9 +11342,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^28.0.4":
-  version: 28.0.4
-  resolution: "ts-jest@npm:28.0.4"
+"ts-jest@npm:^28.0.5":
+  version: 28.0.5
+  resolution: "ts-jest@npm:28.0.5"
   dependencies:
     bs-logger: 0.x
     fast-json-stable-stringify: 2.x
@@ -11353,7 +11353,7 @@ __metadata:
     lodash.memoize: 4.x
     make-error: 1.x
     semver: 7.x
-    yargs-parser: ^20.x
+    yargs-parser: ^21.0.1
   peerDependencies:
     "@babel/core": ">=7.0.0-beta.0 <8"
     babel-jest: ^28.0.0
@@ -11368,13 +11368,13 @@ __metadata:
       optional: true
   bin:
     ts-jest: cli.js
-  checksum: 21028e1917f60f086e0af6d057039f31385ca0f5b85736dc19bdd670ccbb5675c7ecde2eb30a5d01fcccdc7a59054498db0c4419306fc5fab0a596e3cf001023
+  checksum: 53e05db5b7e1e4f4137c47594f902f5caf585ebc73dda67c4552c1ed784d4fde532c5693a61d877d9462290c7965233c2124050b0f00fd4c85cde9bb1a51c974
   languageName: node
   linkType: hard
 
-"ts-loader@npm:^9.3.0":
-  version: 9.3.0
-  resolution: "ts-loader@npm:9.3.0"
+"ts-loader@npm:^9.3.1":
+  version: 9.3.1
+  resolution: "ts-loader@npm:9.3.1"
   dependencies:
     chalk: ^4.1.0
     enhanced-resolve: ^5.0.0
@@ -11383,7 +11383,7 @@ __metadata:
   peerDependencies:
     typescript: "*"
     webpack: ^5.0.0
-  checksum: 90755ac5850890ff433f2f8c7186d57ae4e172d389342d874b50ab233675f06c47c69043c517e2a2eeaf2251637ecfac607ac6190c89340f246ceff8c7f4af7a
+  checksum: 462a8ac315017cf4961dafd2be29d5abe7c3af63c4515e325269f79b9d0212b35c59184d7fd01fc378749c88454752e1599301d2190eb6844ea5fe332de5f695
   languageName: node
   linkType: hard
 
@@ -12179,14 +12179,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs-parser@npm:^20.x":
-  version: 20.2.9
-  resolution: "yargs-parser@npm:20.2.9"
-  checksum: 8bb69015f2b0ff9e17b2c8e6bfe224ab463dd00ca211eece72a4cd8a906224d2703fb8a326d36fdd0e68701e201b2a60ed7cf81ce0fd9b3799f9fe7745977ae3
-  languageName: node
-  linkType: hard
-
-"yargs-parser@npm:^21.0.0":
+"yargs-parser@npm:^21.0.0, yargs-parser@npm:^21.0.1":
   version: 21.0.1
   resolution: "yargs-parser@npm:21.0.1"
   checksum: c3ea2ed12cad0377ce3096b3f138df8267edf7b1aa7d710cd502fe16af417bafe4443dd71b28158c22fcd1be5dfd0e86319597e47badf42ff83815485887323a
