@@ -27,11 +27,7 @@ use actix_web::{
     web::Json,
     HttpRequest,
     HttpResponse,
-    Responder,
-};
-use futures::future::{
-    ready,
-    Ready,
+    Responder, body::BoxBody,
 };
 use hubcaps::{
     self,
@@ -80,15 +76,14 @@ const GIST_DESCRIPTION: &str = "Code shared from the Rust Playground";
 // -------------------------------------------------------------------------------------------------
 
 impl Responder for GistCreateResponse {
-    type Error = actix_web::Error;
-    type Future = Ready<Result<HttpResponse, actix_web::Error>>;
+    type Body = BoxBody;
 
-    fn respond_to(self, _req: &HttpRequest) -> Self::Future {
+    fn respond_to(self, _req: &HttpRequest) -> HttpResponse<Self::Body> {
         let body = serde_json::to_string(&self).unwrap();
 
-        ready(Ok(HttpResponse::Ok()
+        HttpResponse::Ok()
             .content_type("application/json")
-            .body(body)))
+            .body(body)
     }
 }
 
