@@ -21,7 +21,7 @@
 use actix_web::{
     web::Json,
     HttpResponse,
-    Responder,
+    Responder, body::BoxBody,
 };
 
 pub use sandbox::{
@@ -98,6 +98,11 @@ pub async fn route_test(
             HttpResponse::InternalServerError().finish()
         }
     }
+}
+
+pub async fn route_status() -> HttpResponse<BoxBody> {
+    
+    HttpResponse::Ok().body("ink-backend is live")
 }
 
 // -------------------------------------------------------------------------------------------------

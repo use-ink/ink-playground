@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#![feature(async_closure)]
 mod cli;
 mod services;
 
@@ -23,7 +22,7 @@ use crate::{
             route_compile,
             route_test,
             COMPILE_SANDBOXED,
-            TEST_SANDBOXED,
+            TEST_SANDBOXED, route_status,
         },
         frontend::route_frontend,
         gist::{
@@ -105,7 +104,7 @@ async fn main() -> std::io::Result<()> {
             )
             .route(
                 "/status",
-                get().to(async || HttpResponse::Ok().body("ink-backend is live")),
+                get().to(|| route_status()),
             );
 
         match opts.github_token {
