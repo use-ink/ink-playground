@@ -59,9 +59,12 @@ pub async fn route_compile(
     compile_strategy: CompileStrategy,
     req: Json<CompilationRequest>,
 ) -> impl Responder {
-    let compile_result = compile_strategy(CompilationRequest {
-        source: req.source.to_string(),
-    });
+
+    let compile_result = tokio::task::spawn_blocking(move || {
+        compile_strategy(CompilationRequest {
+            source: req.source.to_string(),
+        })
+    }).await.expect("Contract compilation panicked");
 
     match compile_result {
         Ok(result) => {
