@@ -23,6 +23,7 @@ use actix_web::{
     web::Json,
     HttpResponse,
     Responder,
+    rt::task::spawn_blocking,
 };
 
 pub use sandbox::{
@@ -59,7 +60,7 @@ pub async fn route_compile(
     compile_strategy: CompileStrategy,
     req: Json<CompilationRequest>,
 ) -> impl Responder {
-    let compile_result = tokio::task::spawn_blocking(move || {
+    let compile_result = spawn_blocking(move || {
         compile_strategy(CompilationRequest {
             source: req.source.to_string(),
         })
@@ -89,7 +90,7 @@ pub async fn route_test(
     compile_strategy: TestingStrategy,
     req: Json<TestingRequest>,
 ) -> impl Responder {
-    let testing_result = tokio::task::spawn_blocking(move || {
+    let testing_result = spawn_blocking(move || {
         compile_strategy(TestingRequest {
         source: req.source.to_string(),
         })
