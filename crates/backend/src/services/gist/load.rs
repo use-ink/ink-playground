@@ -24,19 +24,19 @@ use crate::services::gist::common::{
 };
 use actix_web::{
     body::BoxBody,
+    rt::spawn,
     web::Json,
     HttpRequest,
     HttpResponse,
     Responder,
-    rt::spawn,
 };
 use hubcaps;
 use serde::{
     Deserialize,
     Serialize,
 };
-use ts_rs::TS;
 use tokio_compat_02::FutureExt;
+use ts_rs::TS;
 
 // -------------------------------------------------------------------------------------------------
 // TYPES
@@ -80,9 +80,11 @@ pub async fn route_gist_load(
     github_token: String,
     req: Json<GistLoadRequest>,
 ) -> impl Responder {
-    let gist_result = spawn( async move {
-        load_gist(github_token, req.clone().id)
-    }).await.expect("").compat().await;
+    let gist_result = spawn(async move { load_gist(github_token, req.clone().id) })
+        .await
+        .expect("")
+        .compat()
+        .await;
 
     match gist_result {
         Err(error) => {
