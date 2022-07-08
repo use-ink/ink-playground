@@ -20,10 +20,10 @@
 
 use actix_web::{
     body::BoxBody,
+    rt::task::spawn_blocking,
     web::Json,
     HttpResponse,
     Responder,
-    rt::task::spawn_blocking,
 };
 
 pub use sandbox::{
@@ -92,7 +92,7 @@ pub async fn route_test(
 ) -> impl Responder {
     let testing_result = spawn_blocking(move || {
         compile_strategy(TestingRequest {
-        source: req.source.to_string(),
+            source: req.source.to_string(),
         })
     })
     .await
