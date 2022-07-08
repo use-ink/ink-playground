@@ -98,7 +98,6 @@ build-ink-playground-image:
     - buildah bud
         --format=docker
         --tag ink-playground
-        .
     - echo "${Docker_Hub_Pass_Parity}" |
       buildah login --username "${Docker_Hub_User_Parity}" --password-stdin docker.io
     - buildah info
