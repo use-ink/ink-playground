@@ -300,6 +300,43 @@ impl WorldState {
         serde_wasm_bindgen::to_value(&res).unwrap()
     }
 
+    pub fn highlights(
+        &self,
+        line_number: u32,
+        column: u32,
+        include_declaration: bool,
+    ) -> JsValue {
+        log::warn!("references");
+        let line_index = self.analysis().file_line_index(self.file_id).unwrap();
+        let pos = file_position(line_number, column, &line_index, self.file_id);
+        let search_scope = Some(SearchScope::single_file(self.file_id));
+        let info = match self.analysis().find_all_refs(pos, search_scope).unwrap() {
+            Some(info) => info,
+            _ => return JsValue::NULL,
+        };
+        let mut res = vec![];
+        for result in info {
+            if include_declaration {
+                if let Some(r) = result.declaration {
+                    let r = r.nav.focus_range.unwrap_or_else(|| r.nav.full_range);
+                    res.push(Highlight {
+                        tag: None,
+                        range: to_proto::text_range(r, &line_index),
+                    });
+                }
+            }
+            result.references.iter().for_each(|(_id, ranges)| {
+                for (r, _) in ranges {
+                    res.push(Highlight {
+                        tag: None,
+                        range: to_proto::text_range(*r, &line_index),
+                    });
+                }
+            });
+        }
+        serde_wasm_bindgen::to_value(&res).unwrap()
+    }
+
     pub fn prepare_rename(&self, line_number: u32, column: u32) -> JsValue {
         log::warn!("prepare_rename");
         let line_index = self.analysis().file_line_index(self.file_id).unwrap();

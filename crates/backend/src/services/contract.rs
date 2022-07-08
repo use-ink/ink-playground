@@ -89,9 +89,13 @@ pub async fn route_test(
     compile_strategy: TestingStrategy,
     req: Json<TestingRequest>,
 ) -> impl Responder {
-    let testing_result = compile_strategy(TestingRequest {
+    let testing_result = tokio::task::spawn_blocking(move || {
+        compile_strategy(TestingRequest {
         source: req.source.to_string(),
-    });
+        })
+    })
+    .await
+    .expect("Contract testing panicked");
 
     match testing_result {
         Ok(result) => {
