@@ -19,12 +19,6 @@ ts-rs = { git = "https://github.com/Aleph-Alpha/ts-rs", branch = "main", feature
 ] }
 futures = "0.3.21"
 hubcaps = "0.6.2"
-tokio = { version = "1.19.2", features = [
-    "macros",
-    "time",
-    "process",
-    "rt-multi-thread",
-] }
 
 sandbox = { path = "../sandbox" }
 

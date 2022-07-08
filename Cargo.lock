@@ -374,7 +374,6 @@ dependencies = [
  "sandbox",
  "serde",
  "serde_json",
- "tokio 1.19.2",
  "tokio-compat-02",
  "ts-rs",
 ]
