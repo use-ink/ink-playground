@@ -19,9 +19,10 @@ ts-rs = { git = "https://github.com/Aleph-Alpha/ts-rs", branch = "main", feature
 ] }
 futures = "0.3.21"
 hubcaps = "0.6.2"
+tokio-compat-02 = "0.2.0"
 
 sandbox = { path = "../sandbox" }
 
 [dev-dependencies]
 actix-rt = "2.7.0"
-tokio-compat-02 = "0.2.0"
+
