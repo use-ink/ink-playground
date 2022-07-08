@@ -89,7 +89,7 @@ build-compiler-image:
    stage:                  publish
    <<:                     *docker-env
    script:
-     - buldah bud
+     - buildah bud
          --format=docker
          --tag ink-backend
          ./compiler/.
