@@ -43,6 +43,7 @@ use serde::{
 };
 use std::collections::HashMap;
 use ts_rs::TS;
+use tokio_compat_02::FutureExt;
 
 // -------------------------------------------------------------------------------------------------
 // TYPES
@@ -92,7 +93,9 @@ pub async fn route_gist_create(
     github_token: String,
     req: Json<GistCreateRequest>,
 ) -> impl Responder {
-    let gist_result = create_gist(github_token.as_ref(), &req.code).await;
+    let gist_result = actix_web::rt::spawn( async move {
+        create_gist(github_token, req.clone().code)
+    }).await.expect("").compat().await;
 
     match gist_result {
         Err(error) => {
@@ -106,8 +109,8 @@ pub async fn route_gist_create(
     }
 }
 
-async fn create_gist(github_token: &str, code: &str) -> Result<Gist, Error> {
-    let gist = github_create_gist(github_token, code)
+async fn create_gist(github_token: String, code: String) -> Result<Gist, Error> {
+    let gist = github_create_gist(&github_token, &code)
         .await
         .map_err(Error::GitHubError)?;
 
