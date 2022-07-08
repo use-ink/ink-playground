@@ -75,12 +75,18 @@ rust-lint:
 #     - rustup component add rust-src --toolchain nightly-2022-05-24-x86_64-unknown-linux-gnu
 #     - wasm-pack test --headless --chrome crates/rust_analyzer_wasm
 
-test-rust:
-  stage:                  test
-  # <<:                     *docker-env
-  image:                  docker.io/achimcc/ink-backend:latest
-  script:
-    - cargo build --verbose
-    - cargo test --workspace --exclude rust_analyzer_wasm --verbose
-  tags:
-    - linux-docker
+# test-rust:
+#   stage:                  test
+#   # <<:                     *docker-env
+#   image:                  docker.io/achimcc/ink-backend:latest
+#   script:
+#     - cargo build --verbose
+#     - cargo test --workspace --exclude rust_analyzer_wasm --verbose
+#   tags:
+#     - linux-docker
+
+build-compiler-image:
+   stage:                  publish
+   <<:                     *docker-env
+   script:
+     - docker build --tag ink-backend ./compiler/.
