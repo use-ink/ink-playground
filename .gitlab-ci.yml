@@ -95,5 +95,5 @@ build-compiler-image:
         ./compiler/.
     - buildah images -a
     - buildah info
-   tags:
-     - kubernetes-parity-build
+  tags:
+    - kubernetes-parity-build
