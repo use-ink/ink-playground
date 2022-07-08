@@ -86,12 +86,14 @@ stages:
 #     - linux-docker
 
 build-compiler-image:
-   stage:                  publish
-   image:                  quay.io/buildah/stable
-   script:
-     - buildah bud
-         --format=docker
-         --tag ink-backend
-         ./compiler/.
+  stage:                  publish
+  image:                  quay.io/buildah/stable
+  script:
+    - buildah bud
+        --format=docker
+        --tag ink-backend
+        ./compiler/.
+    - buildah images -a
+    - buildah info
    tags:
      - kubernetes-parity-build
