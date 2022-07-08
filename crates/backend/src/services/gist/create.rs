@@ -94,11 +94,10 @@ pub async fn route_gist_create(
     github_token: String,
     req: Json<GistCreateRequest>,
 ) -> impl Responder {
-    let gist_result = spawn(async move { create_gist(github_token, req.clone().code) })
-        .await
-        .expect("")
-        .compat()
-        .await;
+    let gist_result =
+        spawn(async move { create_gist(github_token, req.clone().code).compat().await })
+            .await
+            .expect("Failed to create Gist");
 
     match gist_result {
         Err(error) => {
