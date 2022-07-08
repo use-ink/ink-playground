@@ -80,11 +80,10 @@ pub async fn route_gist_load(
     github_token: String,
     req: Json<GistLoadRequest>,
 ) -> impl Responder {
-    let gist_result = spawn(async move { load_gist(github_token, req.clone().id) })
-        .await
-        .expect("")
-        .compat()
-        .await;
+    let gist_result =
+        spawn(async move { load_gist(github_token, req.clone().id).compat().await })
+            .await
+            .expect("Failed to load Gist");
 
     match gist_result {
         Err(error) => {
