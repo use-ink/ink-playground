@@ -33,38 +33,38 @@ stages:
   tags:
     - linux-docker
 
-ts-lint:
-  stage:                  lint
-  <<:                     *kubernetes-env
-  script:
-    - make ts-install
-    - make ts-lint
+# ts-lint:
+#   stage:                  lint
+#   <<:                     *kubernetes-env
+#   script:
+#     - make ts-install
+#     - make ts-lint
 
-ts-check-format:
-  stage:                  lint
-  <<:                     *kubernetes-env
-  script:
-    - make ts-install
-    - make ts-check-format
+# ts-check-format:
+#   stage:                  lint
+#   <<:                     *kubernetes-env
+#   script:
+#     - make ts-install
+#     - make ts-check-format
 
-ts-check-spelling:
-  stage:                  lint
-  <<:                     *kubernetes-env
-  script:
-    - make ts-install
-    - make ts-check-spelling
+# ts-check-spelling:
+#   stage:                  lint
+#   <<:                     *kubernetes-env
+#   script:
+#     - make ts-install
+#     - make ts-check-spelling
 
-rust-check-format:
-  stage:                  lint
-  <<:                     *docker-env
-  script:
-    - cargo +nightly fmt --all -- --check
+# rust-check-format:
+#   stage:                  lint
+#   <<:                     *docker-env
+#   script:
+#     - cargo +nightly fmt --all -- --check
 
-rust-lint:
-  stage: lint
-  <<:                     *docker-env
-  script:
-    - cargo +stable clippy --workspace --exclude rust_analyzer_wasm --exclude contract --all-targets --all-features -- -D warnings
+# rust-lint:
+#   stage: lint
+#   <<:                     *docker-env
+#   script:
+    # - cargo +stable clippy --workspace --exclude rust_analyzer_wasm --exclude contract --all-targets --all-features -- -D warnings
 
 # Test
 # test-rust-analyzer-wasm:
