@@ -97,8 +97,8 @@ build-ink-playground-image:
       ( echo "no docker credentials provided"; exit 1 )
     - buildah bud
         --format=docker
-        --tag ink-backend
-        ./compiler/.
+        --tag ink-playground
+        .
     - echo "${Docker_Hub_Pass_Parity}" |
       buildah login --username "${Docker_Hub_User_Parity}" --password-stdin docker.io
     - buildah info
