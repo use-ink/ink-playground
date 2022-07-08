@@ -28,6 +28,7 @@ use actix_web::{
     HttpRequest,
     HttpResponse,
     Responder,
+    rt::spawn,
 };
 use hubcaps;
 use serde::{
@@ -35,6 +36,7 @@ use serde::{
     Serialize,
 };
 use ts_rs::TS;
+use tokio_compat_02::FutureExt;
 
 // -------------------------------------------------------------------------------------------------
 // TYPES
@@ -78,7 +80,9 @@ pub async fn route_gist_load(
     github_token: String,
     req: Json<GistLoadRequest>,
 ) -> impl Responder {
-    let gist_result = load_gist(github_token.as_ref(), &req.id).await;
+    let gist_result = spawn( async move {
+        load_gist(github_token, req.clone().id)
+    }).await.expect("").compat().await;
 
     match gist_result {
         Err(error) => {
@@ -92,8 +96,8 @@ pub async fn route_gist_load(
     }
 }
 
-async fn load_gist(github_token: &str, id: &str) -> Result<Gist, Error> {
-    let gist = github_load_gist(github_token, id)
+async fn load_gist(github_token: String, id: String) -> Result<Gist, Error> {
+    let gist = github_load_gist(&github_token, &id)
         .await
         .map_err(Error::GitHubError)?;
 

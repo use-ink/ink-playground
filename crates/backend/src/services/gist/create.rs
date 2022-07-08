@@ -29,6 +29,7 @@ use actix_web::{
     HttpRequest,
     HttpResponse,
     Responder,
+    rt::spawn,
 };
 use hubcaps::{
     self,
@@ -93,7 +94,7 @@ pub async fn route_gist_create(
     github_token: String,
     req: Json<GistCreateRequest>,
 ) -> impl Responder {
-    let gist_result = actix_web::rt::spawn( async move {
+    let gist_result = spawn( async move {
         create_gist(github_token, req.clone().code)
     }).await.expect("").compat().await;
 
