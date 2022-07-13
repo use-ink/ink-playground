@@ -1,4 +1,4 @@
-import { LabeledInputSwitch, MenuElementWrapper } from '@paritytech/components/';
+import { LabeledInputSwitch, MenuElementWrapper } from '@paritytech/components';
 import { ReactElement, useContext } from 'react';
 import { AppContext } from '~/context/app/';
 import { Dispatch, State } from '~/context/app/reducer';
