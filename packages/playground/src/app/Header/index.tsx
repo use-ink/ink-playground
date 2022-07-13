@@ -21,7 +21,7 @@ import { MessageState, MessageDispatch, mapSizeInfo } from '~/context/messages/r
 import { compile } from '~/context/side-effects/compile';
 import { testing } from '~/context/side-effects/testing';
 import * as constants from '~/constants';
-import { Colors } from '@paritytech/components/ButtonWithIcon';
+import { Colors } from '@paritytech/components';
 
 const openContractsUiUrl = (): void => {
   window.open(constants.CONTRACTS_UI_URL, '_blank');
