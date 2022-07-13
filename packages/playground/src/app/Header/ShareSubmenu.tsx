@@ -1,4 +1,4 @@
-import { ButtonWithIcon, LabeledLink } from '@paritytech/components/';
+import { ButtonWithIcon, LabeledLink } from '@paritytech/components';
 import { ReactElement, useContext } from 'react';
 import { GithubIcon } from '~/symbols';
 import { Dispatch, GistState, State } from '~/context/app/reducer';

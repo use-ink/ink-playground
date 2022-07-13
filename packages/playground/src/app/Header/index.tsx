@@ -10,7 +10,7 @@ import {
   DocsIcon,
   DeployIcon,
 } from '~/symbols';
-import { OverlayPanel, ButtonWithIcon } from '@paritytech/components/';
+import { OverlayPanel, ButtonWithIcon } from '@paritytech/components';
 import { SettingsSubmenu } from './SettingsSubmenu';
 import { ShareSubmenu } from './ShareSubmenu';
 
