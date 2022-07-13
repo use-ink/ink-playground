@@ -19,10 +19,7 @@
     "paths": {
       "~/*": ["./src/*"],
       "@paritytech/commontypes": ["../_generated/commontypes/src"],
-      "@paritytech/commontypes/*": ["../_generated/commontypes/src/*"],
-
-      "@paritytech/ink-editor": ["../ink-editor/src"],
-      "@paritytech/ink-editor/*": ["../ink-editor/src/*"]
+      "@paritytech/commontypes/*": ["../_generated/commontypes/src/*"]
     }
   },
   "include": ["src", "jest", "__tests__"],
