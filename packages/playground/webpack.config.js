@@ -6,11 +6,11 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const tailwindcss = require('tailwindcss');
 const { EnvironmentPlugin } = require('webpack');
 const { merge } = require('webpack-merge');
-const inkEditorConfig = require('../ink-editor/webpack.config');
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 
-const localConfig = {
+module.exports = {
   mode: 'development',
   entry: {
     app: './src/index.tsx',
@@ -23,21 +23,43 @@ const localConfig = {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.wasm', '.css'],
     alias: {
       '~': path.resolve(__dirname, 'src/'),
-      '@paritytech/ink-editor': path.resolve(__dirname, '../ink-editor/src'),
-      '@paritytech/components': path.resolve(__dirname, '../components/src'),
     },
   },
   stats: 'errors-only',
+  externals: nodeExternals({
+    modulesDir: path.resolve(__dirname, '../../node_modules'),
+  }),
   module: {
     rules: [
       {
+        test: /.tsx?$/,
+        use: 'ts-loader',
+      },
+      {
         test: /\.css$/,
         use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
           {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
                 plugins: [tailwindcss('../components/tailwind.config.js'), require('autoprefixer')],
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: {
+              typescript: true,
+              ext: 'tsx',
+              replaceAttrValues: {
+                '#D3D4DB': '{props.color}',
               },
             },
           },
@@ -89,5 +111,3 @@ const localConfig = {
     },
   },
 };
-
-module.exports = merge(inkEditorConfig, localConfig);
