@@ -1,7 +1,6 @@
-import { TestingApiResponse, testingRequest } from '@paritytech/ink-editor';
+import { TestingApiResponse, testingRequest, monaco } from '@paritytech/ink-editor';
 import { State, Dispatch } from '~/context/app/reducer';
 import { MessageAction, MessageDispatch } from '~/context/messages/reducer';
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { TESTING_URL } from '~/env';
 
 const getMessageAction = (result: TestingApiResponse): MessageAction | undefined => {
