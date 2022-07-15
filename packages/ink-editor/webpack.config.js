@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpackConfig = {
   output: {
     filename: 'bundle.[fullhash].js',
-    path: 'dist',
+    path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.wasm', '.css'],
