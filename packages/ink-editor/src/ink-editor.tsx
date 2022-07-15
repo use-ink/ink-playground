@@ -1,6 +1,8 @@
 import { ReactElement } from 'react';
-import MonacoEditor, { MonacoEditorProps, monaco } from 'react-monaco-editor';
+import MonacoEditor, { MonacoEditorProps } from 'react-monaco-editor';
+import exampleCode from './example-code';
 import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
+import monaco from 'monaco-editor';
 
 const dark_teal = '67c6b0';
 const dark_text = 'ffffff';
@@ -103,6 +105,8 @@ monaco.editor.defineTheme('custom-light', {
     'minimap.background': '#f2f2f2',
   },
 });
+
+export { exampleCode };
 
 export interface InkEditorProps {
   code?: string;
