@@ -17,9 +17,7 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "~/*": ["./src/*"],
-      "@paritytech/commontypes": ["../_generated/commontypes/src"],
-      "@paritytech/commontypes/*": ["../_generated/commontypes/src/*"]
+      "~/*": ["./src/*"]
     }
   },
   "include": ["src", "jest", "__tests__"],
