@@ -1,8 +1,8 @@
-import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
 import {
   GistCreateApiResponse,
   TestingApiResponse,
   CompileApiResponse,
+  Uri,
 } from '@paritytech/ink-editor';
 
 export const defaultState: State = {
