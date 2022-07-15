@@ -15,10 +15,7 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "baseUrl": "./",
-    "paths": {
-      "@paritytech/commontypes": ["../_generated/commontypes/src"],
-      "@paritytech/commontypes/*": ["../_generated/commontypes/src/*"]
-    }
+    "paths": {}
   },
   "include": ["src", "jest", "__tests__"],
   "exclude": ["jest/svgTransform.ts"]
