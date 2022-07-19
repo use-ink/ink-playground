@@ -241,6 +241,23 @@ impl Sandbox {
         Ok(testing_response)
     }
 
+    pub fn format(&self, req: &FormatingRequest) -> Result<FormatingResult> {
+        self.write_source_code(&req.source)?;
+
+        let command = build_testing_command(&self.input_file);
+
+        println!("Executing command: \n{:?}", command);
+
+        //ToDo: implement Docker command
+
+        let source = "I'm the formatted code!".to_string();
+        let stderr = "".to_string();
+
+        let formating_response = FormatingResult::Success { stderr, source };
+
+        Ok(formating_response)
+    }
+
     fn write_source_code(&self, code: &str) -> Result<()> {
         fs::write(&self.input_file, code).context(UnableToCreateSourceFile)?;
         fs::set_permissions(&self.input_file, wide_open_permissions())

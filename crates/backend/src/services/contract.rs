@@ -90,6 +90,12 @@ pub const TEST_SANDBOXED: TestingStrategy = |req| {
     sandbox.test(&req)
 };
 
+pub const FORMAT_SANDBOXED: FormatingStrategy = |req| {
+    let sandbox = Sandbox::new()?;
+
+    sandbox.format(&req)
+};
+
 pub async fn route_test(
     compile_strategy: TestingStrategy,
     req: Json<TestingRequest>,
