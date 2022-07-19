@@ -2,7 +2,6 @@
   "name": "playground",
   "version": "1.0.0",
   "dependencies": {
-    "@paritytech/commontypes": "workspace:^",
     "@paritytech/components": "workspace:^",
     "@paritytech/ink-editor": "workspace:^",
     "comlink": "^4.3.1",

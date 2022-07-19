@@ -2293,7 +2293,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@paritytech/commontypes@workspace:^, @paritytech/commontypes@workspace:packages/_generated/commontypes":
+"@paritytech/commontypes@workspace:packages/_generated/commontypes":
   version: 0.0.0-use.local
   resolution: "@paritytech/commontypes@workspace:packages/_generated/commontypes"
   languageName: unknown
@@ -9150,7 +9150,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "playground@workspace:packages/playground"
   dependencies:
-    "@paritytech/commontypes": "workspace:^"
     "@paritytech/components": "workspace:^"
     "@paritytech/ink-editor": "workspace:^"
     "@svgr/webpack": ^6.2.1
