@@ -32,6 +32,8 @@ pub use sandbox::{
     Sandbox,
     TestingRequest,
     TestingResult,
+    FormatingRequest,
+    FormatingResult,
 };
 
 use sandbox;
@@ -43,6 +45,8 @@ use sandbox;
 pub type CompileStrategy = fn(CompilationRequest) -> sandbox::Result<CompilationResult>;
 
 pub type TestingStrategy = fn(TestingRequest) -> sandbox::Result<TestingResult>;
+
+pub type FormatingStrategy = fn(FormatingRequest) -> sandbox::Result<FormatingResult>;
 
 // -------------------------------------------------------------------------------------------------
 // IMPLEMENTATION
@@ -102,6 +106,30 @@ pub async fn route_test(
         Ok(result) => {
             let testing_result = serde_json::to_string(&result).unwrap();
             HttpResponse::Ok().body(testing_result)
+        }
+        Err(err) => {
+            eprintln!("{:?}", err);
+            HttpResponse::InternalServerError().finish()
+        }
+    }
+}
+
+pub async fn route_format(
+    formating_strategy: FormatingStrategy,
+    req: Json<FormatingRequest>,
+) -> impl Responder {
+    let formating_result = spawn_blocking(move || {
+        formating_strategy(FormatingRequest {
+            source: req.source.to_string(),
+        })
+    })
+    .await
+    .expect("Contract testing panicked");
+
+    match formating_result {
+        Ok(result) => {
+            let formating_result = serde_json::to_string(&result).unwrap();
+            HttpResponse::Ok().body(formating_result)
         }
         Err(err) => {
             eprintln!("{:?}", err);

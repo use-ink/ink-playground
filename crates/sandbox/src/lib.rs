@@ -148,6 +148,18 @@ pub enum TestingResult {
     Error { stdout: String, stderr: String },
 }
 
+#[derive(Deserialize, Serialize, TS, Debug, Clone)]
+pub struct FormatingRequest {
+    pub source: String,
+}
+
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone, Eq)]
+#[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum FormatingResult {
+    Success { source: String, stderr: String },
+    Error { stdout: String, stderr: String },
+}
+
 // -------------------------------------------------------------------------------------------------
 // CONSTANTS
 // -------------------------------------------------------------------------------------------------
