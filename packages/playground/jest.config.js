@@ -8,12 +8,13 @@ module.exports = {
   setupFiles: ['<rootDir>/jest/setEnvVars.ts'],
   setupFilesAfterEnv: ['<rootDir>/jest/setupTests.ts'],
   testEnvironment: 'jsdom',
-  transformIgnorePatterns: [],
+  transformIgnorePatterns: ['^react-monaco-editor', '^monaco-editor'],
   moduleNameMapper: {
     '~/(.*)': '<rootDir>/src/$1',
     '^.+.(css|scss)$': 'identity-obj-proxy',
-    'monaco-editor': '<rootDir>/__mocks__/monacoMock.js',
+    'monaco-editor': '<rootDir>/../../node_modules/react-monaco-editor',
     '@paritytech/components': '<rootDir>/../components/src',
-    '@paritytech/ink-editor': '<rootDir>/../ink-editor/src',
+    '@paritytech/ink-editor/(.*)': '<rootDir>/../ink-editor/src/$1',
+    '^@paritytech/ink-editor/': '<rootDir>/../ink-editor/src',
   },
 };
