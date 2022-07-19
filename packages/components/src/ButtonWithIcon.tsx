@@ -6,7 +6,7 @@ import resolveConfig from 'tailwindcss/resolveConfig';
 import { TailwindConfig } from 'tailwindcss/tailwind-config';
 
 // The types from Tailwind do not play along nicely with custom fonts
-const fullConfig = resolveConfig((tailwindConfig || {}) as unknown as TailwindConfig);
+const fullConfig = resolveConfig(tailwindConfig as unknown as TailwindConfig);
 
 // Get colors from tailwind config
 export type Colors = {
