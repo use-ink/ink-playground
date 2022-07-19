@@ -33,7 +33,7 @@ Features:
 
 ### On Mac-OS
 
-Before procceeding you need to configure the following environment variables (either on your terminal or better persist them into your `.zshrc` file):
+Before proceeding you need to configure the following environment variables (either on your terminal or better persist them into your `.zshrc` file):
 
 ```
 export PATH="/usr/local/opt/llvm/bin/:$PATH"
