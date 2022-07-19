@@ -1,9 +1,7 @@
+import { CompileApiResponse } from '@paritytech/ink-editor/api/compile';
+import { TestingApiResponse } from '@paritytech/ink-editor/api/testing';
 import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
-import {
-  GistCreateApiResponse,
-  TestingApiResponse,
-  CompileApiResponse,
-} from '@paritytech/ink-editor';
+import { GistCreateApiResponse } from '@paritytech/ink-editor/api/gists';
 
 export const defaultState: State = {
   darkmode: true,
