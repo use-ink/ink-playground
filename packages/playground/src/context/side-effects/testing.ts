@@ -1,4 +1,4 @@
-import { TestingApiResponse, testingRequest } from '@paritytech/ink-editor';
+import { TestingApiResponse, testingRequest } from '@paritytech/ink-editor/api/testing';
 import { State, Dispatch } from '~/context/app/reducer';
 import { MessageAction, MessageDispatch } from '~/context/messages/reducer';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
