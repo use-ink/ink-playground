@@ -57,6 +57,18 @@ pub fn build_testing_command(input_file: &Path) -> Command {
     cmd
 }
 
+pub fn build_formating_command(input_file: &Path) -> Command {
+    let mut cmd = build_docker_command(input_file, None);
+
+    let execution_cmd = formating_execution_command();
+
+    cmd.arg(&DOCKER_CONTAINER_NAME).args(&execution_cmd);
+
+    println!("Testing command is {:?}", cmd);
+
+    cmd
+}
+
 fn build_docker_command(input_file: &Path, output_dir: Option<&Path>) -> Command {
     let file_name = "lib.rs";
 
