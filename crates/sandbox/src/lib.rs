@@ -248,7 +248,7 @@ impl Sandbox {
 
         println!("Executing command: \n{:?}", command);
 
-        //ToDo: implement Docker command
+        // ToDo: implement Docker command
 
         let source = "I'm the formatted code!".to_string();
         let stderr = "".to_string();

@@ -52,7 +52,7 @@ pub fn build_testing_command(input_file: &Path) -> Command {
 
     cmd.arg(&DOCKER_CONTAINER_NAME).args(&execution_cmd);
 
-    log::debug!("Testing command is {:?}", cmd);
+    println!("Testing command is {:?}", cmd);
 
     cmd
 }
@@ -131,6 +131,14 @@ fn build_execution_command() -> Vec<String> {
 
 fn testing_execution_command() -> Vec<String> {
     let test_cmd = "cargo test 2>&1".to_string();
+
+    let cmd = vec!["/bin/bash".to_string(), "-c".to_string(), test_cmd];
+
+    cmd
+}
+
+fn formating_execution_command() -> Vec<String> {
+    let test_cmd = "cargo fmt && cat lib.rs 2>&1".to_string();
 
     let cmd = vec!["/bin/bash".to_string(), "-c".to_string(), test_cmd];
 
