@@ -1,7 +1,7 @@
 import { ReactElement, MouseEvent } from 'react';
 import { Tooltip } from 'primereact/tooltip';
 
-import tailwindConfig from '../tailwind.config';
+import tailwindConfig from '../../playground/tailwind.config';
 import resolveConfig from 'tailwindcss/resolveConfig';
 import { TailwindConfig } from 'tailwindcss/tailwind-config';
 
