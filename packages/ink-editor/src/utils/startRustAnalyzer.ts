@@ -36,10 +36,11 @@ export const startRustAnalyzer = async (uri: Uri) => {
 
   const allTokens: Array<Token> = [];
   monaco.languages.onLanguage(modeId, configureLanguage(worldState, allTokens));
-
   const data = await fetch(`./change.json`);
   const textData = await data.text();
-  await worldState.load(textData);
+  const encoder = new TextEncoder();
+  const bufferData = encoder.encode(textData);
+  await worldState.load(bufferData);
 
   async function update() {
     if (!model) return;
