@@ -104,9 +104,10 @@ impl WorldState {
         Self { host, file_id }
     }
 
-    pub fn load(&mut self, json: String) {
+    pub fn load(&mut self, json: Vec<u8>) {
         log::warn!("update");
         init_panic_hook();
+        let json = String::from_utf8_lossy(&json);
         web_sys::console::log_1(&"load!".into());
         let change: ChangeJson =
             serde_json::from_str(&json).expect("`Change` deserialization must work");
