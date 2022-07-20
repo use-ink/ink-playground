@@ -96,6 +96,7 @@
     "runc",
     "dockerhost",
     "Dockerfiles",
-    "Nestybox"
+    "Nestybox",
+    "referrerpolicy"
   ]
 }
