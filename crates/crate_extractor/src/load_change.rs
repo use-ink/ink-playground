@@ -79,8 +79,7 @@ pub fn load_change(
     );
 
     let crate_graph = ws.to_crate_graph(
-        &Default::default(),
-        &mut |_, _| Vec::new(),
+        &mut |_, _| Ok(Vec::new()),
         &mut |path: &AbsPath| {
             let contents = loader.load_sync(path);
             let path = vfs::VfsPath::from(path.to_path_buf());
