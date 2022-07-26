@@ -61,7 +61,7 @@ pub fn create_crate(crate_graph: &mut CrateGraph, f: FileId) -> CrateId {
         cfg,
         CfgOptions::default(),
         Env::default(),
-        Default::default(),
+        Some(Default::default()),
         false,
         CrateOrigin::CratesIo { repo: None },
     )
