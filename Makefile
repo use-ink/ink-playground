@@ -26,6 +26,8 @@ COMPILE_URL ?= http://localhost:4000/compile
 
 TESTING_URL ?= http://localhost:4000/test
 
+ANALYTICS_URL ?= https://api-sa.substrate.io
+
 DOCKER_USER_NAME ?= achimcc
 
 ################################################################################
@@ -57,6 +59,7 @@ playground-build:
 	TESTING_URL=/test \
 	GIST_LOAD_URL=/gist/load \
 	GIST_CREATE_URL=/gist/create \
+	ANALYTICS_URL=$(ANALYTICS_URL) \
 	yarn workspace playground run build
 
 playground-start:
@@ -64,6 +67,7 @@ playground-start:
 	TESTING_URL=$(TESTING_URL) \
 	GIST_LOAD_URL=$(GIST_LOAD_URL) \
 	GIST_CREATE_URL=$(GIST_CREATE_URL) \
+	ANALYTICS_URL=$(ANALYTICS_URL) \
 	yarn workspace playground run start
 
 playground-clean:
