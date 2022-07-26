@@ -53,7 +53,7 @@ pub fn create_crate(crate_graph: &mut CrateGraph, f: FileId) -> CrateId {
     cfg.insert_atom("unix".into());
     cfg.insert_key_value("target_arch".into(), "x86_64".into());
     cfg.insert_key_value("target_pointer_width".into(), "64".into());
-    crate_graph.(
+    crate_graph.add_crate_root(
         f,
         Edition::Edition2018,
         None,
