@@ -9,7 +9,6 @@ const { merge } = require('webpack-merge');
 const inkEditorConfig = require('../ink-editor/webpack.config');
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
-const analyticsUrl = process.env.ANALYTICS_URL;
 
 const localConfig = {
   mode: 'development',
@@ -55,7 +54,6 @@ const localConfig = {
       title: 'Parity ink! Playground',
       favicon: './public/favicon.ico',
       template: './src/index.html',
-      analyticsUrl: `${analyticsUrl}`,
     }),
     new CopyPlugin({
       patterns: [{ from: './public/favicon.ico' }, { from: './public/favicon.png' }],
