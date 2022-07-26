@@ -12,9 +12,15 @@
     <!--
       Initiate Analytics
     -->
-    <script async defer src="<%= htmlWebpackPlugin.options.analyticsUrl %>/latest.js"></script>
+    <script
+      async
+      defer
+      crossorigin
+      src="<%= htmlWebpackPlugin.options.analyticsUrl %>/latest.js"
+    ></script>
     <noscript
       ><img
+        crossorigin
         src="<%= htmlWebpackPlugin.options.analyticsUrl %>/noscript.gif"
         alt=""
         referrerpolicy="no-referrer-when-downgrade"
