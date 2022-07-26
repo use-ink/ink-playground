@@ -261,6 +261,7 @@ pub(crate) fn folding_range(
             ide::FoldKind::WhereClause => None,
             ide::FoldKind::ReturnType => None,
             ide::FoldKind::Region => Some(return_types::FoldingRangeKind::Region),
+            ide::FoldKind::MatchArm => None,
         },
     }
 }

@@ -143,7 +143,7 @@ impl From<&CrateGraphJson> for CrateGraph {
                 cfg_options,
                 potential_cfg_options,
                 env,
-                Vec::new(),
+                Ok(Vec::new()),
                 false,
                 origin,
             );
@@ -312,7 +312,7 @@ mod tests {
             CfgOptions::default(),
             CfgOptions::default(),
             Env::default(),
-            Default::default(),
+            Ok(Default::default()),
             false,
             CrateOrigin::Lang(LangCrateOrigin::Core),
         );
@@ -324,7 +324,7 @@ mod tests {
             CfgOptions::default(),
             CfgOptions::default(),
             Env::default(),
-            Default::default(),
+            Ok(Default::default()),
             false,
             CrateOrigin::Lang(LangCrateOrigin::Core),
         );
@@ -336,7 +336,7 @@ mod tests {
             CfgOptions::default(),
             CfgOptions::default(),
             Env::default(),
-            Default::default(),
+            Ok(Default::default()),
             false,
             CrateOrigin::Lang(LangCrateOrigin::Core),
         );

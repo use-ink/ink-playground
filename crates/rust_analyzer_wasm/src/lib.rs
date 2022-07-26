@@ -22,6 +22,7 @@ use change_json::{
 use ide::{
     Analysis,
     AnalysisHost,
+    CallableSnippets,
     CompletionConfig,
     DiagnosticsConfig,
     FileId,
@@ -140,8 +141,7 @@ impl WorldState {
             enable_imports_on_the_fly: true,
             enable_self_on_the_fly: true,
             enable_private_editable: true,
-            add_call_parenthesis: true,
-            add_call_argument_snippets: true,
+            callable: Some(CallableSnippets::FillArguments),
             snippet_cap: SnippetCap::new(true),
             insert_use: InsertUseConfig {
                 //  merge: Some(MergeBehavior::Full),
@@ -160,7 +160,7 @@ impl WorldState {
         let pos = file_position(line_number, column, &line_index, self.file_id);
         let res = match self
             .analysis()
-            .completions(&COMPLETION_CONFIG, pos)
+            .completions(&COMPLETION_CONFIG, pos, None)
             .unwrap()
         {
             Some(items) => items,
@@ -438,7 +438,7 @@ impl WorldState {
         let mut pos = file_position(line_number, column, &line_index, self.file_id);
         pos.offset -= TextSize::of('.');
 
-        let edit = self.analysis().on_char_typed(pos, ch);
+        let edit = self.analysis().on_char_typed(pos, ch, false);
 
         let (_file, edit) = match edit {
             Ok(Some(it)) => it.source_file_edits.into_iter().next().unwrap(),
