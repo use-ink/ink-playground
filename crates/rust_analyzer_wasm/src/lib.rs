@@ -479,7 +479,8 @@ impl WorldState {
     fn derive_analytics(&self) -> JsValue {
         let analysis = self.analysis();
         let line_index = analysis.file_line_index(self.file_id).unwrap();
-        let config = DiagnosticsConfig::default();
+        let mut config = DiagnosticsConfig::default();
+        config.disabled.insert("unresolved-macro-call".to_string());
         let diagnostics: Vec<_> = analysis
             .diagnostics(&config, AssistResolveStrategy::None, self.file_id)
             .unwrap()
