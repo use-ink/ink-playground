@@ -276,7 +276,11 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
     // let response = &output.stdout;
     let stdout = String::from_utf8_lossy(&output.stdout);
 
-    let id = stdout.lines().next().context(MissingCompilerIdSnafu)?.trim();
+    let id = stdout
+        .lines()
+        .next()
+        .context(MissingCompilerIdSnafu)?
+        .trim();
     let stderr = &output.stderr;
 
     // ----------
@@ -297,7 +301,7 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
             Ok(ExitStatusExt::from_raw(code))
         }
         Ok(e) => return e.context(UnableToWaitForCompilerSnafu), // Failed to run
-        Err(e) => Err(e),                                   // Timed out
+        Err(e) => Err(e),                                        // Timed out
     };
 
     // ----------
@@ -315,7 +319,10 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
         "--force", id
     );
     command.stdout(std::process::Stdio::null());
-    command.status().await.context(UnableToRemoveCompilerSnafu)?;
+    command
+        .status()
+        .await
+        .context(UnableToRemoveCompilerSnafu)?;
 
     let code = timed_out.context(CompilerExecutionTimedOutSnafu { timeout })?;
 
