@@ -33,7 +33,7 @@ version = "0.3"
 features = [ "console" ]
 
 [dev-dependencies]
-wasm-bindgen-test = "0.3.32"
-wasm-bindgen-futures = "0.4.32"
-js-sys = "0.3.59"
+wasm-bindgen-test = "0.3.31"
+wasm-bindgen-futures = "0.4.31"
+js-sys = "0.3.58"
 cfg = { package = "ra_ap_cfg", version = "0.0.122" }
