@@ -69,7 +69,7 @@ rust-lint:
   script:
     - cargo +stable clippy --workspace --exclude rust_analyzer_wasm --exclude contract --all-targets --all-features -- -D warnings
 
-Test
+# Test
 test-rust-analyzer-wasm:
   needs:                  []
   stage:                  test
