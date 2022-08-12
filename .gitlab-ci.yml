@@ -69,14 +69,15 @@ rust-lint:
   script:
     - cargo +stable clippy --workspace --exclude rust_analyzer_wasm --exclude contract --all-targets --all-features -- -D warnings
 
-# Test
-# test-rust-analyzer-wasm:
-#   stage:                  test
-#   <<:                     *docker-env
-#   script:
-#     - rustup toolchain install nightly-2022-05-24-x86_64-unknown-linux-gnu
-#     - rustup component add rust-src --toolchain nightly-2022-05-24-x86_64-unknown-linux-gnu
-#     - wasm-pack test --headless --chrome crates/rust_analyzer_wasm
+Test
+test-rust-analyzer-wasm:
+  needs:                  []
+  stage:                  test
+  <<:                     *docker-env
+  script:
+    - rustup toolchain install nightly-2022-05-24-x86_64-unknown-linux-gnu
+    - rustup component add rust-src --toolchain nightly-2022-05-24-x86_64-unknown-linux-gnu
+    - wasm-pack test --headless --chrome crates/rust_analyzer_wasm
 
 # test-rust:
 #   stage:                  test
