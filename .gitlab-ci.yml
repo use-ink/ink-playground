@@ -78,6 +78,7 @@ test-rust-analyzer-wasm:
     - apt-get update && apt-get install -y libnss3 libxcb1
     - rustup toolchain install nightly-2022-05-24-x86_64-unknown-linux-gnu
     - rustup component add rust-src --toolchain nightly-2022-05-24-x86_64-unknown-linux-gnu
+    - chromedriver --version
     - wasm-pack test --headless --chrome crates/rust_analyzer_wasm
 
 # test-rust:
