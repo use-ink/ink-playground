@@ -8,9 +8,7 @@
 
 With ink! Playground you can write and compile [ink!](https://github.com/paritytech/ink) smart contracts in the browser. It uses the [Monaco editor](https://microsoft.github.io/monaco-editor/) under the hood and runs a WebAssembly version of [Rust Analyzer](https://rust-analyzer.github.io/) to provide editor language features for your Rust code.
 
-A live deployment can be found at [ink-playground.substrate.io](https://ink-playground.substrate.io). 
-
-
+A live deployment can be found at [ink-playground.substrate.io](https://ink-playground.substrate.io).
 
 Includes:
 
@@ -18,8 +16,6 @@ Includes:
 - Code completion and goto definition
 - Compiled contract file download
 - Rust source code sharing through URL or GitHub gists
-
-
 
 ## Table of Contents
 
