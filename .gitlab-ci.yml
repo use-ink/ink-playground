@@ -76,11 +76,11 @@ test-rust-analyzer-wasm:
   <<:                     *docker-env
   script:
     - apt update && apt install -y wget
-    - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    - wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     - apt install -y ./google-chrome-stable_current_amd64.deb
     - CHROME_VERSION=$(google-chrome --version | grep -o -E "[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+")
     - CHROME_DRIVER_VERSION=$(curl "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
-    - wget "https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip"
+    - wget -q "https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip"
     - unzip chromedriver_linux64.zip
     - mv chromedriver /usr/bin/chromedriver
     - chown root:root /usr/bin/chromedriver
