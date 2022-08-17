@@ -75,22 +75,22 @@ test-rust-analyzer-wasm:
   stage:                  test
   <<:                     *docker-env
   script:
-    - apt update && apt install -y wget && \
-    - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    - apt install -y ./google-chrome-stable_current_amd64.deb && \
-    - CHROME_VERSION=$(google-chrome --version | grep -o -E "[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+") && \
-    - CHROME_DRIVER_VERSION=$(curl "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION") && \
-    - wget "https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip" && \
-    - unzip chromedriver_linux64.zip && \
-    - mv chromedriver /usr/bin/chromedriver && \
-    - chown root:root /usr/bin/chromedriver && \
-    - chmod +x /usr/bin/chromedriver && \
-    - chromedriver --version && \
-    - git clone https://github.com/paritytech/ink-playground.git && \
-    - cd ink-playground/ && \
-    - rustup toolchain install nightly-2022-05-24-x86_64-unknown-linux-gnu && \
-    - rustup component add rust-src --toolchain nightly-2022-05-24-x86_64-unknown-linux-gnu && \
-    - cargo install wasm-pack && \
+    - apt update && apt install -y wget
+    - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    - apt install -y ./google-chrome-stable_current_amd64.deb
+    - CHROME_VERSION=$(google-chrome --version | grep -o -E "[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+")
+    - CHROME_DRIVER_VERSION=$(curl "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+    - wget "https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip"
+    - unzip chromedriver_linux64.zip
+    - mv chromedriver /usr/bin/chromedriver
+    - chown root:root /usr/bin/chromedriver
+    - chmod +x /usr/bin/chromedriver
+    - chromedriver --version
+    - git clone https://github.com/paritytech/ink-playground.git
+    - cd ink-playground/
+    - rustup toolchain install nightly-2022-05-24-x86_64-unknown-linux-gnu
+    - rustup component add rust-src --toolchain nightly-2022-05-24-x86_64-unknown-linux-gnu
+    - cargo install wasm-pack
     - wasm-pack test --headless --chrome crates/rust_analyzer_wasm
 
 # test-rust:
