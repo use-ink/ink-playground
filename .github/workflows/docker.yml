@@ -27,10 +27,10 @@ jobs:
       - name: Build docker
         run: make docker-buildkit
         env:
-          DOCKER_USER_NAME: ${{ secrets.DOCKER_USER_NAME || 'achimcc' }}
+          DOCKER_USER_NAME: achimcc
 
       - name: Tag Docker image
-        run: docker tag ${{ secrets.DOCKER_USER_NAME || 'achimcc' }}/ink-playground:latest ink-playground
+        run: docker tag achimcc/ink-playground:latest ink-playground
 
       - name: Run docker
         run: make docker-run-detach
