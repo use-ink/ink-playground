@@ -91,15 +91,27 @@ test-rust-analyzer-wasm:
     - cargo install wasm-pack
     - wasm-pack test --headless --chrome crates/rust_analyzer_wasm
 
-# test-rust:
-#   stage:                  test
-#   # <<:                     *docker-env
-#   image:                  docker.io/achimcc/ink-backend:latest
-#   script:
-#     - cargo build --verbose
-#     - cargo test --workspace --exclude rust_analyzer_wasm --verbose
-#   tags:
-#     - linux-docker
+test-components:
+  needs:                  []
+  stage:                  test
+  <<:                     *kubernetes-env
+  script:
+    - make ts-install
+    - make components-test
+
+test-playground:
+  needs:                  []
+  stage:                  test
+  <<:                     *docker-env
+  script:
+    - curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+    - apt update && apt install -y nodejs
+    - npm install -y -g yarn
+    - node -v
+    - rustup component add rust-src --toolchain nightly-2022-05-24-x86_64-unknown-linux-gnu
+    - make ts-install
+    - make generate
+    - make playground-test
 
 # Publish
 build-ink-playground-image:
