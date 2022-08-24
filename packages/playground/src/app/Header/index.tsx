@@ -86,6 +86,14 @@ export const Header = (): ReactElement => {
           loading={state.testing.type === 'IN_PROGRESS'}
         />
         <ButtonWithIcon
+          label="Format"
+          Icon={TestingIcon}
+          darkmode={state.darkmode}
+          testId={'buttonIcon'}
+          onClick={() => testing(state, dispatch, dispatchMessage)}
+          loading={state.testing.type === 'IN_PROGRESS'}
+        />
+        <ButtonWithIcon
           label="Download"
           Icon={DownloadIcon}
           darkmode={state.darkmode}
@@ -114,7 +122,7 @@ export const Header = (): ReactElement => {
         <div className="flex-grow" />
 
         <ButtonWithIcon
-          label={'ink! Documentation'}
+          label={'About ink!'}
           Icon={DocsIcon}
           darkmode={state.darkmode}
           testId={'buttonIconInkDocs'}
@@ -123,7 +131,7 @@ export const Header = (): ReactElement => {
           }}
         />
         <ButtonWithIcon
-          label={'Deploy on Contracts UI'}
+          label={'Deploy'}
           Icon={DeployIcon}
           darkmode={state.darkmode}
           testId={'buttonIconContractsUi'}
@@ -132,7 +140,7 @@ export const Header = (): ReactElement => {
           }}
         />
         <ButtonWithIcon
-          label={'GitHub Repo'}
+          label={'GitHub'}
           Icon={GithubRepoIcon}
           darkmode={state.darkmode}
           testId={'buttonIconRepo'}

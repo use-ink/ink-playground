@@ -2,6 +2,7 @@ import { CompileApiResponse } from '@paritytech/ink-editor/api/compile';
 import { TestingApiResponse } from '@paritytech/ink-editor/api/testing';
 import { Uri } from 'monaco-editor/esm/vs/editor/editor.api';
 import { GistCreateApiResponse } from '@paritytech/ink-editor/api/gists';
+import { FormattingApiResponse } from '@paritytech/ink-editor/api/format';
 
 export const defaultState: State = {
   darkmode: true,
@@ -9,6 +10,7 @@ export const defaultState: State = {
   numbering: true,
   compile: { type: 'NOT_ASKED' },
   testing: { type: 'NOT_ASKED' },
+  formatting: { type: 'NOT_ASKED' },
   monacoUri: null,
   gist: { type: 'NOT_ASKED' },
   contractSize: null,
@@ -21,6 +23,7 @@ export type State = {
   numbering: boolean;
   compile: CompileState;
   testing: TestingState;
+  formatting: FormattingState;
   monacoUri: Uri | null;
   gist: GistState;
   contractSize: number | null;
@@ -42,12 +45,18 @@ export type TestingState =
   | { type: 'IN_PROGRESS' }
   | { type: 'RESULT'; payload: TestingApiResponse };
 
+export type FormattingState =
+  | { type: 'NOT_ASKED' }
+  | { type: 'IN_PROGRESS' }
+  | { type: 'RESULT'; payload: FormattingApiResponse };
+
 export type Action =
   | { type: 'SET_DARKMODE'; payload: boolean }
   | { type: 'SET_NUMBERING'; payload: boolean }
   | { type: 'SET_MINIMAP'; payload: boolean }
   | { type: 'SET_COMPILE_STATE'; payload: CompileState }
   | { type: 'SET_TESTING_STATE'; payload: TestingState }
+  | { type: 'SET_FORMATTING_STATE'; payload: FormattingState }
   | { type: 'SET_GIST_STATE'; payload: GistState }
   | { type: 'SET_URI'; payload: Uri }
   | { type: 'SET_CONTRACT_SIZE'; payload: number | null }
@@ -81,6 +90,11 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         testing: action.payload,
+      };
+    case 'SET_FORMATTING_STATE':
+      return {
+        ...state,
+        formatting: action.payload,
       };
     case 'SET_RUST_ANALYZER_STATE':
       return {
