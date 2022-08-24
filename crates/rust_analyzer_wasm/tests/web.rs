@@ -28,22 +28,8 @@ use wasm_bindgen_test::*;
 use wasm_bindgen_futures::JsFuture;
 
 use cfg::CfgOptions;
-use ide::{
-    Change,
-    CrateGraph,
-    CrateId,
-    Edition,
-    FileId,
-    SourceRoot,
-};
-use ide_db::base_db::{
-    CrateName,
-    CrateOrigin,
-    Dependency,
-    Env,
-    FileSet,
-    VfsPath,
-};
+use ide::{Change, CrateGraph, CrateId, Edition, FileId, SourceRoot};
+use ide_db::base_db::{CrateName, CrateOrigin, Dependency, Env, FileSet, VfsPath};
 use std::sync::Arc;
 
 wasm_bindgen_test_configure!(run_in_browser);

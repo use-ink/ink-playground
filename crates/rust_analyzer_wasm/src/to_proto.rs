@@ -41,35 +41,33 @@ pub(crate) fn completion_item_kind(
 
         ide::CompletionItemKind::BuiltinType => Struct,
         ide::CompletionItemKind::Binding => Variable,
-        ide::CompletionItemKind::SymbolKind(it) => {
-            match it {
-                ide::SymbolKind::Attribute => Property,
-                ide::SymbolKind::BuiltinAttr => Property,
-                ide::SymbolKind::Const => Constant,
-                ide::SymbolKind::ConstParam => Constant,
-                ide::SymbolKind::Derive => Property,
-                ide::SymbolKind::Enum => Enum,
-                ide::SymbolKind::Field => Field,
-                ide::SymbolKind::Function => Function,
-                ide::SymbolKind::Impl => Interface,
-                ide::SymbolKind::Label => Constant,
-                ide::SymbolKind::LifetimeParam => TypeParameter,
-                ide::SymbolKind::Local => Variable,
-                ide::SymbolKind::Macro => Function,
-                ide::SymbolKind::Module => Module,
-                ide::SymbolKind::SelfParam => Value,
-                ide::SymbolKind::Static => Value,
-                ide::SymbolKind::Struct => Struct,
-                ide::SymbolKind::SelfType => Property,
-                ide::SymbolKind::ToolModule => Property,
-                ide::SymbolKind::Trait => Interface,
-                ide::SymbolKind::TypeAlias => Value,
-                ide::SymbolKind::TypeParam => TypeParameter,
-                ide::SymbolKind::Union => Struct,
-                ide::SymbolKind::ValueParam => TypeParameter,
-                ide::SymbolKind::Variant => User,
-            }
-        }
+        ide::CompletionItemKind::SymbolKind(it) => match it {
+            ide::SymbolKind::Attribute => Property,
+            ide::SymbolKind::BuiltinAttr => Property,
+            ide::SymbolKind::Const => Constant,
+            ide::SymbolKind::ConstParam => Constant,
+            ide::SymbolKind::Derive => Property,
+            ide::SymbolKind::Enum => Enum,
+            ide::SymbolKind::Field => Field,
+            ide::SymbolKind::Function => Function,
+            ide::SymbolKind::Impl => Interface,
+            ide::SymbolKind::Label => Constant,
+            ide::SymbolKind::LifetimeParam => TypeParameter,
+            ide::SymbolKind::Local => Variable,
+            ide::SymbolKind::Macro => Function,
+            ide::SymbolKind::Module => Module,
+            ide::SymbolKind::SelfParam => Value,
+            ide::SymbolKind::Static => Value,
+            ide::SymbolKind::Struct => Struct,
+            ide::SymbolKind::SelfType => Property,
+            ide::SymbolKind::ToolModule => Property,
+            ide::SymbolKind::Trait => Interface,
+            ide::SymbolKind::TypeAlias => Value,
+            ide::SymbolKind::TypeParam => TypeParameter,
+            ide::SymbolKind::Union => Struct,
+            ide::SymbolKind::ValueParam => TypeParameter,
+            ide::SymbolKind::Variant => User,
+        },
         ide::CompletionItemKind::Method => Method,
         ide::CompletionItemKind::UnresolvedReference => User,
     }
@@ -110,22 +108,20 @@ pub(crate) fn completion_item(
     // non-trivial mapping here.
     for atom_edit in item.text_edit().iter() {
         if item.source_range().contains_range(atom_edit.delete) {
-            edit = Some(
-                if atom_edit.delete == item.source_range() {
-                    text_edit(atom_edit, line_index)
-                } else {
-                    assert!(item.source_range().end() == atom_edit.delete.end());
-                    let range1 = ide::TextRange::new(
-                        atom_edit.delete.start(),
-                        item.source_range().start(),
-                    );
-                    let range2 = item.source_range();
-                    let edit1 = ide::Indel::replace(range1, String::new());
-                    let edit2 = ide::Indel::replace(range2, atom_edit.insert.clone());
-                    additional_text_edits.push(text_edit(&edit1, line_index));
-                    text_edit(&edit2, line_index)
-                },
-            )
+            edit = Some(if atom_edit.delete == item.source_range() {
+                text_edit(atom_edit, line_index)
+            } else {
+                assert!(item.source_range().end() == atom_edit.delete.end());
+                let range1 = ide::TextRange::new(
+                    atom_edit.delete.start(),
+                    item.source_range().start(),
+                );
+                let range2 = item.source_range();
+                let edit1 = ide::Indel::replace(range1, String::new());
+                let edit2 = ide::Indel::replace(range2, atom_edit.insert.clone());
+                additional_text_edits.push(text_edit(&edit1, line_index));
+                text_edit(&edit2, line_index)
+            })
         } else {
             edit = Some(text_edit(atom_edit, line_index));
         }
@@ -154,10 +150,7 @@ pub(crate) fn completion_item(
 pub(crate) fn signature_information(
     call_info: ide::SignatureHelp,
 ) -> return_types::SignatureInformation {
-    use return_types::{
-        ParameterInformation,
-        SignatureInformation,
-    };
+    use return_types::{ParameterInformation, SignatureInformation};
 
     let label = call_info.signature.clone();
     let documentation = call_info.doc.as_ref().map(|it| markdown_string(&it));
@@ -165,10 +158,8 @@ pub(crate) fn signature_information(
     let parameters: Vec<ParameterInformation> = call_info
         .parameter_labels()
         .into_iter()
-        .map(|param| {
-            ParameterInformation {
-                label: param.to_string(),
-            }
+        .map(|param| ParameterInformation {
+            label: param.to_string(),
         })
         .collect();
 
@@ -276,7 +267,7 @@ fn markdown_string(s: &str) -> return_types::MarkdownString {
     let mut in_code_block = false;
     for line in s.lines() {
         if in_code_block && code_line_ignored_by_rustdoc(line) {
-            continue
+            continue;
         }
 
         if line.starts_with("```") {

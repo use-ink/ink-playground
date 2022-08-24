@@ -19,21 +19,12 @@
 //! strategy. This allows easy mocking.
 
 use actix_web::{
-    body::BoxBody,
-    rt::task::spawn_blocking,
-    web::Json,
-    HttpResponse,
-    Responder,
+    body::BoxBody, rt::task::spawn_blocking, web::Json, HttpResponse, Responder,
 };
 
 pub use sandbox::{
-    CompilationRequest,
-    CompilationResult,
-    FormatingRequest,
-    FormatingResult,
-    Sandbox,
-    TestingRequest,
-    TestingResult,
+    CompilationRequest, CompilationResult, FormatingRequest, FormatingResult, Sandbox,
+    TestingRequest, TestingResult,
 };
 
 use sandbox;
@@ -155,11 +146,7 @@ pub async fn route_status() -> HttpResponse<BoxBody> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use actix_web::{
-        test,
-        web,
-        App,
-    };
+    use actix_web::{test, web, App};
 
     /// A compile strategy mock. Accepts only `foo` as "correct" source code.
     const COMPILE_MOCKED: CompileStrategy = |req| {

@@ -19,44 +19,24 @@ use crate::{
     cli::Opts,
     services::{
         contract::{
-            route_compile,
-            route_format,
-            route_status,
-            route_test,
-            COMPILE_SANDBOXED,
-            FORMAT_SANDBOXED,
-            TEST_SANDBOXED,
+            route_compile, route_format, route_status, route_test, COMPILE_SANDBOXED,
+            FORMAT_SANDBOXED, TEST_SANDBOXED,
         },
         frontend::route_frontend,
-        gist::{
-            create::route_gist_create,
-            load::route_gist_load,
-        },
+        gist::{create::route_gist_create, load::route_gist_load},
     },
 };
 use actix_cors::Cors;
 use actix_web::{
-    middleware::{
-        self,
-        Condition,
-        DefaultHeaders,
-    },
+    middleware::{self, Condition, DefaultHeaders},
     web,
-    web::{
-        get,
-        post,
-    },
-    App,
-    HttpResponse,
-    HttpServer,
+    web::{get, post},
+    App, HttpResponse, HttpServer,
 };
 use actix_web_prom::PrometheusMetricsBuilder;
 
 use clap::Clap;
-use std::{
-    collections::HashMap,
-    path::Path,
-};
+use std::{collections::HashMap, path::Path};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {

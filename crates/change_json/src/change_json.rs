@@ -13,20 +13,9 @@
 // limitations under the License.
 
 use crate::crate_graph_json;
-use base_db::{
-    Change,
-    CrateGraph,
-    CrateId,
-    FileId,
-    FileSet,
-    SourceRoot,
-    VfsPath,
-};
+use base_db::{Change, CrateGraph, CrateId, FileId, FileSet, SourceRoot, VfsPath};
 use crate_graph_json::CrateGraphJson;
-use serde::{
-    Deserialize,
-    Serialize,
-};
+use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
 /// Provides a (de-)serializable version of Rust Analyzers `Change` object, together with an implementation of the From traits for `Change` and `ChangeJson`.

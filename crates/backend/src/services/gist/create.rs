@@ -17,31 +17,15 @@
 //! agnostic (E.g. the compile module does not know that's mapped to the
 //! "/compile" route in the end)
 
-use crate::services::gist::common::{
-    from_github_gist,
-    github,
-    Gist,
-    GIST_FILENAME,
-};
+use crate::services::gist::common::{from_github_gist, github, Gist, GIST_FILENAME};
 use actix_web::{
-    body::BoxBody,
-    rt::spawn,
-    web::Json,
-    HttpRequest,
-    HttpResponse,
-    Responder,
+    body::BoxBody, rt::spawn, web::Json, HttpRequest, HttpResponse, Responder,
 };
 use hubcaps::{
     self,
-    gists::{
-        Content,
-        GistOptions,
-    },
+    gists::{Content, GistOptions},
 };
-use serde::{
-    Deserialize,
-    Serialize,
-};
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use tokio_compat_02::FutureExt;
 use ts_rs::TS;
