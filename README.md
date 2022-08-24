@@ -31,6 +31,18 @@ Features:
 
 ## Getting started
 
+### On Mac-OS
+
+Before proceeding you need to configure the following environment variables (either on your terminal or better persist them into your `.zshrc` file):
+
+```
+export PATH="/usr/local/opt/llvm/bin/:$PATH"
+export CC=/usr/local/opt/llvm/bin/clang
+export AR=/usr/local/opt/llvm/bin/llvm-ar
+```
+
+### On every OS
+
 The ink! playground is a fronted app which is developed using TypeScript and React. It is contained in the `packages/playground` folder.
 
 The repo contains a Rust backend which is implemented with the [actix-web](https://github.com/actix/actix-web) framework and which can be found in the 'crates/backend' folder.

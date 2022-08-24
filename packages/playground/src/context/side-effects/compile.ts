@@ -59,7 +59,7 @@ export async function compile(state: State, dispatch: Dispatch, dispatchMessage:
   dispatchMessage({
     type: 'LOG_COMPILE',
     payload: {
-      content: 'Compilation has started...',
+      content: 'Compiling Smart Contract...',
       status: 'IN_PROGRESS',
     },
   });

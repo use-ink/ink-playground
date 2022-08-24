@@ -20,4 +20,7 @@ jobs:
         with:
           version: 'latest'
 
-      - run: wasm-pack test --headless --chrome crates/rust_analyzer_wasm
+      - name: Run wasm-pack tests
+        run: wasm-pack test --headless --chrome crates/rust_analyzer_wasm
+        env:
+          WASM_BINDGEN_TEST_TIMEOUT: 60

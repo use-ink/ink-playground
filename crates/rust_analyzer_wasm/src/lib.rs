@@ -22,6 +22,7 @@ use change_json::{
 use ide::{
     Analysis,
     AnalysisHost,
+    CallableSnippets,
     CompletionConfig,
     DiagnosticsConfig,
     FileId,
@@ -104,9 +105,10 @@ impl WorldState {
         Self { host, file_id }
     }
 
-    pub fn load(&mut self, json: String) {
+    pub fn load(&mut self, json: Vec<u8>) {
         log::warn!("update");
         init_panic_hook();
+        let json = String::from_utf8_lossy(&json);
         web_sys::console::log_1(&"load!".into());
         let change: ChangeJson =
             serde_json::from_str(&json).expect("`Change` deserialization must work");
@@ -139,8 +141,7 @@ impl WorldState {
             enable_imports_on_the_fly: true,
             enable_self_on_the_fly: true,
             enable_private_editable: true,
-            add_call_parenthesis: true,
-            add_call_argument_snippets: true,
+            callable: Some(CallableSnippets::FillArguments),
             snippet_cap: SnippetCap::new(true),
             insert_use: InsertUseConfig {
                 //  merge: Some(MergeBehavior::Full),
@@ -159,7 +160,7 @@ impl WorldState {
         let pos = file_position(line_number, column, &line_index, self.file_id);
         let res = match self
             .analysis()
-            .completions(&COMPLETION_CONFIG, pos)
+            .completions(&COMPLETION_CONFIG, pos, None)
             .unwrap()
         {
             Some(items) => items,
@@ -437,7 +438,7 @@ impl WorldState {
         let mut pos = file_position(line_number, column, &line_index, self.file_id);
         pos.offset -= TextSize::of('.');
 
-        let edit = self.analysis().on_char_typed(pos, ch);
+        let edit = self.analysis().on_char_typed(pos, ch, false);
 
         let (_file, edit) = match edit {
             Ok(Some(it)) => it.source_file_edits.into_iter().next().unwrap(),
@@ -478,7 +479,8 @@ impl WorldState {
     fn derive_analytics(&self) -> JsValue {
         let analysis = self.analysis();
         let line_index = analysis.file_line_index(self.file_id).unwrap();
-        let config = DiagnosticsConfig::default();
+        let mut config = DiagnosticsConfig::default();
+        config.disabled.insert("unresolved-macro-call".to_string());
         let diagnostics: Vec<_> = analysis
             .diagnostics(&config, AssistResolveStrategy::None, self.file_id)
             .unwrap()

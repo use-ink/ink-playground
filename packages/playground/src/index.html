@@ -9,5 +9,21 @@
   </head>
   <body style="margin: 0">
     <div id="container"></div>
+    <!--
+      Initiate Analytics
+    -->
+    <script
+      async
+      defer
+      crossorigin
+      src="<%= htmlWebpackPlugin.options.analyticsUrl %>/latest.js"
+    ></script>
+    <noscript
+      ><img
+        crossorigin
+        src="<%= htmlWebpackPlugin.options.analyticsUrl %>/noscript.gif"
+        alt=""
+        referrerpolicy="no-referrer-when-downgrade"
+    /></noscript>
   </body>
 </html>
