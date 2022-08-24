@@ -1,4 +1,4 @@
-import { CompilationResult, TestingResult } from '@paritytech/commontypes';
+import { CompilationResult, TestingResult, FormatingResult } from '@paritytech/commontypes';
 import { Message, Status, Severity, Prompt } from '@paritytech/components/';
 import * as sizeLimit from '~/constants';
 import { extractContractSize } from '../side-effects/compile';
@@ -13,7 +13,12 @@ export type MessageState = {
   nextId: number;
 };
 
-export type MessageAction = SystemMessage | CompilationMessage | GistMessage | TestingMessage;
+export type MessageAction =
+  | SystemMessage
+  | CompilationMessage
+  | GistMessage
+  | TestingMessage
+  | FormattingMessage;
 
 export type SystemMessage = {
   type: 'LOG_SYSTEM';
@@ -38,6 +43,15 @@ export type TestingMessage = {
     status: Status;
     content: string;
     result?: TestingResult;
+  };
+};
+
+export type FormattingMessage = {
+  type: 'LOG_FORMATTING';
+  payload: {
+    status: Status;
+    content: string;
+    result?: FormatingResult;
   };
 };
 
@@ -298,5 +312,8 @@ export const reducer = (state: MessageState, action: MessageAction): MessageStat
 
     case 'LOG_TESTING':
       return reducerLogTesting(state, action);
+
+    default:
+      return state;
   }
 };
