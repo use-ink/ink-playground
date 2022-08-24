@@ -25,22 +25,34 @@ pub mod load;
 mod tests {
     use crate::services::gist::{
         common::Gist,
-        create::{route_gist_create, GistCreateRequest, GistCreateResponse},
-        load::{route_gist_load, GistLoadRequest, GistLoadResponse},
+        create::{
+            route_gist_create,
+            GistCreateRequest,
+            GistCreateResponse,
+        },
+        load::{
+            route_gist_load,
+            GistLoadRequest,
+            GistLoadResponse,
+        },
     };
-    use actix_web::{test, web::post, App};
+    use actix_web::{
+        test,
+        web::post,
+        App,
+    };
     use std::env;
     use tokio_compat_02::FutureExt;
 
     #[actix_rt::test]
     async fn test_gist() {
         if env::var("CI") != Ok("true".to_string()) {
-            return;
+            return
         }
 
         // Test is deactivated due to Github token issues.
         if true {
-            return;
+            return
         }
 
         let github_token = env::var("GITHUB_GIST_TOKEN")

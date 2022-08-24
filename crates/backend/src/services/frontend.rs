@@ -23,8 +23,16 @@ pub fn route_frontend(at: &str, dir: &str) -> actix_files::Files {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use actix_web::{http, test, App};
-    use std::{env, fs::File, io::prelude::*};
+    use actix_web::{
+        http,
+        test,
+        App,
+    };
+    use std::{
+        env,
+        fs::File,
+        io::prelude::*,
+    };
 
     #[actix_rt::test]
     async fn test_serve_static_index() {

@@ -15,23 +15,52 @@
 #![cfg(target_arch = "wasm32")]
 #![allow(non_snake_case)]
 
-use change_json::{ChangeJson, Find};
+use change_json::{
+    ChangeJson,
+    Find,
+};
 use ide::{
-    Analysis, AnalysisHost, CallableSnippets, CompletionConfig, DiagnosticsConfig,
-    FileId, FilePosition, FileRange, HoverConfig, HoverDocFormat, Indel, TextSize,
+    Analysis,
+    AnalysisHost,
+    CallableSnippets,
+    CompletionConfig,
+    DiagnosticsConfig,
+    FileId,
+    FilePosition,
+    FileRange,
+    HoverConfig,
+    HoverDocFormat,
+    Indel,
+    TextSize,
 };
 pub use ide_db::{
     assists::AssistResolveStrategy,
-    base_db::{Change, CrateGraph, CrateId, Edition, Env, FileSet, SourceRoot, VfsPath},
+    base_db::{
+        Change,
+        CrateGraph,
+        CrateId,
+        Edition,
+        Env,
+        FileSet,
+        SourceRoot,
+        VfsPath,
+    },
     search::SearchScope,
 };
 use ide_db::{
-    imports::insert_use::{ImportGranularity, InsertUseConfig, PrefixKind},
+    imports::insert_use::{
+        ImportGranularity,
+        InsertUseConfig,
+        PrefixKind,
+    },
     SnippetCap,
 };
 use std::sync::Arc;
 use syntax::TextRange;
-use wasm_bindgen::{prelude::*, JsValue};
+use wasm_bindgen::{
+    prelude::*,
+    JsValue,
+};
 mod to_proto;
 
 mod return_types;
@@ -188,14 +217,18 @@ impl WorldState {
             .file_structure(self.file_id)
             .unwrap()
             .into_iter()
-            .filter(|it| match it.kind {
-                ide::StructureNodeKind::SymbolKind(it) => match it {
-                    ide_db::SymbolKind::Trait
-                    | ide_db::SymbolKind::Struct
-                    | ide_db::SymbolKind::Enum => true,
-                    _ => false,
-                },
-                ide::StructureNodeKind::Region => true,
+            .filter(|it| {
+                match it.kind {
+                    ide::StructureNodeKind::SymbolKind(it) => {
+                        match it {
+                            ide_db::SymbolKind::Trait
+                            | ide_db::SymbolKind::Struct
+                            | ide_db::SymbolKind::Enum => true,
+                            _ => false,
+                        }
+                    }
+                    ide::StructureNodeKind::Region => true,
+                }
             })
             .filter_map(|it| {
                 let position = FilePosition {
@@ -473,9 +506,11 @@ impl WorldState {
             .highlight(self.file_id)
             .unwrap()
             .into_par_iter()
-            .map(|hl| Highlight {
-                tag: Some(hl.highlight.tag.to_string()),
-                range: to_proto::text_range(hl.range, &line_index),
+            .map(|hl| {
+                Highlight {
+                    tag: Some(hl.highlight.tag.to_string()),
+                    range: to_proto::text_range(hl.range, &line_index),
+                }
             })
             .collect();
         web_sys::console::log_1(&"All Done!".into());

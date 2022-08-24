@@ -17,12 +17,24 @@
 //! agnostic (E.g. the compile module does not know that's mapped to the
 //! "/compile" route in the end)
 
-use crate::services::gist::common::{from_github_gist, github, Gist};
+use crate::services::gist::common::{
+    from_github_gist,
+    github,
+    Gist,
+};
 use actix_web::{
-    body::BoxBody, rt::spawn, web::Json, HttpRequest, HttpResponse, Responder,
+    body::BoxBody,
+    rt::spawn,
+    web::Json,
+    HttpRequest,
+    HttpResponse,
+    Responder,
 };
 use hubcaps;
-use serde::{Deserialize, Serialize};
+use serde::{
+    Deserialize,
+    Serialize,
+};
 use tokio_compat_02::FutureExt;
 use ts_rs::TS;
 

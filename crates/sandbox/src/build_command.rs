@@ -19,7 +19,10 @@
 //! strategy. This allows easy mocking.
 
 use crate::docker_command;
-use std::{path::Path, time::Duration};
+use std::{
+    path::Path,
+    time::Duration,
+};
 use tokio::process::Command;
 
 const DOCKER_PROCESS_TIMEOUT_SOFT: Duration = Duration::from_secs(20);

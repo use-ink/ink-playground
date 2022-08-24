@@ -23,16 +23,36 @@ mod docker_command;
 mod example_code;
 
 use crate::build_command::{
-    build_compile_command, build_formating_command, build_testing_command,
+    build_compile_command,
+    build_formating_command,
+    build_testing_command,
 };
-use serde::{Deserialize, Serialize};
-use snafu::{OptionExt, ResultExt, Snafu};
+use serde::{
+    Deserialize,
+    Serialize,
+};
+use snafu::{
+    OptionExt,
+    ResultExt,
+    Snafu,
+};
 use std::{
     ffi::OsStr,
-    fs::{self, File},
-    io::{self, prelude::*, BufReader, ErrorKind},
+    fs::{
+        self,
+        File,
+    },
+    io::{
+        self,
+        prelude::*,
+        BufReader,
+        ErrorKind,
+    },
     os::unix::prelude::PermissionsExt,
-    path::{Path, PathBuf},
+    path::{
+        Path,
+        PathBuf,
+    },
     string,
     time::Duration,
 };
@@ -186,15 +206,19 @@ impl Sandbox {
         let stderr = vec_to_str(output.stderr)?;
 
         let compile_response = match file {
-            Some(file) => match read(&file) {
-                Ok(Some(wasm)) => CompilationResult::Success {
-                    wasm,
-                    stderr,
-                    stdout,
-                },
-                Ok(None) => CompilationResult::Error { stderr, stdout },
-                Err(_) => CompilationResult::Error { stderr, stdout },
-            },
+            Some(file) => {
+                match read(&file) {
+                    Ok(Some(wasm)) => {
+                        CompilationResult::Success {
+                            wasm,
+                            stderr,
+                            stdout,
+                        }
+                    }
+                    Ok(None) => CompilationResult::Error { stderr, stdout },
+                    Err(_) => CompilationResult::Error { stderr, stdout },
+                }
+            }
             None => CompilationResult::Error { stderr, stdout },
         };
 
@@ -357,16 +381,18 @@ mod tests {
     fn compile_check(source: String) -> Option<bool> {
         Sandbox::new()
             .and_then(|sandbox| sandbox.compile(&CompilationRequest { source }))
-            .map(|result| match result {
-                CompilationResult::Success {
-                    wasm,
-                    stdout: _,
-                    stderr: _,
-                } => !wasm.is_empty(),
-                CompilationResult::Error {
-                    stdout: _,
-                    stderr: _,
-                } => false,
+            .map(|result| {
+                match result {
+                    CompilationResult::Success {
+                        wasm,
+                        stdout: _,
+                        stderr: _,
+                    } => !wasm.is_empty(),
+                    CompilationResult::Error {
+                        stdout: _,
+                        stderr: _,
+                    } => false,
+                }
             })
             .ok()
     }
