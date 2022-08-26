@@ -192,7 +192,66 @@ const reducerLogCompile = (state: MessageState, action: CompilationMessage): Mes
     }
   }
 };
-
+const reducerLogFormatting = (state: MessageState, action: FormattingMessage) => {
+  switch (action.payload.status) {
+    case 'ERROR': {
+      const id = lastId(state, 'FORMAT');
+      // Server error message to attach, if present
+      const serverErrorMsg = action.payload.result?.payload.stderr;
+      const updateMessage: Message = {
+        id,
+        prompt: 'FORMAT',
+        status: action.payload.status,
+        // construct error message
+        content: `${action.payload.content}${serverErrorMsg ? `: '${serverErrorMsg}'` : ''}`,
+        severity: Severity[action.payload.status],
+      };
+      return {
+        ...state,
+        messages: [...state.messages, updateMessage],
+        nextId: state.nextId + 1,
+      };
+    }
+    case 'DONE': {
+      const id = lastId(state, 'FORMAT');
+      const updateMessage: Message = {
+        id,
+        prompt: 'FORMAT',
+        status: action.payload.status,
+        content: action.payload.content,
+        severity: Severity[action.payload.status],
+      };
+      // Dispatch message with formatting details
+      const status = (action.payload.result?.type || 'INFO') as Status;
+      const newMessage: Message = {
+        id: state.nextId,
+        prompt: 'FORMAT',
+        status,
+        content: `Code was successfully formatted! `,
+        severity: Severity[status],
+      };
+      return {
+        ...state,
+        messages: [...state.messages, updateMessage, newMessage],
+        nextId: state.nextId + 1,
+      };
+    }
+    default: {
+      const newMessage: Message = {
+        id: state.nextId,
+        prompt: 'FORMAT',
+        status: action.payload.status,
+        content: action.payload.content,
+        severity: Severity[action.payload.status],
+      };
+      return {
+        ...state,
+        messages: [...state.messages, newMessage],
+        nextId: state.nextId + 1,
+      };
+    }
+  }
+};
 const reducerLogTesting = (state: MessageState, action: TestingMessage): MessageState => {
   switch (action.payload.status) {
     case 'ERROR': {
@@ -312,6 +371,9 @@ export const reducer = (state: MessageState, action: MessageAction): MessageStat
 
     case 'LOG_TESTING':
       return reducerLogTesting(state, action);
+
+    case 'LOG_FORMATTING':
+      return reducerLogFormatting(state, action);
 
     default:
       return state;

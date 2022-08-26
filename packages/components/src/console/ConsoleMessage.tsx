@@ -15,7 +15,7 @@ export type Message = {
   preContentColor?: string;
 };
 
-export type Prompt = 'COMPILE' | 'SYSTEM' | 'GIST' | 'TEST';
+export type Prompt = 'COMPILE' | 'SYSTEM' | 'GIST' | 'TEST' | 'FORMAT';
 
 export type Status = 'IN_PROGRESS' | 'DONE' | 'ERROR' | 'INFO' | 'SUCCESS';
 
