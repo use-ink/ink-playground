@@ -2,7 +2,7 @@ import { FormattingApiResponse, formattingRequest } from '@paritytech/ink-editor
 import { State, Dispatch } from '~/context/app/reducer';
 import { MessageAction, MessageDispatch } from '~/context/messages/reducer';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import { TESTING_URL } from '~/env';
+import { FORMATTING_URL } from '~/env';
 
 const getMessageAction = (result: FormattingApiResponse): MessageAction | undefined => {
   switch (result.type) {
@@ -95,9 +95,10 @@ export async function format(state: State, dispatch: Dispatch, dispatchMessage: 
 
   const code = model.getValue();
 
-  const result = await formattingRequest({ compileUrl: TESTING_URL || '' }, { source: code }).then(
-    interpret_response
-  );
+  const result = await formattingRequest(
+    { compileUrl: FORMATTING_URL || '' },
+    { source: code }
+  ).then(interpret_response);
 
   dispatch({
     type: 'SET_FORMATTING_STATE',
