@@ -61,7 +61,13 @@ To clone and build the whole project on your local machine, enter:
 
 5. `make build`
 
-and finally, to start the backend:
+Then pull and tag the docker image which is used by the backend to compile, test & format Smart Contracts:
+
+6. `docker pull achimcc/inkbackend`
+
+7. `docker tag achimcc/ink-backend ink-backend`
+
+Finally, start the backend with:
 
 6. `make backend-run`
 
