@@ -254,11 +254,6 @@ impl Sandbox {
         let stdout = vec_to_str(output.stdout)?;
         let stderr = vec_to_str(output.stderr)?;
 
-        println!("stdout: \n{:?}", stdout);
-
-        // let source = "I'm the formatted code!".to_string();
-        // let stderr = "".to_string();
-
         let formating_response = FormatingResult::Success { stderr, source: stdout };
 
         Ok(formating_response)
