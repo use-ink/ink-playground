@@ -30,8 +30,8 @@ fn main() -> std::io::Result<()> {
         backend::services::contract::TestingResult,
         backend::services::contract::TestingRequest,
 
-        backend::services::contract::FormatingResult,
-        backend::services::contract::FormatingRequest,
+        backend::services::contract::FormattingResult,
+        backend::services::contract::FormattingRequest,
 
         backend::services::gist::common::Gist,
 

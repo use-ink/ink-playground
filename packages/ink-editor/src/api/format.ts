@@ -1,11 +1,11 @@
 import * as Common from '@paritytech/commontypes';
 
-export type FormattingApiRequest = Common.FormatingRequest;
+export type FormattingApiRequest = Common.FormattingRequest;
 
 export type FormattingApiResponse =
   | {
       type: 'OK';
-      payload: Common.FormatingResult;
+      payload: Common.FormattingResult;
     }
   | {
       type: 'NETWORK_ERROR';
