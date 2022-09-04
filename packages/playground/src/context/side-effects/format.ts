@@ -100,6 +100,26 @@ export async function format(state: State, dispatch: Dispatch, dispatchMessage: 
     { source: code }
   ).then(interpret_response);
 
+  if (result.type == "OK" && result.payload.type == "SUCCESS" ) { model.setValue(result.payload.payload.source) };
+
+  switch (result.type) {
+      case  "OK": {
+        if (result.payload.type == "SUCCESS") {
+          model.setValue(result.payload.payload.source)
+        }
+        else {
+
+        }
+        break;
+      }
+      case "NETWORK_ERROR": {
+        break;
+      }
+      case "SERVER_ERROR": {
+        break;
+      }
+  }
+
   dispatch({
     type: 'SET_FORMATTING_STATE',
     payload: { type: 'RESULT', payload: result },
