@@ -92,7 +92,7 @@ export const Header = (): ReactElement => {
           darkmode={state.darkmode}
           testId={'buttonIcon'}
           onClick={() => format(state, dispatch, dispatchMessage)}
-          loading={state.testing.type === 'IN_PROGRESS'}
+          loading={state.formatting.type === 'IN_PROGRESS'}
         />
         <ButtonWithIcon
           label="Download"
