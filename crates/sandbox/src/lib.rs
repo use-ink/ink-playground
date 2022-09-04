@@ -25,6 +25,7 @@ mod example_code;
 use crate::build_command::{
     build_compile_command,
     build_testing_command,
+    build_formatting_command,
 };
 use serde::{
     Deserialize,
@@ -244,11 +245,14 @@ impl Sandbox {
     pub fn format(&self, req: &FormatingRequest) -> Result<FormatingResult> {
         self.write_source_code(&req.source)?;
 
-        let command = build_testing_command(&self.input_file);
+        let command = build_formatting_command(&self.input_file);
 
         println!("Executing command: \n{:?}", command);
 
-        //ToDo: implement Docker command
+        // let output = run_command_with_timeout(command)?;
+
+        // let stdout = vec_to_str(output.stdout)?;
+        // let stderr = vec_to_str(output.stderr)?;
 
         let source = "I'm the formatted code!".to_string();
         let stderr = "".to_string();
