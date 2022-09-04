@@ -1,4 +1,4 @@
-import { CompilationResult, TestingResult, FormatingResult } from '@paritytech/commontypes';
+import { CompilationResult, TestingResult, FormattingResult } from '@paritytech/commontypes';
 import { Message, Status, Severity, Prompt } from '@paritytech/components/';
 import * as sizeLimit from '~/constants';
 import { extractContractSize } from '../side-effects/compile';
@@ -51,7 +51,7 @@ export type FormattingMessage = {
   payload: {
     status: Status;
     content: string;
-    result?: FormatingResult;
+    result?: FormattingResult;
   };
 };
 

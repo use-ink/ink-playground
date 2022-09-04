@@ -29,8 +29,8 @@ use actix_web::{
 pub use sandbox::{
     CompilationRequest,
     CompilationResult,
-    FormatingRequest,
-    FormatingResult,
+    FormattingRequest,
+    FormattingResult,
     Sandbox,
     TestingRequest,
     TestingResult,
@@ -46,7 +46,7 @@ pub type CompileStrategy = fn(CompilationRequest) -> sandbox::Result<Compilation
 
 pub type TestingStrategy = fn(TestingRequest) -> sandbox::Result<TestingResult>;
 
-pub type FormatingStrategy = fn(FormatingRequest) -> sandbox::Result<FormatingResult>;
+pub type FormattingStrategy = fn(FormattingRequest) -> sandbox::Result<FormattingResult>;
 
 // -------------------------------------------------------------------------------------------------
 // IMPLEMENTATION
@@ -90,7 +90,7 @@ pub const TEST_SANDBOXED: TestingStrategy = |req| {
     sandbox.test(&req)
 };
 
-pub const FORMAT_SANDBOXED: FormatingStrategy = |req| {
+pub const FORMAT_SANDBOXED: FormattingStrategy = |req| {
     let sandbox = Sandbox::new()?;
 
     sandbox.format(&req)
@@ -121,21 +121,21 @@ pub async fn route_test(
 }
 
 pub async fn route_format(
-    formating_strategy: FormatingStrategy,
-    req: Json<FormatingRequest>,
+    formatting_strategy: FormattingStrategy,
+    req: Json<FormattingRequest>,
 ) -> impl Responder {
-    let formating_result = spawn_blocking(move || {
-        formating_strategy(FormatingRequest {
+    let formatting_result = spawn_blocking(move || {
+        formatting_strategy(FormattingRequest {
             source: req.source.to_string(),
         })
     })
     .await
     .expect("Contract formatting panicked");
 
-    match formating_result {
+    match formatting_result {
         Ok(result) => {
-            let formating_result = serde_json::to_string(&result).unwrap();
-            HttpResponse::Ok().body(formating_result)
+            let formatting_result = serde_json::to_string(&result).unwrap();
+            HttpResponse::Ok().body(formatting_result)
         }
         Err(err) => {
             eprintln!("{:?}", err);
