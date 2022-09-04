@@ -108,14 +108,16 @@ export async function format(state: State, dispatch: Dispatch, dispatchMessage: 
           model.setValue(result.payload.payload.source)
         }
         else {
-
+          // ToDo: Error handling
         }
         break;
       }
       case "NETWORK_ERROR": {
+        // ToDo: Error handling
         break;
       }
       case "SERVER_ERROR": {
+        // ToDo: Error handling
         break;
       }
   }
