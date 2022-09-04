@@ -249,15 +249,17 @@ impl Sandbox {
 
         println!("Executing command: \n{:?}", command);
 
-        // let output = run_command_with_timeout(command)?;
+        let output = run_command_with_timeout(command)?;
 
-        // let stdout = vec_to_str(output.stdout)?;
-        // let stderr = vec_to_str(output.stderr)?;
+        let stdout = vec_to_str(output.stdout)?;
+        let stderr = vec_to_str(output.stderr)?;
 
-        let source = "I'm the formatted code!".to_string();
-        let stderr = "".to_string();
+        println!("stdout: \n{:?}", stdout);
 
-        let formating_response = FormatingResult::Success { stderr, source };
+        // let source = "I'm the formatted code!".to_string();
+        // let stderr = "".to_string();
+
+        let formating_response = FormatingResult::Success { stderr, source: stdout };
 
         Ok(formating_response)
     }
