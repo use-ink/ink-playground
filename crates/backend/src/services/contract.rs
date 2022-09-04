@@ -29,11 +29,11 @@ use actix_web::{
 pub use sandbox::{
     CompilationRequest,
     CompilationResult,
+    FormatingRequest,
+    FormatingResult,
     Sandbox,
     TestingRequest,
     TestingResult,
-    FormatingRequest,
-    FormatingResult,
 };
 
 use sandbox;

@@ -24,8 +24,8 @@ mod example_code;
 
 use crate::build_command::{
     build_compile_command,
-    build_testing_command,
     build_formatting_command,
+    build_testing_command,
 };
 use serde::{
     Deserialize,
@@ -254,7 +254,10 @@ impl Sandbox {
         let stdout = vec_to_str(output.stdout)?;
         let stderr = vec_to_str(output.stderr)?;
 
-        let formating_response = FormatingResult::Success { stderr, source: stdout };
+        let formating_response = FormatingResult::Success {
+            stderr,
+            source: stdout,
+        };
 
         Ok(formating_response)
     }
