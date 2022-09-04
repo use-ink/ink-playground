@@ -130,7 +130,7 @@ pub async fn route_format(
         })
     })
     .await
-    .expect("Contract testing panicked");
+    .expect("Contract formatting panicked");
 
     match formating_result {
         Ok(result) => {

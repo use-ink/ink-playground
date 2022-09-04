@@ -150,9 +150,9 @@ fn testing_execution_command() -> Vec<String> {
 }
 
 fn formatting_execution_command() -> Vec<String> {
-    let test_cmd = "cargo +nightly fmt & cat lib.rs 2>&1".to_string();
+    let format_cmd = "cargo +nightly fmt && cat lib.rs 2>&1".to_string();
 
-    let cmd = vec!["/bin/bash".to_string(), "-c".to_string(), test_cmd];
+    let cmd = vec!["/bin/bash".to_string(), "-c".to_string(), format_cmd];
 
     cmd
 }
