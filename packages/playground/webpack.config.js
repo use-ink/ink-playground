@@ -68,6 +68,7 @@ const localConfig = {
     new EnvironmentPlugin({
       COMPILE_URL: '',
       TESTING_URL: '',
+      FORMATTING_URL: '',
       GIST_CREATE_URL: '',
       GIST_LOAD_URL: '',
     }),
