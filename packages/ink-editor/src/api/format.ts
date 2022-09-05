@@ -13,6 +13,9 @@ export type FormattingApiResponse =
   | {
       type: 'SERVER_ERROR';
       payload: { status: number };
+    }
+  | {
+      type: 'FORMATTING_ERROR';
     };
 
 export type Config = {
