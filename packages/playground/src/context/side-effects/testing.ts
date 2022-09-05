@@ -46,7 +46,9 @@ const getMessageAction = (result: TestingApiResponse): MessageAction | undefined
 
 function interpret_response(response: TestingApiResponse): TestingApiResponse {
   if (response.type === 'OK' && response.payload.type === 'SUCCESS') {
-    const has_test_error = /FAILED/.test(response.payload.payload.stdout);
+    const has_test_error =
+      /FAILED/.test(response.payload.payload.stdout) ||
+      /error: could not compile/.test(response.payload.payload.stdout);
     if (has_test_error) {
       const result = Object.assign(response, {
         ...response,
