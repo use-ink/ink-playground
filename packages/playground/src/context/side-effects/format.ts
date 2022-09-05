@@ -45,8 +45,9 @@ const getMessageAction = (result: FormattingApiResponse): MessageAction | undefi
 };
 
 function interpret_response(response: FormattingApiResponse): FormattingApiResponse {
+  console.log('response: ', response);
   if (response.type === 'OK' && response.payload.type === 'SUCCESS') {
-    const has_format_error = /FAILED/.test(response.payload.payload.stderr);
+    const has_format_error = !response.payload.payload.source;
     if (has_format_error) {
       const result = Object.assign(response, {
         ...response,
