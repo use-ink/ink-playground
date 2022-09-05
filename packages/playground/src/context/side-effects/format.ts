@@ -22,6 +22,14 @@ const getMessageAction = (result: FormattingApiResponse): MessageAction | undefi
           status: 'ERROR',
         },
       };
+    case 'FORMATTING_ERROR':
+      return {
+        type: 'LOG_FORMATTING',
+        payload: {
+          content: `Formatting Error: run Test to find out more`,
+          status: 'ERROR',
+        },
+      };
     case 'OK':
       if (result.payload.type === 'ERROR') {
         return {
@@ -49,10 +57,7 @@ function interpret_response(response: FormattingApiResponse): FormattingApiRespo
   if (response.type === 'OK' && response.payload.type === 'SUCCESS') {
     const has_format_error = !response.payload.payload.source;
     if (has_format_error) {
-      const result = Object.assign(response, {
-        ...response,
-        payload: { ...response.payload, type: 'ERROR' },
-      });
+      const result = { type: 'FORMATTING_ERROR' } as FormattingApiResponse;
       return result;
     }
   }
@@ -103,25 +108,6 @@ export async function format(state: State, dispatch: Dispatch, dispatchMessage: 
 
   if (result.type == 'OK' && result.payload.type == 'SUCCESS') {
     model.setValue(result.payload.payload.source);
-  }
-
-  switch (result.type) {
-    case 'OK': {
-      if (result.payload.type == 'SUCCESS') {
-        model.setValue(result.payload.payload.source);
-      } else {
-        // ToDo: Error handling
-      }
-      break;
-    }
-    case 'NETWORK_ERROR': {
-      // ToDo: Error handling
-      break;
-    }
-    case 'SERVER_ERROR': {
-      // ToDo: Error handling
-      break;
-    }
   }
 
   dispatch({
