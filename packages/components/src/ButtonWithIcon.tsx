@@ -6,6 +6,7 @@ import resolveConfig from 'tailwindcss/resolveConfig';
 import { TailwindConfig } from 'tailwindcss/tailwind-config';
 
 // The types from Tailwind do not play along nicely with custom fonts
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 const fullConfig = resolveConfig(tailwindConfig as any) as TailwindConfig;
 
 // Get colors from tailwind config
