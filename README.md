@@ -71,7 +71,7 @@ Finally, start the backend with:
 
 6. `make backend-run`
 
-The last command starts the Rust webserver locally on you computer. You can then access `localhost:4000` from your browser to open the locally compiled ink! Playground open.
+The last command starts the Rust webserver locally on your computer. You can then access `localhost:4000` from your browser to open the locally compiled ink! Playground open.
 
 ## Detailed usage instructions:
 
