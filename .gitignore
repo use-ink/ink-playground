@@ -9,6 +9,7 @@ rls*.log
 runtime/Cargo.lock
 change.json
 node_modules
+packages/playground/dist
 packages/_generated/*/src
 packages/_generated/src
 .pnp.*
