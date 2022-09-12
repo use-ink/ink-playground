@@ -8,7 +8,7 @@ module.exports = {
   setupFiles: ['<rootDir>/jest/setEnvVars.ts'],
   setupFilesAfterEnv: ['<rootDir>/jest/setupTests.ts'],
   testEnvironment: 'jsdom',
-  transformIgnorePatterns: ['^react-monaco-editor', '^monaco-editor', '@adobe/css-tools'],
+  transformIgnorePatterns: ['^react-monaco-editor', '^monaco-editor'],
   moduleNameMapper: {
     '~/(.*)': '<rootDir>/src/$1',
     '^.+.(css|scss)$': 'identity-obj-proxy',
