@@ -4,10 +4,9 @@ import { Tooltip } from 'primereact/tooltip';
 import tailwindConfig from '../../playground/tailwind.config';
 import resolveConfig from 'tailwindcss/resolveConfig';
 import { TailwindConfig } from 'tailwindcss/tailwind-config';
-import { Config } from 'tailwindcss/types';
 
 // The types from Tailwind do not play along nicely with custom fonts
-const fullConfig = resolveConfig(tailwindConfig as Config) as TailwindConfig;
+const fullConfig = resolveConfig(tailwindConfig as unknown as TailwindConfig);
 
 // Get colors from tailwind config
 export type Colors = {
