@@ -9,6 +9,7 @@ import {
   TestingIcon,
   DocsIcon,
   DeployIcon,
+  FormatIcon,
 } from '~/symbols';
 import { OverlayPanel, ButtonWithIcon } from '@paritytech/components/';
 import { SettingsSubmenu } from './SettingsSubmenu';
@@ -88,7 +89,7 @@ export const Header = (): ReactElement => {
         />
         <ButtonWithIcon
           label="Format"
-          Icon={TestingIcon}
+          Icon={FormatIcon}
           darkmode={state.darkmode}
           testId={'buttonIcon'}
           onClick={() => format(state, dispatch, dispatchMessage)}
