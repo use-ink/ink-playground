@@ -8,6 +8,7 @@ import DeployIcon from '~/assets/deploy.svg';
 import DocsIcon from '~/assets/docs.svg';
 import GistIcon from '~/assets/gist.svg';
 import ShareIcon from '~/assets/share.svg';
+import FormatIcon from '~/assets/format.svg';
 import Logo from '~/assets/ink-logo-on-dark.svg';
 
 export {
@@ -21,5 +22,6 @@ export {
   DocsIcon,
   GistIcon,
   ShareIcon,
+  FormatIcon,
   Logo,
 };
