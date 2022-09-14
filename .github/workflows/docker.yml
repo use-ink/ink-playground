@@ -64,12 +64,12 @@ jobs:
       - name: Push Docker image
         if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
         run: docker push ${{ secrets.DOCKER_USER_NAME }}/ink-playground
-      
+
       - name: Generate build number
         if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
         uses: einaregilsson/build-number@v3
         with:
-           token: ${{secrets.github_token}}
+          token: ${{secrets.github_token}}
 
       - name: Print new build number
         if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
