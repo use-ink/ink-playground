@@ -25,9 +25,9 @@ const App = (): ReactElement => {
   }, [uri]);
 
   useEffect(() => {
-    if (!(formatting.type === "RESULT")) return;
-    if (!(formatting.payload.type === "OK")) return;
-    if(!(formatting.payload.payload.type === "SUCCESS")) return;
+    if (!(formatting.type === 'RESULT')) return;
+    if (!(formatting.payload.type === 'OK')) return;
+    if (!(formatting.payload.payload.type === 'SUCCESS')) return;
     if (!uri) return;
     const model = monaco.editor.getModel(uri as monaco.Uri);
     if (!model) return;
