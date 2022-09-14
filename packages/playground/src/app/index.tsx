@@ -13,7 +13,7 @@ import { monaco } from 'react-monaco-editor';
 const App = (): ReactElement => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
   const [, messageDispatch]: [MessageState, MessageDispatch] = useContext(MessageContext);
-  const { monacoUri: uri } = state;
+  const { monacoUri: uri, formatting } = state;
 
   useEffect(() => {
     if (!uri) return;
@@ -23,6 +23,17 @@ const App = (): ReactElement => {
       model.setValue(code);
     });
   }, [uri]);
+
+  useEffect(() => {
+    if (!(formatting.type === "RESULT")) return;
+    if (!(formatting.payload.type === "OK")) return;
+    if(!(formatting.payload.payload.type === "SUCCESS")) return;
+    if (!uri) return;
+    const model = monaco.editor.getModel(uri as monaco.Uri);
+    if (!model) return;
+    let code = formatting.payload.payload.payload.source;
+    model.setValue(code);
+  }, [formatting]);
 
   const onRustAnalyzerStartLoad = () => {
     messageDispatch({
