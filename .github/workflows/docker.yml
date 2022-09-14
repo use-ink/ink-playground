@@ -28,7 +28,7 @@ jobs:
         run: make docker-buildkit
         env:
           DOCKER_USER_NAME: achimcc
-        
+
       - name: Tag Docker image
         run: docker tag achimcc/ink-playground:latest ink-playground
 
@@ -61,19 +61,6 @@ jobs:
           username: ${{ secrets.DOCKER_USER_NAME }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
-      - name: Generate build number
-        if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
-        uses: einaregilsson/build-number@v3
-        with:
-          token: ${{secrets.github_token}}
-          
-      - name: Print new build number
-        if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
-        run: echo "Build number is $BUILD_NUMBER"
-        
-      - name: Tag Docker image
-        run: docker tag achimcc/ink-playground:latest achimcc/ink-playground:1.0.$BUILD_NUMBER
-        
       - name: Push Docker image
         if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
         run: docker push ${{ secrets.DOCKER_USER_NAME }}/ink-playground
