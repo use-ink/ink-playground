@@ -31,7 +31,7 @@ const App = (): ReactElement => {
     if (!uri) return;
     const model = monaco.editor.getModel(uri as monaco.Uri);
     if (!model) return;
-    let code = formatting.payload.payload.payload.source;
+    const code = formatting.payload.payload.payload.source;
     model.setValue(code);
   }, [formatting]);
 
