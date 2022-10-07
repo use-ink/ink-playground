@@ -24,14 +24,12 @@ use crate::services::gist::common::{
     GIST_FILENAME,
 };
 use actix_web::{
+    body::BoxBody,
+    rt::spawn,
     web::Json,
     HttpRequest,
     HttpResponse,
     Responder,
-};
-use futures::future::{
-    ready,
-    Ready,
 };
 use hubcaps::{
     self,
@@ -45,6 +43,7 @@ use serde::{
     Serialize,
 };
 use std::collections::HashMap;
+use tokio_compat_02::FutureExt;
 use ts_rs::TS;
 
 // -------------------------------------------------------------------------------------------------
@@ -80,15 +79,14 @@ const GIST_DESCRIPTION: &str = "Code shared from the Rust Playground";
 // -------------------------------------------------------------------------------------------------
 
 impl Responder for GistCreateResponse {
-    type Error = actix_web::Error;
-    type Future = Ready<Result<HttpResponse, actix_web::Error>>;
+    type Body = BoxBody;
 
-    fn respond_to(self, _req: &HttpRequest) -> Self::Future {
+    fn respond_to(self, _req: &HttpRequest) -> HttpResponse<Self::Body> {
         let body = serde_json::to_string(&self).unwrap();
 
-        ready(Ok(HttpResponse::Ok()
+        HttpResponse::Ok()
             .content_type("application/json")
-            .body(body)))
+            .body(body)
     }
 }
 
@@ -96,7 +94,10 @@ pub async fn route_gist_create(
     github_token: String,
     req: Json<GistCreateRequest>,
 ) -> impl Responder {
-    let gist_result = create_gist(github_token.as_ref(), &req.code).await;
+    let gist_result =
+        spawn(async move { create_gist(github_token, req.clone().code).compat().await })
+            .await
+            .expect("Failed to create Gist");
 
     match gist_result {
         Err(error) => {
@@ -110,8 +111,8 @@ pub async fn route_gist_create(
     }
 }
 
-async fn create_gist(github_token: &str, code: &str) -> Result<Gist, Error> {
-    let gist = github_create_gist(github_token, code)
+async fn create_gist(github_token: String, code: String) -> Result<Gist, Error> {
+    let gist = github_create_gist(&github_token, &code)
         .await
         .map_err(Error::GitHubError)?;
 

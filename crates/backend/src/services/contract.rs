@@ -19,6 +19,8 @@
 //! strategy. This allows easy mocking.
 
 use actix_web::{
+    body::BoxBody,
+    rt::task::spawn_blocking,
     web::Json,
     HttpResponse,
     Responder,
@@ -27,6 +29,8 @@ use actix_web::{
 pub use sandbox::{
     CompilationRequest,
     CompilationResult,
+    FormattingRequest,
+    FormattingResult,
     Sandbox,
     TestingRequest,
     TestingResult,
@@ -41,6 +45,8 @@ use sandbox;
 pub type CompileStrategy = fn(CompilationRequest) -> sandbox::Result<CompilationResult>;
 
 pub type TestingStrategy = fn(TestingRequest) -> sandbox::Result<TestingResult>;
+
+pub type FormattingStrategy = fn(FormattingRequest) -> sandbox::Result<FormattingResult>;
 
 // -------------------------------------------------------------------------------------------------
 // IMPLEMENTATION
@@ -58,9 +64,13 @@ pub async fn route_compile(
     compile_strategy: CompileStrategy,
     req: Json<CompilationRequest>,
 ) -> impl Responder {
-    let compile_result = compile_strategy(CompilationRequest {
-        source: req.source.to_string(),
-    });
+    let compile_result = spawn_blocking(move || {
+        compile_strategy(CompilationRequest {
+            source: req.source.to_string(),
+        })
+    })
+    .await
+    .expect("Contract compilation panicked");
 
     match compile_result {
         Ok(result) => {
@@ -80,13 +90,23 @@ pub const TEST_SANDBOXED: TestingStrategy = |req| {
     sandbox.test(&req)
 };
 
+pub const FORMAT_SANDBOXED: FormattingStrategy = |req| {
+    let sandbox = Sandbox::new()?;
+
+    sandbox.format(&req)
+};
+
 pub async fn route_test(
     compile_strategy: TestingStrategy,
     req: Json<TestingRequest>,
 ) -> impl Responder {
-    let testing_result = compile_strategy(TestingRequest {
-        source: req.source.to_string(),
-    });
+    let testing_result = spawn_blocking(move || {
+        compile_strategy(TestingRequest {
+            source: req.source.to_string(),
+        })
+    })
+    .await
+    .expect("Contract testing panicked");
 
     match testing_result {
         Ok(result) => {
@@ -98,6 +118,34 @@ pub async fn route_test(
             HttpResponse::InternalServerError().finish()
         }
     }
+}
+
+pub async fn route_format(
+    formatting_strategy: FormattingStrategy,
+    req: Json<FormattingRequest>,
+) -> impl Responder {
+    let formatting_result = spawn_blocking(move || {
+        formatting_strategy(FormattingRequest {
+            source: req.source.to_string(),
+        })
+    })
+    .await
+    .expect("Contract formatting panicked");
+
+    match formatting_result {
+        Ok(result) => {
+            let formatting_result = serde_json::to_string(&result).unwrap();
+            HttpResponse::Ok().body(formatting_result)
+        }
+        Err(err) => {
+            eprintln!("{:?}", err);
+            HttpResponse::InternalServerError().finish()
+        }
+    }
+}
+
+pub async fn route_status() -> HttpResponse<BoxBody> {
+    HttpResponse::Ok().body("ink-backend is live")
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -148,7 +196,7 @@ mod tests {
     #[actix_rt::test]
     async fn test_compilation_success() {
         // TODO: Write reusable helper to setup service
-        let mut app = test::init_service(App::new().route(
+        let app = test::init_service(App::new().route(
             "/",
             web::post().to(|body| route_compile(COMPILE_MOCKED, body)),
         ))
@@ -162,7 +210,7 @@ mod tests {
             .uri("/")
             .to_request();
 
-        let res: CompilationResult = test::read_response_json(&mut app, req).await;
+        let res: CompilationResult = test::call_and_read_body_json(&app, req).await;
 
         assert_eq!(
             res,
@@ -178,7 +226,7 @@ mod tests {
     #[actix_rt::test]
     async fn test_compilation_failure() {
         // TODO: Write reusable helper to setup service
-        let mut app = test::init_service(App::new().route(
+        let app = test::init_service(App::new().route(
             "/",
             web::post().to(|body| route_compile(COMPILE_MOCKED, body)),
         ))
@@ -193,7 +241,7 @@ mod tests {
             .uri("/")
             .to_request();
 
-        let res: TestingResult = test::read_response_json(&mut app, req).await;
+        let res: TestingResult = test::call_and_read_body_json(&app, req).await;
 
         assert_eq!(
             res,
@@ -208,7 +256,7 @@ mod tests {
     #[actix_rt::test]
     async fn test_testing_success() {
         // TODO: Write reusable helper to setup service
-        let mut app = test::init_service(
+        let app = test::init_service(
             App::new()
                 .route("/", web::post().to(|body| route_test(TESTING_MOCKED, body))),
         )
@@ -222,7 +270,7 @@ mod tests {
             .uri("/")
             .to_request();
 
-        let res: TestingResult = test::read_response_json(&mut app, req).await;
+        let res: TestingResult = test::call_and_read_body_json(&app, req).await;
 
         assert_eq!(
             res,
@@ -237,7 +285,7 @@ mod tests {
     #[actix_rt::test]
     async fn test_testing_failure() {
         // TODO: Write reusable helper to setup service
-        let mut app = test::init_service(
+        let app = test::init_service(
             App::new()
                 .route("/", web::post().to(|body| route_test(TESTING_MOCKED, body))),
         )
@@ -251,7 +299,7 @@ mod tests {
             .uri("/")
             .to_request();
 
-        let res: TestingResult = test::read_response_json(&mut app, req).await;
+        let res: TestingResult = test::call_and_read_body_json(&app, req).await;
 
         assert_eq!(
             res,

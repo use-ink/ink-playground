@@ -23,20 +23,19 @@ use crate::services::gist::common::{
     Gist,
 };
 use actix_web::{
+    body::BoxBody,
+    rt::spawn,
     web::Json,
     HttpRequest,
     HttpResponse,
     Responder,
-};
-use futures::future::{
-    ready,
-    Ready,
 };
 use hubcaps;
 use serde::{
     Deserialize,
     Serialize,
 };
+use tokio_compat_02::FutureExt;
 use ts_rs::TS;
 
 // -------------------------------------------------------------------------------------------------
@@ -66,15 +65,14 @@ enum Error {
 // -------------------------------------------------------------------------------------------------
 
 impl Responder for GistLoadResponse {
-    type Error = actix_web::Error;
-    type Future = Ready<Result<HttpResponse, actix_web::Error>>;
+    type Body = BoxBody;
 
-    fn respond_to(self, _req: &HttpRequest) -> Self::Future {
+    fn respond_to(self, _req: &HttpRequest) -> HttpResponse<Self::Body> {
         let body = serde_json::to_string(&self).unwrap();
 
-        ready(Ok(HttpResponse::Ok()
+        HttpResponse::Ok()
             .content_type("application/json")
-            .body(body)))
+            .body(body)
     }
 }
 
@@ -82,7 +80,10 @@ pub async fn route_gist_load(
     github_token: String,
     req: Json<GistLoadRequest>,
 ) -> impl Responder {
-    let gist_result = load_gist(github_token.as_ref(), &req.id).await;
+    let gist_result =
+        spawn(async move { load_gist(github_token, req.clone().id).compat().await })
+            .await
+            .expect("Failed to load Gist");
 
     match gist_result {
         Err(error) => {
@@ -96,8 +97,8 @@ pub async fn route_gist_load(
     }
 }
 
-async fn load_gist(github_token: &str, id: &str) -> Result<Gist, Error> {
-    let gist = github_load_gist(github_token, id)
+async fn load_gist(github_token: String, id: String) -> Result<Gist, Error> {
+    let gist = github_load_gist(&github_token, &id)
         .await
         .map_err(Error::GitHubError)?;
 

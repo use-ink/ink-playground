@@ -57,6 +57,18 @@ pub fn build_testing_command(input_file: &Path) -> Command {
     cmd
 }
 
+pub fn build_formatting_command(input_file: &Path) -> Command {
+    let mut cmd = build_docker_command(input_file, None);
+
+    let execution_cmd = formatting_execution_command();
+
+    cmd.arg(&DOCKER_CONTAINER_NAME).args(&execution_cmd);
+
+    log::debug!("Formatting command is {:?}", cmd);
+
+    cmd
+}
+
 fn build_docker_command(input_file: &Path, output_dir: Option<&Path>) -> Command {
     let file_name = "lib.rs";
 
@@ -119,7 +131,7 @@ fn build_execution_command() -> Vec<String> {
         "rm -rf {}/contract.* {}/metadata.json",
         target_dir, target_dir
     );
-    let build_cmd = "cargo contract build --offline 2>&1".to_string();
+    let build_cmd = "cargo contract build --offline --skip-linting 2>&1".to_string();
     let move_cmd = format!("mv {}/contract.contract {}", target_dir, DOCKER_OUTPUT);
 
     let command = format!("{} && {} && {}", clean_cmd, build_cmd, move_cmd);
@@ -133,6 +145,14 @@ fn testing_execution_command() -> Vec<String> {
     let test_cmd = "cargo test 2>&1".to_string();
 
     let cmd = vec!["/bin/bash".to_string(), "-c".to_string(), test_cmd];
+
+    cmd
+}
+
+fn formatting_execution_command() -> Vec<String> {
+    let format_cmd = "cargo +nightly fmt && cat lib.rs 2>&1".to_string();
+
+    let cmd = vec!["/bin/bash".to_string(), "-c".to_string(), format_cmd];
 
     cmd
 }

@@ -26,6 +26,10 @@ COMPILE_URL ?= http://localhost:4000/compile
 
 TESTING_URL ?= http://localhost:4000/test
 
+FORMATTING_URL ?= http://localhost:4000/format
+
+ANALYTICS_URL ?= https://api-sa.substrate.io
+
 DOCKER_USER_NAME ?= achimcc
 
 ################################################################################
@@ -55,15 +59,19 @@ generate: generate-change-json
 playground-build:
 	COMPILE_URL=/compile \
 	TESTING_URL=/test \
+	FORMATTING_URL=/format \
 	GIST_LOAD_URL=/gist/load \
 	GIST_CREATE_URL=/gist/create \
+	ANALYTICS_URL=$(ANALYTICS_URL) \
 	yarn workspace playground run build
 
 playground-start:
 	COMPILE_URL=$(COMPILE_URL) \
 	TESTING_URL=$(TESTING_URL) \
+	FORMATTING_URL=$(FORMATTING_URL) \
 	GIST_LOAD_URL=$(GIST_LOAD_URL) \
 	GIST_CREATE_URL=$(GIST_CREATE_URL) \
+	ANALYTICS_URL=$(ANALYTICS_URL) \
 	yarn workspace playground run start
 
 playground-clean:

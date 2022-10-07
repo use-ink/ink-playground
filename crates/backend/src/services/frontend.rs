@@ -42,14 +42,14 @@ mod tests {
         let mut test_file = File::create(format!("{}/index.html", temp_dir)).unwrap();
         test_file.write_all(b"Hello, world!").unwrap();
 
-        let mut app =
+        let app =
             test::init_service(App::new().service(route_frontend("/", temp_dir))).await;
 
-        let req = test::TestRequest::with_header("content-type", "text/plain")
-            .uri("/")
+        let req = test::TestRequest::with_uri("/")
+            .insert_header(("content-type", "text/plain"))
             .to_request();
 
-        let content = test::read_response(&mut app, req).await;
+        let content = test::call_and_read_body(&app, req).await;
 
         assert_eq!(content, "Hello, world!".to_string());
     }
@@ -62,14 +62,14 @@ mod tests {
         let mut test_file = File::create(format!("{}/foo.txt", temp_dir)).unwrap();
         test_file.write_all(b"Hello, world!").unwrap();
 
-        let mut app =
+        let app =
             test::init_service(App::new().service(route_frontend("/", temp_dir))).await;
 
-        let req = test::TestRequest::with_header("content-type", "text/plain")
-            .uri("/foo.txt")
+        let req = test::TestRequest::with_uri("/foo.txt")
+            .insert_header(("content-type", "text/plain"))
             .to_request();
 
-        let content = test::read_response(&mut app, req).await;
+        let content = test::call_and_read_body(&app, req).await;
 
         assert_eq!(content, "Hello, world!".to_string());
     }
@@ -82,14 +82,15 @@ mod tests {
         let mut test_file = File::create(format!("{}/foo.txt", temp_dir)).unwrap();
         test_file.write_all(b"Hello, world!").unwrap();
 
-        let mut app =
+        let app =
             test::init_service(App::new().service(route_frontend("/", temp_dir))).await;
 
-        let req = test::TestRequest::with_header("content-type", "text/plain")
+        let req = test::TestRequest::with_uri("/foobar.txt")
+            .insert_header(("content-type", "text/plain"))
             .uri("/foobar.txt")
             .to_request();
 
-        let resp = test::call_service(&mut app, req).await;
+        let resp = test::call_service(&app, req).await;
 
         assert_eq!(resp.status(), http::StatusCode::NOT_FOUND);
     }

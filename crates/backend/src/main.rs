@@ -20,8 +20,11 @@ use crate::{
     services::{
         contract::{
             route_compile,
+            route_format,
+            route_status,
             route_test,
             COMPILE_SANDBOXED,
+            FORMAT_SANDBOXED,
             TEST_SANDBOXED,
         },
         frontend::route_frontend,
@@ -47,7 +50,7 @@ use actix_web::{
     HttpResponse,
     HttpServer,
 };
-use actix_web_prom::PrometheusMetrics;
+use actix_web_prom::PrometheusMetricsBuilder;
 
 use clap::Clap;
 use std::{
@@ -68,13 +71,17 @@ async fn main() -> std::io::Result<()> {
         }
     }
 
-    fn health() -> HttpResponse {
+    async fn health() -> HttpResponse {
         HttpResponse::Ok().finish()
     }
 
     let mut labels = HashMap::new();
     labels.insert("label1".to_string(), "value1".to_string());
-    let prometheus = PrometheusMetrics::new("api", Some("/metrics"), Some(labels));
+    let prometheus = PrometheusMetricsBuilder::new("api")
+        .endpoint("/metrics")
+        .const_labels(labels)
+        .build()
+        .unwrap();
 
     HttpServer::new(move || {
         let opts: Opts = opts.clone();
@@ -87,8 +94,8 @@ async fn main() -> std::io::Result<()> {
             .wrap(Condition::new(opts.dev_mode, Cors::permissive()))
             .wrap(
                 DefaultHeaders::new()
-                    .header("Cross-Origin-Opener-Policy", "same-origin")
-                    .header("Cross-Origin-Embedder-Policy", "require-corp"),
+                    .add(("Cross-Origin-Opener-Policy", "same-origin"))
+                    .add(("Cross-Origin-Embedder-Policy", "require-corp")),
             )
             .route(
                 "/compile",
@@ -99,8 +106,12 @@ async fn main() -> std::io::Result<()> {
                 post().to(|body| route_test(TEST_SANDBOXED, body)),
             )
             .route(
+                "/format",
+                post().to(|body| route_format(FORMAT_SANDBOXED, body)),
+            )
+            .route(
                 "/status",
-                get().to(|| HttpResponse::Ok().body("ink-backend is live")),
+                get().to(route_status),
             );
 
         match opts.github_token {

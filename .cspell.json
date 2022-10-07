@@ -17,7 +17,8 @@
     "assets/architecture*.xml",
     "packages/_generated/change/src/change.json",
     "sysbox/*",
-    "config/data/*"
+    "config/data/*",
+    "*.svg"
   ],
   "words": [
     "dcdd",
@@ -96,6 +97,7 @@
     "runc",
     "dockerhost",
     "Dockerfiles",
-    "Nestybox"
+    "Nestybox",
+    "referrerpolicy"
   ]
 }

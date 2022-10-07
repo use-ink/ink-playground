@@ -1,14 +1,14 @@
-import { TestingApiResponse, testingRequest } from '@paritytech/ink-editor/api/testing';
+import { FormattingApiResponse, formattingRequest } from '@paritytech/ink-editor/api/format';
 import { State, Dispatch } from '~/context/app/reducer';
 import { MessageAction, MessageDispatch } from '~/context/messages/reducer';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import { TESTING_URL } from '~/env';
+import { FORMATTING_URL } from '~/env';
 
-const getMessageAction = (result: TestingApiResponse): MessageAction | undefined => {
+const getMessageAction = (result: FormattingApiResponse): MessageAction | undefined => {
   switch (result.type) {
     case 'NETWORK_ERROR':
       return {
-        type: 'LOG_TESTING',
+        type: 'LOG_FORMATTING',
         payload: {
           content: 'Network Error',
           status: 'ERROR',
@@ -16,26 +16,34 @@ const getMessageAction = (result: TestingApiResponse): MessageAction | undefined
       };
     case 'SERVER_ERROR':
       return {
-        type: 'LOG_TESTING',
+        type: 'LOG_FORMATTING',
         payload: {
           content: `Server Error: ${result.payload.status}`,
+          status: 'ERROR',
+        },
+      };
+    case 'FORMATTING_ERROR':
+      return {
+        type: 'LOG_FORMATTING',
+        payload: {
+          content: `Formatting Error: run Test to find out more`,
           status: 'ERROR',
         },
       };
     case 'OK':
       if (result.payload.type === 'ERROR') {
         return {
-          type: 'LOG_TESTING',
+          type: 'LOG_FORMATTING',
           payload: {
-            content: `Testing Error: ${result.payload.payload.stdout}, ${result.payload.payload.stderr}`,
+            content: `Formatting Error: ${result.payload.payload.stdout}, ${result.payload.payload.stderr}`,
             status: 'ERROR',
           },
         };
       } else if (result.payload.type === 'SUCCESS') {
         return {
-          type: 'LOG_TESTING',
+          type: 'LOG_FORMATTING',
           payload: {
-            content: 'Testing finished',
+            content: 'Formatting finished',
             status: 'DONE',
             result: result.payload,
           },
@@ -44,31 +52,27 @@ const getMessageAction = (result: TestingApiResponse): MessageAction | undefined
   }
 };
 
-function interpret_response(response: TestingApiResponse): TestingApiResponse {
+function interpret_response(response: FormattingApiResponse): FormattingApiResponse {
+  console.log('response: ', response);
   if (response.type === 'OK' && response.payload.type === 'SUCCESS') {
-    const has_test_error =
-      /FAILED/.test(response.payload.payload.stdout) ||
-      /error: could not compile/.test(response.payload.payload.stdout);
-    if (has_test_error) {
-      const result = Object.assign(response, {
-        ...response,
-        payload: { ...response.payload, type: 'ERROR' },
-      });
+    const has_format_error = !response.payload.payload.source;
+    if (has_format_error) {
+      const result = { type: 'FORMATTING_ERROR' } as FormattingApiResponse;
       return result;
     }
   }
   return response;
 }
 
-export async function testing(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch) {
+export async function format(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch) {
   if (state.compile.type === 'IN_PROGRESS') return;
 
-  dispatch({ type: 'SET_TESTING_STATE', payload: { type: 'IN_PROGRESS' } });
+  dispatch({ type: 'SET_FORMATTING_STATE', payload: { type: 'IN_PROGRESS' } });
 
   dispatchMessage({
-    type: 'LOG_TESTING',
+    type: 'LOG_FORMATTING',
     payload: {
-      content: 'Running tests..',
+      content: 'Running format..',
       status: 'IN_PROGRESS',
     },
   });
@@ -76,9 +80,9 @@ export async function testing(state: State, dispatch: Dispatch, dispatchMessage:
   const { monacoUri: uri } = state;
 
   if (!uri) {
-    dispatch({ type: 'SET_TESTING_STATE', payload: { type: 'NOT_ASKED' } });
+    dispatch({ type: 'SET_FORMATTING_STATE', payload: { type: 'NOT_ASKED' } });
     dispatchMessage({
-      type: 'LOG_TESTING',
+      type: 'LOG_FORMATTING',
       payload: { status: 'ERROR', content: 'UI Error: Monaco Editor not available' },
     });
     return;
@@ -87,9 +91,9 @@ export async function testing(state: State, dispatch: Dispatch, dispatchMessage:
   const model = monaco.editor.getModel(uri);
 
   if (!model) {
-    dispatch({ type: 'SET_TESTING_STATE', payload: { type: 'NOT_ASKED' } });
+    dispatch({ type: 'SET_FORMATTING_STATE', payload: { type: 'NOT_ASKED' } });
     dispatchMessage({
-      type: 'LOG_TESTING',
+      type: 'LOG_FORMATTING',
       payload: { status: 'ERROR', content: 'UI Error: failed to access Monaco Editor' },
     });
     return;
@@ -97,12 +101,13 @@ export async function testing(state: State, dispatch: Dispatch, dispatchMessage:
 
   const code = model.getValue();
 
-  const result = await testingRequest({ compileUrl: TESTING_URL || '' }, { source: code }).then(
-    interpret_response
-  );
+  const result = await formattingRequest(
+    { compileUrl: FORMATTING_URL || '' },
+    { source: code }
+  ).then(interpret_response);
 
   dispatch({
-    type: 'SET_TESTING_STATE',
+    type: 'SET_FORMATTING_STATE',
     payload: { type: 'RESULT', payload: result },
   });
 

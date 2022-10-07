@@ -24,6 +24,7 @@ mod example_code;
 
 use crate::build_command::{
     build_compile_command,
+    build_formatting_command,
     build_testing_command,
 };
 use serde::{
@@ -148,6 +149,18 @@ pub enum TestingResult {
     Error { stdout: String, stderr: String },
 }
 
+#[derive(Deserialize, Serialize, TS, Debug, Clone)]
+pub struct FormattingRequest {
+    pub source: String,
+}
+
+#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone, Eq)]
+#[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum FormattingResult {
+    Success { source: String, stderr: String },
+    Error { stdout: String, stderr: String },
+}
+
 // -------------------------------------------------------------------------------------------------
 // CONSTANTS
 // -------------------------------------------------------------------------------------------------
@@ -227,6 +240,26 @@ impl Sandbox {
         let testing_response = TestingResult::Success { stderr, stdout };
 
         Ok(testing_response)
+    }
+
+    pub fn format(&self, req: &FormattingRequest) -> Result<FormattingResult> {
+        self.write_source_code(&req.source)?;
+
+        let command = build_formatting_command(&self.input_file);
+
+        println!("Executing command: \n{:?}", command);
+
+        let output = run_command_with_timeout(command)?;
+
+        let stdout = vec_to_str(output.stdout)?;
+        let stderr = vec_to_str(output.stderr)?;
+
+        let formatting_response = FormattingResult::Success {
+            stderr,
+            source: stdout,
+        };
+
+        Ok(formatting_response)
     }
 
     fn write_source_code(&self, code: &str) -> Result<()> {
