@@ -49,7 +49,7 @@ The repo contains a Rust backend which is implemented with the [actix-web](https
 
 The backend serves the frontend app and it also provides the backend services for compilation and Github gists creation(which we use to provide the code sharing functionality).
 
-To clone and build the whole project on your local machine, enter:
+To clone and build the whole project on your local computer, enter:
 
 1. `git clone clone https://github.com/paritytech/ink-playground`
 
