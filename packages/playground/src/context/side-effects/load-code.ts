@@ -3,7 +3,8 @@ import { MessageDispatch } from '../messages/reducer';
 import { gistLoadRequest } from '@paritytech/ink-editor/api/gists';
 import { GistCreateResponse } from '@paritytech/commontypes';
 import qs from 'qs';
-import exampleCode from '@paritytech/ink-editor/example-code';
+// See: https://github.com/webpack/webpack/issues/12900
+import exampleCode from '../../../../../crates/contract/lib.txt!=!../../../../../crates/contract/lib.rs';
 import { GIST_LOAD_URL } from '~/env';
 
 type Params = { id?: string };
@@ -67,6 +68,7 @@ export async function loadCode(state: State, dispatch: Dispatch): Promise<string
 
   const params = parseParams(window.location.search.substring(1));
   if (!params.id) {
+    console.log('!!!!!!', exampleCode);
     return exampleCode;
   }
 

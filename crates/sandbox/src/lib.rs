@@ -165,7 +165,7 @@ pub enum FormattingResult {
 // CONSTANTS
 // -------------------------------------------------------------------------------------------------
 
-const DOCKER_PROCESS_TIMEOUT_HARD: Duration = Duration::from_secs(30);
+const DOCKER_PROCESS_TIMEOUT_HARD: Duration = Duration::from_secs(60);
 
 // -------------------------------------------------------------------------------------------------
 // TRAIT IMPLEMENTATION
