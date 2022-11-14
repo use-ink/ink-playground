@@ -38,7 +38,7 @@ pub fn build_compile_command(input_file: &Path, output_dir: &Path) -> Command {
 
     let execution_cmd = build_execution_command();
 
-    cmd.arg(&DOCKER_CONTAINER_NAME).args(&execution_cmd);
+    cmd.arg(DOCKER_CONTAINER_NAME).args(&execution_cmd);
 
     log::debug!("Compilation command is {:?}", cmd);
 
@@ -50,7 +50,7 @@ pub fn build_testing_command(input_file: &Path) -> Command {
 
     let execution_cmd = testing_execution_command();
 
-    cmd.arg(&DOCKER_CONTAINER_NAME).args(&execution_cmd);
+    cmd.arg(DOCKER_CONTAINER_NAME).args(&execution_cmd);
 
     log::debug!("Testing command is {:?}", cmd);
 
@@ -62,7 +62,7 @@ pub fn build_formatting_command(input_file: &Path) -> Command {
 
     let execution_cmd = formatting_execution_command();
 
-    cmd.arg(&DOCKER_CONTAINER_NAME).args(&execution_cmd);
+    cmd.arg(DOCKER_CONTAINER_NAME).args(&execution_cmd);
 
     log::debug!("Formatting command is {:?}", cmd);
 
@@ -116,7 +116,7 @@ fn build_basic_secure_docker_command() -> Command {
     );
 
     if cfg!(feature = "fork-bomb-prevention") {
-        cmd.args(&["--pids-limit", "512"]);
+        cmd.args(["--pids-limit", "512"]);
     }
 
     cmd.kill_on_drop(true);
