@@ -44,7 +44,7 @@ const webpackConfig = {
       {
         test: /\.txt$/,
         type: 'asset/source',
-      }
+      },
     ],
   },
   plugins: [

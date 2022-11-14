@@ -47,7 +47,7 @@ const localConfig = {
       {
         test: /\.txt$/,
         type: 'asset/source',
-      }
+      },
     ],
   },
   optimization: {
