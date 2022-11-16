@@ -374,7 +374,7 @@ fn vec_to_str(v: Vec<u8>) -> Result<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    const EXAMPLE_CODE_PATH: &str = "../../contract/lib.rs";
+    const EXAMPLE_CODE_PATH: String = String::from("../../contract/lib.rs");
 
     fn compile_check(source: String) -> Option<bool> {
         Sandbox::new()
