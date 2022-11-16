@@ -16,7 +16,7 @@ jobs:
         run: diff ./compiler/Cargo.toml ./crates/contract/Cargo.toml
 
       - name: Build docker
-        run: docker build --tag ink-backend ./compiler/.
+        run: docker build -f Dockerfile.compiler --tag ink-backend .
 
       - name: Login to DockerHub
         if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
