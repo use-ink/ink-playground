@@ -8,9 +8,9 @@ ENV CARGO_TARGET_DIR="/target"
 RUN cargo contract new contract
 
 # Provide Cargo.toml with all ink! dependencies
-COPY Cargo.toml /builds/contract/Cargo.toml
+COPY crates/contract/Cargo.toml /builds/contract/Cargo.toml
 
-# Prebuild ink! dependencies
+# Pre-build ink! dependencies
 RUN cd contract && cargo contract build
 RUN cd contract && cargo test
 
