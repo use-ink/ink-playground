@@ -12,9 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Compare Cargo.toml files
-        run: diff ./compiler/Cargo.toml ./crates/contract/Cargo.toml
-
       - name: Build docker
         run: docker build -f Dockerfile.compiler --tag ink-compiler .
 
