@@ -20,7 +20,6 @@
 
 mod build_command;
 mod docker_command;
-mod example_code;
 const EXAMPLE_CODE_PATH: &str = "../../contract/lib.rs";
 
 
