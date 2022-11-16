@@ -22,7 +22,6 @@ mod build_command;
 mod docker_command;
 const EXAMPLE_CODE_PATH: &str = "../../contract/lib.rs";
 
-
 use crate::build_command::{
     build_compile_command,
     build_formatting_command,
