@@ -374,7 +374,6 @@ fn vec_to_str(v: Vec<u8>) -> Result<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    const EXAMPLE_CODE_PATH : string = "../../contract/lib.rs";
 
     fn compile_check(source: String) -> Option<bool> {
         Sandbox::new()
@@ -397,7 +396,7 @@ mod tests {
 
     #[test]
     fn test_compile_valid_code() {
-        let FLIPPER_CODE = include_str!(EXAMPLE_CODE_PATH);
+        let FLIPPER_CODE = include_str!("../../contract/lib.rs");
         let actual_result = compile_check(FLIPPER_CODE.to_string());
 
         assert_eq!(actual_result, Some(true))
