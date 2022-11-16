@@ -10,7 +10,7 @@ describe('Given the server is up and running', () => {
   test('When a request to the status route is made', async () => {
     await expect(axios.get(`${BACKEND_URL}/status`)).resolves.toMatchObject({
       status: 200,
-      data: 'ink-backend is live',
+      data: 'ink-compiler is live',
     });
   });
 });
