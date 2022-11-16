@@ -145,7 +145,7 @@ pub async fn route_format(
 }
 
 pub async fn route_status() -> HttpResponse<BoxBody> {
-    HttpResponse::Ok().body("ink-backend is live")
+    HttpResponse::Ok().body("ink-compiler is live")
 }
 
 // -------------------------------------------------------------------------------------------------

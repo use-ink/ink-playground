@@ -27,7 +27,7 @@ use tokio::process::Command;
 
 const DOCKER_PROCESS_TIMEOUT_SOFT: Duration = Duration::from_secs(20);
 
-const DOCKER_CONTAINER_NAME: &str = "ink-backend";
+const DOCKER_CONTAINER_NAME: &str = "ink-compiler";
 
 const DOCKER_WORKDIR: &str = "/builds/contract/";
 

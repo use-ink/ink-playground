@@ -16,7 +16,7 @@ jobs:
         run: diff ./compiler/Cargo.toml ./crates/contract/Cargo.toml
 
       - name: Build docker
-        run: docker build -f Dockerfile.compiler --tag ink-backend .
+        run: docker build -f Dockerfile.compiler --tag ink-compiler .
 
       - name: Login to DockerHub
         if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
@@ -27,8 +27,8 @@ jobs:
 
       - name: Tag Docker image
         if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
-        run: docker tag ink-backend:latest ${{ secrets.DOCKER_USER_NAME }}/ink-backend
+        run: docker tag ink-compiler:latest ${{ secrets.DOCKER_USER_NAME }}/ink-compiler
 
       - name: Push Docker image
         if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
-        run: docker push ${{ secrets.DOCKER_USER_NAME }}/ink-backend
+        run: docker push ${{ secrets.DOCKER_USER_NAME }}/ink-compiler
