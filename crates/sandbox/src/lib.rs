@@ -20,7 +20,6 @@
 
 mod build_command;
 mod docker_command;
-const EXAMPLE_CODE_PATH: &str = "../../contract/lib.rs";
 
 use crate::build_command::{
     build_compile_command,
@@ -375,6 +374,7 @@ fn vec_to_str(v: Vec<u8>) -> Result<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    const EXAMPLE_CODE_PATH: &str = "../../contract/lib.rs";
 
     fn compile_check(source: String) -> Option<bool> {
         Sandbox::new()
