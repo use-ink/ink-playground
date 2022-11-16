@@ -396,8 +396,8 @@ mod tests {
 
     #[test]
     fn test_compile_valid_code() {
-        let FLIPPER_CODE = include_str!("../../contract/lib.rs");
-        let actual_result = compile_check(FLIPPER_CODE.to_string());
+        let flipper_code = include_str!("../../contract/lib.rs");
+        let actual_result = compile_check(flipper_code.to_string());
 
         assert_eq!(actual_result, Some(true))
     }
