@@ -104,6 +104,8 @@ fn build_basic_secure_docker_command() -> Command {
         DOCKER_WORKDIR,
         "--net",
         "none",
+        "--volume:",
+        "cache:/usr/local/cargo/registry:ro",
         "--memory",
         "1024m",
         "--memory-swap",
