@@ -58,5 +58,7 @@ jobs:
         run: docker pull docker.io/paritytech/ink-ci-linux:production
       - name: Tag docker image
         run: docker tag docker.io/paritytech/ink-ci-linux:production ink-compiler
+      - name: pre-build compilation cache
+        run: docker run --volume cache:/usr/local/cargo/registry --volume /builds:/builds --workdir /builds/contract/ ink-compiler cargo contract build
       - name: Run tests
         run: cargo test --workspace --exclude rust_analyzer_wasm --verbose
