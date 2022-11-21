@@ -55,8 +55,8 @@ jobs:
       - name: Build
         run: cargo build --verbose
       - name: Pull docker image
-        run: docker pull docker.io/achimcc/ink-compiler:latest
+        run: docker pull docker.io/paritytech/ink-ci-linux:production
       - name: Tag docker image
-        run: docker tag docker.io/achimcc/ink-compiler:latest ink-compiler
+        run: docker tag docker.io/paritytech/ink-ci-linux:production ink-compiler
       - name: Run tests
         run: cargo test --workspace --exclude rust_analyzer_wasm --verbose
