@@ -71,7 +71,7 @@ pub fn build_formatting_command(input_file: &Path) -> Command {
 
 fn build_docker_command(input_file: &Path, output_dir: Option<&Path>) -> Command {
     let file_name = "lib.rs";
-
+    let input_file = "builds";
     let mut mount_input_file = input_file.as_os_str().to_os_string();
     mount_input_file.push(":");
     mount_input_file.push(DOCKER_WORKDIR);
@@ -106,6 +106,8 @@ fn build_basic_secure_docker_command() -> Command {
         "none",
         "--volume:",
         "cache:/usr/local/cargo/registry:ro",
+        "--volume:",
+        "builds:/builds:ro",
         "--memory",
         "1024m",
         "--memory-swap",
