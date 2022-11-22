@@ -55,9 +55,9 @@ jobs:
       - name: Build
         run: cargo build --verbose
       - name: Pull docker image
-        run: docker pull docker.io/paritytech/ink-ci-linux::ae24bd7a-20221109
+        run: docker pull docker.io/paritytech/ink-ci-linux:production
       - name: Tag docker image
-        run: docker tag docker.io/paritytech/ink-ci-linux::ae24bd7a-20221109 ink-compiler
+        run: docker tag docker.io/paritytech/ink-ci-linux:production ink-compiler
       - name: pre-build compilation cache
         run: docker run --volume cache:/usr/local/cargo/registry --volume /builds:/builds --workdir /builds/contract/ ink-compiler cargo contract build
       - name: Run tests
