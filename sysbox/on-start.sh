@@ -5,8 +5,8 @@ dockerd > /var/log/dockerd.log 2>&1 &
 sleep 2
 
 # pull inner images
-docker pull paritytech/ink-ci-linux:ae24bd7a-20221109
-docker tag paritytech/ink-ci-linux:ae24bd7a-20221109 ink-compiler
+docker pull paritytech/ink-ci-linux:production
+docker tag paritytech/ink-ci-linux:production ink-compiler
 
 docker run --volume cache:/usr/local/cargo/registry --volume /builds:/builds --workdir /builds/contract/  ink-compiler cargo contract build
 docker run --volume cache:/usr/local/cargo/registry --volume /builds:/builds --workdir /builds/contract/  ink-compiler cargo contract test
