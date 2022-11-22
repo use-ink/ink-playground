@@ -8,7 +8,7 @@ sleep 2
 docker pull paritytech/ink-ci-linux:production
 docker tag paritytech/ink-ci-linux:production ink-compiler
 
-docker run --volume cache:/usr/local/cargo/registry --volume /builds:/builds --workdir /builds/contract/  ink-compiler cargo contract build
+docker run --volume cache:/usr/local/cargo/registry --volume /builds:/builds --workdir /builds/contract/  ink-compiler cargo contract build --release
 docker run --volume cache:/usr/local/cargo/registry --volume /builds:/builds --workdir /builds/contract/  ink-compiler cargo contract test
 # start backend server
 /app/target/release/backend --port 4000 --host 0.0.0.0 --frontend_folder /app/packages/playground/dist
