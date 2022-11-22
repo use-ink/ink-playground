@@ -124,7 +124,8 @@ RUN apt-get --yes install docker-ce docker-ce-cli \
 COPY sysbox/on-start.sh /usr/bin
 RUN chmod +x /usr/bin/on-start.sh
 
-COPY crates/contract builds/contract
+RUN mkdir /builds
+COPY crates/contract /builds/contract
 
 # Entrypoint
 
