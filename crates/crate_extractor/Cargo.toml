@@ -8,7 +8,7 @@ license = "Apache-2.0"
 [dependencies]
 clap = "3.0.0-beta.4"
 serde = { version = "1.0.143", features = ["derive"] }
-serde_json = { version = "1.0.82", features = ["preserve_order"] }
+serde_json = { version = "1.0.88", features = ["preserve_order"] }
 crossbeam-channel = "0.5.5"
 anyhow = "1.0.58"
 log = "0.4.17"
