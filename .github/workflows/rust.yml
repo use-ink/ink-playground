@@ -61,6 +61,6 @@ jobs:
       - name: Copy contract folder
         run: mkdir ./builds && cp -R crates/contract ./builds/contract
       - name: pre-build compilation cache
-        run: docker run --volume cache:/usr/local/cargo/registry --volume ./builds:/builds --workdir /builds/contract/ ink-compiler cargo contract build --release
+        run: docker run --volume cache:/usr/local/cargo/registry --volume ${GITHUB_WORKSPACE}/builds:/builds --workdir /builds/contract/ ink-compiler cargo contract build --release
       - name: Run tests
         run: cargo test --workspace --exclude rust_analyzer_wasm --verbose
