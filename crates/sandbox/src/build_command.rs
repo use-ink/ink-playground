@@ -107,7 +107,7 @@ fn build_basic_secure_docker_command() -> Command {
         "--volume",
         "cache:/usr/local/cargo/registry:ro",
         "--volume",
-        "/builds/contract/Cargo.toml:/builds/contract/Cargo.toml",
+        "/builds:/builds",
         "--memory",
         "1024m",
         "--memory-swap",
