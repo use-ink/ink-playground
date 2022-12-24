@@ -2669,24 +2669,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@technote-space/anchor-markdown-header@npm:^1.1.35":
-  version: 1.1.35
-  resolution: "@technote-space/anchor-markdown-header@npm:1.1.35"
+"@technote-space/anchor-markdown-header@npm:^1.1.21":
+  version: 1.1.39
+  resolution: "@technote-space/anchor-markdown-header@npm:1.1.39"
   dependencies:
-    emoji-regex: ^10.0.0
-  checksum: 4258cf7572ef613705446453f641ef50fe63fb753145ca6acd1907961422dfcf3e46d06439c42824571b51edce21c3a40a3f0dc93dd97b6a5d5b6e2d3f71cb8a
+    emoji-regex: ^10.2.1
+  checksum: 5101ae4c3cb19fb8f4605e9bde0de435959427c93993a8c1e589ffac1ef6b979a296f1eee71149a3cddadc72a26448a862736e289eb87e79482828a2452b6b37
   languageName: node
   linkType: hard
 
-"@technote-space/doctoc@npm:^2.4.7":
-  version: 2.4.21
-  resolution: "@technote-space/doctoc@npm:2.4.21"
+"@technote-space/doctoc@npm:2.4.7":
+  version: 2.4.7
+  resolution: "@technote-space/doctoc@npm:2.4.7"
   dependencies:
-    "@technote-space/anchor-markdown-header": ^1.1.35
-    "@textlint/markdown-to-ast": ^12.1.0
-    htmlparser2: ^7.2.0
+    "@technote-space/anchor-markdown-header": ^1.1.21
+    "@textlint/markdown-to-ast": ^12.0.0
+    htmlparser2: ^6.1.0
     update-section: ^0.3.3
-  checksum: f4528033868b25b521a96e2ebd58ab0610881f66553d94e74327172866d78be6d12800a27985b2ecd8b5ecf5fe8f56baa69d6eb5f3a0ab53b99a82e4d0afbe4c
+  checksum: 603cb9781799f6df6f0f7d1669ac19c8c8876f4b2deffebcd44cf05aca2f295474571a2dc7cbd1114e9ea750bef78382daf10bd6b33d6b509166eaf489786e75
   languageName: node
   linkType: hard
 
@@ -2737,26 +2737,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@textlint/ast-node-types@npm:^12.1.1":
-  version: 12.1.1
-  resolution: "@textlint/ast-node-types@npm:12.1.1"
-  checksum: 6ccae9ac7f43cb172142098a3764c490feea311a741aa3fe981d6d3a1e06041d179e690b54b920dcaa067453f3220d46e6935728e4c9d72233f735f27410e86f
+"@textlint/ast-node-types@npm:^12.2.2":
+  version: 12.2.2
+  resolution: "@textlint/ast-node-types@npm:12.2.2"
+  checksum: 378c171f0736f3e82e870a8be9d91c46b0ff37e79a118082426978b3505340805e4f7033481f317715d6c246e42499d9de3da5bcf46e8746a400d3183f0f2b2e
   languageName: node
   linkType: hard
 
-"@textlint/markdown-to-ast@npm:^12.1.0":
-  version: 12.1.1
-  resolution: "@textlint/markdown-to-ast@npm:12.1.1"
+"@textlint/markdown-to-ast@npm:^12.0.0":
+  version: 12.2.3
+  resolution: "@textlint/markdown-to-ast@npm:12.2.3"
   dependencies:
-    "@textlint/ast-node-types": ^12.1.1
-    debug: ^4.3.3
+    "@textlint/ast-node-types": ^12.2.2
+    debug: ^4.3.4
+    mdast-util-gfm-autolink-literal: ^0.1.3
     remark-footnotes: ^3.0.0
     remark-frontmatter: ^3.0.0
     remark-gfm: ^1.0.0
     remark-parse: ^9.0.0
-    traverse: ^0.6.6
+    traverse: ^0.6.7
     unified: ^9.2.2
-  checksum: c857a9e3b26fd96486cf96914c15c20d68d7d1b2f201295a75acec1ccc14725a54d76e9f9311170f56dd43a1666ac3a69b85f7e794af915bc6e23953cd5921a9
+  checksum: 24afc37ea5b82d54c2180e3db5dfb83cf9503cd81b6c97653d6f35b731a028a127da925058ad0c95bd2b94cddb0383f14bbe69b64f9b3269ee6a818249682f0d
   languageName: node
   linkType: hard
 
@@ -5282,7 +5283,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3":
+"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2":
   version: 4.3.3
   resolution: "debug@npm:4.3.3"
   dependencies:
@@ -5562,7 +5563,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"domhandler@npm:^4.0.0, domhandler@npm:^4.2.0, domhandler@npm:^4.2.2, domhandler@npm:^4.3.0":
+"domhandler@npm:^4.0.0, domhandler@npm:^4.2.0, domhandler@npm:^4.3.0":
   version: 4.3.0
   resolution: "domhandler@npm:4.3.0"
   dependencies:
@@ -5636,10 +5637,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"emoji-regex@npm:^10.0.0":
-  version: 10.0.1
-  resolution: "emoji-regex@npm:10.0.1"
-  checksum: 8ab4b452e58ccd3e051f4ac2b3e1d5158e85bc233d8c8f0db5ce058e9bafb2dfb69a17339e90db12e9817a24ef9e0547d7b4d9eb7818733cac9fd93b74d46b19
+"emoji-regex@npm:^10.2.1":
+  version: 10.2.1
+  resolution: "emoji-regex@npm:10.2.1"
+  checksum: 1aa2d16881c56531fdfc03d0b36f5c2b6221cc4097499a5665b88b711dc3fb4d5b8804f0ca6f00c56e5dcf89bac75f0487eee85da1da77df3a33accc6ecbe426
   languageName: node
   linkType: hard
 
@@ -6754,18 +6755,6 @@ __metadata:
     domutils: ^2.5.2
     entities: ^2.0.0
   checksum: 81a7b3d9c3bb9acb568a02fc9b1b81ffbfa55eae7f1c41ae0bf840006d1dbf54cb3aa245b2553e2c94db674840a9f0fdad7027c9a9d01a062065314039058c4e
-  languageName: node
-  linkType: hard
-
-"htmlparser2@npm:^7.2.0":
-  version: 7.2.0
-  resolution: "htmlparser2@npm:7.2.0"
-  dependencies:
-    domelementtype: ^2.0.1
-    domhandler: ^4.2.2
-    domutils: ^2.8.0
-    entities: ^3.0.1
-  checksum: 96563d9965729cfcb3f5f19c26d013c6831b4cb38d79d8c185e9cd669ea6a9ffe8fb9ccc74d29a068c9078aa0e2767053ed6b19aa32723c41550340d0094bea0
   languageName: node
   linkType: hard
 
@@ -8269,11 +8258,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"markdown-magic@npm:^2.6.0":
-  version: 2.6.0
-  resolution: "markdown-magic@npm:2.6.0"
+"markdown-magic@npm:^2.6.1":
+  version: 2.6.1
+  resolution: "markdown-magic@npm:2.6.1"
   dependencies:
-    "@technote-space/doctoc": ^2.4.7
+    "@technote-space/doctoc": 2.4.7
     commander: ^7.2.0
     deepmerge: ^4.2.2
     find-up: ^5.0.0
@@ -8285,7 +8274,7 @@ __metadata:
   bin:
     markdown: cli.js
     md-magic: cli.js
-  checksum: 553963862fb5a769767ccfcc34a6f8dcc9dd4c11702229f70bb3cd431fd942e70b2de21d699613f7a34746d25c167ef6bf059d361f53488c36952cf3c196ca36
+  checksum: eb7234cba516a658b1099cb8db458655a5945e2663e97daa1dbb7736d07c0ff5de8cd1ff0eca9b8ce9c7c702cddc6d57a9dc943ded45c935bbe85ca377d4c268
   languageName: node
   linkType: hard
 
@@ -8341,7 +8330,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mdast-util-gfm-autolink-literal@npm:^0.1.0":
+"mdast-util-gfm-autolink-literal@npm:^0.1.0, mdast-util-gfm-autolink-literal@npm:^0.1.3":
   version: 0.1.3
   resolution: "mdast-util-gfm-autolink-literal@npm:0.1.3"
   dependencies:
@@ -10680,7 +10669,7 @@ __metadata:
     cspell: ^5.21.2
     css-minimizer-webpack-plugin: ^4.0.0
     eslint: ^8.19.0
-    markdown-magic: ^2.6.0
+    markdown-magic: ^2.6.1
     prettier: ^2.7.1
   languageName: unknown
   linkType: soft
@@ -11523,7 +11512,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"traverse@npm:>=0.2.4, traverse@npm:^0.6.6":
+"traverse@npm:>=0.2.4":
   version: 0.6.6
   resolution: "traverse@npm:0.6.6"
   checksum: e2afa72f11efa9ba31ed763d2d9d2aa244612f22015d16c0ea3ba5f6ca8bf071de87f8108b721885cce06ea4a36ef4605d9228c67e431d9015ea4685cb364420
@@ -11534,6 +11523,13 @@ __metadata:
   version: 0.3.9
   resolution: "traverse@npm:0.3.9"
   checksum: 982982e4e249e9bbf063732a41fe5595939892758524bbef5d547c67cdf371b13af72b5434c6a61d88d4bb4351d6dabc6e22d832e0d16bc1bc684ef97a1cc59e
+  languageName: node
+  linkType: hard
+
+"traverse@npm:^0.6.7":
+  version: 0.6.7
+  resolution: "traverse@npm:0.6.7"
+  checksum: 21018085ab72f717991597e12e2b52446962ed59df591502e4d7e1a709bc0a989f7c3d451aa7d882666ad0634f1546d696c5edecda1f2fc228777df7bb529a1e
   languageName: node
   linkType: hard
 
