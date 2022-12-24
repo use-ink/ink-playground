@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "primeicons": "^5.0.0",
+    "primeicons": "^6.0.1",
     "primereact": "^8.1.1",
     "react-transition-group": "^4.4.2"
   },
