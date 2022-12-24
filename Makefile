@@ -243,8 +243,9 @@ docker-shell:
 	  --runtime=sysbox-runc \
 	  -it \
 	  --volume /tmp:/tmp \
+	  --volume cache:/cache \
 	  --entrypoint /bin/bash \
-	  --publish $(DOCKER_PORT):4000 \
+	  --publish 5000:4000 \
 	  ink-playground
 
 docker-log:

@@ -104,6 +104,10 @@ fn build_basic_secure_docker_command() -> Command {
         DOCKER_WORKDIR,
         "--net",
         "none",
+        "--volume",
+        "cache:/usr/local/cargo/registry:ro",
+        "--volume",
+        "/builds:/builds",
         "--memory",
         "1024m",
         "--memory-swap",
@@ -131,7 +135,7 @@ fn build_execution_command() -> Vec<String> {
         "rm -rf {}/contract.* {}/metadata.json",
         target_dir, target_dir
     );
-    let build_cmd = "cargo contract build --offline 2>&1".to_string();
+    let build_cmd = "cargo contract build --release --offline 2>&1".to_string();
     let move_cmd = format!("mv {}/contract.contract {}", target_dir, DOCKER_OUTPUT);
 
     let command = format!("{} && {} && {}", clean_cmd, build_cmd, move_cmd);
