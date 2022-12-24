@@ -3,7 +3,7 @@
 ################################################################################
 
 # Start from a rust base image
-FROM rust:1.65.0 as base
+FROM rust:1.66.0 as base
 
 # Set the current directory
 WORKDIR /app
