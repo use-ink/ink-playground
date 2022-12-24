@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
-    "mini-css-extract-plugin": "^2.6.1",
+    "mini-css-extract-plugin": "^2.7.2",
     "monaco-editor-webpack-plugin": "^7.0.1",
     "ts-loader": "^9.3.1",
     "webpack": "^5.75.0"
