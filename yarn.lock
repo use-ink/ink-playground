@@ -2425,7 +2425,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-monaco-editor: ^0.49.0
-    ts-loader: ^9.3.1
+    ts-loader: ^9.4.2
     webpack: ^5.75.0
   languageName: unknown
   linkType: soft
@@ -9371,7 +9371,7 @@ __metadata:
     rimraf: ^3.0.2
     tailwindcss: ^3.0.24
     ts-jest: ^28.0.5
-    ts-loader: ^9.3.1
+    ts-loader: ^9.4.2
     typescript: ^4.7.4
     use-reducer-logger: ^1.0.2
     webpack: ^5.75.0
@@ -11581,9 +11581,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-loader@npm:^9.3.1":
-  version: 9.3.1
-  resolution: "ts-loader@npm:9.3.1"
+"ts-loader@npm:^9.4.2":
+  version: 9.4.2
+  resolution: "ts-loader@npm:9.4.2"
   dependencies:
     chalk: ^4.1.0
     enhanced-resolve: ^5.0.0
@@ -11592,7 +11592,7 @@ __metadata:
   peerDependencies:
     typescript: "*"
     webpack: ^5.0.0
-  checksum: 462a8ac315017cf4961dafd2be29d5abe7c3af63c4515e325269f79b9d0212b35c59184d7fd01fc378749c88454752e1599301d2190eb6844ea5fe332de5f695
+  checksum: 6f306ee4c615c2a159fb177561e3fb86ca2cbd6c641e710d408a64b4978e1ff3f2c9733df07bff27d3f82efbfa7c287523d4306049510c7485ac2669a9c37eb0
   languageName: node
   linkType: hard
 
