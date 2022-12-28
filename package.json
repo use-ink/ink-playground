@@ -11,7 +11,7 @@
     "css-minimizer-webpack-plugin": "^4.0.0",
     "eslint": "^8.30.0",
     "markdown-magic": "^2.6.1",
-    "prettier": "^2.7.1"
+    "prettier": "^2.8.1"
   },
   "scripts": {
     "markdown": "markdown --path '**/*.md' --ignore 'node_modules, packages, crates'"
