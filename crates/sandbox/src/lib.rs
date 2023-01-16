@@ -73,43 +73,43 @@ pub struct Sandbox {
 #[derive(Debug, Snafu)]
 pub enum Error {
     #[snafu(display("Unable to create temporary directory: {}", source))]
-    UnableToCreateTempDir { source: io::Error },
+    UnableToCreateTempDirSnafu { source: io::Error },
 
     #[snafu(display("Unable to create output directory: {}", source))]
-    UnableToCreateOutputDir { source: io::Error },
+    UnableToCreateOutputDirSnafu { source: io::Error },
 
     #[snafu(display("Unable to set permissions for output directory: {}", source))]
-    UnableToSetOutputPermissions { source: io::Error },
+    UnableToSetOutputPermissionsSnafu { source: io::Error },
 
     #[snafu(display("Unable to create source file: {}", source))]
-    UnableToCreateSourceFile { source: io::Error },
+    UnableToCreateSourceFileSnafu { source: io::Error },
 
     #[snafu(display("Unable to set permissions for source file: {}", source))]
-    UnableToSetSourcePermissions { source: io::Error },
+    UnableToSetSourcePermissionsSnafu { source: io::Error },
 
     #[snafu(display("Output was not valid UTF-8: {}", source))]
     OutputNotUtf8 { source: string::FromUtf8Error },
 
     #[snafu(display("Unable to read output file: {}", source))]
-    UnableToReadOutput { source: io::Error },
+    UnableToReadOutputSnafu { source: io::Error },
 
     #[snafu(display("Unable to start the compiler: {}", source))]
-    UnableToStartCompiler { source: io::Error },
+    UnableToStartCompilerSnafu { source: io::Error },
 
     #[snafu(display("Unable to find the compiler ID"))]
-    MissingCompilerId,
+    MissingCompilerIdSnafu,
 
     #[snafu(display("Unable to wait for the compiler: {}", source))]
-    UnableToWaitForCompiler { source: io::Error },
+    UnableToWaitForCompilerSnafu { source: io::Error },
 
     #[snafu(display("Unable to get output from the compiler: {}", source))]
-    UnableToGetOutputFromCompiler { source: io::Error },
+    UnableToGetOutputFromCompilerSnafu { source: io::Error },
 
     #[snafu(display("Unable to remove the compiler: {}", source))]
-    UnableToRemoveCompiler { source: io::Error },
+    UnableToRemoveCompilerSnafu { source: io::Error },
 
     #[snafu(display("Compiler execution took longer than {} ms", timeout.as_millis()))]
-    CompilerExecutionTimedOut {
+    CompilerExecutionTimedOutSnafu {
         source: tokio::time::error::Elapsed,
         timeout: Duration,
     },
@@ -172,13 +172,13 @@ const DOCKER_PROCESS_TIMEOUT_HARD: Duration = Duration::from_secs(60);
 
 impl Sandbox {
     pub fn new() -> Result<Self> {
-        let scratch = TempDir::new("playground").context(UnableToCreateTempDir)?;
+        let scratch = TempDir::new("playground").context(UnableToCreateTempDirSnafuSnafu)?;
         let input_file = scratch.path().join("input.rs");
         let output_dir = scratch.path().join("output");
-        fs::create_dir(&output_dir).context(UnableToCreateOutputDir)?;
+        fs::create_dir(&output_dir).context(UnableToCreateOutputDirSnafuSnafu)?;
 
         fs::set_permissions(&output_dir, wide_open_permissions())
-            .context(UnableToSetOutputPermissions)?;
+            .context(UnableToSetOutputPermissionsSnafuSnafu)?;
 
         Ok(Sandbox {
             scratch,
@@ -196,7 +196,7 @@ impl Sandbox {
 
         let output = run_command_with_timeout(command)?;
         let file = fs::read_dir(&self.output_dir)
-            .context(UnableToReadOutput)?
+            .context(UnableToReadOutputSnafuSnafu)?
             .flatten()
             .map(|entry| entry.path())
             .find(|path| path.extension() == Some(OsStr::new("contract")));
@@ -262,9 +262,9 @@ impl Sandbox {
     }
 
     fn write_source_code(&self, code: &str) -> Result<()> {
-        fs::write(&self.input_file, code).context(UnableToCreateSourceFile)?;
+        fs::write(&self.input_file, code).context(UnableToCreateSourceFileSnafuSnafu)?;
         fs::set_permissions(&self.input_file, wide_open_permissions())
-            .context(UnableToSetSourcePermissions)?;
+            .context(UnableToSetSourcePermissionsSnafuSnafu)?;
 
         println!(
             "Wrote {} bytes of source to {}",
@@ -283,7 +283,7 @@ fn read(path: &Path) -> Result<Option<Vec<u8>>> {
     let f = match File::open(path) {
         Ok(f) => f,
         Err(ref e) if e.kind() == ErrorKind::NotFound => return Ok(None),
-        e => e.context(UnableToReadOutput)?,
+        e => e.context(UnableToReadOutputSnafuSnafu)?,
     };
     let mut f = BufReader::new(f);
     let metadata = fs::metadata(path).expect("unable to read metadata");
@@ -299,7 +299,7 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
 
     let timeout = DOCKER_PROCESS_TIMEOUT_HARD;
     println!("executing command!");
-    let output = command.output().await.context(UnableToStartCompiler)?;
+    let output = command.output().await.context(UnableToStartCompilerSnafuSnafu)?;
     println!("Done! {:?}", output);
     // Exit early, in case we don't have the container
     // if !output.status.success() {
@@ -308,7 +308,7 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
     // let response = &output.stdout;
     let stdout = String::from_utf8_lossy(&output.stdout);
 
-    let id = stdout.lines().next().context(MissingCompilerId)?.trim();
+    let id = stdout.lines().next().context(MissingCompilerIdSnafuSnafu)?.trim();
     let stderr = &output.stderr;
 
     // ----------
@@ -328,7 +328,7 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
                 .unwrap_or(i32::MAX);
             Ok(ExitStatusExt::from_raw(code))
         }
-        Ok(e) => return e.context(UnableToWaitForCompiler), // Failed to run
+        Ok(e) => return e.context(UnableToWaitForCompilerSnafuSnafu), // Failed to run
         Err(e) => Err(e),                                   // Timed out
     };
 
@@ -338,7 +338,7 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
     let mut output = command
         .output()
         .await
-        .context(UnableToGetOutputFromCompiler)?;
+        .context(UnableToGetOutputFromCompilerSnafuSnafu)?;
 
     // ----------
 
@@ -347,9 +347,9 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
         "--force", id
     );
     command.stdout(std::process::Stdio::null());
-    command.status().await.context(UnableToRemoveCompiler)?;
+    command.status().await.context(UnableToRemoveCompilerSnafuSnafu)?;
 
-    let code = timed_out.context(CompilerExecutionTimedOut { timeout })?;
+    let code = timed_out.context(CompilerExecutionTimedOutSnafuSnafu { timeout })?;
 
     output.status = code;
     output.stderr = stderr.to_owned();
@@ -368,7 +368,7 @@ fn wide_open_permissions() -> std::fs::Permissions {
 }
 
 fn vec_to_str(v: Vec<u8>) -> Result<String> {
-    String::from_utf8(v).context(OutputNotUtf8)
+    String::from_utf8(v).context(OutputNotUtf8Snafu)
 }
 
 #[cfg(test)]
