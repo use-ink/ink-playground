@@ -22,13 +22,13 @@ mod cli;
 mod load_change;
 use crate::{
     cli::{
+        Cli,
         CmdCreate,
-        Opts,
-        SubCommand,
+        Commands,
     },
     load_change::LoadCargoConfig,
 };
-use clap::Clap;
+use clap::Parser;
 use project_model::CargoConfig;
 
 /// Tries to convert a given string into an absolute path
@@ -52,10 +52,10 @@ fn main() {
         with_proc_macro: false,
         prefill_caches: false,
     };
-    let opts: Opts = Opts::parse();
+    let opts: Cli = Cli::parse();
 
-    match opts.subcmd {
-        SubCommand::CmdCreate(CmdCreate {
+    match opts.command {
+        Commands::Command(CmdCreate {
             manifest_path,
             output,
         }) => {

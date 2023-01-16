@@ -12,27 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use clap::Clap;
+use clap::Parser;
 
-#[derive(Clap, Clone)]
-#[clap(
-    version = "0.1",
-    author = "Achim Schneider <achim@parity.io>",
-    about = "ink! playground backend"
-)]
+#[derive(Parser, Clone)]
 pub struct Opts {
-    #[clap(short = 'p', long = "port", default_value = "8080", env = "PORT")]
+    #[arg(short = 'p', long = "port", default_value = "8080", env = "PORT")]
     pub port: u16,
 
-    #[clap(short = 'h', long = "host", default_value = "localhost", env = "HOST")]
+    #[arg(short = 'h', long = "host", default_value = "localhost", env = "HOST")]
     pub host: String,
 
-    #[clap(short = 'f', long = "frontend_folder")]
+    #[arg(short = 'f', long = "frontend_folder")]
     pub frontend_folder: Option<String>,
 
-    #[clap(short = 'g', long = "github_token", env = "GITHUB_GIST_TOKEN")]
+    #[arg(short = 'g', long = "github_token", env = "GITHUB_GIST_TOKEN")]
     pub github_token: Option<String>,
 
-    #[clap(short = 'd', long = "dev_mode")]
+    #[arg(short = 'd', long = "dev_mode")]
     pub dev_mode: bool,
 }
