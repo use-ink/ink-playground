@@ -30,7 +30,8 @@ pub struct Cli {
 
 #[derive(Subcommand, Debug, Clone)]
 pub enum Commands {
-    Command(CmdCreate),
+    #[allow(non_camel_case_types)]
+    create(CmdCreate),
 }
 
 #[derive(Parser, Debug, Clone)]

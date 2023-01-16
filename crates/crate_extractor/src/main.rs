@@ -24,7 +24,7 @@ use crate::{
     cli::{
         Cli,
         CmdCreate,
-        Commands,
+        Commands::create,
     },
     load_change::LoadCargoConfig,
 };
@@ -55,7 +55,7 @@ fn main() {
     let opts: Cli = Cli::parse();
 
     match opts.command {
-        Commands::Command(CmdCreate {
+        create(CmdCreate {
             manifest_path,
             output,
         }) => {
