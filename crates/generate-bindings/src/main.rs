@@ -79,7 +79,7 @@ fn main() -> std::io::Result<()> {
     #[derive(Serialize, TS)]
     #[ts(export)]
     #[ts(export_to = "${target}")]
-    struct GistLoadResponeWrapper(GistLoadResponse);
+    struct GistLoadResponseWrapper(GistLoadResponse);
     #[derive(Serialize, TS)]
     #[ts(export)]
     #[ts(export_to = "${target}")]
