@@ -172,7 +172,8 @@ const DOCKER_PROCESS_TIMEOUT_HARD: Duration = Duration::from_secs(60);
 
 impl Sandbox {
     pub fn new() -> Result<Self> {
-        let scratch = TempDir::new("playground").context(UnableToCreateTempDirSnafuSnafu)?;
+        let scratch =
+            TempDir::new("playground").context(UnableToCreateTempDirSnafuSnafu)?;
         let input_file = scratch.path().join("input.rs");
         let output_dir = scratch.path().join("output");
         fs::create_dir(&output_dir).context(UnableToCreateOutputDirSnafuSnafu)?;
@@ -299,7 +300,10 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
 
     let timeout = DOCKER_PROCESS_TIMEOUT_HARD;
     println!("executing command!");
-    let output = command.output().await.context(UnableToStartCompilerSnafuSnafu)?;
+    let output = command
+        .output()
+        .await
+        .context(UnableToStartCompilerSnafuSnafu)?;
     println!("Done! {:?}", output);
     // Exit early, in case we don't have the container
     // if !output.status.success() {
@@ -308,7 +312,11 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
     // let response = &output.stdout;
     let stdout = String::from_utf8_lossy(&output.stdout);
 
-    let id = stdout.lines().next().context(MissingCompilerIdSnafuSnafu)?.trim();
+    let id = stdout
+        .lines()
+        .next()
+        .context(MissingCompilerIdSnafuSnafu)?
+        .trim();
     let stderr = &output.stderr;
 
     // ----------
@@ -329,7 +337,7 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
             Ok(ExitStatusExt::from_raw(code))
         }
         Ok(e) => return e.context(UnableToWaitForCompilerSnafuSnafu), // Failed to run
-        Err(e) => Err(e),                                   // Timed out
+        Err(e) => Err(e),                                             // Timed out
     };
 
     // ----------
@@ -347,7 +355,10 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
         "--force", id
     );
     command.stdout(std::process::Stdio::null());
-    command.status().await.context(UnableToRemoveCompilerSnafuSnafu)?;
+    command
+        .status()
+        .await
+        .context(UnableToRemoveCompilerSnafuSnafu)?;
 
     let code = timed_out.context(CompilerExecutionTimedOutSnafuSnafu { timeout })?;
 
