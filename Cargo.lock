@@ -21,7 +21,7 @@ dependencies = [
  "log",
  "memchr",
  "pin-project-lite 0.2.9",
- "tokio 1.24.1",
+ "tokio 1.24.2",
  "tokio-util 0.7.4",
 ]
 
@@ -131,7 +131,7 @@ checksum = "7ea16c295198e958ef31930a6ef37d0fb64e9ca3b6116e6b93a8bdae96ee1000"
 dependencies = [
  "actix-macros",
  "futures-core",
- "tokio 1.24.1",
+ "tokio 1.24.2",
 ]
 
 [[package]]
@@ -148,7 +148,7 @@ dependencies = [
  "mio 0.8.5",
  "num_cpus",
  "socket2 0.4.7",
- "tokio 1.24.1",
+ "tokio 1.24.2",
  "tracing",
 ]
 
@@ -1288,7 +1288,7 @@ dependencies = [
  "http",
  "indexmap",
  "slab",
- "tokio 1.24.1",
+ "tokio 1.24.2",
  "tokio-util 0.7.4",
  "tracing",
 ]
@@ -3267,7 +3267,7 @@ dependencies = [
  "serde",
  "snafu",
  "tempdir",
- "tokio 1.24.1",
+ "tokio 1.24.2",
  "ts-rs",
  "typescript-type-def",
 ]
@@ -3764,9 +3764,9 @@ dependencies = [
 
 [[package]]
 name = "tokio"
-version = "1.24.1"
+version = "1.24.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1d9f76183f91ecfb55e1d7d5602bd1d979e38a3a522fe900241cf195624d67ae"
+checksum = "597a12a59981d9e3c38d216785b0c37399f6e415e8d0712047620f189371b0bb"
 dependencies = [
  "autocfg",
  "bytes 1.1.0",
@@ -3792,7 +3792,7 @@ dependencies = [
  "once_cell",
  "pin-project-lite 0.2.9",
  "tokio 0.2.25",
- "tokio 1.24.1",
+ "tokio 1.24.2",
  "tokio-stream",
 ]
 
@@ -3815,7 +3815,7 @@ checksum = "d660770404473ccd7bc9f8b28494a811bc18542b915c0855c51e8f419d5223ce"
 dependencies = [
  "futures-core",
  "pin-project-lite 0.2.9",
- "tokio 1.24.1",
+ "tokio 1.24.2",
 ]
 
 [[package]]
@@ -3852,7 +3852,7 @@ dependencies = [
  "futures-core",
  "futures-sink",
  "pin-project-lite 0.2.9",
- "tokio 1.24.1",
+ "tokio 1.24.2",
  "tracing",
 ]
 
