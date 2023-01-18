@@ -6,13 +6,13 @@ import { gistCreate } from '~/context/side-effects/create-gist';
 import { AppContext } from '~/context/app/';
 import { MessageContext } from '~/context/messages/';
 import { MessageState, MessageDispatch } from '~/context/messages/reducer';
-import { Gist, GistCreateResponse } from '@paritytech/commontypes';
+import Common from '@paritytech/commontypes';
 import { GistCreateApiResponse } from '@paritytech/ink-editor/api/gists';
 import qs from 'qs';
 
 const ViewError = ({ message }: { message: string }) => <div>{message}</div>;
 
-const ViewGist = ({ gist }: { gist?: Gist }) => (
+const ViewGist = ({ gist }: { gist?: Common.Gist }) => (
   <>
     <LabeledLink
       label="Link to Playground:"
@@ -31,7 +31,11 @@ const gitPlaygroundUrl = (id: string): string => {
   return `${window.location.origin}/?${qs.stringify({ id })}`;
 };
 
-const GistCreateResponse = ({ response }: { response: GistCreateResponse }): ReactElement => {
+const GistCreateResponse = ({
+  response,
+}: {
+  response: Common.GistCreateResponse;
+}): ReactElement => {
   switch (response.type) {
     case 'SUCCESS':
       return <ViewGist gist={response.payload} />;
