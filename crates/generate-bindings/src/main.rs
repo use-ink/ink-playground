@@ -66,7 +66,7 @@ fn main() -> std::io::Result<()> {
 
     let path = Path::new(&target);
 
-    let buffer = File::create(&path)?;
+    let buffer = File::create(path)?;
 
     write_definition_file::<_, Api>(buffer, Default::default()).unwrap();
 
