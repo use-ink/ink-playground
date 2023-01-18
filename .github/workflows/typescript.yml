@@ -84,6 +84,9 @@ jobs:
       - name: pwd
         run: pwd
 
+      - name: cd
+        run: cd..
+
       - name: Generate
         run: make generate
 
