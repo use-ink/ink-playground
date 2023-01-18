@@ -79,13 +79,10 @@ jobs:
         run: make ts-install
 
       - name: list
-        run: ls
+        run: ls /home/runner/work/ink-playground/ink-playground/packages/_generated/commontypes/src
 
       - name: pwd
         run: pwd
-
-      - name: cd
-        run: cd..
 
       - name: Generate
         run: make generate

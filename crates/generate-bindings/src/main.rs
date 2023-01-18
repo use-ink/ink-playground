@@ -50,6 +50,8 @@ fn main() -> std::io::Result<()> {
     let target = opts.target.unwrap();
     let target = format!("{:}/index.d.ts", target);
 
+    println!("{}", target);
+
     type Api = (
         CompilationResult,
         CompilationRequest,
