@@ -31,7 +31,11 @@ const gitPlaygroundUrl = (id: string): string => {
   return `${window.location.origin}/?${qs.stringify({ id })}`;
 };
 
-const GistCreateResponse = ({ response }: { response: Common.GistCreateResponse }): ReactElement => {
+const GistCreateResponse = ({
+  response,
+}: {
+  response: Common.GistCreateResponse;
+}): ReactElement => {
   switch (response.type) {
     case 'SUCCESS':
       return <ViewGist gist={response.payload} />;
