@@ -137,7 +137,7 @@ describe('Given the reducer is used to manage state', () => {
   test('When endpoint returns "OK" with "SUCCESS"', () => {
     // Given
     const type = 'SET_COMPILE_STATE';
-    const compilationPayload: CompilationResult = {
+    const compilationPayload: Common.CompilationResult = {
       type: 'SUCCESS',
       payload: {
         wasm: [1, 2, 3],
