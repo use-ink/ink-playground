@@ -39,59 +39,31 @@ use backend::services::{
     },
 };
 use clap::Parser;
-use serde::Serialize;
-use ts_rs::TS;
+use std::fs::File;
+use typescript_type_def::write_definition_file;
 
 fn main() -> std::io::Result<()> {
     let opts: Cli = Cli::parse();
-    let target = opts.target;
-    #[allow(unused_variables)]
+    let target = opts.target.unwrap();
     let target = format!("{:?}/index.d.ts", &target);
 
-    #[derive(Serialize, TS)]
-    #[ts(export)]
-    #[ts(export_to = "${target}")]
-    struct CompilationRequestWrapper(CompilationRequest);
-    #[derive(Serialize, TS)]
-    #[ts(export)]
-    #[ts(export_to = "${target}")]
-    struct CompilationResultWrapper(CompilationResult);
-    #[derive(Serialize, TS)]
-    #[ts(export)]
-    #[ts(export_to = "${target}")]
-    struct TestingRequestWrapper(TestingRequest);
-    #[derive(Serialize, TS)]
-    #[ts(export)]
-    #[ts(export_to = "${target}")]
-    struct TestingResultWrapper(TestingResult);
-    #[derive(Serialize, TS)]
-    #[ts(export)]
-    #[ts(export_to = "${target}")]
-    struct FormattingResultWrapper(FormattingResult);
-    #[derive(Serialize, TS)]
-    #[ts(export)]
-    #[ts(export_to = "${target}")]
-    struct FormattingRequestWrapper(FormattingRequest);
-    #[derive(Serialize, TS)]
-    #[ts(export)]
-    #[ts(export_to = "${target}")]
-    struct GistWrapper(Gist);
-    #[derive(Serialize, TS)]
-    #[ts(export)]
-    #[ts(export_to = "${target}")]
-    struct GistLoadResponseWrapper(GistLoadResponse);
-    #[derive(Serialize, TS)]
-    #[ts(export)]
-    #[ts(export_to = "${target}")]
-    struct GistLoadRequestWrapper(GistLoadRequest);
-    #[derive(Serialize, TS)]
-    #[ts(export)]
-    #[ts(export_to = "${target}")]
-    struct GistCreateResponseWrapper(GistCreateResponse);
-    #[derive(Serialize, TS)]
-    #[ts(export)]
-    #[ts(export_to = "${target}")]
-    struct GistCreateRequestWrapper(GistCreateRequest);
+    type Api = (
+        CompilationResult,
+        CompilationRequest,
+        TestingRequest,
+        TestingResult,
+        FormattingRequest,
+        FormattingResult,
+        Gist,
+        GistLoadRequest,
+        GistLoadResponse,
+        GistCreateRequest,
+        GistCreateResponse,
+    );
+
+    let buffer = File::create(&target)?;
+
+    write_definition_file::<_, Api>(&buffer, Default::default()).unwrap();
 
     Ok(())
 }

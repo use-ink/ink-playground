@@ -44,18 +44,18 @@ use serde::{
 };
 use std::collections::HashMap;
 use tokio_compat_02::FutureExt;
-use ts_rs::TS;
+use typescript_type_def::TypeDef;
 
 // -------------------------------------------------------------------------------------------------
 // TYPES
 // -------------------------------------------------------------------------------------------------
 
-#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone, Eq)]
+#[derive(Deserialize, Serialize, TypeDef, PartialEq, Debug, Clone, Eq)]
 pub struct GistCreateRequest {
     pub code: String,
 }
 
-#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone, Eq)]
+#[derive(Deserialize, Serialize, TypeDef, PartialEq, Debug, Clone, Eq)]
 #[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum GistCreateResponse {
     Success(Gist),

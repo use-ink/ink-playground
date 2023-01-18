@@ -366,7 +366,7 @@ dependencies = [
  "serde",
  "serde_json",
  "tokio-compat-02",
- "ts-rs",
+ "typescript-type-def",
 ]
 
 [[package]]
@@ -855,6 +855,41 @@ dependencies = [
 ]
 
 [[package]]
+name = "darling"
+version = "0.13.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a01d95850c592940db9b8194bc39f4bc0e89dee5c4265e4b1807c34a9aba453c"
+dependencies = [
+ "darling_core",
+ "darling_macro",
+]
+
+[[package]]
+name = "darling_core"
+version = "0.13.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "859d65a907b6852c9361e3185c862aae7fafd2887876799fa55f5f99dc40d610"
+dependencies = [
+ "fnv",
+ "ident_case",
+ "proc-macro2",
+ "quote",
+ "strsim",
+ "syn",
+]
+
+[[package]]
+name = "darling_macro"
+version = "0.13.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9c972679f83bdf9c42bd905396b6c3588a843a17f0f16dfcfa3e2c5d57441835"
+dependencies = [
+ "darling_core",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "dashmap"
 version = "5.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1194,9 +1229,8 @@ version = "0.1.0"
 dependencies = [
  "backend",
  "clap",
- "quote",
  "serde",
- "ts-rs",
+ "typescript-type-def",
 ]
 
 [[package]]
@@ -1456,6 +1490,12 @@ dependencies = [
  "cxx",
  "cxx-build",
 ]
+
+[[package]]
+name = "ident_case"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b9e0384b61958566e926dc50660321d12159025e767c18e043daf26b70104c39"
 
 [[package]]
 name = "idna"
@@ -3229,6 +3269,7 @@ dependencies = [
  "tempdir",
  "tokio 1.24.1",
  "ts-rs",
+ "typescript-type-def",
 ]
 
 [[package]]
@@ -3913,6 +3954,29 @@ name = "typenum"
 version = "1.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "497961ef93d974e23eb6f433eb5fe1b7930b659f06d12dec6fc44a8f554c0bba"
+
+[[package]]
+name = "typescript-type-def"
+version = "0.5.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "947b91d2fe9ec02a6749b8b645541f16f527e2ea88a60b3f774eca26fd657325"
+dependencies = [
+ "typescript-type-def-derive",
+]
+
+[[package]]
+name = "typescript-type-def-derive"
+version = "0.5.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e5c1bfe689e4067733530495b04959b00f05cd95f038bed59af4fc70b3e26240"
+dependencies = [
+ "darling",
+ "ident_case",
+ "proc-macro-error",
+ "proc-macro2",
+ "quote",
+ "syn",
+]
 
 [[package]]
 name = "unicase"

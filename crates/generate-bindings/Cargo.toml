@@ -8,7 +8,6 @@ readme = "README.md"
 
 [dependencies]
 clap = { version = "4.1.1", features = [ "derive" ] }
-ts-rs = { version = "6.2.1", features = ["serde-compat" ] }
-serde = { version = "1.0.152", features = ["derive", "rc"] }
-quote = "1.0.23"
+serde = "1"
 backend = { path = "../backend" }
+typescript-type-def = "0.5.5"

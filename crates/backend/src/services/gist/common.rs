@@ -22,9 +22,9 @@ use serde::{
     Deserialize,
     Serialize,
 };
-use ts_rs::TS;
+use typescript_type_def::TypeDef;
 
-#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone, Eq)]
+#[derive(Deserialize, Serialize, TypeDef, PartialEq, Debug, Clone, Eq)]
 pub struct Gist {
     pub id: String,
     pub url: String,

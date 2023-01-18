@@ -57,7 +57,7 @@ use std::{
 };
 use tempdir::TempDir;
 use tokio::process::Command;
-use ts_rs::TS;
+use typescript_type_def::TypeDef;
 
 // -------------------------------------------------------------------------------------------------
 // TYPES
@@ -117,12 +117,12 @@ pub enum Error {
 
 pub type Result<T, E = Error> = std::result::Result<T, E>;
 
-#[derive(Deserialize, Serialize, TS, Debug, Clone)]
+#[derive(Deserialize, Serialize, TypeDef, Debug, Clone)]
 pub struct CompilationRequest {
     pub source: String,
 }
 
-#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone, Eq)]
+#[derive(Deserialize, Serialize, TypeDef, PartialEq, Debug, Clone, Eq)]
 #[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum CompilationResult {
     Success {
@@ -136,24 +136,24 @@ pub enum CompilationResult {
     },
 }
 
-#[derive(Deserialize, Serialize, TS, Debug, Clone)]
+#[derive(Deserialize, Serialize, TypeDef, Debug, Clone)]
 pub struct TestingRequest {
     pub source: String,
 }
 
-#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone, Eq)]
+#[derive(Deserialize, Serialize, TypeDef, PartialEq, Debug, Clone, Eq)]
 #[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum TestingResult {
     Success { stdout: String, stderr: String },
     Error { stdout: String, stderr: String },
 }
 
-#[derive(Deserialize, Serialize, TS, Debug, Clone)]
+#[derive(Deserialize, Serialize, TypeDef, Debug, Clone)]
 pub struct FormattingRequest {
     pub source: String,
 }
 
-#[derive(Deserialize, Serialize, TS, PartialEq, Debug, Clone, Eq)]
+#[derive(Deserialize, Serialize, TypeDef, PartialEq, Debug, Clone, Eq)]
 #[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum FormattingResult {
     Success { source: String, stderr: String },
