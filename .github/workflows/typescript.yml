@@ -78,12 +78,6 @@ jobs:
       - name: TS install
         run: make ts-install
 
-      - name: list
-        run: ls
-
-      - name: pwd
-        run: pwd
-
       - name: Generate
         run: make generate
 
