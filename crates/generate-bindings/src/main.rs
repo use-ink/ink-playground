@@ -39,7 +39,10 @@ use backend::services::{
     },
 };
 use clap::Parser;
-use std::{fs::File, path::Path};
+use std::{
+    fs::File,
+    path::Path,
+};
 use typescript_type_def::write_definition_file;
 
 fn main() -> std::io::Result<()> {
