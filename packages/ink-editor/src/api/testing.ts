@@ -1,4 +1,4 @@
-import * as Common from '@paritytech/commontypes';
+import Common from '@paritytech/commontypes';
 
 export type TestingApiRequest = Common.TestingRequest;
 
