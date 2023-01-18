@@ -39,13 +39,13 @@ use backend::services::{
     },
 };
 use clap::Parser;
-use std::fs::File;
+use std::{fs::File, path::Path};
 use typescript_type_def::write_definition_file;
 
 fn main() -> std::io::Result<()> {
     let opts: Cli = Cli::parse();
     let target = opts.target.unwrap();
-    let target = format!("{:?}/index.d.ts", &target);
+    let target = format!("{:}/index.d.ts", target);
 
     type Api = (
         CompilationResult,
@@ -61,9 +61,11 @@ fn main() -> std::io::Result<()> {
         GistCreateResponse,
     );
 
-    let buffer = File::create(&target)?;
+    let path = Path::new(&target);
 
-    write_definition_file::<_, Api>(&buffer, Default::default()).unwrap();
+    let buffer = File::create(&path)?;
+
+    write_definition_file::<_, Api>(buffer, Default::default()).unwrap();
 
     Ok(())
 }
