@@ -45,7 +45,7 @@ generate-change-json:
 		-o packages/_generated/change/src/change.json
 
 generate-rust-analyzer:
-	wasm-pack build crates/rust_analyzer_wasm/ --out-dir ./packages/ink-editor/pkg --target web
+	wasm-pack build crates/rust_analyzer_wasm/ --out-dir ../../packages/ink-editor/pkg --target web
 
 generate: generate-rust-analyzer
 generate: generate-bindings
