@@ -72,6 +72,9 @@ jobs:
           toolchain: nightly-2022-05-24-x86_64-unknown-linux-gnu
           override: true
           components: rust-src
+      
+      - name: USe stable toolchain as default
+        run: rustup default stable
 
       - name: TS install
         run: make ts-install
