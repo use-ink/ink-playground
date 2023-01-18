@@ -69,7 +69,7 @@ jobs:
       - name: Install required nightly
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: nightly-2022-05-24-x86_64-unknown-linux-gnu
+          toolchain: nightly-x86_64-unknown-linux-gnu
           override: true
           components: rust-src
 
