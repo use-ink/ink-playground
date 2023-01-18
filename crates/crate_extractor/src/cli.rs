@@ -12,32 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use clap::Clap;
+use clap::{
+    Parser,
+    Subcommand,
+};
 
 const DEFAULT_MANIFEST_PATH: &str = "./Cargo.toml";
 const DEFAULT_OUTPUT: &str = "./change.json";
 
-#[derive(Clap)]
-#[clap(
-    version = "0.1",
-    author = "Achim Schneider <achim@parity.io>",
-    about = "Extract Crate Data to JSON for rust analyzer"
-)]
-pub struct Opts {
-    #[clap(subcommand)]
-    pub subcmd: SubCommand,
+#[derive(Parser, Debug, Clone)]
+#[command(author, version, about, long_about = None)]
+#[command(propagate_version = true)]
+pub struct Cli {
+    #[command(subcommand)]
+    pub command: Commands,
 }
 
-#[derive(Clap)]
-pub enum SubCommand {
-    #[clap(name = "create", about = "Create .json file for Rust Crate")]
-    CmdCreate(CmdCreate),
+#[derive(Subcommand, Debug, Clone)]
+pub enum Commands {
+    #[allow(non_camel_case_types)]
+    create(CmdCreate),
 }
 
-#[derive(Clap)]
+#[derive(Parser, Debug, Clone)]
 pub struct CmdCreate {
-    #[clap(short = 'm', long = "manifest_path", default_value = DEFAULT_MANIFEST_PATH)]
+    #[arg(short = 'm', long = "manifest_path", default_value = DEFAULT_MANIFEST_PATH)]
     pub manifest_path: String,
-    #[clap(short = 'o', long = "output", default_value = DEFAULT_OUTPUT)]
+    #[arg(short = 'o', long = "output", default_value = DEFAULT_OUTPUT)]
     pub output: String,
 }

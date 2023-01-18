@@ -37,7 +37,7 @@ DOCKER_USER_NAME ?= achimcc
 ################################################################################
 
 generate-bindings:
-	cargo run -p generate-bindings -- --target ../../packages/_generated/commontypes/src
+	cargo run -p generate-bindings -- --target $(shell pwd)/packages/_generated/commontypes/src
 
 generate-change-json:
 	cargo run --package crate-extractor -- create \

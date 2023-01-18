@@ -52,7 +52,7 @@ use actix_web::{
 };
 use actix_web_prom::PrometheusMetricsBuilder;
 
-use clap::Clap;
+use clap::Parser;
 use std::{
     collections::HashMap,
     path::Path,

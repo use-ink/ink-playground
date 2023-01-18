@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use clap::Clap;
+use clap::Parser;
 
-#[derive(Clap)]
-#[clap(version = "0.1", about = "Generate bindings from ink! backend")]
-pub struct Opts {
-    #[clap(short = 't', long = "target")]
-    pub target: String,
+#[derive(Parser, Debug)]
+#[command(author, version, about, long_about = None)]
+pub struct Cli {
+    #[arg(short, long)]
+    pub target: Option<String>,
 }

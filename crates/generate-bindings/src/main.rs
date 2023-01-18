@@ -11,38 +11,66 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+#![allow(dead_code, clippy::disallowed_names)]
+#![allow(unnameable_test_items)]
 
 mod cli;
 
-use crate::cli::Opts;
-use clap::Clap;
-use ts_rs::export_here;
+use crate::cli::Cli;
+use backend::services::{
+    contract::{
+        CompilationRequest,
+        CompilationResult,
+        FormattingRequest,
+        FormattingResult,
+        TestingRequest,
+        TestingResult,
+    },
+    gist::{
+        common::Gist,
+        create::{
+            GistCreateRequest,
+            GistCreateResponse,
+        },
+        load::{
+            GistLoadRequest,
+            GistLoadResponse,
+        },
+    },
+};
+use clap::Parser;
+use std::{
+    fs::File,
+    path::Path,
+};
+use typescript_type_def::write_definition_file;
 
 fn main() -> std::io::Result<()> {
-    let opts: Opts = Opts::parse();
-    let target = opts.target;
-    let target = format!("{}/index.d.ts", &target);
+    let opts: Cli = Cli::parse();
+    let target = opts.target.unwrap();
+    let target = format!("{:}/index.d.ts", target);
 
-    export_here! {
-        backend::services::contract::CompilationResult,
-        backend::services::contract::CompilationRequest,
+    println!("{}", target);
 
-        backend::services::contract::TestingResult,
-        backend::services::contract::TestingRequest,
+    type Api = (
+        CompilationResult,
+        CompilationRequest,
+        TestingRequest,
+        TestingResult,
+        FormattingRequest,
+        FormattingResult,
+        Gist,
+        GistLoadRequest,
+        GistLoadResponse,
+        GistCreateRequest,
+        GistCreateResponse,
+    );
 
-        backend::services::contract::FormattingResult,
-        backend::services::contract::FormattingRequest,
+    let path = Path::new(&target);
 
-        backend::services::gist::common::Gist,
+    let buffer = File::create(path)?;
 
-        backend::services::gist::load::GistLoadResponse,
-        backend::services::gist::load::GistLoadRequest,
-
-        backend::services::gist::create::GistCreateResponse,
-        backend::services::gist::create::GistCreateRequest
-       =>
-       &target
-    };
+    write_definition_file::<_, Api>(buffer, Default::default()).unwrap();
 
     Ok(())
 }

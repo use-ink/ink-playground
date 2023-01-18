@@ -7,9 +7,7 @@ license = "Apache-2.0"
 readme = "README.md"
 
 [dependencies]
-clap = "3.0.0-beta.4"
-ts-rs = { git = "https://github.com/Aleph-Alpha/ts-rs", branch = "main", features = [
-    "serde-compat",
-] }
-
+clap = { version = "4.1.1", features = [ "derive" ] }
+serde = "1"
 backend = { path = "../backend" }
+typescript-type-def = "0.5.5"
