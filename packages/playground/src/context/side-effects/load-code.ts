@@ -1,7 +1,7 @@
 import { State, Dispatch as AppDispatch } from '../app/reducer';
 import { MessageDispatch } from '../messages/reducer';
 import { gistLoadRequest } from '@paritytech/ink-editor/api/gists';
-import { GistCreateResponse } from '@paritytech/commontypes';
+import Common from '@paritytech/commontypes';
 import qs from 'qs';
 // See: https://github.com/webpack/webpack/issues/12900
 import exampleCode from '../../../../../crates/contract/lib.txt!=!../../../../../crates/contract/lib.rs';
@@ -39,7 +39,7 @@ const handleError = (content: string, dispatch: Dispatch): string => {
 };
 
 const handleSuccess = (
-  response: Extract<GistCreateResponse, { type: 'SUCCESS' }>,
+  response: Extract<Common.GistCreateResponse, { type: 'SUCCESS' }>,
   dispatch: Dispatch
 ): string => {
   dispatch.message({

@@ -1,4 +1,4 @@
-import { CompilationResult, TestingResult, FormattingResult } from '@paritytech/commontypes';
+import Common from '@paritytech/commontypes';
 import { Message, Status, Severity, Prompt } from '@paritytech/components/';
 import * as sizeLimit from '~/constants';
 import { extractContractSize } from '../side-effects/compile';
@@ -33,7 +33,7 @@ export type CompilationMessage = {
   payload: {
     status: Status;
     content: string;
-    result?: CompilationResult;
+    result?: Common.CompilationResult;
   };
 };
 
@@ -42,7 +42,7 @@ export type TestingMessage = {
   payload: {
     status: Status;
     content: string;
-    result?: TestingResult;
+    result?: Common.TestingResult;
   };
 };
 
@@ -51,7 +51,7 @@ export type FormattingMessage = {
   payload: {
     status: Status;
     content: string;
-    result?: FormattingResult;
+    result?: Common.FormattingResult;
   };
 };
 

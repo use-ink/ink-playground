@@ -2,7 +2,7 @@ import { State, Dispatch } from '../app/reducer';
 import { MessageAction, MessageDispatch, GistMessage } from '../messages/reducer';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { GistCreateApiResponse, gistCreateRequest } from '@paritytech/ink-editor/api/gists';
-import { GistCreateResponse } from '@paritytech/commontypes';
+import Common from '@paritytech/commontypes';
 import { GIST_CREATE_URL } from '~/env';
 
 const resetToNotAsked = (dispatch: Dispatch, dispatchMessage: MessageDispatch): void => {
@@ -39,7 +39,7 @@ const getMessageAction = (result: GistCreateApiResponse): GistMessage => {
   }
 };
 
-const handleOk = (response: GistCreateResponse): GistMessage => {
+const handleOk = (response: Common.GistCreateResponse): GistMessage => {
   switch (response.type) {
     case 'ERROR':
       return {
