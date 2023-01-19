@@ -16,6 +16,7 @@
     "**/yarn-error.log",
     "assets/architecture*.xml",
     "packages/_generated/change/src/change.json",
+    "crates/rust_analyzer_wasm/webdriver.json",
     "sysbox/*",
     "config/data/*",
     "*.svg"
