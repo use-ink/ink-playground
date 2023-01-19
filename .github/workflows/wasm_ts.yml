@@ -21,6 +21,6 @@ jobs:
           version: 'latest'
 
       - name: Run wasm-pack tests
-        run: wasm-pack test --node --firefox --chrome --safari --headless crates/rust_analyzer_wasm
+        run: wasm-pack test --node --firefox --chrome --safari --headless $(shell pwd)/crates/rust_analyzer_wasm
         env:
           WASM_BINDGEN_TEST_TIMEOUT: 120
