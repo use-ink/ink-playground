@@ -2971,7 +2971,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/jest-dom@npm:^5.16.5":
+"@testing-library/jest-dom@npm:^5.16.4":
   version: 5.16.5
   resolution: "@testing-library/jest-dom@npm:5.16.5"
   dependencies:
@@ -3553,7 +3553,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.48.2":
+"@typescript-eslint/eslint-plugin@npm:^5.48.1":
   version: 5.48.2
   resolution: "@typescript-eslint/eslint-plugin@npm:5.48.2"
   dependencies:
@@ -3576,7 +3576,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.48.2":
+"@typescript-eslint/parser@npm:^5.48.1":
   version: 5.48.2
   resolution: "@typescript-eslint/parser@npm:5.48.2"
   dependencies:
@@ -9612,7 +9612,7 @@ __metadata:
   dependencies:
     "@svgr/webpack": ^6.5.1
     "@tailwindcss/postcss7-compat": ^2.2.17
-    "@testing-library/jest-dom": ^5.16.5
+    "@testing-library/jest-dom": ^5.16.4
     "@testing-library/react": ^12.1.5
     "@types/jest": ^29.2.6
     "@types/react": ^18.0.27
@@ -11030,8 +11030,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@typescript-eslint/eslint-plugin": ^5.48.2
-    "@typescript-eslint/parser": ^5.48.2
+    "@testing-library/jest-dom": ^5.16.4
+    "@typescript-eslint/eslint-plugin": ^5.48.1
+    "@typescript-eslint/parser": ^5.48.1
     cspell: ^5.21.2
     css-minimizer-webpack-plugin: ^4.2.2
     eslint: ^8.32.0
