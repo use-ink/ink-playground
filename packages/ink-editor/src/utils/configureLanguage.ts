@@ -116,6 +116,8 @@ export const configureLanguage = (worldState: WorldState, allTokens: Token[]) =>
   });
 
   monaco.languages.registerRenameProvider(modeId, {
+    // provideRenameEdits(model: editor.ITextModel, position: Position, newName: string, token: CancellationToken): ProviderResult<WorkspaceEdit & Rejection>;
+
     async provideRenameEdits(m, pos, newName) {
       const edit = await worldState.rename(pos.lineNumber, pos.column, newName);
       if (edit) {
@@ -123,7 +125,8 @@ export const configureLanguage = (worldState: WorldState, allTokens: Token[]) =>
           edits: [
             {
               resource: m.uri,
-              edit,
+              textEdit: edit,
+              versionId: undefined,
             },
           ],
         };

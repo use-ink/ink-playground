@@ -3,10 +3,10 @@ import { Tooltip } from 'primereact/tooltip';
 
 import tailwindConfig from '../../playground/tailwind.config';
 import resolveConfig from 'tailwindcss/resolveConfig';
-import { TailwindConfig } from 'tailwindcss/tailwind-config';
+import Config from 'tailwindcss/defaultConfig';
 
 // The types from Tailwind do not play along nicely with custom fonts
-const fullConfig = resolveConfig(tailwindConfig as unknown as TailwindConfig);
+const fullConfig = resolveConfig(tailwindConfig as unknown as typeof Config);
 
 // Get colors from tailwind config
 export type Colors = {
@@ -55,7 +55,7 @@ export const ButtonWithIcon = ({
     const spinnerIcon = `pi pi-spinner animate-spin ${style}`;
     const disabledIcon = `${style}`;
 
-    const colors = fullConfig.theme.colors as Colors;
+    const colors = fullConfig?.theme?.colors as Colors;
     // Icon colors
     const grayDark = colors.gray['200'];
     const grayLight = colors.gray['600'];
