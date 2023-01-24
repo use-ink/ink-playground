@@ -7,7 +7,7 @@ license = "Apache-2.0"
 readme = "README.md"
 
 [dependencies]
-clap = { version = "4.1.1", features = [ "derive" ] }
+clap = { version = "4.1.3", features = [ "derive" ] }
 serde = "1"
 backend = { path = "../backend" }
 typescript-type-def = "0.5.5"
