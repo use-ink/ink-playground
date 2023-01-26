@@ -64,7 +64,7 @@ describe('Given the reducer is used to manage state', () => {
     const resultingState = reducer(defaultState, action);
     // Then ...
     expect(resultingState.compile).toStrictEqual(payload);
-  }); 
+  });
 
   test('When endpoint returns "NETWORK_ERROR"', () => {
     // Given
