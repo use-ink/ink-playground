@@ -19,7 +19,7 @@ serde_json = { version = "1.0.91", features = ["preserve_order"] }
 serde_repr = "0.1.10"
 serde-wasm-bindgen = "0.4.3"
 stacker = "0.1.15"
-wasm-bindgen = "0.2.81"
+wasm-bindgen = "0.2.84"
 rayon = "1.6.1"
 wasm-bindgen-rayon = "1.0.3"
 change_json = {path = "../change_json" }
