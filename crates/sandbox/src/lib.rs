@@ -263,7 +263,6 @@ impl Sandbox {
         fs::set_permissions(&self.input_file, wide_open_permissions())
             .context(UnableToSetSourcePermissionsSnafuSnafu)?;
 
-        println!("Wrote {code.len()} bytes of source to {self.input_file.display()}");
         Ok(())
     }
 }
