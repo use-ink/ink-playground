@@ -5,6 +5,11 @@ authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2021"
 publish = false
 
+[lib]
+name = "flipper"
+path = "lib.rs"
+crate-type = ["cdylib"]
+
 [dependencies]
 ink = { version = "4.0.0-rc", default-features = false }
 
