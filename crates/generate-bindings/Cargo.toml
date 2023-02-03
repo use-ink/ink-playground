@@ -9,6 +9,6 @@ readme = "README.md"
 [dependencies]
 clap = { version = "4.1.1", features = [ "derive" ] }
 serde = "1"
-percent-encoding = "2.2.0"
+percent-encoding = "2.1.0"
 backend = { path = "../backend" }
 typescript-type-def = "0.5.5"
