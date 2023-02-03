@@ -18,6 +18,7 @@ typescript-type-def = "0.5.5"
 futures = "0.3.25"
 hubcaps = "0.6.2"
 tokio-compat-02 = "0.2.0"
+percent-encoding = "2.1.0"
 
 sandbox = { path = "../sandbox" }
 
