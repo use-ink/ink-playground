@@ -59,7 +59,7 @@ fn main() {
             manifest_path,
             output,
         }) => {
-            println!("Creating .json file, using: {:?}", manifest_path);
+            println!("Creating .json file, using: {manifest_path}");
             let manifest_path = to_abs_path(&manifest_path)
                 .expect("Cannot convert `manifest_path` to absolute path.");
             let output =
