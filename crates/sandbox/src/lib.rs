@@ -193,8 +193,6 @@ impl Sandbox {
 
         let command = build_compile_command(&self.input_file, &self.output_dir);
 
-        println!("Executing command: \n{command:?}");
-
         let output = run_command_with_timeout(command)?;
         let file = fs::read_dir(&self.output_dir)
             .context(UnableToReadOutputSnafuSnafu)?
@@ -247,8 +245,6 @@ impl Sandbox {
 
         let command = build_formatting_command(&self.input_file);
 
-        println!("Executing command: \n{command}");
-
         let output = run_command_with_timeout(command)?;
 
         let stdout = vec_to_str(output.stdout)?;
@@ -267,11 +263,7 @@ impl Sandbox {
         fs::set_permissions(&self.input_file, wide_open_permissions())
             .context(UnableToSetSourcePermissionsSnafuSnafu)?;
 
-        println!(
-            "Wrote {} bytes of source to {}",
-            code.len(),
-            self.input_file.display()
-        );
+        println!("Wrote {code.len()} bytes of source to {self.input_file.display()}");
         Ok(())
     }
 }
@@ -299,17 +291,10 @@ async fn run_command_with_timeout(mut command: Command) -> Result<std::process::
     use std::os::unix::process::ExitStatusExt;
 
     let timeout = DOCKER_PROCESS_TIMEOUT_HARD;
-    println!("executing command!");
     let output = command
         .output()
         .await
         .context(UnableToStartCompilerSnafuSnafu)?;
-    println!("Done! {:?}", output);
-    // Exit early, in case we don't have the container
-    // if !output.status.success() {
-    // return Ok(output);
-    // }
-    // let response = &output.stdout;
     let stdout = String::from_utf8_lossy(&output.stdout);
 
     let id = stdout
