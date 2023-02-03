@@ -181,13 +181,13 @@ mod tests {
     const TESTING_MOCKED: TestingStrategy = |req| {
         if req.source == "foo" {
             Ok(TestingResult::Success {
-                stdout: format!("Testing of {} succeeded.", req.source),
+                stdout: format!("Testing of {req.source} succeeded."),
                 stderr: "".to_string(),
             })
         } else {
             Ok(TestingResult::Error {
                 stdout: "".to_string(),
-                stderr: format!("Testing of {} failed.", req.source),
+                stderr: format!("Testing of {req.source} failed."),
             })
         }
     };
