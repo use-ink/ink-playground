@@ -23,6 +23,7 @@ use serde::{
     Serialize,
 };
 use typescript_type_def::TypeDef;
+use hyper::client::HttpConnector;
 
 #[derive(Deserialize, Serialize, TypeDef, PartialEq, Debug, Clone, Eq)]
 pub struct Gist {
@@ -53,7 +54,7 @@ pub fn from_github_gist(gist: hubcaps::gists::Gist) -> Option<Gist> {
 }
 
 pub fn github(token: &str) -> hubcaps::Result<hubcaps::Github> {
-    hubcaps::Github::new(
+    hubcaps::Github<HttpConnector>::new(
         GITHUB_AGENT_NAME,
         hubcaps::Credentials::Token(token.to_string()),
     )

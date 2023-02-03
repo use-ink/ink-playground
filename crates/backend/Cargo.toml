@@ -18,7 +18,7 @@ typescript-type-def = "0.5.5"
 futures = "0.3.25"
 hubcaps = "0.5.0"
 tokio-compat-02 = "0.2.0"
-
+hyper = "0.14.24"
 sandbox = { path = "../sandbox" }
 
 [dev-dependencies]
