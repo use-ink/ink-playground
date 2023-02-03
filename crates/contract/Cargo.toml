@@ -1,23 +1,18 @@
 [package]
 name = "contract"
-version = "4.0.0-beta"
+version = "4.0.0-rc"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2021"
 publish = false
 
 [dependencies]
-ink = { version = "4.0.0-beta", default-features = false }
+ink = { version = "4.0.0-rc", default-features = false }
 
 scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
-scale-info = { version = "2", default-features = false, features = ["derive"], optional = true }
+scale-info = { version = "2.3", default-features = false, features = ["derive"], optional = true }
 
-[lib]
-name = "contract"
-path = "lib.rs"
-crate-type = [
-        # Used for normal contract Wasm blobs.
-        "cdylib",
-]
+[dev-dependencies]
+ink_e2e = { version = "4.0.0-rc" }
 
 [features]
 default = ["std"]
@@ -27,3 +22,4 @@ std = [
     "scale-info/std",
 ]
 ink-as-dependency = []
+e2e-tests = []
