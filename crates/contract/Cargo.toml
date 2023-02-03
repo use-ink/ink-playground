@@ -6,7 +6,7 @@ edition = "2021"
 publish = false
 
 [lib]
-name = "flipper"
+name = "contract"
 path = "lib.rs"
 crate-type = ["cdylib"]
 
