@@ -126,15 +126,11 @@ fn build_basic_secure_docker_command() -> Command {
 
 fn build_execution_command() -> Vec<String> {
     let target_dir = "/target/ink";
-
-    let clean_cmd = format!(
-        "rm -rf {}/contract.* {}/metadata.json",
-        target_dir, target_dir
-    );
+    let clean_cmd = format!("rm -rf {target_dir}/contract.* {target_dir}/metadata.json");
     let build_cmd = "cargo contract build --offline 2>&1".to_string();
-    let move_cmd = format!("mv {}/contract.contract {}", target_dir, DOCKER_OUTPUT);
+    let move_cmd = format!("mv {target_dir}/contract.contract {DOCKER_OUTPUT}");
 
-    let command = format!("{} && {} && {}", clean_cmd, build_cmd, move_cmd);
+    let command = format!("{clean_cmd} && {build_cmd} && {move_cmd}");
 
     let cmd = vec!["/bin/bash".to_string(), "-c".to_string(), command];
 

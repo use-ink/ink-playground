@@ -193,7 +193,7 @@ impl Sandbox {
 
         let command = build_compile_command(&self.input_file, &self.output_dir);
 
-        println!("Executing command: \n{:?}", command);
+        println!("Executing command: \n{command:?}");
 
         let output = run_command_with_timeout(command)?;
         let file = fs::read_dir(&self.output_dir)
@@ -230,7 +230,7 @@ impl Sandbox {
 
         let command = build_testing_command(&self.input_file);
 
-        println!("Executing command: \n{:?}", command);
+        println!("Executing command: \n{command:?}");
 
         let output = run_command_with_timeout(command)?;
 
@@ -247,7 +247,7 @@ impl Sandbox {
 
         let command = build_formatting_command(&self.input_file);
 
-        println!("Executing command: \n{:?}", command);
+        println!("Executing command: \n{command}");
 
         let output = run_command_with_timeout(command)?;
 
