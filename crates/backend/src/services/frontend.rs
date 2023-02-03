@@ -39,7 +39,7 @@ mod tests {
         let temp_dir = env::temp_dir();
         let temp_dir = temp_dir.to_str().unwrap();
 
-        let mut test_file = File::create(format!("{}/index.html", temp_dir)).unwrap();
+        let mut test_file = File::create(format!("{temp_dir}/index.html")).unwrap();
         test_file.write_all(b"Hello, world!").unwrap();
 
         let app =
@@ -79,7 +79,7 @@ mod tests {
         let temp_dir = env::temp_dir();
         let temp_dir = temp_dir.to_str().unwrap();
 
-        let mut test_file = File::create(format!("{}/foo.txt", temp_dir)).unwrap();
+        let mut test_file = File::create(format!("{temp_dir}/foo.txt")).unwrap();
         test_file.write_all(b"Hello, world!").unwrap();
 
         let app =

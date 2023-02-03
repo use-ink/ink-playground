@@ -67,7 +67,7 @@ async fn main() -> std::io::Result<()> {
 
     if let Some(path) = &opts.frontend_folder {
         if !Path::new(path).is_dir() {
-            panic!("{} is not a valid directory.", path);
+            panic!("{path} is not a valid directory.");
         }
     }
 
@@ -148,7 +148,7 @@ async fn main() -> std::io::Result<()> {
 
         app
     })
-    .bind(format!("{}:{}", &host, &port))?
+    .bind(format!("{&host}:{&port}"))?
     .run()
     .await?;
 

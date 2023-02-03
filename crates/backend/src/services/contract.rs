@@ -166,13 +166,13 @@ mod tests {
         if req.source == "foo" {
             Ok(CompilationResult::Success {
                 wasm: vec![],
-                stdout: format!("Compilation of {} succeeded.", req.source),
+                stdout: format!("Compilation of {req.source} succeeded."),
                 stderr: "".to_string(),
             })
         } else {
             Ok(CompilationResult::Error {
                 stdout: "".to_string(),
-                stderr: format!("Compilation of {} failed.", req.source),
+                stderr: format!("Compilation of {req.source} failed."),
             })
         }
     };

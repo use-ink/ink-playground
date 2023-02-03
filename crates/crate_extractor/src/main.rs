@@ -71,11 +71,11 @@ fn main() {
                 &|_| {},
             );
             let change = res.unwrap_or_else(|err| {
-                panic!("Error while creating change object: {}", err)
+                panic!("Error while creating change object: {err}")
             });
             let json = ChangeJson::from(&change);
             let text = serde_json::to_string(&json).unwrap_or_else(|err| {
-                panic!("Error while parsing ChangeJson object to string: {}", err)
+                panic!("Error while parsing ChangeJson object to string: {err}")
             });
             let output = match output.as_path().as_ref().is_dir() {
                 true => output.join("change.json"),
@@ -115,7 +115,7 @@ mod tests {
             &|_| {},
         )
         .unwrap_or_else(|err| {
-            panic!("Error while creating Change object: {}", err);
+            panic!("Error while creating Change object: {err}");
         });
 
         // then

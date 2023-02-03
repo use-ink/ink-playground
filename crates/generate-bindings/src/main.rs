@@ -48,9 +48,9 @@ use typescript_type_def::write_definition_file;
 fn main() -> std::io::Result<()> {
     let opts: Cli = Cli::parse();
     let target = opts.target.unwrap();
-    let target = format!("{:}/index.d.ts", target);
+    let target = format!("{target}/index.d.ts",);
 
-    println!("{}", target);
+    println!("{target}");
 
     type Api = (
         CompilationResult,

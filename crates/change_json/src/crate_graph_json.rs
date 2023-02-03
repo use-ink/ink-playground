@@ -154,7 +154,7 @@ impl From<&CrateGraphJson> for CrateGraph {
                 let to = CrateId(dep.to);
                 let dep = Dependency::new(name, to);
                 crate_graph.add_dep(from, dep).unwrap_or_else(|err| {
-                    panic!("Cyclic Dependency in parsed data: {}", err)
+                    panic!("Cyclic Dependency in parsed data: {err}")
                 });
             };
         }

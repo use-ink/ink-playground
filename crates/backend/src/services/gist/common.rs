@@ -34,7 +34,7 @@ pub struct Gist {
 const GISTS_REPO_URL: &str = "https://gist.github.com/ink-playground-gists";
 
 fn create_gist_url(id: String) -> String {
-    format!("{}/{}", GISTS_REPO_URL, id)
+    format!("{GISTS_REPO_URL}/{id}")
 }
 
 pub fn from_github_gist(gist: hubcaps::gists::Gist) -> Option<Gist> {
