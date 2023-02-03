@@ -166,13 +166,13 @@ mod tests {
         if req.source == "foo" {
             Ok(CompilationResult::Success {
                 wasm: vec![],
-                stdout: format!("Compilation of {req.source} succeeded."),
+                stdout: format!("Compilation of {0} succeeded.", req.source),
                 stderr: "".to_string(),
             })
         } else {
             Ok(CompilationResult::Error {
                 stdout: "".to_string(),
-                stderr: format!("Compilation of {req.source} failed."),
+                stderr: format!("Compilation of {0} succeeded.", req.source),
             })
         }
     };
@@ -181,13 +181,13 @@ mod tests {
     const TESTING_MOCKED: TestingStrategy = |req| {
         if req.source == "foo" {
             Ok(TestingResult::Success {
-                stdout: format!("Testing of {req.source} succeeded."),
+                stdout: format!("Compilation of {0} succeeded.", req.source),
                 stderr: "".to_string(),
             })
         } else {
             Ok(TestingResult::Error {
                 stdout: "".to_string(),
-                stderr: format!("Testing of {req.source} failed."),
+                stderr: format!("Compilation of {0} succeeded.", req.source),
             })
         }
     };
