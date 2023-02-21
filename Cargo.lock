@@ -59,7 +59,7 @@ dependencies = [
  "log",
  "mime",
  "mime_guess",
- "percent-encoding",
+ "percent-encoding 2.1.0" ,
  "pin-project-lite 0.2.9",
 ]
 
@@ -91,7 +91,7 @@ dependencies = [
  "language-tags",
  "local-channel",
  "mime",
- "percent-encoding",
+ "percent-encoding 2.1.0" ,
  "pin-project-lite 0.2.9",
  "rand 0.8.5",
  "sha1",
@@ -679,7 +679,7 @@ version = "0.16.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e859cd57d0710d9e06c381b550c06e76992472a8c6d527aecd2fc673dcc231fb"
 dependencies = [
- "percent-encoding",
+ "percent-encoding 2.1.0" ,
  "time 0.3.17",
  "version_check",
 ]
@@ -1088,7 +1088,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5fc25a87fa4fd2094bffb06925852034d90a17f0d1e05197d4956d3555752191"
 dependencies = [
  "matches",
- "percent-encoding",
+ "percent-encoding 2.1.0" ,
 ]
 
 [[package]]
@@ -1400,7 +1400,7 @@ dependencies = [
  "jsonwebtoken",
  "log",
  "mime",
- "percent-encoding",
+ "percent-encoding 2.1.0" ,
  "reqwest",
  "serde",
  "serde_derive",
@@ -1463,7 +1463,7 @@ dependencies = [
  "httpdate 1.0.2",
  "language-tags",
  "mime",
- "percent-encoding",
+ "percent-encoding 2.1.0" ,
  "unicase",
 ]
 
@@ -3103,7 +3103,7 @@ dependencies = [
  "mime",
  "mime_guess",
  "native-tls",
- "percent-encoding",
+ "percent-encoding 2.1.0" ,
  "pin-project-lite 0.2.9",
  "serde",
  "serde_urlencoded",
@@ -4040,7 +4040,7 @@ checksum = "22fe195a4f217c25b25cb5058ced57059824a678474874038dc88d211bf508d3"
 dependencies = [
  "form_urlencoded",
  "idna",
- "percent-encoding",
+ "percent-encoding 2.1.0" ,
  "serde",
 ]
 
