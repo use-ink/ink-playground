@@ -2670,7 +2670,7 @@ __metadata:
     jest: ^29.3.1
     jest-environment-jsdom: ^29.3.1
     primeicons: ^6.0.1
-    primereact: ^8.1.1
+    primereact: ^9.2.0
     react-transition-group: ^4.4.5
     rimraf: ^3.0.2
     ts-jest: ^29.0.4
@@ -10288,21 +10288,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"primereact@npm:^8.1.1":
-  version: 8.1.1
-  resolution: "primereact@npm:8.1.1"
+"primereact@npm:^9.2.0":
+  version: 9.2.0
+  resolution: "primereact@npm:9.2.0"
   dependencies:
     "@types/react-transition-group": ^4.4.1
     react-transition-group: ^4.4.1
   peerDependencies:
     "@types/react": ^17.0.0 || ^18.0.0
-    primeicons: ^5.0.0
+    primeicons: ^5.0.0 || ^6.0.0
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 01ec58784a61d6153ed13e6aa071bdb2be913fbc2f12380472308166b42fb122409225d007cd2e148957e2942273e767b01b526bc5515edce68feaf72acc8e03
+  checksum: f5162be5aa90f8947eab74aa00d7a659bf1c2fbf9944dc431fc84e0a1fc602f7a887c3bf0594a6c89e6b87c5f5efbfe9b84a38a4d4f4f0efbbca0e72d8d21ff8
   languageName: node
   linkType: hard
 
