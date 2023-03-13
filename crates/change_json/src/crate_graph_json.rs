@@ -194,7 +194,6 @@ impl From<&CfgOptions> for CfgOptionsJson {
     fn from(cfg_options: &CfgOptions) -> Self {
         let options = cfg_options
             .get_cfg_keys()
-            .into_iter()
             .map(|key| {
                 (
                     String::from(key.as_str()),
