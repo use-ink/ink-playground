@@ -24,9 +24,9 @@ rayon = "1.7.0"
 wasm-bindgen-rayon = "1.0.3"
 change_json = {path = "../change_json" }
 
-ide_db = {package = "ra_ap_ide_db", version = "0.0.149"}
-ide = {package = "ra_ap_ide", version = "0.0.149"}
-syntax = {package = "ra_ap_syntax", version = "0.0.149"}
+ide_db = {package = "ra_ap_ide_db", version = "0.0.120"}
+ide = {package = "ra_ap_ide", version = "0.0.120"}
+syntax = {package = "ra_ap_syntax", version = "0.0.120"}
 
 [dependencies.web-sys]
 version = "0.3"
