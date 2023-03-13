@@ -841,12 +841,11 @@ dependencies = [
 
 [[package]]
 name = "contract"
-version = "4.0.0"
+version = "4.0.1"
 dependencies = [
  "ink",
  "ink_e2e",
  "parity-scale-codec",
- "percent-encoding",
  "scale-info",
 ]
 
