@@ -15,7 +15,7 @@ scale-info = { version = "2.3", default-features = false, features = ["derive"],
 ink_e2e = { version = "4.0" }
 
 [lib]
-name = "flipper"
+name = "contract"
 path = "lib.rs"
 crate-type = ["cdylib"]
 

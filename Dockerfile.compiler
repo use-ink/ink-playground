@@ -1,6 +1,6 @@
 ARG REGISTRY_PATH=docker.io/paritytech
 
-FROM ${REGISTRY_PATH}/ink-ci-linux:production
+FROM ${REGISTRY_PATH}/ink-ci-linux:staging
 
 ENV CARGO_TARGET_DIR="/target"
 
@@ -8,10 +8,10 @@ ENV CARGO_TARGET_DIR="/target"
 RUN cargo contract new contract
 
 # Provide Cargo.toml with all ink! dependencies
-COPY crates/contract/Cargo.toml /builds/contract/Cargo.toml
+# COPY crates/contract/Cargo.toml /builds/contract/Cargo.toml
 
 # Pre-build ink! dependencies
-RUN cd contract && cargo contract build
+RUN cd contract && cargo contract build 
 RUN cd contract && cargo test
 
 WORKDIR /builds/contract
