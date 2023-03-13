@@ -1,6 +1,6 @@
 [package]
 name = "contract"
-version = "4.0.0"
+version = "4.0.1"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2021"
 publish = false
@@ -9,14 +9,13 @@ publish = false
 ink = { version = "4.0", default-features = false }
 
 scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
-scale-info = { version = "2.3.1", default-features = false, features = ["derive"], optional = true }
-percent-encoding = "=2.2.0"
+scale-info = { version = "2.3", default-features = false, features = ["derive"], optional = true }
 
 [dev-dependencies]
-ink_e2e = { version = "4.0.1" }
+ink_e2e = { version = "4.0" }
 
 [lib]
-name = "contract"
+name = "flipper"
 path = "lib.rs"
 crate-type = ["cdylib"]
 
