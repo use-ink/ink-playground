@@ -200,7 +200,6 @@ impl From<&CfgOptions> for CfgOptionsJson {
                     String::from(key.as_str()),
                     cfg_options
                         .get_cfg_values(key)
-                        .into_iter()
                         .map(|val| String::from(val.as_str()))
                         .collect::<Vec<_>>(),
                 )
