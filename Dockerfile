@@ -3,7 +3,7 @@
 ################################################################################
 
 # Start from a rust base image
-FROM rust:1.66.1 as base
+FROM rust:1.68.0 as base
 
 # Set the current directory
 WORKDIR /app
@@ -117,7 +117,7 @@ RUN echo \
 RUN apt-get --yes update
 
 RUN apt-get --yes install docker-ce docker-ce-cli \
-    containerd.io=1.5.11-1
+    containerd.io
 
 # Provide startup scripts
 
