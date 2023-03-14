@@ -2751,7 +2751,7 @@ __metadata:
     monaco-editor-webpack-plugin: ^7.0.1
     react: ^18.2.0
     react-dom: ^18.2.0
-    react-monaco-editor: ^0.49.0
+    react-monaco-editor: ^0.52.0
     ts-loader: ^9.4.2
     webpack: ^5.76.1
   languageName: unknown
@@ -3560,10 +3560,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/tailwindcss@npm:^3.0.11":
-  version: 3.0.11
-  resolution: "@types/tailwindcss@npm:3.0.11"
-  checksum: 837017795192aebb83232f6670bd180e0cfb55b82cc4a9c6ff5de934ed00ff6fbcc3576f3067c3194e0f471326b282f7d838d6e0f3e11c99e7611d552928a05e
+"@types/tailwindcss@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@types/tailwindcss@npm:3.1.0"
+  dependencies:
+    tailwindcss: "*"
+  checksum: de91e6e6a33fe3e7ef00e323db4f1cbbc4802f2b667e416755c754dae1e86d5be2916654462db47d40ce0fbeb23ef546ecd52c653ff438c8ad918b370135c6ef
   languageName: node
   linkType: hard
 
@@ -9167,10 +9169,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"monaco-editor@npm:^0.33.0":
-  version: 0.33.0
-  resolution: "monaco-editor@npm:0.33.0"
-  checksum: f88fd1c9be0d6845436aa92ee7f7bcc49f9e9bf452f73bb5efbbe52e50678d1c2aec4d612a943310f5e2282c1d9fcc41b792b65a5b9008e6054908e7e10311ea
+"monaco-editor@npm:^0.36.1":
+  version: 0.36.1
+  resolution: "monaco-editor@npm:0.36.1"
+  checksum: 75e7cfbe03b4cb964e550c8021d6b2cc4f5265ee17703ddda7a63a26492a95fdbfaf34aa3e50004930ff8afb1422ae2b1dc0b9d3f122d558bdf1a335403937fd
   languageName: node
   linkType: hard
 
@@ -9781,7 +9783,7 @@ __metadata:
     "@types/react": ^18.0.28
     "@types/react-dom": ^18.0.11
     "@types/react-test-renderer": ^18.0.0
-    "@types/tailwindcss": ^3.0.11
+    "@types/tailwindcss": ^3.1.0
     autoprefixer: ^10.4.14
     comlink: ^4.4.1
     copy-webpack-plugin: ^11.0.0
@@ -9789,7 +9791,7 @@ __metadata:
     html-webpack-plugin: ^5.5.0
     jest: ^29.5.0
     jest-environment-jsdom: ^29.5.0
-    monaco-editor: ^0.33.0
+    monaco-editor: ^0.36.1
     monaco-editor-webpack-plugin: ^7.0.1
     postcss: ^8.4.21
     postcss-cli: ^10.1.0
@@ -9798,7 +9800,7 @@ __metadata:
     qs: ^6.11.1
     react: ^18.2.0
     react-dom: ^18.2.0
-    react-monaco-editor: ^0.49.0
+    react-monaco-editor: ^0.52.0
     remove: ^0.1.5
     rimraf: ^3.0.2
     tailwindcss: ^3.2.7
@@ -10747,16 +10749,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-monaco-editor@npm:^0.49.0":
-  version: 0.49.0
-  resolution: "react-monaco-editor@npm:0.49.0"
+"react-monaco-editor@npm:^0.52.0":
+  version: 0.52.0
+  resolution: "react-monaco-editor@npm:0.52.0"
   dependencies:
     prop-types: ^15.8.1
   peerDependencies:
-    "@types/react": ">=17 <= 18"
-    monaco-editor: ^0.33.0
-    react: ">=17 <= 18"
-  checksum: 10dccb818554cee14c6ebea8596581002d04d82e8b7336d8ec6fb9004247b0b0cad558d258dc73142f1319050de510d5f8dd3751550c87f41cb42064c2b41592
+    "@types/react": ">=16 <= 18"
+    monaco-editor: ^0.36.1
+    react: ">=16 <= 18"
+  checksum: ad880a432cca52d0e4cc05bc4249c88280cf5d6d6e902f14b6e8513cd909ec012fe6cc9c7483efedad8a3f3137f4da2c81d9ab334b17aa14369db7b6564f699f
   languageName: node
   linkType: hard
 
@@ -11853,7 +11855,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.2.7":
+"tailwindcss@npm:*, tailwindcss@npm:^3.2.7":
   version: 3.2.7
   resolution: "tailwindcss@npm:3.2.7"
   dependencies:
