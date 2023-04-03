@@ -2673,7 +2673,7 @@ __metadata:
     primereact: ^8.1.1
     react-transition-group: ^4.4.5
     rimraf: ^3.0.2
-    ts-jest: ^29.0.4
+    ts-jest: ^29.1.0
   languageName: unknown
   linkType: soft
 
@@ -5717,7 +5717,7 @@ __metadata:
     "@types/jest": ^29.2.5
     axios: ^1.2.2
     jest: ^29.3.1
-    ts-jest: ^29.0.4
+    ts-jest: ^29.1.0
     typescript: ^4.9.4
   languageName: unknown
   linkType: soft
@@ -9604,7 +9604,7 @@ __metadata:
     remove: ^0.1.5
     rimraf: ^3.0.2
     tailwindcss: ^3.0.24
-    ts-jest: ^29.0.4
+    ts-jest: ^29.1.0
     ts-loader: ^9.4.2
     typescript: ^4.9.4
     use-reducer-logger: ^1.0.2
@@ -11853,9 +11853,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^29.0.4":
-  version: 29.0.4
-  resolution: "ts-jest@npm:29.0.4"
+"ts-jest@npm:^29.1.0":
+  version: 29.1.0
+  resolution: "ts-jest@npm:29.1.0"
   dependencies:
     bs-logger: 0.x
     fast-json-stable-stringify: 2.x
@@ -11870,7 +11870,7 @@ __metadata:
     "@jest/types": ^29.0.0
     babel-jest: ^29.0.0
     jest: ^29.0.0
-    typescript: ">=4.3"
+    typescript: ">=4.3 <6"
   peerDependenciesMeta:
     "@babel/core":
       optional: true
@@ -11882,7 +11882,7 @@ __metadata:
       optional: true
   bin:
     ts-jest: cli.js
-  checksum: c3daa71835fabd0c98eefc8611edc083cd2c78cbe9a02c1edea707a907afffafc1e61051f4746c0634904d4c68cd70736d0875ae644f55c6ed8beb950bf78689
+  checksum: 535dc42ad523cbe1e387701fb2e448518419b515c082f09b25411f0b3dd0b854cf3e8141c316d6f4b99883aeb4a4f94159cbb1edfb06d7f77ea6229fadb2e1bf
   languageName: node
   linkType: hard
 
