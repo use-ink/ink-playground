@@ -23,5 +23,5 @@ tokio-compat-02 = "0.2.0"
 sandbox = { path = "../sandbox" }
 
 [dev-dependencies]
-actix-rt = "2.7.0"
+actix-rt = "2.8.0"
 
