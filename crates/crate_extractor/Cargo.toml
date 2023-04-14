@@ -6,7 +6,7 @@ authors = ["Achim Schneider <achim@parity.io>"]
 license = "Apache-2.0"
 
 [dependencies]
-clap = { version =  "4.2.1", features = [ "derive" ] }
+clap = { version =  "4.2.2", features = [ "derive" ] }
 serde = { version = "1.0.160", features = ["derive"] }
 serde_json = { version = "1.0.96", features = ["preserve_order"] }
 crossbeam-channel = "0.5.8"
