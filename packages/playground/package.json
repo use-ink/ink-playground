@@ -34,7 +34,7 @@
     "@testing-library/react": "^12.1.5",
     "@types/jest": "^29.2.5",
     "@types/react": "^18.0.33",
-    "@types/react-dom": "^18.0.10",
+    "@types/react-dom": "^18.0.11",
     "@types/react-test-renderer": "^18.0.0",
     "@types/tailwindcss": "^3.0.10",
     "autoprefixer": "^10.4.13",
