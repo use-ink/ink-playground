@@ -11,7 +11,7 @@ serde = { version = "1.0.163", features = ["derive"] }
 serde_json = { version = "1.0.96", features = ["preserve_order"] }
 crossbeam-channel = "0.5.8"
 anyhow = "1.0.71"
-log = "0.4.17"
+log = "0.4.18"
 tracing = "0.1.38"
 ide_db = { package = "ra_ap_ide_db", version = "0.0.120" }
 ide = { package = "ra_ap_ide", version = "0.0.120" }
