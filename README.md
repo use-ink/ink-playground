@@ -51,7 +51,7 @@ The backend serves the frontend app and it also provides the backend services fo
 
 To clone and build the whole project on your local computer, enter:
 
-1. `git clone clone https://github.com/paritytech/ink-playground`
+1. `git clone https://github.com/paritytech/ink-playground`
 
 2. `cd ink-playground`
 
