@@ -19,7 +19,7 @@ pub struct Opts {
     #[arg(short = 'p', long = "port", default_value = "8080", env = "PORT")]
     pub port: u16,
 
-    #[arg(short = "ho", long = "host", default_value = "localhost", env = "HOST")]
+    #[arg(long = "host", default_value = "localhost", env = "HOST")]
     pub host: String,
 
     #[arg(short = 'f', long = "frontend_folder")]
