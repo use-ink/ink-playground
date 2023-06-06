@@ -1,0 +1,35 @@
+name: Makefile
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  rustfmt:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+          components: rustfmt
+
+      - uses: actions/checkout@v3
+
+      - name: Install
+        run: make install
+      
+      - name: Generate
+        run: make generate
+
+      - name: Build
+        run: make build
+
+      - name: Run Backen
+        run: make backend-run
