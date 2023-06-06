@@ -25,6 +25,12 @@ jobs:
       - name: Install
         run: make install
 
+      - name: Install required rust toolchain
+        run: rustup toolchain install nightly-2022-05-24
+
+      - name: Add rust-src to toolchain
+        run: rustup component add rust-src --toolchain nightly-2022-05-24-x86_64-unknown-linux-gnu
+
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
       
@@ -34,5 +40,5 @@ jobs:
       - name: Build
         run: make build
 
-      - name: Run Backen
+      - name: Run Backend
         run: make backend-run
