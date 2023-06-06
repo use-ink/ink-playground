@@ -174,6 +174,15 @@ rust-lint:
 rust-test:
 	cargo test --workspace --exclude rust_analyzer_wasm 
 
+rust-toolchain-install:
+	rustup toolchain install nightly-2022-05-24
+
+rust-src-install:
+	rustup component add rust-src --toolchain nightly-2022-05-24
+
+
+    
+
 ################################################################################
 # ECOSYSTEM: TYPESCRIPT
 ################################################################################
@@ -268,6 +277,8 @@ clean: ts-clean
 clean: crate-rust-analyzer-wasm-clean
 
 install: ts-install
+install: rust-toolchain-install
+install: rust-src-install
 
 lint: rust-lint
 lint: ts-lint
