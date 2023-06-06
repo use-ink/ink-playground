@@ -10,7 +10,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  rustfmt:
+  makefile:
     runs-on: 'ubuntu-latest'
     steps:
       - name: Install Rust toolchain
@@ -34,11 +34,20 @@ jobs:
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
-      - name: Generate
+      - name: Check `make generate` command
         run: make generate
 
-      - name: Build
+      - name: Check `make build` command
         run: make build
 
-      - name: Run Backend
-        run: make backend-run
+      - name: Check `make backend-run` command
+        run: nohup make backend-run &
+    
+      - name: Sleep for 10s, allow backend service to start
+        uses: juliangruber/sleep-action@v1
+        with:
+          time: 10s
+
+      - name: Check if backend is up and running
+        run: curl http://makefile:4000
+
