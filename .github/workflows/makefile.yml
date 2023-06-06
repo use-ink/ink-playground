@@ -42,7 +42,7 @@ jobs:
 
       - name: Check `make backend-run` command
         run: nohup make backend-run &
-    
+
       - name: Sleep for 10s, allow backend service to start
         uses: juliangruber/sleep-action@v1
         with:
@@ -50,4 +50,3 @@ jobs:
 
       - name: Check if backend is up and running
         run: curl http://makefile:4000
-
