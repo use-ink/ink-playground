@@ -49,4 +49,4 @@ jobs:
           time: 10s
 
       - name: Check if backend is up and running
-        run: curl http://makefile:4000
+        run: curl http://localhost:4000
