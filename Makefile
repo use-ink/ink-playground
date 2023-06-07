@@ -183,6 +183,8 @@ rust-src-install:
 rust-wasm-pack-install:
 ifeq (, $(shell which wasm-pack))
  	curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+else 
+	echo "Wasm pack already installed!"
 endif
 
 
