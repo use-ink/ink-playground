@@ -180,6 +180,11 @@ rust-toolchain-install:
 rust-src-install:
 	rustup component add rust-src --toolchain nightly-2022-05-24
 
+rust-wasm-pack-install:
+ifeq (, $(shell which wasm-pack))
+ 	curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+endif
+
 
     
 
@@ -279,6 +284,7 @@ clean: crate-rust-analyzer-wasm-clean
 install: ts-install
 install: rust-toolchain-install
 install: rust-src-install
+install: rust-wasm-pack-install
 
 lint: rust-lint
 lint: ts-lint
