@@ -21,3 +21,5 @@ ts-rs = { version = "6.2.1", features = [
     "serde-compat",
 ] }
 typescript-type-def = "0.5.6"
+kube = { version = "0.83.0", features = ["runtime", "derive"] }
+k8s-openapi = { version = "0.18.0", features = ["v1_26"] }
