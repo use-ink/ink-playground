@@ -30,7 +30,7 @@ jobs:
           DOCKER_USER_NAME: achimcc
 
       - name: Tag Docker image
-        run: docker tag achimcc/ink-playground:latest ink-playground-kubernetes
+        run: docker tag achimcc/ink-playground:latest ink-playground-kubernetes:latest
 
       - name: Start minikube
         uses: medyagh/setup-minikube@master
