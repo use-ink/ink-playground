@@ -1,87 +1,76 @@
 name: Docker
-
 on:
   push:
     branches:
       - main
-  pull_request:
-
+  pull_request: null
 jobs:
   build:
-    runs-on: 'ubuntu-latest'
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
       - name: get Sysbox
-        run: wget https://downloads.nestybox.com/sysbox/releases/v0.6.1/sysbox-ce_0.6.1-0.linux_amd64.deb
-
+        run: wget
+          https://downloads.nestybox.com/sysbox/releases/v0.6.1/sysbox-ce_0.6.1-0.linux_amd64.deb
       - name: Install Sysbox
         run: sudo apt-get install ./sysbox-ce_0.6.1-0.linux_amd64.deb
-
       - name: Configure Sysbox runtime
         run: sudo cp sysbox/daemon.json /etc/docker/daemon.json
-
       - name: Restart docker service
         run: sudo systemctl restart docker.service
-
       - name: Build docker
         run: make docker-buildkit
         env:
           DOCKER_USER_NAME: achimcc
-
       - name: Tag Docker image
         run: docker tag achimcc/ink-playground:latest ink-playground
-
       - name: Run docker
         run: make docker-run-detach
         env:
           DOCKER_PORT: 4000
           ACTIX_PORT: 4000
           ACTIX_HOST: 0.0.0.0
-
       - name: Sleep for 120s, allow Docker image to boot up
         uses: juliangruber/sleep-action@v1
         with:
           time: 120s
-
       - name: Install docker-tests
         run: yarn workspace docker-tests install
-
       - name: Test docker
         run: make docker-test
         env:
           DOCKER_PORT: 4000
           ACTIX_PORT: 4000
           ACTIX_HOST: 0.0.0.0
-
       - name: docker log
         if: always()
         run: make docker-log
-
       - name: Login to DockerHub
-        if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
+        if: github.ref == 'refs/heads/main' && github.repository ==
+          'paritytech/ink-playground'
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USER_NAME }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-
       - name: Push Docker image
-        if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
+        if: github.ref == 'refs/heads/main' && github.repository ==
+          'paritytech/ink-playground'
         run: docker push ${{ secrets.DOCKER_USER_NAME }}/ink-playground
-
       - name: Generate build number
-        if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
+        if: github.ref == 'refs/heads/main' && github.repository ==
+          'paritytech/ink-playground'
         uses: einaregilsson/build-number@v3
         with:
           token: ${{secrets.github_token}}
-
       - name: Print new build number
-        if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
+        if: github.ref == 'refs/heads/main' && github.repository ==
+          'paritytech/ink-playground'
         run: echo "Build number is $BUILD_NUMBER"
-
       - name: Apply build number Tag to Docker image
-        run: docker tag achimcc/ink-playground:latest achimcc/ink-playground:1.0.$BUILD_NUMBER
-
+        run: docker tag achimcc/ink-playground:latest
+          achimcc/ink-playground:1.0.$BUILD_NUMBER
       - name: Push version tagged Docker image
-        if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
-        run: docker push ${{ secrets.DOCKER_USER_NAME }}/ink-playground:1.0.$BUILD_NUMBER
+        if: github.ref == 'refs/heads/main' && github.repository ==
+          'paritytech/ink-playground'
+        run: docker push ${{ secrets.DOCKER_USER_NAME
+          }}/ink-playground:1.0.$BUILD_NUMBER

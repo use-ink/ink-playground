@@ -11,5 +11,5 @@
 # start backend server
 
 # Temporary solution: start Webserver directly
-/app/target/release/backend --port $ACTIX_PORT --host $ACTIX_HOST --frontend_folder /app/packages/playground/dist
+/app/target/release/backend --port "$ACTIX_PORT --host $ACTIX_HOST --frontend_folder /app/packages/playground/dist
 

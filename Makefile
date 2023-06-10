@@ -264,7 +264,7 @@ docker-shell:
 	  -it \
 	  --volume /tmp:/tmp \
 	  --entrypoint /bin/bash \
-	  --publish $(DOCKER_PORT):$(ACTIX_HOST) \
+	  --publish $(DOCKER_PORT):$(ACTIX_PORT) \
 	  --env ACTIX_PORT=$(ACTIX_PORT) \
 	  --env ACTIX_HOST=$(ACTIX_HOST) \
 	  ink-playground
