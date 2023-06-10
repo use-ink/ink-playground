@@ -18,7 +18,6 @@
 
 DOCKER_PORT ?= 3000
 
-ACTIX_PORT ?= 4000
 ACTIX_HOST ?= 0.0.0.0
 
 GIST_CREATE_URL ?= http://localhost:4000/gist/create
@@ -251,7 +250,9 @@ docker-run-detach:
 	  --name ink-playground-container \
 	  --detach \
 	  --volume /tmp:/tmp \
-	  --publish $(DOCKER_PORT):4000 \
+	  --publish $(DOCKER_PORT):$(ACTIX_HOST) \
+	  --env ACTIX_PORT=$(ACTIX_PORT) \
+	  --env ACTIX_HOST=$(ACTIX_HOST) \
 	  ink-playground
 
 docker-test:
@@ -263,7 +264,9 @@ docker-shell:
 	  -it \
 	  --volume /tmp:/tmp \
 	  --entrypoint /bin/bash \
-	  --publish $(DOCKER_PORT):4000 \
+	  --publish $(DOCKER_PORT):$(ACTIX_HOST) \
+	  --env ACTIX_PORT=$(ACTIX_PORT) \
+	  --env ACTIX_HOST=$(ACTIX_HOST) \
 	  ink-playground
 
 docker-log:
