@@ -1,0 +1,48 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: get Sysbox
+        run: wget https://downloads.nestybox.com/sysbox/releases/v0.6.1/sysbox-ce_0.6.1-0.linux_amd64.deb
+
+      - name: Install Sysbox
+        run: sudo apt-get install ./sysbox-ce_0.6.1-0.linux_amd64.deb
+
+      - name: Configure Sysbox runtime
+        run: sudo cp sysbox/daemon.json /etc/docker/daemon.json
+
+      - name: Restart docker service
+        run: sudo systemctl restart docker.service
+
+      - name: Build docker
+        run: make docker-buildkit
+        env:
+          DOCKER_USER_NAME: achimcc
+
+      - name: Tag Docker image
+        run: docker tag achimcc/ink-playground:latest ink-playground-kubernetes
+
+      - name: Start minikube
+        uses: medyagh/setup-minikube@master
+
+      - name: Create ServiceAccount
+        run: kubectl apply -f ./kubernetes/serviceaccount.yaml
+
+      - name: Apply ClusterRoleBinding
+        run: kubectl apply -f ./kubernetes/clusterrolebinding.yaml
+
+      - name: Load ink-playground-kubernetes image
+        run: minikube image load ink-playground-kubernetes:latest
+
+      - name: Load Pod
+        run: kubectl apply -f ./kubernetes/pod.yaml

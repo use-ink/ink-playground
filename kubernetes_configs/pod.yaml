@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: my-pod
+  name: ink-playground-pod
 spec:
-  serviceAccountName: my-service-account
+  serviceAccountName: ink-playground-service-account
   containers:
-  - name: my-container
-    image: ink-server:latest
-    imagePullPolicy: IfNotPresent
-    ports:
-    - containerPort: 4000 # Specify the port ink! playground actix-web backend listens on.
-    env:
+    - name: ink-playground-container
+      image: ink-server:latest
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 4000 # Specify the port ink! playground actix-web backend listens on.
+      env:
         - name: POD_IP
           valueFrom:
             fieldRef:
@@ -23,4 +23,3 @@ spec:
           value: 0.0.0.0
         - name: ACTIX_PORT
           value: 4000
-              
