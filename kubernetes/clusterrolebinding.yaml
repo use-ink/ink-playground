@@ -5,8 +5,8 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: cluster-admin # Replace with the appropriate cluster role
+  name: cluster-admin
 subjects:
-  - kind: ServiceAccount
-    name: my-service-account
-    namespace: default # Replace with the appropriate namespace
+- kind: ServiceAccount
+  name: my-service-account
+  namespace: default
