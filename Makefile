@@ -18,6 +18,9 @@
 
 DOCKER_PORT ?= 3000
 
+ACTIX_PORT ?= 4000
+ACTIX_HOST ?= 0.0.0.0
+
 GIST_CREATE_URL ?= http://localhost:4000/gist/create
 
 GIST_LOAD_URL ?= http://localhost:4000/gist/load

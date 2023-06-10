@@ -96,30 +96,37 @@ RUN make backend-build-prod
 
 FROM debian:bullseye-slim
 
+# Use rust image here for now, since our kubernetes pod needs basic network services
+# FROM rust:1.70.0
+
 COPY --from=frontend-builder /app/packages/playground/dist /app/packages/playground/dist
 COPY --from=backend-builder /app/target/release/backend /app/target/release/backend
 
 # Install Docker
 # see: https://www.how2shout.com/linux/install-docker-ce-on-debian-11-bullseye-linux/
 
-RUN apt-get update && apt-get install --yes \
-    apt-transport-https ca-certificates curl gnupg lsb-release 
 
-RUN curl -fsSL https://download.docker.com/linux/debian/gpg | \
-    gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+# We don't need here for Kubernetes deployment
 
-RUN echo \
-    "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
-    https://download.docker.com/linux/debian \
-    $(lsb_release -cs) stable" | \
-    tee /etc/apt/sources.list.d/docker.list >/dev/null
+# RUN apt-get update && apt-get install --yes \
+#     apt-transport-https ca-certificates curl gnupg lsb-release 
+
+# RUN curl -fsSL https://download.docker.com/linux/debian/gpg | \
+#     gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+# RUN echo \
+#     "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
+#     https://download.docker.com/linux/debian \
+#     $(lsb_release -cs) stable" | \
+#     tee /etc/apt/sources.list.d/docker.list >/dev/null
 
 RUN apt-get --yes update
 
-RUN apt-get --yes install docker-ce docker-ce-cli \
-    containerd.io
+# RUN apt-get --yes install docker-ce docker-ce-cli \
+#     containerd.io
 
 # Provide startup scripts
+RUN apt-get install --yes net-tools
 
 COPY sysbox/on-start.sh /usr/bin
 RUN chmod +x /usr/bin/on-start.sh

@@ -99,6 +99,8 @@
     "dockerhost",
     "Dockerfiles",
     "Nestybox",
-    "referrerpolicy"
+    "referrerpolicy",
+    "kube",
+    "openapi"
   ]
 }
