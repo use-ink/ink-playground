@@ -39,4 +39,4 @@ jobs:
         run: kubectl get pods -A
 
       - name: Get pod details
-        run: kubectl get pod <pod-name> -o json
+        run: kubectl get pod ink-playground-pod -o json
