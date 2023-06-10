@@ -46,3 +46,6 @@ jobs:
 
       - name: Load Pod
         run: kubectl apply -f ./kubernetes/pod.yaml
+
+      - name: Try the cluster 
+        run: kubectl get pods -A
