@@ -12,18 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: get Sysbox
-        run: wget https://downloads.nestybox.com/sysbox/releases/v0.6.1/sysbox-ce_0.6.1-0.linux_amd64.deb
-
-      - name: Install Sysbox
-        run: sudo apt-get install ./sysbox-ce_0.6.1-0.linux_amd64.deb
-
-      - name: Configure Sysbox runtime
-        run: sudo cp sysbox/daemon.json /etc/docker/daemon.json
-
-      - name: Restart docker service
-        run: sudo systemctl restart docker.service
-
       - name: Build docker
         run: make docker-buildkit
         env:
