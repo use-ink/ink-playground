@@ -4,23 +4,22 @@ metadata:
   name: ink-playground-pod
 spec:
   containers:
-  - env:
-    - name: POD_IP
-      valueFrom:
-        fieldRef:
-          fieldPath: status.podIP
-    - name: HOST_IP
-      valueFrom:
-        fieldRef:
-          fieldPath: status.podIP
-    - name: ACTIX_HOST
-      value: 0.0.0.0
-    - name: ACTIX_PORT
-      value: "4000"
-    image: ink-server:latest
-    imagePullPolicy: IfNotPresent
-    name: ink-playground-container
-    ports:
-    - containerPort: 4000
+    - env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: ACTIX_HOST
+          value: 0.0.0.0
+        - name: ACTIX_PORT
+          value: '4000'
+      image: ink-server:latest
+      imagePullPolicy: IfNotPresent
+      name: ink-playground-container
+      ports:
+        - containerPort: 4000
   serviceAccountName: ink-playground-service-account
-

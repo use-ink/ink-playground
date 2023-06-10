@@ -4,8 +4,8 @@ metadata:
   name: ink-playground-service
 spec:
   ports:
-  - nodePort: 30000
-    port: 4000
+    - nodePort: 30000
+      port: 4000
   selector:
     app: ink-playground-pod
   type: NodePort
