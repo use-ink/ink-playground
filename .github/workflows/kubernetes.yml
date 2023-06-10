@@ -24,16 +24,16 @@ jobs:
         uses: medyagh/setup-minikube@master
 
       - name: Create ServiceAccount
-        run: kubectl apply -f ${{ github.workspace }}/kubernetes/serviceaccount.yaml
+        run: kubectl apply -f ${{ github.workspace }}/../kubernetes/serviceaccount.yaml
 
       - name: Apply ClusterRoleBinding
-        run: kubectl apply -f ${{ github.workspace }}/kubernetes/clusterrolebinding.yaml
+        run: kubectl apply -f ${{ github.workspace }}/../kubernetes/clusterrolebinding.yaml
 
       - name: Load ink-playground-kubernetes image
         run: minikube image load ink-playground-kubernetes:latest
 
       - name: Load Pod
-        run: kubectl apply -f ${{ github.workspace }}/kubernetes/pod.yaml
+        run: kubectl apply -f ${{ github.workspace }}/../kubernetes/pod.yaml
 
       - name: Try the cluster
         run: kubectl get pods -A
