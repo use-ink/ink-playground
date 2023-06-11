@@ -88,7 +88,7 @@ FROM base as backend-builder
 # Build
 
 RUN rustup default stable
-RUN make backend-build-prod
+RUN make backend-build-kubernetes
 
 ################################################################################
 # Compose final image

@@ -127,6 +127,9 @@ backend-build:
 backend-build-prod:
 	cargo build -p backend --bin backend --release
 
+backend-build-kubernetes:
+	cargo build -p backend --features kubernetes --bin backend --release
+
 backend-run-release:
 	./target/release/backend \
 	  --port 4000 --host "0.0.0.0" --frontend_folder packages/playground/dist

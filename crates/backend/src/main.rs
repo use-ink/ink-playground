@@ -112,7 +112,7 @@ async fn main() -> std::io::Result<()> {
                     #[cfg(not(feature = "kubernetes"))]
                     return route_compile(COMPILE_SANDBOXED, body);
                     #[cfg(feature = "kubernetes")]
-                    return services::contract_kubernetes::dummy_route();
+                    return services::contract_kubernetes::compile(body);
                 }
                 ),
             )
