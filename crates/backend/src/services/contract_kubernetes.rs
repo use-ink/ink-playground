@@ -29,6 +29,7 @@ pub async fn compile(req: Json<CompilationRequest>) -> impl Responder {
         Api::namespaced(client.clone(), &namespace);
 
     // Create the child pod specification
+    // ToDo: proper error handling
     let compiler_pod_spec = serde_json::from_value(json!({
         "apiVersion": "v1",
         "kind": "Pod",
@@ -50,6 +51,7 @@ pub async fn compile(req: Json<CompilationRequest>) -> impl Responder {
     })).expect("derive compiler_pod_spec from json");
 
     // Create the child pod using the Kubernetes API
+    // ToDo: proper error handling
     let compiler_pod = compiler_pod_api.create(&PostParams::default(), &compiler_pod_spec).await.expect("create pod");
     println!("Child pod created: {:?}", compiler_pod);
 
