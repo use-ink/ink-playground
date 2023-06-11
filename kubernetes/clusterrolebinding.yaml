@@ -9,4 +9,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: ink-playground-service-account
-    namespace: default
+    namespace: ink-playground-namespace

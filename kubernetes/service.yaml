@@ -4,7 +4,7 @@ metadata:
   name: ink-playground-service
 spec:
   selector:
-    app: ink-playground-pod
+    app: ink-playground-app
   ports:
     - protocol: TCP
       port: 80
