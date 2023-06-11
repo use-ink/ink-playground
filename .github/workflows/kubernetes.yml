@@ -56,4 +56,4 @@ jobs:
         run: sudo apt install nmap
 
       - name: Check open ports
-        run: nmap $(minikube ip)
+        run: sudo nmap $(minikube ip)
