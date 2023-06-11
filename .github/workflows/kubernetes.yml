@@ -47,5 +47,8 @@ jobs:
       - name: Get pod details
         run: kubectl get pod ink-playground-pod -o json
 
+      - name: Install nmap
+        run: sudo apt install nmap
+
       - name: Check open ports
         run: nmap $(minikube ip)
