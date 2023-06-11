@@ -5,7 +5,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: cluster-admin
+  name: ink-playground-cluster-role
 subjects:
   - kind: ServiceAccount
     name: ink-playground-service-account

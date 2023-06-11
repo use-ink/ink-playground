@@ -108,6 +108,7 @@
     "kubernetes",
     "serviceaccount",
     "clusterrolebinding",
-    "nmap"
+    "nmap",
+    "clusterrole"
   ]
 }

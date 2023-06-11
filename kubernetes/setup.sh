@@ -13,11 +13,11 @@ minikube image load ink-playground-kubernetes:latest
 # Apply kubernetes rules
 ################################################################################
 
-minikube kubectl -- apply -f namespace.yaml
+minikube kubectl -- apply -f clusterrole.yaml
 minikube kubectl -- apply -f clusterrolebinding.yaml
 minikube kubectl -- apply -f serviceaccount.yaml
-minikube kubectl -- apply -f pod.yaml
 minikube kubectl -- apply -f service.yaml
+minikube kubectl -- apply -f deployment.yaml
 
 ################################################################################
 # Show setup

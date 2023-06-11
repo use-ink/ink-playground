@@ -23,23 +23,41 @@ jobs:
       - name: Tag Docker image
         run: docker tag achimcc/ink-playground-kubernetes:latest ink-playground-kubernetes:latest
 
+      - name: Pull Compiler Docker image
+        run: docker pull achimcc/ink-compiler:latest
+
+      - name: Tag Compiler Docker image
+        run: docker tag achimcc/ink-compiler:latest ink-compiler:latest
+
       - name: Start minikube
         uses: medyagh/setup-minikube@master
 
-      - name: Create ServiceAccount
-        run: minikube kubectl -- apply -f ${{github.workspace}}/kubernetes/serviceaccount.yaml
+      - name: Create ClusterRole
+        run: minikube kubectl -- apply -f ${{github.workspace}}/kubernetes/clusterrole.yaml
 
       - name: Apply ClusterRoleBinding
         run: minikube kubectl -- apply -f ${{github.workspace}}/kubernetes/clusterrolebinding.yaml
 
+      - name: Create ServiceAccount
+        run: minikube kubectl -- apply -f ${{github.workspace}}/kubernetes/serviceaccount.yaml
+
+      - name: Create Service
+        run: minikube kubectl -- apply -f ${{github.workspace}}/kubernetes/service.yaml
+
       - name: Load ink-playground-kubernetes image
         run: minikube image load ink-playground-kubernetes:latest
 
-      - name: Load Pod
-        run: kubectl apply -f ${{github.workspace}}/kubernetes/pod.yaml
-        env:
-          ACTIX_HOST: 0.0.0.0
-          ACTIX_PORT: 4000
+      - name: Load ink-compiler image
+        run: minikube image load ink-compiler:latest
+
+      - name: Make Kubernetes deployment
+        run: minikube kubectl -- apply -f ${{github.workspace}}/kubernetes/deployment.yaml
+
+      # - name: Load Pod
+      #   run: kubectl apply -f ${{github.workspace}}/kubernetes/pod.yaml
+      #   env:
+      #     ACTIX_HOST: 0.0.0.0
+      #     ACTIX_PORT: 4000
 
       - name: Wait for 30s, allow pod to start
         uses: juliangruber/sleep-action@v1
@@ -54,6 +72,9 @@ jobs:
 
       - name: Get pod details
         run: minikube kubectl -- get pod ink-playground-pod -o json
+
+      - name: List minikube services
+        run: minikube service list
 
       - name: Install nmap
         run: sudo apt install nmap

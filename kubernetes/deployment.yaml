@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ink-playground-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ink-playground-app
+  template:
+    metadata:
+      labels:
+        app: ink-playground-app
+    spec:
+      volumes:
+        - name: contract-folder
+          emptyDir: {}
+      containers:
+        - name: ink-playground-container
+          image: ink-playground-kubernetes:latest
+          volumeMounts:
+            - mountPath: /contract-folder
+              name: contract-folder
+          env:
+            - name: KUBERNETES_SERVICE_HOST
+              value: 'kubernetes.default.svc'
+            - name: KUBERNETES_SERVICE_PORT
+              value: '443'
+        - name: ink-compiler-container
+          image: ink-compiler:latest
+          volumeMounts:
+            - mountPath: /contract-folder
+              name: contract-folder
