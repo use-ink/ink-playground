@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: ink-playground-pod
-  namespace: ink-playground-namespace
+  namespace: default
   labels:
     app: ink-playground-app
 spec:

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ink-playground-service
-  namespace: ink-playground-namespace
+  namespace: default
 spec:
   type: NodePort
   selector:
