@@ -24,10 +24,10 @@ jobs:
         uses: medyagh/setup-minikube@master
 
       - name: Create ServiceAccount
-        run: kubectl apply -f ${{github.workspace}}/kubernetes/serviceaccount.yaml
+        run: minikube kubectl -- kubectl apply -f ${{github.workspace}}/kubernetes/serviceaccount.yaml
 
       - name: Apply ClusterRoleBinding
-        run: kubectl apply -f ${{github.workspace}}/kubernetes/clusterrolebinding.yaml
+        run: minikube kubectl -- kubectl apply -f ${{github.workspace}}/kubernetes/clusterrolebinding.yaml
 
       - name: Load ink-playground-kubernetes image
         run: minikube image load ink-playground-kubernetes:latest
@@ -44,13 +44,13 @@ jobs:
           time: 30s
 
       - name: Expose webserver Port from pod
-        run: kubectl apply -f ${{github.workspace}}/kubernetes/service.yaml
+        run: minikube kubectl -- apply -f ${{github.workspace}}/kubernetes/service.yaml
 
       - name: Try the cluster
-        run: kubectl get pods -A
+        run: minikube kubectl -- get pods -A
 
       - name: Get pod details
-        run: kubectl get pod ink-playground-pod -o json
+        run: minikube kubectl -- get pod ink-playground-pod -o json
 
       - name: Install nmap
         run: sudo apt install nmap

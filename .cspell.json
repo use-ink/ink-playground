@@ -102,6 +102,11 @@
     "referrerpolicy",
     "kube",
     "openapi",
-    "ink-playground-kubernetes"
+    "ink-playground-kubernetes",
+    "minikube",
+    "kubectl",
+    "kubernetes",
+    "serviceaccount",
+    "clusterrolebinding"
   ]
 }
