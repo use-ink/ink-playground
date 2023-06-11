@@ -107,6 +107,7 @@
     "kubectl",
     "kubernetes",
     "serviceaccount",
-    "clusterrolebinding"
+    "clusterrolebinding",
+    "nmap"
   ]
 }

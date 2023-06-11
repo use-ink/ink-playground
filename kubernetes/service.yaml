@@ -4,10 +4,10 @@ metadata:
   name: ink-playground-service
   namespace: ink-playground-namespace
 spec:
+  type: NodePort
   selector:
     app: ink-playground-app
   ports:
     - protocol: TCP
       port: 80
       targetPort: 4000
-  type: LoadBalancer
