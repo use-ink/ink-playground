@@ -3,9 +3,10 @@ kind: Service
 metadata:
   name: ink-playground-service
 spec:
-  ports:
-    - nodePort: 30000
-      port: 4000
   selector:
     app: ink-playground-pod
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
   type: NodePort

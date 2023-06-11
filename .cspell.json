@@ -101,6 +101,7 @@
     "Nestybox",
     "referrerpolicy",
     "kube",
-    "openapi"
+    "openapi",
+    "ink-playground-kubernetes"
   ]
 }

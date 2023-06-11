@@ -3,8 +3,13 @@ kind: Pod
 metadata:
   name: ink-playground-pod
 spec:
+  restartPolicy: Never
+  serviceAccountName: ink-playground-service-account
   containers:
-    - env:
+    - name: ink-playground-container
+      image: ink-playground-kubernetes:latest
+      imagePullPolicy: Never
+      env:
         - name: POD_IP
           valueFrom:
             fieldRef:
@@ -14,12 +19,11 @@ spec:
             fieldRef:
               fieldPath: status.podIP
         - name: ACTIX_HOST
-          value: 0.0.0.0
+          value: '$ACTIX_HOST'
         - name: ACTIX_PORT
-          value: '4000'
-      image: ink-server:latest
-      imagePullPolicy: IfNotPresent
-      name: ink-playground-container
+          value: '$ACTIX_PORT'
       ports:
-        - containerPort: 4000
-  serviceAccountName: ink-playground-service-account
+        - name: http
+          containerPort: 4000
+          targetPort: 4000
+          protocol: TCP

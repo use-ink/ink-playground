@@ -34,9 +34,18 @@ jobs:
 
       - name: Load Pod
         run: kubectl apply -f ${{github.workspace}}/kubernetes/pod.yaml
+        env:
+          ACTIX_HOST: 0.0.0.0
+          ACTIX_PORT: 4000
+
+      - name: Expose webserver Port from pod
+        run: kubectl apply -f ${{github.workspace}}/kubernetes/service.yaml
 
       - name: Try the cluster
         run: kubectl get pods -A
 
       - name: Get pod details
         run: kubectl get pod ink-playground-pod -o json
+
+      - name: Check open ports
+        run: nmap $(minikube ip)

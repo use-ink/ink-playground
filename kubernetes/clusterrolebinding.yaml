@@ -8,5 +8,5 @@ roleRef:
   name: cluster-admin
 subjects:
   - kind: ServiceAccount
-    name: my-service-account
+    name: ink-playground-service-account
     namespace: default
