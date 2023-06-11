@@ -22,8 +22,3 @@ spec:
           value: '$ACTIX_HOST'
         - name: ACTIX_PORT
           value: '$ACTIX_PORT'
-      ports:
-        - name: http
-          containerPort: 4000
-          targetPort: 4000
-          protocol: TCP

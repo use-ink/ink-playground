@@ -7,6 +7,6 @@ spec:
     app: ink-playground-pod
   ports:
     - protocol: TCP
-      port: 4000
+      port: 80
       targetPort: 4000
   type: NodePort
