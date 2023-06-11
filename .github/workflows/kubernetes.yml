@@ -38,6 +38,11 @@ jobs:
           ACTIX_HOST: 0.0.0.0
           ACTIX_PORT: 4000
 
+      - name: Wait for 30s, allow pod to start
+        uses: juliangruber/sleep-action@v1
+        with:
+          time: 30s
+
       - name: Expose webserver Port from pod
         run: kubectl apply -f ${{github.workspace}}/kubernetes/service.yaml
 
