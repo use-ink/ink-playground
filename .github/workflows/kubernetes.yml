@@ -18,7 +18,7 @@ jobs:
       #     DOCKER_USER_NAME: achimcc
 
       - name: Pull Docker image
-        run: docker pull achimc/ink-playground-kubernetes:latest
+        run: docker pull achimcc/ink-playground-kubernetes:latest
 
       - name: Tag Docker image
         run: docker tag achimcc/ink-playground-kubernetes:latest ink-playground-kubernetes:latest
