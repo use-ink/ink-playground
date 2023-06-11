@@ -15,18 +15,21 @@
 mod cli;
 mod services;
 
+#[cfg(not(feature = "kubernetes"))]
+use crate::services::contract::{
+    route_compile,
+    route_format,
+    route_status,
+    route_test,
+    COMPILE_SANDBOXED,
+    FORMAT_SANDBOXED,
+    TEST_SANDBOXED,
+};
+#[cfg(feature = "kubernetes")]
+use crate::services::contract_kubernetes;
 use crate::{
     cli::Opts,
     services::{
-        contract::{
-            route_compile,
-            route_format,
-            route_status,
-            route_test,
-            COMPILE_SANDBOXED,
-            FORMAT_SANDBOXED,
-            TEST_SANDBOXED,
-        },
         frontend::route_frontend,
         gist::{
             create::route_gist_create,
@@ -45,6 +48,7 @@ use actix_web::{
     web::{
         get,
         post,
+        Json,
     },
     App,
     HttpResponse,
@@ -53,6 +57,11 @@ use actix_web::{
 use actix_web_prom::PrometheusMetricsBuilder;
 
 use clap::Parser;
+use sandbox::{
+    CompilationRequest,
+    FormattingRequest,
+    TestingRequest,
+};
 use std::{
     collections::HashMap,
     path::Path,
@@ -99,19 +108,40 @@ async fn main() -> std::io::Result<()> {
             )
             .route(
                 "/compile",
-                post().to(|body| route_compile(COMPILE_SANDBOXED, body)),
+                post().to(|body: Json<CompilationRequest>| {
+                    #[cfg(not(feature = "kubernetes"))]
+                    return route_compile(COMPILE_SANDBOXED, body);
+                    #[cfg(feature = "kubernetes")]
+                    return services::contract_kubernetes::dummy_route();
+                }
+                ),
             )
             .route(
                 "/test",
-                post().to(|body| route_test(TEST_SANDBOXED, body)),
+                post().to(|body : Json<TestingRequest>| {
+                    #[cfg(not(feature = "kubernetes"))]
+                    return route_test(TEST_SANDBOXED, body);
+                    #[cfg(feature = "kubernetes")]
+                    return services::contract_kubernetes::dummy_route();
+    }),
             )
             .route(
                 "/format",
-                post().to(|body| route_format(FORMAT_SANDBOXED, body)),
+                post().to(|body: Json<FormattingRequest>| {
+                    #[cfg(not(feature = "kubernetes"))]
+                    return route_format(FORMAT_SANDBOXED, body);
+                    #[cfg(feature = "kubernetes")]
+                    return services::contract_kubernetes::dummy_route();
+    }),
             )
             .route(
                 "/status",
-                get().to(route_status),
+                get().to(|| {
+                    #[cfg(not(feature = "kubernetes"))]
+                    return route_status();
+                    #[cfg(feature = "kubernetes")]
+                    return services::contract_kubernetes::dummy_route();
+    }),
             );
 
         match opts.github_token {

@@ -17,6 +17,9 @@
 //! agnostic (E.g. the compile module does not know that's mapped to the
 //! "/compile" route in the end)
 
+#[cfg(not(feature = "kubernetes"))]
 pub mod contract;
+#[cfg(feature = "kubernetes")]
+pub mod contract_kubernetes;
 pub mod frontend;
 pub mod gist;

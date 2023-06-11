@@ -18,10 +18,25 @@ typescript-type-def = "0.5.6"
 futures = "0.3.27"
 hubcaps = { git = "https://github.com/achimcc/hubcaps" }
 tokio-compat-02 = "0.2.0"
-
+kube = { version = "0.82.2", optional = true }
+tokio = { version = "1", features = ["full"], optional = true }
+k8s-openapi = { version = "0.18.0", optional = true}
+anyhow = { version = "1.0.71", optional = true}
+tracing-subscriber = { version = "0.3.17", optional = true}
+tracing = { version = "0.1.37", optional = true}
 
 sandbox = { path = "../sandbox" }
 
 [dev-dependencies]
 actix-rt = "2.8.0"
+
+[features]
+kubernetes = [
+    "kube",
+    "tokio",
+    "k8s-openapi",
+    "anyhow",
+    "tracing-subscriber",
+    "tracing"
+]
 
