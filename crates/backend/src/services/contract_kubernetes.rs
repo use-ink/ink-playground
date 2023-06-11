@@ -17,11 +17,11 @@ use tracing::*;
 #[tokio::main]
 pub async fn compile() -> anyhow::Result<()> {
     tracing_subscriber::fmt::init();
-    // Load the Kubernetes configuration from the default kubeconfig file
-    let kubeconfig = Config::infer().await?;
+    // Load the Kubernetes configuration from the default kube_config file
+    let kube_config = Config::infer().await?;
 
     // Create a Kubernetes client
-    let client = Client::try_from(kubeconfig)?;
+    let client = Client::try_from(kube_config)?;
 
     // Specify the namespace and resource type of the child pod
     let namespace = "default"; // Update with the desired namespace
