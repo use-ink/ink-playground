@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: ink-playground-pod
   namespace: ink-playground-namespace
-  labels: 
+  labels:
     app: ink-playground-app
 spec:
   restartPolicy: Never
