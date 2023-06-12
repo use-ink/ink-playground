@@ -8,6 +8,7 @@ minikube stop
 minikube delete
 minikube start
 minikube image load ink-playground-kubernetes:latest
+minikube image load ink-compiler:latest
 
 ################################################################################
 # Apply kubernetes rules
