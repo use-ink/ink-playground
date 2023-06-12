@@ -15,8 +15,14 @@ jobs:
       - name: Build docker image
         run: docker build -t ink-playground-kubernetes:latest -f ./Dockerfile .
 
-      - name: Buildl Compiler Docker image
-        run: docker build -t ink-compiler:latest -f ./Dockerfile.compiler .
+      - name: Pull compiler docker image
+        run: docker pull paritytech/ink-ci-linux:staging
+
+      - name: Tag compiler imag
+        run: doocker tag paritytech/ink-ci-linux:staging ink-compiler
+
+      # - name: Buildl Compiler Docker image
+      #   run: docker build -t ink-compiler:latest -f ./Dockerfile.compiler .
 
       - name: Start minikube
         uses: medyagh/setup-minikube@master
@@ -37,7 +43,7 @@ jobs:
         run: minikube image load ink-playground-kubernetes:latest
 
       - name: Load ink-compiler image
-        run: minikube image load ink-compiler:latest
+        run: minikube image load ink-compiler
 
       - name: Make Kubernetes deployment
         run: minikube kubectl -- apply -f ${{github.workspace}}/kubernetes/deployment.yaml

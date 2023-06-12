@@ -40,7 +40,7 @@ pub async fn compile(req: Json<CompilationRequest>) -> impl Responder {
             "containers": [
                 {
                     "name": "ink-compiler-container",
-                    "image": "ink-compiler:latest",
+                    "image": "ink-compiler",
                     "volumeMounts": {
                         "mountPath": "/contract-folder",
                         "name": "contract-folder"

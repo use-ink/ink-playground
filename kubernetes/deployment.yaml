@@ -18,6 +18,7 @@ spec:
       containers:
         - name: ink-playground-container
           image: ink-playground-kubernetes:latest
+          imagePullPolicy: Never
           volumeMounts:
             - mountPath: /contract-folder
               name: contract-folder
@@ -27,7 +28,8 @@ spec:
             - name: KUBERNETES_SERVICE_PORT
               value: '443'
         - name: ink-compiler-container
-          image: ink-compiler:latest
+          image: ink-compiler
+          imagePullPolicy: Never
           volumeMounts:
             - mountPath: /contract-folder
               name: contract-folder
