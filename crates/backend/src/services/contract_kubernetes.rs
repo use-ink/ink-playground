@@ -32,9 +32,11 @@ pub async fn compile(req: Json<CompilationRequest>) -> impl Responder {
     // ToDo: proper error handling
     let compiler_pod_spec = serde_json::from_value(json!({
         "apiVersion": "v1",
-        "kind": "Pod",
+        "kind": "Job",
         "metadata": {
             "name": "ink-compiler",
+            // ToDo: set correct env variable for namespace
+            "nameSpace": env::var("namespace"),
         },
         "spec": {
             "containers": [
@@ -47,6 +49,7 @@ pub async fn compile(req: Json<CompilationRequest>) -> impl Responder {
                     }
                 }
             ],
+            "restartPolicy": "Never",
         }
     })).expect("derive compiler_pod_spec from json");
 

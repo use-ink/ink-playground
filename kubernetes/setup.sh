@@ -5,7 +5,7 @@
 ################################################################################
 
 minikube stop
-minikube delete
+# minikube delete
 minikube start
 minikube image load ink-playground-kubernetes:latest
 minikube image load ink-compiler:latest
