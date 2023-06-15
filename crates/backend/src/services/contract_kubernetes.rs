@@ -38,8 +38,8 @@ pub async fn compile(
         "kind": "Job",
         "metadata": {
             "name": "ink-compiler",
-            // ToDo: set correct env variable for namespace
-            "nameSpace": namespace.unwrap_or("default"),
+            // namespace provided by cli option -n "namespace"
+            "namespace": namespace.unwrap_or("default"),
         },
         "spec": {
             "containers": [
