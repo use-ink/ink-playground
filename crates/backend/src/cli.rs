@@ -30,4 +30,7 @@ pub struct Opts {
 
     #[arg(short = 'd', long = "dev_mode")]
     pub dev_mode: bool,
+
+    #[arg(short = 'n', long = "namespace")]
+    pub namespace: Option<String>,
 }

@@ -1,7 +1,7 @@
 use actix_web::{
+    web::Json,
     HttpResponse,
     Responder,
-    web::Json,
 };
 use kube::{
     api::{
@@ -11,10 +11,13 @@ use kube::{
     Client,
     Config,
 };
-use serde_json::json;
 use sandbox::CompilationRequest;
+use serde_json::json;
 
-pub async fn compile(req: Json<CompilationRequest>) -> impl Responder {
+pub async fn compile(
+    req: Json<CompilationRequest>,
+    namespace: Option<String>,
+) -> impl Responder {
     tracing_subscriber::fmt::init();
     // Load the Kubernetes configuration from the default kube_config file
     // ToDo: proper error handling
@@ -36,7 +39,7 @@ pub async fn compile(req: Json<CompilationRequest>) -> impl Responder {
         "metadata": {
             "name": "ink-compiler",
             // ToDo: set correct env variable for namespace
-            "nameSpace": env::var("namespace"),
+            "nameSpace": namespace.unwrap_or("default"),
         },
         "spec": {
             "containers": [
@@ -51,11 +54,15 @@ pub async fn compile(req: Json<CompilationRequest>) -> impl Responder {
             ],
             "restartPolicy": "Never",
         }
-    })).expect("derive compiler_pod_spec from json");
+    }))
+    .expect("derive compiler_pod_spec from json");
 
     // Create the child pod using the Kubernetes API
     // ToDo: proper error handling
-    let compiler_pod = compiler_pod_api.create(&PostParams::default(), &compiler_pod_spec).await.expect("create pod");
+    let compiler_pod = compiler_pod_api
+        .create(&PostParams::default(), &compiler_pod_spec)
+        .await
+        .expect("create pod");
     println!("Child pod created: {:?}", compiler_pod);
 
     HttpResponse::Ok().finish()
