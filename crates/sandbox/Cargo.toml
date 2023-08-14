@@ -10,7 +10,7 @@ readme = "README.md"
 serde = { version = "1.0.164", features = [ "derive" ] }
 tempdir = "0.3.7"
 snafu = "0.7.4"
-log = "0.4.18"
+log = "0.4.20"
 tokio = { version = "1.28.2", features = [
     "macros",
     "time",
