@@ -8,11 +8,21 @@ import { ReactElement, useContext, useEffect } from 'react';
 import { Dispatch, State } from '~/context/app/reducer';
 import { MessageDispatch, MessageState } from '~/context/messages/reducer';
 import { loadCode } from '~/context/side-effects/load-code';
+import { loadVersionList } from '~/context/side-effects/version';
 import { monaco } from 'react-monaco-editor';
+import {
+  Routes,
+  Route,
+  useNavigate,
+  BrowserRouter,
+  useParams,
+} from "react-router-dom";
 
 const App = (): ReactElement => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
   const [, messageDispatch]: [MessageState, MessageDispatch] = useContext(MessageContext);
+  const navigate = useNavigate();
+  const { versionId } = useParams();
   const { monacoUri: uri, formatting } = state;
 
   useEffect(() => {
@@ -22,6 +32,7 @@ const App = (): ReactElement => {
       if (!model) return;
       model.setValue(code);
     });
+    loadVersionList(state, { app: dispatch }).then()
   }, [uri]);
 
   useEffect(() => {
@@ -54,31 +65,39 @@ const App = (): ReactElement => {
   };
 
   return (
-    <Layout
-      header={<Header />}
-      editor={
-        <InkEditor
-          onRustAnalyzerStartLoad={onRustAnalyzerStartLoad}
-          onRustAnalyzerFinishLoad={onRustAnalyzerFinishLoad}
-          numbering={state.numbering}
-          darkmode={state.darkmode}
-          rustAnalyzer={state.rustAnalyzer}
-          minimap={state.minimap}
-          setURI={uri => dispatch({ type: 'SET_URI', payload: uri })}
-        />
-      }
-      console={<Console />}
-    />
+    <>
+      <h1>{versionId}</h1>
+      <Layout
+        header={<Header />}
+        editor={
+          <InkEditor
+            onRustAnalyzerStartLoad={onRustAnalyzerStartLoad}
+            onRustAnalyzerFinishLoad={onRustAnalyzerFinishLoad}
+            numbering={state.numbering}
+            darkmode={state.darkmode}
+            rustAnalyzer={state.rustAnalyzer}
+            minimap={state.minimap}
+            setURI={uri => dispatch({ type: 'SET_URI', payload: uri })}
+          />
+        }
+        console={<Console />}
+      />
+    </>
   );
 };
 
 const AppWithProvider = (): ReactElement => {
   return (
-    <AppProvider>
-      <MessageProvider>
-        <App />
-      </MessageProvider>
-    </AppProvider>
+    <BrowserRouter>
+      <AppProvider>
+        <MessageProvider>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/:versionId" element={<App />} />
+          </Routes>
+        </MessageProvider>
+      </AppProvider>
+    </BrowserRouter>
   );
 };
 

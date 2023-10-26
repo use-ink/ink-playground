@@ -32,6 +32,7 @@ use crate::{
             create::route_gist_create,
             load::route_gist_load,
         },
+        version::route_version_list,
     },
 };
 use actix_cors::Cors;
@@ -112,6 +113,10 @@ async fn main() -> std::io::Result<()> {
             .route(
                 "/status",
                 get().to(route_status),
+            )
+            .route(
+                "/version_list",
+                get().to(route_version_list),
             );
 
         match opts.github_token {

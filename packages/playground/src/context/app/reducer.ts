@@ -15,6 +15,8 @@ export const defaultState: State = {
   gist: { type: 'NOT_ASKED' },
   contractSize: null,
   rustAnalyzer: false,
+  versionList: [],
+  version: '',
 };
 
 export type State = {
@@ -28,6 +30,8 @@ export type State = {
   gist: GistState;
   contractSize: number | null;
   rustAnalyzer: boolean;
+  versionList: string[];
+  version: string;
 };
 
 export type GistState =
@@ -60,7 +64,9 @@ export type Action =
   | { type: 'SET_GIST_STATE'; payload: GistState }
   | { type: 'SET_URI'; payload: Uri }
   | { type: 'SET_CONTRACT_SIZE'; payload: number | null }
-  | { type: 'SET_RUST_ANALYZER_STATE'; payload: boolean };
+  | { type: 'SET_RUST_ANALYZER_STATE'; payload: boolean }
+  | { type: 'SET_VERSIONS_STATE'; payload: string[] }
+  | { type: 'SET_VERSION_STATE'; payload: string };
 
 export type Dispatch = (action: Action) => void;
 
@@ -115,6 +121,16 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         contractSize: action.payload,
+      };
+    case 'SET_VERSIONS_STATE':
+      return {
+        ...state,
+        versionList: action.payload,
+      };
+    case 'SET_VERSION_STATE':
+      return {
+        ...state,
+        version: action.payload,
       };
     default:
       return state;

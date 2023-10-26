@@ -13,6 +13,7 @@ import {
 } from '~/symbols';
 import { OverlayPanel, ButtonWithIcon } from '@paritytech/components/';
 import { SettingsSubmenu } from './SettingsSubmenu';
+import { VersionsSubmenu } from './VersionsSubmenu';
 import { ShareSubmenu } from './ShareSubmenu';
 
 import { AppContext } from '~/context/app/';
@@ -24,6 +25,7 @@ import { testing } from '~/context/side-effects/testing';
 import { format } from '~/context/side-effects/format';
 import * as constants from '~/constants';
 import { Colors } from '@paritytech/components/ButtonWithIcon';
+import { useNavigate } from 'react-router-dom';
 
 const openContractsUiUrl = (): void => {
   window.open(constants.CONTRACTS_UI_URL, '_blank');
@@ -54,6 +56,7 @@ export const Header = (): ReactElement => {
   const [, dispatchMessage]: [MessageState, MessageDispatch] = useContext(MessageContext);
 
   const settingsOverlay = useRef<OverlayPanel>(null);
+  const versionsOverlay = useRef<OverlayPanel>(null);
   const shareOverlay = useRef<OverlayPanel>(null);
 
   const hasDownloadableResult =
@@ -121,6 +124,14 @@ export const Header = (): ReactElement => {
           onClick={e => settingsOverlay.current && settingsOverlay.current.toggle(e, null)}
         />
 
+        <ButtonWithIcon
+          label="Versions"
+          Icon={SettingsIcon}
+          darkmode={state.darkmode}
+          testId={'buttonIcon'}
+          onClick={e => versionsOverlay.current && versionsOverlay.current.toggle(e, null)}
+        />
+
         <div className="flex-grow" />
 
         <ButtonWithIcon
@@ -153,6 +164,9 @@ export const Header = (): ReactElement => {
       </div>
       <OverlayPanel ref={settingsOverlay} showCloseIcon dismissable>
         <SettingsSubmenu />
+      </OverlayPanel>
+      <OverlayPanel ref={versionsOverlay} showCloseIcon dismissable>
+        <VersionsSubmenu />
       </OverlayPanel>
       <OverlayPanel ref={shareOverlay} showCloseIcon dismissable>
         <ShareSubmenu darkmode={state.darkmode} />

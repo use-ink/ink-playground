@@ -20,3 +20,4 @@
 pub mod contract;
 pub mod frontend;
 pub mod gist;
+pub mod version;

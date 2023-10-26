@@ -160,6 +160,20 @@ pub enum FormattingResult {
     Error { stdout: String, stderr: String },
 }
 
+#[derive(Deserialize, Serialize, TypeDef, PartialEq, Debug, Clone, Eq)]
+#[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum VersionListResult {
+    Success {
+        versions: Vec<String>,
+        stdout: String,
+        stderr: String,
+    },
+    Error {
+        stdout: String,
+        stderr: String,
+    },
+}
+
 // -------------------------------------------------------------------------------------------------
 // CONSTANTS
 // -------------------------------------------------------------------------------------------------
