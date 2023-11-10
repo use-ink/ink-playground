@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -eu
+set -o pipefail
+
 relative_dirname="$(dirname -- "${BASH_SOURCE[0]}")"
 bash_dir_path="$(cd -- "${relative_dirname}" && pwd)"
 
