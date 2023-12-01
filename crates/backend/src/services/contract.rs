@@ -67,6 +67,7 @@ pub async fn route_compile(
     let compile_result = spawn_blocking(move || {
         compile_strategy(CompilationRequest {
             source: req.source.to_string(),
+            version: req.version.to_string(),
         })
     })
     .await
@@ -103,6 +104,7 @@ pub async fn route_test(
     let testing_result = spawn_blocking(move || {
         compile_strategy(TestingRequest {
             source: req.source.to_string(),
+            version: req.version.to_string(),
         })
     })
     .await
@@ -127,6 +129,7 @@ pub async fn route_format(
     let formatting_result = spawn_blocking(move || {
         formatting_strategy(FormattingRequest {
             source: req.source.to_string(),
+            version: req.version.to_string(),
         })
     })
     .await
@@ -205,6 +208,7 @@ mod tests {
 
         let req = CompilationRequest {
             source: "foo".to_string(),
+            version: "4.2.0".to_string(),
         };
         let req = test::TestRequest::post()
             .set_json(&req)
@@ -235,6 +239,7 @@ mod tests {
 
         let req = CompilationRequest {
             source: "bar".to_string(),
+            version: "4.2.0".to_string(),
         };
 
         let req = test::TestRequest::post()

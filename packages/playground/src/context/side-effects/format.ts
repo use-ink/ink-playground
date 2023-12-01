@@ -64,7 +64,7 @@ function interpret_response(response: FormattingApiResponse): FormattingApiRespo
   return response;
 }
 
-export async function format(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch) {
+export async function format(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch, version: string) {
   if (state.compile.type === 'IN_PROGRESS') return;
 
   dispatch({ type: 'SET_FORMATTING_STATE', payload: { type: 'IN_PROGRESS' } });
@@ -103,7 +103,7 @@ export async function format(state: State, dispatch: Dispatch, dispatchMessage: 
 
   const result = await formattingRequest(
     { compileUrl: FORMATTING_URL || '' },
-    { source: code }
+    { source: code, version }
   ).then(interpret_response);
 
   dispatch({

@@ -60,7 +60,7 @@ function interpret_response(response: TestingApiResponse): TestingApiResponse {
   return response;
 }
 
-export async function testing(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch) {
+export async function testing(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch, version: string) {
   if (state.compile.type === 'IN_PROGRESS') return;
 
   dispatch({ type: 'SET_TESTING_STATE', payload: { type: 'IN_PROGRESS' } });
@@ -97,7 +97,7 @@ export async function testing(state: State, dispatch: Dispatch, dispatchMessage:
 
   const code = model.getValue();
 
-  const result = await testingRequest({ compileUrl: TESTING_URL || '' }, { source: code }).then(
+  const result = await testingRequest({ compileUrl: TESTING_URL || '' }, { source: code, version }).then(
     interpret_response
   );
 

@@ -7,18 +7,17 @@ type Dispatch = {
 };
 
 export async function loadVersionList(state: State, dispatch: Dispatch) {
-  // const { versionList: versions } = state;
+  const { versionList: versions } = state;
   const result = await versionListRequest({ versionListUrl: VERSION_LIST_URL || '' });
-
-  if (result.type === 'OK' && result.payload.type === 'SUCCESS') {
+  if (result.type === 'OK') {
     dispatch.app({
       type: 'SET_VERSIONS_STATE',
-      payload: result.payload.payload.versions,
+      payload: result.payload.versions,
     });
   } else {
     dispatch.app({
       type: 'SET_VERSIONS_STATE',
-      payload: [],
+      payload: versions,
     });
   }
 }

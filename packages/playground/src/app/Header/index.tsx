@@ -79,7 +79,7 @@ export const Header = (): ReactElement => {
           Icon={CompileIcon}
           darkmode={state.darkmode}
           testId={'buttonIcon'}
-          onClick={() => compile(state, dispatch, dispatchMessage)}
+          onClick={() => compile(state, dispatch, dispatchMessage, "")}
           loading={state.compile.type === 'IN_PROGRESS'}
         />
         <ButtonWithIcon
@@ -87,7 +87,7 @@ export const Header = (): ReactElement => {
           Icon={TestingIcon}
           darkmode={state.darkmode}
           testId={'buttonIcon'}
-          onClick={() => testing(state, dispatch, dispatchMessage)}
+          onClick={() => testing(state, dispatch, dispatchMessage, "")}
           loading={state.testing.type === 'IN_PROGRESS'}
         />
         <ButtonWithIcon
@@ -95,7 +95,7 @@ export const Header = (): ReactElement => {
           Icon={FormatIcon}
           darkmode={state.darkmode}
           testId={'buttonIcon'}
-          onClick={() => format(state, dispatch, dispatchMessage)}
+          onClick={() => format(state, dispatch, dispatchMessage, "")}
           loading={state.formatting.type === 'IN_PROGRESS'}
         />
         <ButtonWithIcon

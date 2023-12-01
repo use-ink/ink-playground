@@ -16,21 +16,25 @@ import {
   useNavigate,
   BrowserRouter,
   useParams,
+  useSearchParams,
 } from "react-router-dom";
 
 const App = (): ReactElement => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
   const [, messageDispatch]: [MessageState, MessageDispatch] = useContext(MessageContext);
-  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { versionId } = useParams();
+  const navigate = useNavigate();
+  
   const { monacoUri: uri, formatting } = state;
 
   useEffect(() => {
+    const searchParamCode = searchParams.get('code');
     if (!uri) return;
     loadCode(state, { app: dispatch, message: messageDispatch }).then(code => {
       const model = monaco.editor.getModel(uri as monaco.Uri);
       if (!model) return;
-      model.setValue(code);
+      model.setValue(searchParamCode ?? code);
     });
     loadVersionList(state, { app: dispatch }).then()
   }, [uri]);
@@ -93,7 +97,7 @@ const AppWithProvider = (): ReactElement => {
         <MessageProvider>
           <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/:versionId" element={<App />} />
+            <Route path="/:versionId/" element={<App />} />
           </Routes>
         </MessageProvider>
       </AppProvider>

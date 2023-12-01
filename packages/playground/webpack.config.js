@@ -96,7 +96,9 @@ const localConfig = {
         warnings: false,
       },
     },
-    historyApiFallback: true,
+    historyApiFallback: {
+      disableDotRule: true,
+    },
   },
 };
 

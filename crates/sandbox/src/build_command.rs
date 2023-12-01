@@ -19,10 +19,7 @@
 //! strategy. This allows easy mocking.
 
 use crate::docker_command;
-use std::{
-    path::Path,
-    time::Duration,
-};
+use std::{path::Path, time::Duration};
 use tokio::process::Command;
 
 const DOCKER_PROCESS_TIMEOUT_SOFT: Duration = Duration::from_secs(20);
@@ -33,10 +30,14 @@ const DOCKER_WORKDIR: &str = "/builds/contract/";
 
 const DOCKER_OUTPUT: &str = "/playground-result";
 
-pub fn build_compile_command(input_file: &Path, output_dir: &Path) -> Command {
-    let mut cmd = build_docker_command(input_file, Some(output_dir));
+pub fn build_compile_command(
+    input_file: &Path,
+    output_dir: &Path,
+    version: &str,
+) -> Command {
+    let mut cmd = build_docker_command(input_file, Some(output_dir), version);
 
-    let execution_cmd = build_execution_command();
+    let execution_cmd = build_execution_command(version);
 
     cmd.arg(DOCKER_CONTAINER_NAME).args(&execution_cmd);
 
@@ -45,8 +46,8 @@ pub fn build_compile_command(input_file: &Path, output_dir: &Path) -> Command {
     cmd
 }
 
-pub fn build_testing_command(input_file: &Path) -> Command {
-    let mut cmd = build_docker_command(input_file, None);
+pub fn build_testing_command(input_file: &Path, version: &str) -> Command {
+    let mut cmd = build_docker_command(input_file, None, version);
 
     let execution_cmd = testing_execution_command();
 
@@ -57,8 +58,8 @@ pub fn build_testing_command(input_file: &Path) -> Command {
     cmd
 }
 
-pub fn build_formatting_command(input_file: &Path) -> Command {
-    let mut cmd = build_docker_command(input_file, None);
+pub fn build_formatting_command(input_file: &Path, version: &str) -> Command {
+    let mut cmd = build_docker_command(input_file, None, version);
 
     let execution_cmd = formatting_execution_command();
 
@@ -69,7 +70,11 @@ pub fn build_formatting_command(input_file: &Path) -> Command {
     cmd
 }
 
-fn build_docker_command(input_file: &Path, output_dir: Option<&Path>) -> Command {
+fn build_docker_command(
+    input_file: &Path,
+    output_dir: Option<&Path>,
+    version: &str,
+) -> Command {
     let file_name = "lib.rs";
 
     let mut mount_input_file = input_file.as_os_str().to_os_string();
@@ -124,7 +129,7 @@ fn build_basic_secure_docker_command() -> Command {
     cmd
 }
 
-fn build_execution_command() -> Vec<String> {
+fn build_execution_command(version: &str) -> Vec<String> {
     let target_dir = "/target/ink";
 
     let clean_cmd = format!(

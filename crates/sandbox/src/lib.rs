@@ -120,6 +120,7 @@ pub type Result<T, E = Error> = std::result::Result<T, E>;
 #[derive(Deserialize, Serialize, TypeDef, Debug, Clone)]
 pub struct CompilationRequest {
     pub source: String,
+    pub version: String,
 }
 
 #[derive(Deserialize, Serialize, TypeDef, PartialEq, Debug, Clone, Eq)]
@@ -139,6 +140,7 @@ pub enum CompilationResult {
 #[derive(Deserialize, Serialize, TypeDef, Debug, Clone)]
 pub struct TestingRequest {
     pub source: String,
+    pub version: String,
 }
 
 #[derive(Deserialize, Serialize, TypeDef, PartialEq, Debug, Clone, Eq)]
@@ -151,6 +153,7 @@ pub enum TestingResult {
 #[derive(Deserialize, Serialize, TypeDef, Debug, Clone)]
 pub struct FormattingRequest {
     pub source: String,
+    pub version: String,
 }
 
 #[derive(Deserialize, Serialize, TypeDef, PartialEq, Debug, Clone, Eq)]
@@ -161,17 +164,10 @@ pub enum FormattingResult {
 }
 
 #[derive(Deserialize, Serialize, TypeDef, PartialEq, Debug, Clone, Eq)]
-#[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
-pub enum VersionListResult {
-    Success {
-        versions: Vec<String>,
-        stdout: String,
-        stderr: String,
-    },
-    Error {
-        stdout: String,
-        stderr: String,
-    },
+#[serde(rename_all = "snake_case")]
+// #[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
+pub struct VersionListResult {
+    versions: Vec<String>
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -205,7 +201,7 @@ impl Sandbox {
     pub fn compile(&self, req: &CompilationRequest) -> Result<CompilationResult> {
         self.write_source_code(&req.source)?;
 
-        let command = build_compile_command(&self.input_file, &self.output_dir);
+        let command = build_compile_command(&self.input_file, &self.output_dir, &req.version);
 
         println!("Executing command: \n{:?}", command);
 
@@ -242,7 +238,7 @@ impl Sandbox {
     pub fn test(&self, req: &TestingRequest) -> Result<TestingResult> {
         self.write_source_code(&req.source)?;
 
-        let command = build_testing_command(&self.input_file);
+        let command = build_testing_command(&self.input_file, &req.version);
 
         println!("Executing command: \n{:?}", command);
 
@@ -259,7 +255,7 @@ impl Sandbox {
     pub fn format(&self, req: &FormattingRequest) -> Result<FormattingResult> {
         self.write_source_code(&req.source)?;
 
-        let command = build_formatting_command(&self.input_file);
+        let command = build_formatting_command(&self.input_file, &req.version);
 
         println!("Executing command: \n{:?}", command);
 
@@ -400,9 +396,9 @@ fn vec_to_str(v: Vec<u8>) -> Result<String> {
 mod tests {
     use super::*;
 
-    fn compile_check(source: String) -> Option<bool> {
+    fn compile_check(source: String, version: String) -> Option<bool> {
         Sandbox::new()
-            .and_then(|sandbox| sandbox.compile(&CompilationRequest { source }))
+            .and_then(|sandbox| sandbox.compile(&CompilationRequest { source, version }))
             .map(|result| {
                 match result {
                     CompilationResult::Success {
@@ -422,14 +418,14 @@ mod tests {
     #[test]
     fn test_compile_valid_code() {
         let flipper_code = include_str!("../../contract/lib.rs");
-        let actual_result = compile_check(flipper_code.to_string());
+        let actual_result = compile_check(flipper_code.to_string(), "4.2.0".to_string());
 
         assert_eq!(actual_result, Some(true))
     }
 
     #[test]
     fn test_compile_invalid_code() {
-        let actual_result = compile_check("".to_string());
+        let actual_result = compile_check("".to_string(), "4.2.0".to_string());
 
         assert_eq!(actual_result, Some(false))
     }
