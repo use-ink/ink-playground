@@ -51,7 +51,7 @@ export const extractContractSize = (stdout: string): number => {
   return parseFloat(result[1]);
 };
 
-export async function compile(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch, version: string) {
+export async function compile(state: State, dispatch: Dispatch, dispatchMessage: MessageDispatch) {
   if (state.compile.type === 'IN_PROGRESS') return;
 
   dispatch({ type: 'SET_COMPILE_STATE', payload: { type: 'IN_PROGRESS' } });
@@ -82,7 +82,7 @@ export async function compile(state: State, dispatch: Dispatch, dispatchMessage:
 
   const code = model.getValue();
 
-  const result = await compileRequest({ compileUrl: COMPILE_URL || '' }, { source: code, version });
+  const result = await compileRequest({ compileUrl: COMPILE_URL || '' }, { source: code, version: state.version });
 
   dispatch({
     type: 'SET_COMPILE_STATE',

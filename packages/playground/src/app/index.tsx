@@ -8,7 +8,7 @@ import { ReactElement, useContext, useEffect } from 'react';
 import { Dispatch, State } from '~/context/app/reducer';
 import { MessageDispatch, MessageState } from '~/context/messages/reducer';
 import { loadCode } from '~/context/side-effects/load-code';
-import { loadVersionList } from '~/context/side-effects/version';
+import { loadVersionList, setVersion } from '~/context/side-effects/version';
 import { monaco } from 'react-monaco-editor';
 import {
   Routes,
@@ -23,7 +23,7 @@ const App = (): ReactElement => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
   const [, messageDispatch]: [MessageState, MessageDispatch] = useContext(MessageContext);
   const [searchParams] = useSearchParams();
-  const { versionId } = useParams();
+  const { versionParam } = useParams();
   const navigate = useNavigate();
   
   const { monacoUri: uri, formatting } = state;
@@ -36,8 +36,11 @@ const App = (): ReactElement => {
       if (!model) return;
       model.setValue(searchParamCode ?? code);
     });
-    loadVersionList(state, { app: dispatch }).then()
-  }, [uri]);
+    loadVersionList(state, { app: dispatch }).then(()=> {
+      const version = versionParam ? versionParam?.replace('v', '') : '';
+      setVersion(version, state, { app: dispatch });
+    })
+  }, [uri, versionParam]);
 
   useEffect(() => {
     if (!(formatting.type === 'RESULT')) return;
@@ -70,7 +73,7 @@ const App = (): ReactElement => {
 
   return (
     <>
-      <h1>{versionId}</h1>
+      <h1>{versionParam}</h1>
       <Layout
         header={<Header />}
         editor={
@@ -97,7 +100,7 @@ const AppWithProvider = (): ReactElement => {
         <MessageProvider>
           <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/:versionId/" element={<App />} />
+            <Route path="/:versionParam/" element={<App />} />
           </Routes>
         </MessageProvider>
       </AppProvider>

@@ -270,6 +270,7 @@ mod tests {
 
         let req = TestingRequest {
             source: "foo".to_string(),
+            version: "1.0.0".to_string(),
         };
         let req = test::TestRequest::post()
             .set_json(&req)
@@ -299,6 +300,7 @@ mod tests {
 
         let req = TestingRequest {
             source: "bar".to_string(),
+            version: "1.0.0".to_string(),
         };
         let req = test::TestRequest::post()
             .set_json(&req)
