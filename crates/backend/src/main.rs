@@ -27,7 +27,10 @@ use crate::{
             FORMAT_SANDBOXED,
             TEST_SANDBOXED,
         },
-        frontend::route_frontend,
+        frontend::{
+            route_frontend,
+            route_frontend_version
+        },
         gist::{
             create::route_gist_create,
             load::route_gist_load,
@@ -144,7 +147,9 @@ async fn main() -> std::io::Result<()> {
 
         match frontend_folder {
             Some(path) => {
-                app = app.service(route_frontend("/", path.as_ref()));
+                app = app
+                    .route("/v{tail:.*}", web::get().to(route_frontend_version))
+                    .service(route_frontend("/", path.as_ref()));
             }
             None => {
                 println!("Warning: Starting backend without serving static frontend files due to missing configuration.")

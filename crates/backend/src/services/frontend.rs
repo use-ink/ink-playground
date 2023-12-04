@@ -14,10 +14,16 @@
 
 //! This module contains the service which serves the backend as static files.
 
+use std::path::PathBuf;
+use actix_web::Result;
 use actix_files as fs;
 
 pub fn route_frontend(at: &str, dir: &str) -> actix_files::Files {
     fs::Files::new(at, dir).index_file("index.html")
+}
+
+pub async fn route_frontend_version() -> Result<actix_files::NamedFile> {
+    Ok(fs::NamedFile::open(PathBuf::from("./packages/playground/dist/index.html"))?)
 }
 
 #[cfg(test)]

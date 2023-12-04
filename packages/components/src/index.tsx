@@ -14,3 +14,4 @@ export { Severity } from './console/ConsoleMessage';
 export type { Message, Prompt, Status, SeverityColors } from './console/ConsoleMessage';
 export { LabeledLink } from './LabeledLink';
 export { MenuElementWrapper } from './MenuElementWrapper';
+export { MenuSelectElementWrapper } from './MenuSelectElementWrapper';
