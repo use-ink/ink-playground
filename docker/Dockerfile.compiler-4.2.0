@@ -1,0 +1,26 @@
+ARG REGISTRY_PATH=docker.io/paritytech
+
+FROM ${REGISTRY_PATH}/base-ci-linux:staging
+ARG RUST_NIGHTLY="2023-06-01"
+ARG RUST_VERSION="1.73.0"
+
+WORKDIR /builds
+
+RUN set -eux; \
+  rustup install ${RUST_VERSION} && \
+  rustup default ${RUST_VERSION} && \
+  rustup toolchain install ${RUST_VERSION} && \
+  rustup target add wasm32-unknown-unknown --toolchain ${RUST_VERSION} && \
+  	rustup component add rust-src --toolchain ${RUST_VERSION}
+
+RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+RUN cargo install --force --locked cargo-contract --version 3.2.0
+ENV CARGO_TARGET_DIR="/target"
+RUN cargo contract new contract
+
+RUN cd contract && cat Cargo.toml
+RUN cd contract && cargo contract build
+RUN cd contract && cargo test
+
+WORKDIR /builds/contract
