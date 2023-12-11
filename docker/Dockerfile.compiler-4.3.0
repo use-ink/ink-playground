@@ -15,14 +15,27 @@ RUN set -eux; \
 
 RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
-RUN cargo install --force --locked cargo-contract --version 3.2.0
+ARG CRAGO_CONTRACT_VERSION="3.2.0"
+RUN cargo install --force --locked cargo-contract --version ${CRAGO_CONTRACT_VERSION}
 ENV CARGO_TARGET_DIR="/target"
 RUN cargo contract new contract
 
 ARG INK_VERSION="4.3.0"
 
-RUN cd contract && cargo add ink@${INK_VERSION}
-RUN cd contract && cargo add --dev  ink_e2e@${INK_VERSION}
+RUN cd contract && cargo update -p ink_e2e --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_storage --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_env --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_e2e_macro --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_macro --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_codegen --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_ir --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_engine --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_storage_traits --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_metadata --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_primitives --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_allocator --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_prelude --precise ${INK_VERSION}
 
 RUN cd contract && cargo contract build
 RUN cd contract && cargo test
