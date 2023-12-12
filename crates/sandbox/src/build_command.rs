@@ -24,7 +24,7 @@ use tokio::process::Command;
 
 const DOCKER_PROCESS_TIMEOUT_SOFT: Duration = Duration::from_secs(20);
 
-const DOCKER_CONTAINER_NAME: &str = "ink-compiler";
+const DOCKER_IMAGE_BASE_NAME: &str = "ink-compiler";
 
 const DOCKER_WORKDIR: &str = "/builds/contract/";
 
@@ -35,11 +35,12 @@ pub fn build_compile_command(
     output_dir: &Path,
     version: &str,
 ) -> Command {
-    let mut cmd = build_docker_command(input_file, Some(output_dir), version);
+    let mut cmd = build_docker_command(input_file, Some(output_dir));
 
-    let execution_cmd = build_execution_command(version);
+    let execution_cmd = build_execution_command();
+    let docker_image_name = build_docker_image_name(version);
 
-    cmd.arg(DOCKER_CONTAINER_NAME).args(&execution_cmd);
+    cmd.arg(docker_image_name).args(&execution_cmd);
 
     log::debug!("Compilation command is {:?}", cmd);
 
@@ -47,11 +48,12 @@ pub fn build_compile_command(
 }
 
 pub fn build_testing_command(input_file: &Path, version: &str) -> Command {
-    let mut cmd = build_docker_command(input_file, None, version);
+    let mut cmd = build_docker_command(input_file, None);
 
     let execution_cmd = testing_execution_command();
+    let docker_image_name = build_docker_image_name(version);
 
-    cmd.arg(DOCKER_CONTAINER_NAME).args(&execution_cmd);
+    cmd.arg(docker_image_name).args(&execution_cmd);
 
     log::debug!("Testing command is {:?}", cmd);
 
@@ -59,22 +61,24 @@ pub fn build_testing_command(input_file: &Path, version: &str) -> Command {
 }
 
 pub fn build_formatting_command(input_file: &Path, version: &str) -> Command {
-    let mut cmd = build_docker_command(input_file, None, version);
+    let mut cmd = build_docker_command(input_file, None);
 
     let execution_cmd = formatting_execution_command();
+    let docker_image_name = build_docker_image_name(version);
 
-    cmd.arg(DOCKER_CONTAINER_NAME).args(&execution_cmd);
+    cmd.arg(docker_image_name).args(&execution_cmd);
 
     log::debug!("Formatting command is {:?}", cmd);
 
     cmd
 }
 
-fn build_docker_command(
-    input_file: &Path,
-    output_dir: Option<&Path>,
-    version: &str,
-) -> Command {
+fn build_docker_image_name(version: &str) -> String {
+    let result = format!("{}:{}", DOCKER_IMAGE_BASE_NAME, version);
+    result
+}
+
+fn build_docker_command(input_file: &Path, output_dir: Option<&Path>) -> Command {
     let file_name = "lib.rs";
 
     let mut mount_input_file = input_file.as_os_str().to_os_string();
@@ -129,7 +133,7 @@ fn build_basic_secure_docker_command() -> Command {
     cmd
 }
 
-fn build_execution_command(version: &str) -> Vec<String> {
+fn build_execution_command() -> Vec<String> {
     let target_dir = "/target/ink";
 
     let clean_cmd = format!(
@@ -155,7 +159,7 @@ fn testing_execution_command() -> Vec<String> {
 }
 
 fn formatting_execution_command() -> Vec<String> {
-    let format_cmd = "cargo +nightly fmt && cat lib.rs 2>&1".to_string();
+    let format_cmd = "cargo fmt && cat lib.rs 2>&1".to_string();
 
     let cmd = vec!["/bin/bash".to_string(), "-c".to_string(), format_cmd];
 

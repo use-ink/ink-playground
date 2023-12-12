@@ -35,7 +35,10 @@ use crate::{
             create::route_gist_create,
             load::route_gist_load,
         },
-        version::route_version_list,
+        version::{
+            route_version_list,
+            AppVersionState,
+        },
     },
 };
 use actix_cors::Cors;
@@ -75,6 +78,10 @@ async fn main() -> std::io::Result<()> {
         }
     }
 
+    if !Path::new(&opts.versions_file_path.clone()).is_file() {
+        panic!("{} is not a valid file.", opts.versions_file_path);
+    }
+
     async fn health() -> HttpResponse {
         HttpResponse::Ok().finish()
     }
@@ -90,6 +97,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         let opts: Opts = opts.clone();
         let frontend_folder = opts.frontend_folder.clone();
+        let versions_file_path = opts.versions_file_path.clone();
 
         let mut app = App::new()
             .wrap(prometheus.clone())
@@ -117,9 +125,11 @@ async fn main() -> std::io::Result<()> {
                 "/status",
                 get().to(route_status),
             )
-            .route(
-                "/version_list",
-                get().to(route_version_list),
+            .app_data(web::Data::new(AppVersionState {
+                versions_file_path: versions_file_path,
+            }))
+            .service(
+                web::resource("/version_list").to(route_version_list)
             );
 
         match opts.github_token {

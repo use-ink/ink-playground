@@ -117,10 +117,10 @@ RUN echo \
 RUN apt-get --yes update
 
 RUN apt-get --yes install docker-ce docker-ce-cli \
-    containerd.io
+    containerd.io jq
 
 # Provide startup scripts
-
+COPY ./config/versions.json ./config/versions.json
 COPY sysbox/on-start.sh /usr/bin
 RUN chmod +x /usr/bin/on-start.sh
 

@@ -74,6 +74,7 @@
     "rlib",
     "cdylib",
     "achimcc",
+    "radhezeeve",
     "prefill",
     "deserialization",
     "filesets",

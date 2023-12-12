@@ -3,7 +3,7 @@ ARG REGISTRY_PATH=docker.io/paritytech
 # paritytech/base-ci-linux:latest
 FROM ${REGISTRY_PATH}/base-ci-linux:ee3f4073-20230720
 ARG RUST_NIGHTLY="2023-06-01"
-ARG RUST_VERSION="1.73.0"
+ARG RUST_VERSION="1.69.0"
 
 WORKDIR /builds
 
@@ -17,12 +17,13 @@ RUN set -eux; \
 
 RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
-ARG CRAGO_CONTRACT_VERSION="3.2.0"
+ARG CRAGO_CONTRACT_VERSION="2.1.0"
+
 RUN cargo install --force --locked cargo-contract --version ${CRAGO_CONTRACT_VERSION}
 ENV CARGO_TARGET_DIR="/target"
 RUN cargo contract new contract
 
-ARG INK_VERSION="4.2.0"
+ARG INK_VERSION="4.1.0"
 
 RUN cd contract && cargo update -p ink_e2e --precise ${INK_VERSION}
 RUN cd contract && cargo update -p ink --precise ${INK_VERSION}
@@ -39,6 +40,9 @@ RUN cd contract && cargo update -p ink_primitives --precise ${INK_VERSION}
 RUN cd contract && cargo update -p ink_allocator --precise ${INK_VERSION}
 RUN cd contract && cargo update -p ink_prelude --precise ${INK_VERSION}
 RUN cd contract && cargo update -p contract-build --precise 2.0.2
+RUN cd contract && cargo update -p colored --precise 2.0.4
+RUN cd contract && cargo update -p clap --precise 4.1.8
+
 RUN cd contract && cargo contract build
 RUN cd contract && cargo test
 

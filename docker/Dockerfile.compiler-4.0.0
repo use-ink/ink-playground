@@ -1,6 +1,7 @@
 ARG REGISTRY_PATH=docker.io/paritytech
 
-FROM ${REGISTRY_PATH}/ink-ci-linux:staging
+# paritytech/ink-ci-linux:latest
+FROM ${REGISTRY_PATH}/ink-ci-linux:ee3f4073-20230720
 # ARG RUST_NIGHTLY="2023-06-01"
 # ARG RUST_VERSION="1.69.0"
 

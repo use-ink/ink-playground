@@ -1,6 +1,7 @@
 ARG REGISTRY_PATH=docker.io/paritytech
 
-FROM ${REGISTRY_PATH}/base-ci-linux:staging
+# paritytech/base-ci-linux:latest
+FROM ${REGISTRY_PATH}/base-ci-linux:ee3f4073-20230720
 ARG RUST_NIGHTLY="2023-06-01"
 ARG RUST_VERSION="1.73.0"
 
@@ -11,7 +12,8 @@ RUN set -eux; \
   rustup default ${RUST_VERSION} && \
   rustup toolchain install ${RUST_VERSION} && \
   rustup target add wasm32-unknown-unknown --toolchain ${RUST_VERSION} && \
-  	rustup component add rust-src --toolchain ${RUST_VERSION}
+  	rustup component add rust-src --toolchain ${RUST_VERSION} && \
+  	rustup component add rustfmt --toolchain ${RUST_VERSION}
 
 RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
