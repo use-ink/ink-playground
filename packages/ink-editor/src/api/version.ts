@@ -28,9 +28,7 @@ const mapResponse = async (response: Response): Promise<versionListApiResponse> 
         payload: { status: response.status },
       };
 
-export const versionListRequest = (
-  config: Config,
-): Promise<versionListApiResponse> => {
+export const versionListRequest = (config: Config): Promise<versionListApiResponse> => {
   const opts: RequestInit = {
     method: 'GET',
     mode: 'cors',

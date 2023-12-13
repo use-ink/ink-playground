@@ -11,7 +11,8 @@ export const MenuSelectElementWrapper = ({ children, onClick }: Props): ReactEle
   return (
     <button
       className="dark:bg-elevation dark:border-dark border-light border-t last:rounded-b py-2 px-4 w-full text-lg"
-      onClick={(e?) => onClick(e)} >
+      onClick={(e?) => onClick(e)}
+    >
       {children}
     </button>
   );

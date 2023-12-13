@@ -1,9 +1,16 @@
 use std::fs;
 
-use actix_web::{body::BoxBody, web, HttpResponse};
+use actix_web::{
+    body::BoxBody,
+    web,
+    HttpResponse,
+};
 
 pub use sandbox::VersionListResult;
-use serde_json::{json, Value};
+use serde_json::{
+    json,
+    Value,
+};
 
 pub struct AppVersionState {
     pub versions_file_path: String,
@@ -17,7 +24,7 @@ pub async fn route_version_list(
     data: web::Data<AppVersionState>,
 ) -> HttpResponse<BoxBody> {
     let versions_file_path = &data.versions_file_path;
-    let versions_arr_string = read_json_file(&versions_file_path).unwrap();
+    let versions_arr_string = read_json_file(versions_file_path).unwrap();
     let versions_arr_json: Value =
         serde_json::from_str(versions_arr_string.as_str()).expect("Failed to parse JSON");
     let versions_json = json!({

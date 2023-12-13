@@ -167,7 +167,7 @@ pub enum FormattingResult {
 #[serde(rename_all = "snake_case")]
 // #[serde(tag = "type", content = "payload", rename_all = "SCREAMING_SNAKE_CASE")]
 pub struct VersionListResult {
-    versions: Vec<String>
+    versions: Vec<String>,
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -201,8 +201,8 @@ impl Sandbox {
     pub fn compile(&self, req: &CompilationRequest) -> Result<CompilationResult> {
         self.write_source_code(&req.source)?;
 
-        let command = build_compile_command(&self.input_file, &self.output_dir, &req.version);
-
+        let command =
+            build_compile_command(&self.input_file, &self.output_dir, &req.version);
         println!("Executing command: \n{:?}", command);
 
         let output = run_command_with_timeout(command)?;

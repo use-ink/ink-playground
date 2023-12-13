@@ -82,7 +82,10 @@ export async function compile(state: State, dispatch: Dispatch, dispatchMessage:
 
   const code = model.getValue();
 
-  const result = await compileRequest({ compileUrl: COMPILE_URL || '' }, { source: code, version: state.version });
+  const result = await compileRequest(
+    { compileUrl: COMPILE_URL || '' },
+    { source: code, version: state.version }
+  );
 
   dispatch({
     type: 'SET_COMPILE_STATE',

@@ -127,7 +127,7 @@ async fn main() -> std::io::Result<()> {
                 get().to(route_status),
             )
             .app_data(web::Data::new(AppVersionState {
-                versions_file_path: versions_file_path,
+                versions_file_path,
             }))
             .service(
                 web::resource("/version_list").to(route_version_list)

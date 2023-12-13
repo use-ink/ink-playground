@@ -19,7 +19,8 @@
     "crates/rust_analyzer_wasm/webdriver.json",
     "sysbox/*",
     "config/data/*",
-    "*.svg"
+    "*.svg",
+    "docker/*"
   ],
   "words": [
     "dcdd",

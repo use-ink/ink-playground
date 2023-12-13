@@ -17,7 +17,7 @@ import {
   BrowserRouter,
   useParams,
   useSearchParams,
-} from "react-router-dom";
+} from 'react-router-dom';
 
 const App = (): ReactElement => {
   const [state, dispatch]: [State, Dispatch] = useContext(AppContext);
@@ -36,16 +36,19 @@ const App = (): ReactElement => {
     if (state.version && versionParam != `v${state.version}`) {
       navigateVersion(state.version);
     }
-  }, [state.version])
+  }, [state.version]);
 
   useEffect(() => {
-    if (versionParam?.startsWith('v') && state.versionList.includes(versionParam?.replace('v', ''))) {
-      setVersion(versionParam?.replace('v', ''), state, { app: dispatch })
+    if (
+      versionParam?.startsWith('v') &&
+      state.versionList.includes(versionParam?.replace('v', ''))
+    ) {
+      setVersion(versionParam?.replace('v', ''), state, { app: dispatch });
     } else if (state.versionList.length > 0 && state.versionList[0]) {
       setVersion(state.versionList[0], state, { app: dispatch });
       navigateVersion(state.versionList[0]);
     }
-  }, [state.versionList])
+  }, [state.versionList]);
 
   useEffect(() => {
     const searchParamCode = searchParams.get('code');
@@ -54,15 +57,16 @@ const App = (): ReactElement => {
       const model = monaco.editor.getModel(uri as monaco.Uri);
       if (!model) return;
       model.setValue(searchParamCode ?? code);
-      if (searchParamCode) setSearchParams((oldSearchParams) => {
-        oldSearchParams.delete('code')
-        return oldSearchParams;
-      });
+      if (searchParamCode)
+        setSearchParams(oldSearchParams => {
+          oldSearchParams.delete('code');
+          return oldSearchParams;
+        });
     });
     loadVersionList(state, { app: dispatch }).then(() => {
       const version = versionParam ? versionParam?.replace('v', '') : '';
       setVersion(version, state, { app: dispatch });
-    })
+    });
   }, [uri]);
 
   useEffect(() => {

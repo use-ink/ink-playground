@@ -25,7 +25,11 @@ pub struct Opts {
     #[arg(short = 'f', long = "frontend_folder")]
     pub frontend_folder: Option<String>,
 
-    #[arg(long = "versions_file_path", default_value = "./config/versions.json", env = "VERSIONS_FILE_PATH")]
+    #[arg(
+        long = "versions_file_path",
+        default_value = "./config/versions.json",
+        env = "VERSIONS_FILE_PATH"
+    )]
     pub versions_file_path: String,
 
     #[arg(short = 'g', long = "github_token", env = "GITHUB_GIST_TOKEN")]

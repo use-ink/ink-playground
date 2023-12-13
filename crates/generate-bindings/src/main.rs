@@ -18,7 +18,6 @@ mod cli;
 
 use crate::cli::Cli;
 use backend::services::{
-    version::VersionListResult,
     contract::{
         CompilationRequest,
         CompilationResult,
@@ -38,6 +37,7 @@ use backend::services::{
             GistLoadResponse,
         },
     },
+    version::VersionListResult,
 };
 use clap::Parser;
 use std::{
@@ -65,7 +65,7 @@ fn main() -> std::io::Result<()> {
         GistLoadResponse,
         GistCreateRequest,
         GistCreateResponse,
-        VersionListResult
+        VersionListResult,
     );
 
     let path = Path::new(&target);
