@@ -34,6 +34,8 @@ VERSION_LIST_URL ?= http://localhost:4000/version_list
 
 DOCKER_USER_NAME ?= radhezeeve
 
+DOCKER_CI_VOLUME_MOUNT ?=
+
 ################################################################################
 # GENERATE
 ################################################################################
@@ -252,6 +254,7 @@ docker-run-detach:
 	  --name ink-playground-container \
 	  --detach \
 	  --volume /tmp:/tmp \
+  $(DOCKER_CI_VOLUME_MOUNT) \
 	  --publish $(DOCKER_PORT):4000 \
 	  ink-playground
 

@@ -30,6 +30,7 @@ describe('Given the server provides a working compile endpoint', () => {
     await expect(
       axios.post(`${BACKEND_URL}/compile`, {
         source,
+        version: '4.2.0',
       })
     ).resolves.toMatchObject({ status: 200, data: { type: 'SUCCESS' } });
   });

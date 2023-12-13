@@ -32,8 +32,11 @@ jobs:
       - name: Tag Docker image
         run: docker tag achimcc/ink-playground:latest ink-playground
 
+      - name: Add single version to versions list (storage limitation of github actions)
+        run: echo "[\"4.2.0\"]" > ./config/versions.json
+
       - name: Run docker
-        run: make docker-run-detach
+        run: DOCKER_CI_VOLUME_MOUNT="--volume ./config/versions.json:/app/config/versions.json" make docker-run-detach
         env:
           DOCKER_PORT: 4000
 

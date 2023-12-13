@@ -106,6 +106,8 @@ FROM debian:bullseye-slim
 
 COPY --from=frontend-builder /app/packages/playground/dist /app/packages/playground/dist
 COPY --from=backend-builder /app/target/release/backend /app/target/release/backend
+COPY ./scripts /app/scripts
+COPY ./config/versions.json /app/config/versions.json
 
 # Install Docker
 # see: https://www.how2shout.com/linux/install-docker-ce-on-debian-11-bullseye-linux/
@@ -128,7 +130,6 @@ RUN apt-get --yes install docker-ce docker-ce-cli \
     containerd.io jq
 
 # Provide startup scripts
-COPY ./config/versions.json ./config/versions.json
 COPY sysbox/on-start.sh /usr/bin
 RUN chmod +x /usr/bin/on-start.sh
 
