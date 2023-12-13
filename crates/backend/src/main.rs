@@ -29,7 +29,8 @@ use crate::{
         },
         frontend::{
             route_frontend,
-            route_frontend_version
+            route_frontend_version,
+            FrontendState,
         },
         gist::{
             create::route_gist_create,
@@ -158,6 +159,9 @@ async fn main() -> std::io::Result<()> {
         match frontend_folder {
             Some(path) => {
                 app = app
+                    .app_data(web::Data::new(FrontendState {
+                        frontend_folder: path.clone(),
+                    }))
                     .route("/v{tail:.*}", web::get().to(route_frontend_version))
                     .service(route_frontend("/", path.as_ref()));
             }
