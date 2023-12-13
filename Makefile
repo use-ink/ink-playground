@@ -32,7 +32,7 @@ ANALYTICS_URL ?= https://api-sa.substrate.io
 
 VERSION_LIST_URL ?= http://localhost:4000/version_list
 
-DOCKER_USER_NAME ?= achimcc
+DOCKER_USER_NAME ?= radhezeeve
 
 ################################################################################
 # GENERATE
@@ -269,6 +269,9 @@ docker-shell:
 
 docker-log:
 	docker logs ink-playground-container
+
+docker-pull-images:
+	./scripts/ink-compiler.sh -c pull --docker_user_name ${DOCKER_USER_NAME}
 
 ################################################################################
 # GLOBAL

@@ -25,7 +25,6 @@ import { testing } from '~/context/side-effects/testing';
 import { format } from '~/context/side-effects/format';
 import * as constants from '~/constants';
 import { Colors } from '@paritytech/components/ButtonWithIcon';
-import { useNavigate } from 'react-router-dom';
 
 const openContractsUiUrl = (): void => {
   window.open(constants.CONTRACTS_UI_URL, '_blank');
