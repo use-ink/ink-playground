@@ -12,8 +12,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install jq
+        run: sudo apt -y install jq
+
+      - name: Get last Ink version
+        id: version_info
+        run: echo "latest_ink_version=$(jq -r '.[0]' ./config/versions.json)" >> $GITHUB_OUTPUT
+
       - name: Build docker
-        run: docker build -f Dockerfile.compiler --tag ink-compiler .
+        run: docker build -f ./docker/Dockerfile.compiler-${{ steps.version_info.outputs.latest_ink_version }} --tag ink-compiler:${{ steps.version_info.outputs.latest_ink_version }} ./docker
 
       - name: Login to DockerHub
         if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
@@ -24,8 +31,8 @@ jobs:
 
       - name: Tag Docker image
         if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
-        run: docker tag ink-compiler:latest ${{ secrets.DOCKER_USER_NAME }}/ink-compiler
+        run: docker tag ink-compiler:${{ steps.version_info.outputs.latest_ink_version }} ${{ secrets.DOCKER_USER_NAME }}/ink-compiler:${{ steps.version_info.outputs.latest_ink_version }}
 
       - name: Push Docker image
         if: github.ref == 'refs/heads/main' && github.repository == 'paritytech/ink-playground'
-        run: docker push ${{ secrets.DOCKER_USER_NAME }}/ink-compiler
+        run: docker push ${{ secrets.DOCKER_USER_NAME }}/ink-compiler:${{ steps.version_info.outputs.latest_ink_version }}
