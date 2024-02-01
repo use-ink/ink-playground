@@ -15,9 +15,26 @@
 //! This module contains the service which serves the backend as static files.
 
 use actix_files as fs;
+use actix_web::{
+    web,
+    Result,
+};
+use std::path::Path;
+
+pub struct FrontendState {
+    pub frontend_folder: String,
+}
 
 pub fn route_frontend(at: &str, dir: &str) -> actix_files::Files {
     fs::Files::new(at, dir).index_file("index.html")
+}
+
+pub async fn route_frontend_version(
+    data: web::Data<FrontendState>,
+) -> Result<actix_files::NamedFile> {
+    Ok(fs::NamedFile::open(
+        Path::new(&data.frontend_folder).join("index.html"),
+    )?)
 }
 
 #[cfg(test)]

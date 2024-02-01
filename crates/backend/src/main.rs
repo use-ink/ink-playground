@@ -27,10 +27,18 @@ use crate::{
             FORMAT_SANDBOXED,
             TEST_SANDBOXED,
         },
-        frontend::route_frontend,
+        frontend::{
+            route_frontend,
+            route_frontend_version,
+            FrontendState,
+        },
         gist::{
             create::route_gist_create,
             load::route_gist_load,
+        },
+        version::{
+            route_version_list,
+            AppVersionState,
         },
     },
 };
@@ -71,6 +79,10 @@ async fn main() -> std::io::Result<()> {
         }
     }
 
+    if !Path::new(&opts.versions_file_path.clone()).is_file() {
+        panic!("{} is not a valid file.", opts.versions_file_path);
+    }
+
     async fn health() -> HttpResponse {
         HttpResponse::Ok().finish()
     }
@@ -86,6 +98,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         let opts: Opts = opts.clone();
         let frontend_folder = opts.frontend_folder.clone();
+        let versions_file_path = opts.versions_file_path.clone();
 
         let mut app = App::new()
             .wrap(prometheus.clone())
@@ -112,6 +125,12 @@ async fn main() -> std::io::Result<()> {
             .route(
                 "/status",
                 get().to(route_status),
+            )
+            .app_data(web::Data::new(AppVersionState {
+                versions_file_path,
+            }))
+            .service(
+                web::resource("/version_list").to(route_version_list)
             );
 
         match opts.github_token {
@@ -139,7 +158,12 @@ async fn main() -> std::io::Result<()> {
 
         match frontend_folder {
             Some(path) => {
-                app = app.service(route_frontend("/", path.as_ref()));
+                app = app
+                    .app_data(web::Data::new(FrontendState {
+                        frontend_folder: path.clone(),
+                    }))
+                    .route("/v{tail:.*}", web::get().to(route_frontend_version))
+                    .service(route_frontend("/", path.as_ref()));
             }
             None => {
                 println!("Warning: Starting backend without serving static frontend files due to missing configuration.")

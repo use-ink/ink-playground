@@ -1,0 +1,36 @@
+ARG REGISTRY_PATH=docker.io/paritytech
+
+# paritytech/ink-ci-linux:latest
+FROM ${REGISTRY_PATH}/ink-ci-linux:ee3f4073-20230720
+# ARG RUST_NIGHTLY="2023-06-01"
+# ARG RUST_VERSION="1.69.0"
+
+RUN cargo install --force --locked cargo-contract --version 2.0.1
+ENV CARGO_TARGET_DIR="/target"
+RUN cargo contract new contract
+
+ARG INK_VERSION="4.0.0"
+
+RUN cd contract && cargo update -p ink_e2e --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_storage --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_env --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_e2e_macro --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_macro --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_codegen --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_ir --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_engine --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_storage_traits --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_metadata --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_primitives --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_allocator --precise ${INK_VERSION}
+RUN cd contract && cargo update -p ink_prelude --precise ${INK_VERSION}
+RUN cd contract && cargo update -p contract-build --precise 2.0.1
+RUN cd contract && cargo update -p clap --precise 4.1.6
+RUN cd contract && cargo update -p colored --precise 2.0.4
+RUN cd contract && cargo update -p parity-scale-codec --precise 3.6.1
+
+RUN cd contract && cargo contract build
+RUN cd contract && cargo test
+
+WORKDIR /builds/contract

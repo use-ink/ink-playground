@@ -1,5 +1,5 @@
 {
-  "version": "0.1",
+  "version": "0.2",
   "language": "en",
   "ignorePaths": [
     "**/contract/target/**",
@@ -19,7 +19,8 @@
     "crates/rust_analyzer_wasm/webdriver.json",
     "sysbox/*",
     "config/data/*",
-    "*.svg"
+    "*.svg",
+    "docker/*"
   ],
   "words": [
     "dcdd",
@@ -74,6 +75,7 @@
     "rlib",
     "cdylib",
     "achimcc",
+    "radhezeeve",
     "prefill",
     "deserialization",
     "filesets",

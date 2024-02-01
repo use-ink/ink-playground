@@ -57,7 +57,15 @@ FROM base as frontend-builder
 
 RUN apt-get --yes update
 RUN apt-get --yes upgrade
-RUN apt-get install --yes nodejs npm
+
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION v18.16.1
+RUN mkdir -p /usr/local/nvm && apt-get update && echo "y" | apt-get install curl
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
+ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/bin
+ENV PATH $NODE_PATH:$PATH
+
 RUN npm install --global yarn
 RUN make install
 
@@ -98,6 +106,8 @@ FROM debian:bullseye-slim
 
 COPY --from=frontend-builder /app/packages/playground/dist /app/packages/playground/dist
 COPY --from=backend-builder /app/target/release/backend /app/target/release/backend
+COPY ./scripts /app/scripts
+COPY ./config/versions.json /app/config/versions.json
 
 # Install Docker
 # see: https://www.how2shout.com/linux/install-docker-ce-on-debian-11-bullseye-linux/
@@ -117,10 +127,9 @@ RUN echo \
 RUN apt-get --yes update
 
 RUN apt-get --yes install docker-ce docker-ce-cli \
-    containerd.io
+    containerd.io jq
 
 # Provide startup scripts
-
 COPY sysbox/on-start.sh /usr/bin
 RUN chmod +x /usr/bin/on-start.sh
 

@@ -103,7 +103,7 @@ export async function format(state: State, dispatch: Dispatch, dispatchMessage: 
 
   const result = await formattingRequest(
     { compileUrl: FORMATTING_URL || '' },
-    { source: code }
+    { source: code, version: state.version }
   ).then(interpret_response);
 
   dispatch({

@@ -37,6 +37,7 @@ use backend::services::{
             GistLoadResponse,
         },
     },
+    version::VersionListResult,
 };
 use clap::Parser;
 use std::{
@@ -64,6 +65,7 @@ fn main() -> std::io::Result<()> {
         GistLoadResponse,
         GistCreateRequest,
         GistCreateResponse,
+        VersionListResult,
     );
 
     let path = Path::new(&target);

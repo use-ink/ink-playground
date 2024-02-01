@@ -97,9 +97,10 @@ export async function testing(state: State, dispatch: Dispatch, dispatchMessage:
 
   const code = model.getValue();
 
-  const result = await testingRequest({ compileUrl: TESTING_URL || '' }, { source: code }).then(
-    interpret_response
-  );
+  const result = await testingRequest(
+    { compileUrl: TESTING_URL || '' },
+    { source: code, version: state.version }
+  ).then(interpret_response);
 
   dispatch({
     type: 'SET_TESTING_STATE',

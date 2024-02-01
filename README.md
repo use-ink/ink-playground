@@ -61,15 +61,13 @@ To clone and build the whole project on your local computer, enter:
 
 5. `make build`
 
-Then pull and tag the docker image which is used by the backend to compile, test & format Smart Contracts:
+Then pull and tag the docker images which are used by the backend to compile, test & format Smart Contracts:
 
-6. `docker pull achimcc/ink-compiler`
-
-7. `docker tag achimcc/ink-compiler ink-compiler`
+6. `make docker-pull-images`
 
 Finally, start the backend with:
 
-6. `make backend-run`
+7. `make backend-run`
 
 The last command starts the Rust webserver locally on your computer. You can then access `localhost:4000` from your browser to open the locally compiled ink! Playground open.
 

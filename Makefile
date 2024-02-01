@@ -30,7 +30,11 @@ FORMATTING_URL ?= http://localhost:4000/format
 
 ANALYTICS_URL ?= https://api-sa.substrate.io
 
-DOCKER_USER_NAME ?= achimcc
+VERSION_LIST_URL ?= http://localhost:4000/version_list
+
+DOCKER_USER_NAME ?= radhezeeve
+
+DOCKER_CI_VOLUME_MOUNT ?=
 
 ################################################################################
 # GENERATE
@@ -63,6 +67,7 @@ playground-build:
 	GIST_LOAD_URL=/gist/load \
 	GIST_CREATE_URL=/gist/create \
 	ANALYTICS_URL=$(ANALYTICS_URL) \
+	VERSION_LIST_URL=/version_list \
 	yarn workspace playground run build
 
 playground-start:
@@ -72,6 +77,7 @@ playground-start:
 	GIST_LOAD_URL=$(GIST_LOAD_URL) \
 	GIST_CREATE_URL=$(GIST_CREATE_URL) \
 	ANALYTICS_URL=$(ANALYTICS_URL) \
+	VERSION_LIST_URL=$(VERSION_LIST_URL) \
 	yarn workspace playground run start
 
 playground-clean:
@@ -248,6 +254,7 @@ docker-run-detach:
 	  --name ink-playground-container \
 	  --detach \
 	  --volume /tmp:/tmp \
+  $(DOCKER_CI_VOLUME_MOUNT) \
 	  --publish $(DOCKER_PORT):4000 \
 	  ink-playground
 
@@ -265,6 +272,9 @@ docker-shell:
 
 docker-log:
 	docker logs ink-playground-container
+
+docker-pull-images:
+	./scripts/ink-compiler.sh -c pull --docker_user_name ${DOCKER_USER_NAME}
 
 ################################################################################
 # GLOBAL

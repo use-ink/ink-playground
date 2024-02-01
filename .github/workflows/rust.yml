@@ -55,8 +55,6 @@ jobs:
       - name: Build
         run: cargo build --verbose
       - name: Pull docker image
-        run: docker pull docker.io/achimcc/ink-compiler:latest
-      - name: Tag docker image
-        run: docker tag docker.io/achimcc/ink-compiler:latest ink-compiler
+        run: ./scripts/ink-compiler.sh -c pull_specific --specific_version 4.2.0 --docker_user_name radhezeeve
       - name: Run tests
         run: cargo test --workspace --exclude rust_analyzer_wasm --verbose

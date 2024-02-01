@@ -19,6 +19,7 @@ const localConfig = {
   output: {
     filename: 'bundle.[fullhash].js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.wasm', '.css'],
@@ -75,6 +76,7 @@ const localConfig = {
       FORMATTING_URL: '',
       GIST_CREATE_URL: '',
       GIST_LOAD_URL: '',
+      VERSION_LIST_URL: '',
     }),
     new webpack.ProvidePlugin({
       process: 'process/browser',
@@ -93,6 +95,9 @@ const localConfig = {
         errors: true,
         warnings: false,
       },
+    },
+    historyApiFallback: {
+      disableDotRule: true,
     },
   },
 };
