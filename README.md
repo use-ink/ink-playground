@@ -1,5 +1,7 @@
 # ink! Playground
 
+> ⚠️ This project has been archived. It is no longer maintained.
+
 <figure>
 <p align="center">
   <img src="assets/ink_playground.png" alt="ink! Playground">
